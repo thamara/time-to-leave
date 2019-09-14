@@ -1,15 +1,19 @@
 {
   "name": "time-to-leave",
+  "productName": "Time to Leave",
   "version": "0.1.0",
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icon-mac.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icon-win,ico --prune=true --out=release-builds"
   },
   "author": "Thamara Andrade",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^6.0.8"
+    "electron": "^6.0.9",
+    "electron-packager": "^14.0.6"
   },
   "dependencies": {
     "electron-store": "^5.0.0"
