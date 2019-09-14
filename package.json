@@ -1,0 +1,17 @@
+{
+  "name": "time-to-leave",
+  "version": "0.1.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Thamara Andrade",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^6.0.8"
+  },
+  "dependencies": {
+    "electron-store": "^5.0.0"
+  }
+}

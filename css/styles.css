@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+  
+.th-month-name {
+    text-align: center;
+    font-size: 120%;
+}
+
+.table-total-month {
+  text-align: right;
+}
+
+.container {
+  font-family: 'montserrat';
+}
+
+.dayheader {
+  text-align: center;
+}
+
+.weekday {
+  text-align: right;
+  padding-right: 5px;
+  font-variant-caps: all-petite-caps;
+}
+
+.day {
+  text-align: left;
+}
+
+.title-header {
+  padding-top: 5px;
+  height: 120%;
+  width: 90%;
+  margin-left: auto; 
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.title-header-img {
+  float: left;
+  width: 5%;
+  float: left;
+}
+
+.title-header-img {
+  filter: invert(70%) sepia(39%) saturate(257%) hue-rotate(208deg) brightness(86%) contrast(92%);
+  float: right;
+}
+
+.title-header-text{
+  text-align: left;
+  margin-bottom: auto;
+  font-size: 400%;
+  float: left;
+}
+
+table {
+  margin-left: auto; 
+  margin-right: auto;
+  table-layout: auto;
+  width: 90%;
+}
+
+.table-header {
+  margin-left: auto; 
+  margin-right: auto;
+  table-layout: fixed;
+  width: 90%;
+}
+
+th {
+  height: 50px;
+  vertical-align: center;
+}
+
+.isToday {
+  border-bottom: 4px solid rgb(164, 158, 207);
+}
+
+tr {
+  border-bottom: 2px solid #CBCBCB;
+}
+
+.but-left {
+  text-align: left;
+  vertical-align: center;
+}
+
+.but-right {
+  text-align: right;
+  vertical-align: center;
+}
+
+.but-today {
+  text-align: right;
+  vertical-align: center;
+}
+
+.th {
+  font-weight: bold;
+}
+
+td {
+  padding-right: 7px;
+  padding-left: 7px;
+  text-align: center;
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+input { 
+  border: none;
+}
+
+input[type="time"]::-webkit-clear-button {
+  display: none;
+}
+
+.total-input, .ti-total, .non-working-day{
+  background-color: rgb(245, 245, 245);
+  color: rgb(133, 133, 133);
+}
+
+.leave-by-text {
+  text-align: right;
+  margin-top: auto;
+  font-size: 90%;
+}
+
+.leave-by-time {
+  text-align: left;
+}
