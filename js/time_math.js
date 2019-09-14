@@ -1,20 +1,26 @@
 /**
  * Formats a given amount of minutes into string HH:MM
  */
-function minutesToHourFormated(min) {
-	if (min < 0) {
-		return "--:--"
-	}
+function minutesToHourFormated (min) {
+    var signStr = min < 0 ? '-' : ''
+    if (min < 0) {
+        min = Math.abs(min)
+    }
 	var hours = Math.floor(min / 60)
-	var minutes = Math.floor(min - (hours * 60))
-	return (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes
+    var minutes = Math.floor(min - (hours * 60))
+    var paddingHour = hours < 10 ?  '0' : ''
+    var paddingMin = minutes < 10 ?  '0' : ''
+    return signStr + 
+           paddingHour + hours + 
+           ':' + 
+           paddingMin + minutes
 }
 
 /**
  * Subtracts time first from second (t2 - t1)
  * Time should be formated as HH:MM
  */
-function subtractTime(t1, t2) {
+function subtractTime (t1, t2) {
 	var st1 = t1.split(':')
 	var st2 = t2.split(':')
 	var d1 = new Date(2019, 1, 1, st1[0], st1[1], 0, 0)
@@ -41,4 +47,11 @@ function sumTime(t1, t2) {
 function validateTime(time) {
 	var re = new RegExp('[0-2][0-9]:[0-5][0-9]')
 	return re.test(time)
+}
+
+module.exports = {
+    minutesToHourFormated,
+    subtractTime,
+    sumTime,
+    validateTime
 }

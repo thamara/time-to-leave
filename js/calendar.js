@@ -1,16 +1,13 @@
 const Store = require('electron-store');
 const store = new Store();
+const {
+    minutesToHourFormated, 
+    subtractTime, 
+    sumTime, 
+    validateTime
+} = require('./js/time_math.js');
 
 var calendar = null;
-
-/**
- * Validates that a string is a valid time, following the format of HH:MM
- * @returns true if it's valid
- */
-function validateTime(time) {
-	var re = new RegExp('[0-2][0-9]:[0-5][0-9]')
-	return re.test(time)
-}
 
 /*
  * Returns true if we should display day. 
