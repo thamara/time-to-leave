@@ -6,6 +6,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "test": "node test/* | tap-spec",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icon-mac.icns --prune=true --out=release-builds",
     "package-win": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icon-win,ico --prune=true --out=release-builds"
   },
@@ -16,6 +17,8 @@
     "electron-packager": "^14.0.6"
   },
   "dependencies": {
-    "electron-store": "^5.0.0"
+    "electron-store": "^5.0.0",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.11.0"
   }
 }
