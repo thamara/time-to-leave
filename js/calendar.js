@@ -26,8 +26,20 @@ var calendar = null;
 
 ipcRenderer.on('PREFERENCE_SAVED', function (event, inputs) {
 	preferences = inputs
-	calendar.updateLeaveBy()
+	calendar.redraw()
 });
+
+function showWeekDay(weekDay) {
+	switch (weekDay) {
+		case 0: return preferences['working-days-sunday'];
+		case 1: return preferences['working-days-monday'];
+		case 2: return preferences['working-days-tuesday'];
+		case 3: return preferences['working-days-wednesday'];
+		case 4: return preferences['working-days-thursday'];
+		case 5: return preferences['working-days-friday'];
+		case 6: return preferences['working-days-saturday'];
+	}
+}
 
 /*
  * Returns true if we should display day. 
@@ -35,7 +47,7 @@ ipcRenderer.on('PREFERENCE_SAVED', function (event, inputs) {
  */
 function showDay(year, month, day)  {
 	var currentDay = new Date(year, month, day), weekDay = currentDay.getDay()
-	return weekDay != 0 && weekDay != 6;
+	return showWeekDay(weekDay);
 }
 
 /*
@@ -72,6 +84,10 @@ class Calendar {
 		this.today = new Date();
 		this.month = this.today.getMonth();
 		this.year = this.today.getFullYear();
+		this._initCalendar(this.month, this.year)
+	}
+
+	redraw() {
 		this._initCalendar(this.month, this.year)
 	}
 
