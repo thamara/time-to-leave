@@ -14,6 +14,7 @@ let preferencesOptions = {
   'working-days-saturday': false,
   'working-days-sunday': false,
 };
+
 ipcMain.on('PREFERENCE_SAVE_DATA_NEEDED', (event, preferences) => {
     preferencesOptions = preferences
 })
@@ -47,6 +48,7 @@ function createWindow () {
                       userDataPath = app.getPath('userData');
                       filePath = path.join(userDataPath, 'preferences.json')
                       preferencesOptions && fs.writeFileSync(filePath, JSON.stringify(preferencesOptions));
+                      win.webContents.send('PREFERENCE_SAVED', preferencesOptions);
                     })
                 },
             },

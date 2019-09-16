@@ -6,8 +6,28 @@ const {
     sumTime, 
     validateTime
 } = require('./js/time_math.js');
+const { ipcRenderer } = require('electron'); 
+const remote = require('electron').remote;
+const path = require('path');
+const fs = require('fs');
+let userDataPath = remote.app.getPath('userData');
+let filePath = path.join(userDataPath, 'preferences.json')
+let preferences =  JSON.parse( fs.readFileSync(filePath) )
+
+function notificationIsEnabled() {
+	return preferences['notification'] == 'enabled'
+}
+
+function getHoursPerDay() {
+	return preferences['hours-per-day']
+}
 
 var calendar = null;
+
+ipcRenderer.on('PREFERENCE_SAVED', function (event, inputs) {
+	preferences = inputs
+	calendar.updateLeaveBy()
+});
 
 /*
  * Returns true if we should display day. 
@@ -180,7 +200,7 @@ class Calendar {
 		var dayKey = this.today.getFullYear() + '-' + this.today.getMonth() + '-' + this.today.getDate() + '-';
 		var dayBegin = document.getElementById(dayKey + 'day-begin').value
 		if (validateTime(dayBegin)) {
-			var leaveBy = sumTime(dayBegin, "08:00")
+			var leaveBy = sumTime(dayBegin, getHoursPerDay())
 			var lunchTotal = document.getElementById(dayKey + 'lunch-total').value
 			if (lunchTotal) {
 				leaveBy = sumTime(leaveBy, lunchTotal)
@@ -391,6 +411,9 @@ function updateTimeDayCallback(key) {
  * Notify user if it's time to leave
  */
 function notifyTimeToLeave() {
+	if (!notificationIsEnabled()) {
+		return
+	}
 	if (document.getElementById('leave-by') == null) {
 		return
 	}
