@@ -1,7 +1,17 @@
 # time-to-leave
 Log work hours and get notified when it's time to leave the office and start to live.
 
-More information coming soon...
+![time-to-leave](https://user-images.githubusercontent.com/846063/64999051-c9a51000-d8bc-11e9-8280-dea5be7774e3.png)
+
+
+Just log the time you started working today, and the program will compute what time you should leave the office, considering the time you spent on lunch. When it's time, the program will notify you.
+
+![time-to-leave-notification](https://user-images.githubusercontent.com/846063/64999052-c9a51000-d8bc-11e9-9ed5-9e500d084a65.png)
+
+You can control the preferences, stating your working days, how many hours you work a day and if you want notification or not.
+
+![time-to-leave-settings](https://user-images.githubusercontent.com/846063/64999053-c9a51000-d8bc-11e9-98e6-00442ab977cc.png)
+
 
 ## How to install
 ---
