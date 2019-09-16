@@ -221,7 +221,7 @@ class Calendar {
 			if (lunchTotal) {
 				leaveBy = sumTime(leaveBy, lunchTotal)
 			}
-			document.getElementById('leave-by').value = leaveBy
+			document.getElementById('leave-by').value = leaveBy <= "23:59" ? leaveBy : "--:--"
 		}
 	}
 
