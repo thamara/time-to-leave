@@ -1,0 +1,62 @@
+<html>
+<header>
+    <title>Time to Leave - Preferences</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="preferences.css">
+
+    <script>
+        delete module.exports
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="preferences.js"></script>
+</header>
+<body>
+    <div class="preferences">
+        <div class="preferences-page">
+            User preferences
+            <p class="header-help">Preferences are saved automatically when closing this window</p>
+        </div>
+        
+        <div class="preference-title">Working days</div>   
+        <div class="working-days">
+            <table>
+                <tbody>
+                <tr>
+                    <td><label for="sunday">Sunday</label></td>
+                    <td><label for="monday">Monday</label></td>
+                    <td><label for="tuesday">Tuesday</label></td>
+                    <td><label for="wednesday">Wednesday</label></td>
+                    <td><label for="thursday">Thursday</label></td>
+                    <td><label for="friday">Friday</label></td>
+                    <td><label for="saturday">Saturday</label></td>
+                
+                <tr style="text-align: center;">
+                    <td><input type="checkbox" id="sunday" name="working-days-sunday"></td>
+                    <td><input type="checkbox" id="monday" name="working-days-monday" checked></td>
+                    <td><input type="checkbox" id="tuesday" name="working-days-tuesday" checked></td>
+                    <td><input type="checkbox" id="wednesday" name="working-days-wednesday" checked></td>
+                    <td><input type="checkbox" id="thursday" name="working-days-thursday" checked></td>  
+                    <td><input type="checkbox" id="friday" name="working-days-friday" checked></td>
+                    <td><input type="checkbox" id="saturday" name="working-days-saturday"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="preference-title">Hours per day</div> 
+        <div class="hours-per-day">
+            <input type="time" name="hours-per-day" id="hours-per-day" min="00:00" max="24:00" value="08:00" required>
+        </div>
+
+        <div class="preference-title">Notification</div> 
+        <div class="notification-setting">
+            <div class="notification-option">
+                <select id="notification" name="notification">
+                    <option value="enabled" selected>Notification enabled</option>
+                    <option value="disabled">Notification disabled</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

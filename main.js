@@ -1,6 +1,22 @@
-const { app, BrowserWindow, Menu, dialog } = require('electron')
-
+const { app, BrowserWindow, Menu, dialog, ipcMain } = require('electron')
+const path = require('path');
+const fs = require('fs')
 const Store = require('electron-store');
+
+let preferencesOptions = {
+  'hours-per-day': '08:00',
+  'notification': 'enabled',
+  'working-days-monday': true,
+  'working-days-tuesday': true,
+  'working-days-wednesday': true,
+  'working-days-thursday': true,
+  'working-days-friday': true,
+  'working-days-saturday': false,
+  'working-days-sunday': false,
+};
+ipcMain.on('PREFERENCE_SAVE_DATA_NEEDED', (event, preferences) => {
+    preferencesOptions = preferences
+})
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -13,6 +29,27 @@ function createWindow () {
     {
         label: 'Menu',
         submenu: [
+            {
+                label: 'Preferences',
+                click () {
+                    const htmlPath = path.join('file://', __dirname, 'src/preferences.html')
+                    let prefWindow = new BrowserWindow({ width: 600, 
+                                                         height: 450, 
+                                                         resizable: false,
+                                                         webPreferences: {
+                                                          nodeIntegration: true
+                                                        } })
+                    prefWindow.loadURL(htmlPath)
+                    prefWindow.show()
+                    //prefWindow.webContents.openDevTools()
+                    prefWindow.on('close', function () {
+                      prefWindow = null 
+                      userDataPath = app.getPath('userData');
+                      filePath = path.join(userDataPath, 'preferences.json')
+                      preferencesOptions && fs.writeFileSync(filePath, JSON.stringify(preferencesOptions));
+                    })
+                },
+            },
             {
                 label:'Clear database', 
                 click() { 
