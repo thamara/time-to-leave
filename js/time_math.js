@@ -2,18 +2,18 @@
  * Formats a given amount of minutes into string HH:MM
  */
 function minutesToHourFormated (min) {
-    var signStr = min < 0 ? '-' : ''
+    var signStr = min < 0 ? '-' : '';
     if (min < 0) {
-        min = Math.abs(min)
+        min = Math.abs(min);
     }
-	var hours = Math.floor(min / 60)
-    var minutes = Math.floor(min - (hours * 60))
-    var paddingHour = hours < 10 ?  '0' : ''
-    var paddingMin = minutes < 10 ?  '0' : ''
+    var hours = Math.floor(min / 60);
+    var minutes = Math.floor(min - (hours * 60));
+    var paddingHour = hours < 10 ?  '0' : '';
+    var paddingMin = minutes < 10 ?  '0' : '';
     return signStr + 
            paddingHour + hours + 
            ':' + 
-           paddingMin + minutes
+           paddingMin + minutes;
 }
 
 /**
@@ -21,12 +21,12 @@ function minutesToHourFormated (min) {
  * Time should be formated as HH:MM
  */
 function subtractTime (t1, t2) {
-	var st1 = t1.split(':')
-	var st2 = t2.split(':')
-	var d1 = new Date(2019, 1, 1, st1[0], st1[1], 0, 0)
-	var d2 = new Date(2019, 1, 1, st2[0], st2[1], 0, 0)
-    var diffMin = (d2 - d1)/1000/60
-    return minutesToHourFormated(diffMin)
+    var st1 = t1.split(':');
+    var st2 = t2.split(':');
+    var d1 = new Date(2019, 1, 1, st1[0], st1[1], 0, 0);
+    var d2 = new Date(2019, 1, 1, st2[0], st2[1], 0, 0);
+    var diffMin = (d2 - d1)/1000/60;
+    return minutesToHourFormated(diffMin);
 }
 
 /**
@@ -34,10 +34,10 @@ function subtractTime (t1, t2) {
  * Time should be formated as HH:MM
  */
 function sumTime(t1, t2) {
-	var st1 = t1.split(':')
-	var st2 = t2.split(':')
-    var totalMin = Number(st1[1]) + (Number(st1[0]) * 60) + Number(st2[1]) + (Number(st2[0]) * 60)
-    return minutesToHourFormated(totalMin)
+    var st1 = t1.split(':');
+    var st2 = t2.split(':');
+    var totalMin = Number(st1[1]) + (Number(st1[0]) * 60) + Number(st2[1]) + (Number(st2[0]) * 60);
+    return minutesToHourFormated(totalMin);
 }
 
 /**
@@ -45,8 +45,8 @@ function sumTime(t1, t2) {
  * @returns true if it's valid
  */
 function validateTime(time) {
-	var re = new RegExp('[0-2][0-9]:[0-5][0-9]')
-	return re.test(time)
+    var re = new RegExp('[0-2][0-9]:[0-5][0-9]');
+    return re.test(time);
 }
 
 module.exports = {
@@ -54,4 +54,4 @@ module.exports = {
     subtractTime,
     sumTime,
     validateTime
-}
+};
