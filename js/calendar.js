@@ -169,9 +169,7 @@ class Calendar {
         this.updateBasedOnDB();
         this.updateLeaveBy();
         $('input[type=\'time\']').on('input propertychange', function() {
-            if (validateTime(this.value)) {
-                updateTimeDayCallback(this.id);
-            }
+            updateTimeDayCallback(this.id);
         });
         $('#next-month').on('click', function() {
             nextMonth();
@@ -458,6 +456,8 @@ function computeTimeDay(year, month, day) {
         if (lunchTime) {
             var totalDayTime = subtractTime(lunchTime, totalInOffice);
             totalInOffice = totalDayTime;
+        } else {
+            totalInOffice = '';
         }
         document.getElementById(dayStr + 'day-total').value = totalInOffice;
         valuesToSet[dayStr + 'day-total'] = totalInOffice;
