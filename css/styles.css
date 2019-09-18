@@ -48,6 +48,10 @@
   float: right;
 }
 
+.error-tr {
+  border-bottom: 2px solid red;
+}
+
 .title-header-text{
   text-align: left;
   margin-bottom: auto;
@@ -74,7 +78,7 @@ th {
   vertical-align: center;
 }
 
-.isToday {
+.summary {
   border-bottom: 4px solid rgb(164, 158, 207);
 }
 

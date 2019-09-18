@@ -38,6 +38,32 @@ function getHoursPerDay() {
 }
 
 /*
+ * Analyze the inputs of a day, and return if it has an error.
+ * An error means that an input earlier in the day is higher than another.
+ */
+function hasInputError(dayBegin, lunchBegin, lunchEnd, dayEnd) {
+    var dayValues = new Array();
+    if (validateTime(dayBegin)) {
+        dayValues.push(dayBegin);
+    }
+    if (validateTime(lunchBegin)) {
+        dayValues.push(lunchBegin);
+    }
+    if (validateTime(lunchEnd)) {
+        dayValues.push(lunchEnd);
+    }
+    if (validateTime(dayEnd)) {
+        dayValues.push(dayEnd);
+    }
+    for (var index = 0; index < dayValues.length; index++) { 
+        if (index > 0 && (dayValues[index-1] >= dayValues[index])) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/*
  * Returns true if we should display week day. 
  */
 function showWeekDay(weekDay) {
@@ -209,6 +235,18 @@ class Calendar {
             this._setData(dayStr + 'day-begin');
             this._setData(dayStr + 'day-end');
             this._setData(dayStr + 'day-total');
+            
+            var lunchBegin = document.getElementById(dayStr + 'lunch-begin').value;
+            var lunchEnd = document.getElementById(dayStr + 'lunch-end').value;
+            var dayBegin = document.getElementById(dayStr + 'day-begin').value;
+            var dayEnd = document.getElementById(dayStr + 'day-end').value;
+            var trID = ('tr-' + this.year + '-' + this.month + '-' + day);
+            if (hasInputError(dayBegin, lunchBegin, lunchEnd, dayEnd)) {
+                document.getElementById(dayStr + 'day-total').value = '';
+                document.getElementById(trID).classList.add('error-tr');
+            } else if (document.getElementById(trID).classList.contains('error-tr')) {
+                document.getElementById(trID).classList.remove('error-tr');
+            }
         }
         this.updateLeaveBy();
     }
@@ -284,10 +322,11 @@ class Calendar {
         var currentDay = new Date(year, month, day),
             weekDay = currentDay.getDay(),
             today = new Date(),
-            isToday = (today.getDate() == day && today.getMonth() == month && today.getFullYear() == year);    
-
+            isToday = (today.getDate() == day && today.getMonth() == month && today.getFullYear() == year),
+            trID = ('tr-' + year + '-' + month + '-' + day);
+        
         if (!showDay(year, month, day)) {
-            return  '<tr'+ (isToday ? ' class="isToday"' : '') + '>' +
+            return  '<tr'+ (isToday ? ' class="isToday"' : '') + ' id="' + trID + '">' +
                     '<td class="weekday ti">' + this.options.weekabbrs[weekDay] + '</td>' +
                     '<td class="day ti">' + day + '</td>' +
                     '<td class="day non-working-day" colspan="6">' + '</td>' +
@@ -295,7 +334,7 @@ class Calendar {
         }    
 
         var htmlCode = 
-                 '<tr'+ (isToday ? ' class="isToday"' : '') + '>' +
+                 '<tr'+ (isToday ? ' class="isToday"' : '') + ' id="' + trID + '">' +
                     '<td class="weekday ti">' + this.options.weekabbrs[weekDay] + '</td>' +
                     '<td class="day ti">' + day + '</td>' +
                     '<td class="ti">' + Calendar._getInputCode(year, month, day, 'day-begin') + '</td>' +
@@ -401,6 +440,10 @@ function computeTimeDay(year, month, day) {
         var lunchTime = subtractTime(lunchBegin, lunchEnd);
         document.getElementById(dayStr + 'lunch-total').value = lunchTime;
         valuesToSet[dayStr + 'lunch-total'] = lunchTime;
+    } else {
+        // Clear db and view if the lunch times are invalid
+        document.getElementById(dayStr + 'lunch-total').value = '';
+        valuesToSet[dayStr + 'lunch-total'] = '';
     }
     var dayBegin = document.getElementById(dayStr + 'day-begin').value;
     var dayEnd = document.getElementById(dayStr + 'day-end').value;
@@ -418,6 +461,19 @@ function computeTimeDay(year, month, day) {
         }
         document.getElementById(dayStr + 'day-total').value = totalInOffice;
         valuesToSet[dayStr + 'day-total'] = totalInOffice;
+    } else {
+        // Clear db and view if the day times are invalid
+        document.getElementById(dayStr + 'day-total').value = '';
+        valuesToSet[dayStr + 'day-total'] = '';
+    }
+
+    var trID = ('tr-' + year + '-' + month + '-' + day);
+    if (hasInputError(dayBegin, lunchBegin, lunchEnd, dayEnd)) {
+        delete valuesToSet[dayStr + 'day-total'];
+        document.getElementById(dayStr + 'day-total').value = '';
+        document.getElementById(trID).classList.add('error-tr');
+    } else if (document.getElementById(trID).classList.contains('error-tr')) {
+        document.getElementById(trID).classList.remove('error-tr');
     }
 
     return valuesToSet;
