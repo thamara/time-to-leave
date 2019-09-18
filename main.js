@@ -14,6 +14,7 @@ ipcMain.on('PREFERENCE_SAVE_DATA_NEEDED', (event, preferences) => {
 let win;
 const store = new Store();
 const macOS = process.platform === 'darwin';
+var iconpath = path.join(__dirname, macOS ? 'assets/timer.png' : 'assets/icon-win.ico');
 
 function createWindow () {
   // Create the browser window.
@@ -121,7 +122,7 @@ function createWindow () {
     win = new BrowserWindow({
         width: 1000,
         height: 800,
-        icon: 'assets/timer.png',
+        icon: iconpath,
         webPreferences: {
             nodeIntegration: true
         }
