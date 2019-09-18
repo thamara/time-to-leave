@@ -13,6 +13,7 @@ ipcMain.on('PREFERENCE_SAVE_DATA_NEEDED', (event, preferences) => {
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 const store = new Store();
+const macOS = process.platform === 'darwin';
 
 function createWindow () {
   // Create the browser window.
@@ -22,6 +23,7 @@ function createWindow () {
             submenu: [
                 {
                     label: 'Preferences',
+                    accelerator: macOS ? 'Command+,' : 'Control+,',
                     click () {
                         const htmlPath = path.join('file://', __dirname, 'src/preferences.html');
                         let prefWindow = new BrowserWindow({ width: 600, 
@@ -59,9 +61,10 @@ function createWindow () {
                         });
                     } 
                 },
-            {type:'separator'}, 
+                {type:'separator'}, 
                 {
                     label:'Exit', 
+                    accelerator: macOS ? 'CommandOrControl+Q' : 'Control+Q',
                     click() { 
                         app.quit(); 
                     } 
