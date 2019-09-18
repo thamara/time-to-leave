@@ -1,11 +1,8 @@
 const { ipcRenderer } = require('electron'); 
-const remote = require('electron').remote;
-const path = require('path');
-const fs = require('fs');
-let userDataPath = remote.app.getPath('userData');
-let filePath = path.join(userDataPath, 'preferences.json');
-let usersStyles =  JSON.parse( fs.readFileSync(filePath) );
+const { getUserPreferences } = require('../js/UserPreferences.js');
 
+// Global values for preferences page
+let usersStyles =  getUserPreferences();
 let preferences = {};
 
 $(() => {

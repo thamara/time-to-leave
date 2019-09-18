@@ -42,7 +42,7 @@ function createWindow () {
                             } });
                         prefWindow.loadURL(htmlPath);
                         prefWindow.show();
-                    //prefWindow.webContents.openDevTools()
+                        //prefWindow.webContents.openDevTools()
                         prefWindow.on('close', function () {
                             prefWindow = null; 
                             var userDataPath = app.getPath('userData');

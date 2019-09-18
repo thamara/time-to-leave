@@ -1,36 +1,45 @@
 'use strict';
 
 const Store = require('electron-store');
-const store = new Store();
+const { ipcRenderer } = require('electron'); 
 const {
     subtractTime, 
     sumTime, 
     validateTime
 } = require('./js/time_math.js');
 const { notifyUser } = require('./js/notification.js');
-const { ipcRenderer } = require('electron'); 
-const remote = require('electron').remote;
-const path = require('path');
-const fs = require('fs');
-let userDataPath = remote.app.getPath('userData');
-let filePath = path.join(userDataPath, 'preferences.json');
-let preferences = JSON.parse(fs.readFileSync(filePath));
+const { getUserPreferences } = require('./js/UserPreferences.js');
 
-function notificationIsEnabled() {
-    return preferences['notification'] == 'enabled';
-}
+// Global values for calendar
+const store = new Store();
+let preferences = getUserPreferences();
+let calendar = null;
 
-function getHoursPerDay() {
-    return preferences['hours-per-day'];
-}
-
-var calendar = null;
-
+/*
+ * Get nofified when preferences has been updated.
+ */
 ipcRenderer.on('PREFERENCE_SAVED', function (event, inputs) {
     preferences = inputs;
     calendar.redraw();
 });
 
+/*
+ * Returns true if the notification is enabled in preferences.
+ */
+function notificationIsEnabled() {
+    return preferences['notification'] == 'enabled';
+}
+
+/*
+ * Returns how many hours a day is set in preferences.
+ */
+function getHoursPerDay() {
+    return preferences['hours-per-day'];
+}
+
+/*
+ * Returns true if we should display week day. 
+ */
 function showWeekDay(weekDay) {
     switch (weekDay) {
     case 0: return preferences['working-days-sunday'];
@@ -45,7 +54,6 @@ function showWeekDay(weekDay) {
 
 /*
  * Returns true if we should display day. 
- * Saturdays and Sundays are not displayed.
  */
 function showDay(year, month, day)  {
     var currentDay = new Date(year, month, day), weekDay = currentDay.getDay();
