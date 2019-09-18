@@ -10,7 +10,6 @@ describe('Application launch', function () {
     this.app = new Application({
       path: electronPath,
       args: [path.join(__dirname, '..')],
-      chromeDriverLogPath: '../chromedriverlog.txt',
       chromeDriverArgs: ['remote-debugging-port=9222']
     })
     return this.app.start()
