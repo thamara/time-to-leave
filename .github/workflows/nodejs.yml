@@ -10,6 +10,8 @@ jobs:
     strategy:
       matrix:
         node-version: [8.x, 10.x, 12.x]
+    services:
+    - xvfb  
 
     steps:
     - uses: actions/checkout@v1
@@ -20,8 +22,6 @@ jobs:
     - name: npm install, build, and test
       run: |
         export DISPLAY=:99.0
-        sh -e /etc/init.d/xvfb start
-        sleep 3 # give xvfb some time to start
         npm install
         npm run build --if-present
         npm test
