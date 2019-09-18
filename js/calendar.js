@@ -327,7 +327,7 @@ class Calendar {
                '</div>' + 
                 '<table class="table-header"><tr>' +
                     '<th class="th but-left">' + leftBut + '</th>' +
-                    '<th class="th th-month-name" colspan="18"><div class="div-th-month-name">' + this.options.months[month] + ' ' + year + '</div></th>' +
+                    '<th class="th th-month-name" colspan="18"><div class="div-th-month-name" id="month-year">' + this.options.months[month] + ' ' + year + '</div></th>' +
                     '<th class="th but-right">' + ritghBut + '</th>' +
                     '<th class="th but-today">' + todayBut + '</th>' +
                 '</tr></table>';

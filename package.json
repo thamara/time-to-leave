@@ -6,7 +6,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "node test/* | tap-spec",
+    "test": "node test/*.test | tap-spec && mocha",
     "lint": "./node_modules/.bin/eslint *.js src/ js/",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icon-mac.icns --prune=true --out=release-builds",
     "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icon-win.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Time to Leave\""
@@ -16,7 +16,9 @@
   "devDependencies": {
     "electron": "^6.0.9",
     "electron-eslint": "^3.12.2",
-    "electron-packager": "^14.0.6"
+    "electron-packager": "^14.0.6",
+    "mocha": "^6.2.0",
+    "spectron": "^8.0.0"
   },
   "dependencies": {
     "electron-store": "^5.0.0",
