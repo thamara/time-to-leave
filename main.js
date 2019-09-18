@@ -1,22 +1,12 @@
 const { app, BrowserWindow, Menu, dialog, ipcMain } = require('electron');
 const path = require('path');
-const fs = require('fs');
 const Store = require('electron-store');
 
-let preferencesOptions = {
-    'hours-per-day': '08:00',
-    'notification': 'enabled',
-    'working-days-monday': true,
-    'working-days-tuesday': true,
-    'working-days-wednesday': true,
-    'working-days-thursday': true,
-    'working-days-friday': true,
-    'working-days-saturday': false,
-    'working-days-sunday': false,
-};
+const { savePreferences } = require('./js/UserPreferences.js');
 
+let savedPreferences = null;
 ipcMain.on('PREFERENCE_SAVE_DATA_NEEDED', (event, preferences) => {
-    preferencesOptions = preferences;
+  savedPreferences = preferences;
 });
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -45,10 +35,8 @@ function createWindow () {
                         //prefWindow.webContents.openDevTools()
                         prefWindow.on('close', function () {
                             prefWindow = null; 
-                            var userDataPath = app.getPath('userData');
-                            var filePath = path.join(userDataPath, 'preferences.json');
-                            preferencesOptions && fs.writeFileSync(filePath, JSON.stringify(preferencesOptions));
-                            win.webContents.send('PREFERENCE_SAVED', preferencesOptions);
+                            savePreferences(savedPreferences);
+                            win.webContents.send('PREFERENCE_SAVED', savedPreferences);
                         });
                     },
                 },
