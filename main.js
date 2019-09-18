@@ -6,7 +6,7 @@ const { savePreferences } = require('./js/UserPreferences.js');
 
 let savedPreferences = null;
 ipcMain.on('PREFERENCE_SAVE_DATA_NEEDED', (event, preferences) => {
-  savedPreferences = preferences;
+    savedPreferences = preferences;
 });
 
 // Keep a global reference of the window object, if you don't, the window will
