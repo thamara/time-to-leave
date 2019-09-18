@@ -70,6 +70,25 @@ function createWindow () {
                     } 
                 }
             ]
+        },
+        {
+            label: 'View',
+            submenu: [
+                {
+                    label: 'Reload',
+                    accelerator: 'CommandOrControl+R',
+                    click () {
+                        BrowserWindow.getFocusedWindow().reload();
+                    }
+                },
+                {
+                    label: 'Toggle Developer Tools',
+                    accelerator: macOS ? 'Command+Alt+I' : 'Control+Shift+I',
+                    click () {
+                        BrowserWindow.getFocusedWindow().toggleDevTools();
+                    }
+                }
+            ]
         }
     ]);
     Menu.setApplicationMenu(menu);
