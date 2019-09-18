@@ -1,3 +1,6 @@
+/**
+ * Notify user it's time to leave.
+ */
 function notifyUser() {
     if (Notification.permission !== 'granted')
         Notification.requestPermission();
