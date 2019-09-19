@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, dialog, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain, Tray } = require('electron');
 const path = require('path');
 const Store = require('electron-store');
 
@@ -12,9 +12,11 @@ ipcMain.on('PREFERENCE_SAVE_DATA_NEEDED', (event, preferences) => {
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
+let tray;
 const store = new Store();
 const macOS = process.platform === 'darwin';
 var iconpath = path.join(__dirname, macOS ? 'assets/timer.png' : 'assets/icon-win.ico');
+var trayIcon = path.join(__dirname, macOS ? 'assets/timer-16.png' : 'assets/icon-win.ico');
 
 function createWindow () {
   // Create the browser window.
@@ -67,6 +69,7 @@ function createWindow () {
                     label:'Exit', 
                     accelerator: macOS ? 'CommandOrControl+Q' : 'Control+Q',
                     click() { 
+                        app.isQuiting = true;
                         app.quit(); 
                     } 
                 }
@@ -131,15 +134,39 @@ function createWindow () {
     // and load the index.html of the app.
     win.loadFile(path.join(__dirname, 'index.html'));
 
+    tray = new Tray(trayIcon);
+    var contextMenu = Menu.buildFromTemplate([
+        {
+            label: 'Show App', click: function () {
+                win.show();
+            }
+        },
+        {
+            label: 'Quit', click: function () {
+                app.isQuiting = true;
+                app.quit();
+            }
+        }
+    ]);
+
+    tray.setContextMenu(contextMenu);
+
     // Open the DevTools.
     //win.webContents.openDevTools();
 
+    win.on('minimize',function(event){
+        event.preventDefault();
+        win.hide();
+    });
+
     // Emitted when the window is closed.
-    win.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-        win = null;
+    win.on('closed', function (event) {
+        if(!app.isQuiting){
+            event.preventDefault();
+            win.hide();
+        } 
+  
+        return false;
     });
 }
 
@@ -150,11 +177,8 @@ app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
+    app.isQuiting = true;
+    app.quit();
 });
 
 app.on('activate', () => {
