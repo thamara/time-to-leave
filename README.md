@@ -16,6 +16,13 @@ You can control the preferences, stating your working days, how many hours you w
 ## How to install
 ---
 
+### Dependencies
+- [Node.js](https://nodejs.org/en/): version 8.x or higher
+
+### Starting
+
+Build/Install in Windows or MacOS:
+
 ```bash
 git clone https://github.com/thamara/time-to-leave.git
 cd time-to-leave
