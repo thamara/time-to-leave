@@ -149,7 +149,13 @@ function createWindow () {
         }
     ]);
 
-    tray.setContextMenu(contextMenu);
+    tray.on('click', function handleCliked() {       
+        win.show();
+    });   
+
+    tray.on('right-click', function handleCliked() {       
+        tray.popUpContextMenu(contextMenu);
+    });   
 
     // Open the DevTools.
     //win.webContents.openDevTools();
@@ -161,7 +167,7 @@ function createWindow () {
 
     // Emitted when the window is closed.
     win.on('closed', function (event) {
-        if(!app.isQuiting){
+        if(app.isQuiting != undefined && !app.isQuiting){
             event.preventDefault();
             win.hide();
         } 
