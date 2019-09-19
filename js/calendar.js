@@ -171,6 +171,16 @@ class Calendar {
         $('input[type=\'time\']').on('input propertychange', function() {
             updateTimeDayCallback(this.id);
         });
+
+        $('input[class=\'punch-but\']').on('click', function() {
+            var inputId = this.id.substring('punch-'.length);
+            var now = new Date(), 
+                hour = now.getHours(),
+                min = now.getMinutes();
+            document.getElementById(inputId).value = hour + ':' + min;
+            updateTimeDayCallback(inputId);
+        });
+
         $('#next-month').on('click', function() {
             nextMonth();
         });
@@ -282,11 +292,19 @@ class Calendar {
      * Returns the time input html code of a date
      */
     static _getInputCode (year, month, day, type) {
-        return '<input type="time" id="' + 
-               year + '-' + month + '-' + day + '-' + type + 
-               '"' +
+        var today = new Date(),
+            isToday = (today.getDate() == day && today.getMonth() == month && today.getFullYear() == year),
+            idTag = year + '-' + month + '-' + day + '-' + type;
+
+        var punchBut = '';
+        if (isToday) {
+            punchBut = '<input type="image" class="punch-but" id="punch-' + idTag + 
+                       '" src="assets/edit.svg" title="Punch current time." height="16" width="16"></input>';
+        } 
+        return '<input type="time" id="' + idTag + '"' +
                (type.endsWith('total') ? ' disabled' : '') +
-               '>';
+               '>' + punchBut;
+               
     }
 
     /*
