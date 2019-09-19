@@ -117,6 +117,10 @@ input {
   border: none;
 }
 
+input[type="image"]{
+  outline:none;
+}
+
 input[type="time"]::-webkit-clear-button {
   display: none;
 }
