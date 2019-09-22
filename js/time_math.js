@@ -1,4 +1,15 @@
 /**
+ * Formats hour, min into string HH:MM
+ */
+function hourMinToHourFormated (hours, minutes) {
+    var paddingHour = hours < 10 ?  '0' : '';
+    var paddingMin = minutes < 10 ?  '0' : '';
+    return paddingHour + hours + 
+           ':' + 
+           paddingMin + minutes;
+}
+
+/**
  * Formats a given amount of minutes into string HH:MM
  */
 function minutesToHourFormated (min) {
@@ -8,12 +19,7 @@ function minutesToHourFormated (min) {
     }
     var hours = Math.floor(min / 60);
     var minutes = Math.floor(min - (hours * 60));
-    var paddingHour = hours < 10 ?  '0' : '';
-    var paddingMin = minutes < 10 ?  '0' : '';
-    return signStr + 
-           paddingHour + hours + 
-           ':' + 
-           paddingMin + minutes;
+    return signStr + hourMinToHourFormated(hours, minutes);
 }
 
 /**
@@ -50,6 +56,7 @@ function validateTime(time) {
 }
 
 module.exports = {
+    hourMinToHourFormated,
     minutesToHourFormated,
     subtractTime,
     sumTime,

@@ -3,6 +3,7 @@
 const Store = require('electron-store');
 const { ipcRenderer } = require('electron'); 
 const {
+    hourMinToHourFormated,
     subtractTime, 
     sumTime, 
     validateTime
@@ -107,6 +108,41 @@ function goToCurrentDate() {
     calendar.goToCurrentDate();
 }
 
+function punchDate() {
+    var now = new Date(),
+        year = now.getFullYear(),
+        month = now.getMonth(),
+        day = now.getDate(),
+        hour = now.getHours(),
+        min = now.getMinutes();
+    
+    if (calendar.getMonth() != month ||
+        calendar.getYear() != year ||
+        !showDay(year, month, day)) {
+        return;
+    }
+
+    var dayStr = year + '-' + month + '-' + day + '-';
+    var entry = ''
+    if (document.getElementById(dayStr + 'day-end').value == '') {
+        entry = 'day-end';
+    }
+    if (document.getElementById(dayStr + 'lunch-end').value == '') {
+        entry = 'lunch-end';
+    }
+    if (document.getElementById(dayStr + 'lunch-begin').value == '') {
+        entry = 'lunch-begin';
+    }
+    if (document.getElementById(dayStr + 'day-begin').value == '') {
+        entry = 'day-begin';
+    }
+    if (entry.length <= 0) {
+        return
+    }
+    document.getElementById(dayStr + entry).value = hourMinToHourFormated(hour, min);
+    updateTimeDayCallback(dayStr + entry);
+}
+
 //Helds the calendar information and manipulation functions
 class Calendar {
     constructor() {
@@ -172,13 +208,8 @@ class Calendar {
             updateTimeDayCallback(this.id);
         });
 
-        $('input[class=\'punch-but\']').on('click', function() {
-            var inputId = this.id.substring('punch-'.length);
-            var now = new Date(), 
-                hour = now.getHours(),
-                min = now.getMinutes();
-            document.getElementById(inputId).value = hour + ':' + min;
-            updateTimeDayCallback(inputId);
+        $('#punch-button').on('click', function() {
+            punchDate();
         });
 
         $('#next-month').on('click', function() {
@@ -277,6 +308,8 @@ class Calendar {
                 leaveBy = sumTime(leaveBy, lunchTotal);
             }
             document.getElementById('leave-by').value = leaveBy <= '23:59' ? leaveBy : '--:--';
+        } else {
+            document.getElementById('leave-by').value = '';
         }
     }
 
@@ -292,18 +325,11 @@ class Calendar {
      * Returns the time input html code of a date
      */
     static _getInputCode (year, month, day, type) {
-        var today = new Date(),
-            isToday = (today.getDate() == day && today.getMonth() == month && today.getFullYear() == year),
-            idTag = year + '-' + month + '-' + day + '-' + type;
+        var idTag = year + '-' + month + '-' + day + '-' + type;
 
-        var punchBut = '';
-        if (isToday) {
-            punchBut = '<input type="image" class="punch-but" id="punch-' + idTag + 
-                       '" src="assets/edit.svg" title="Punch current time." height="16" width="16"></input>';
-        } 
         return '<input type="time" id="' + idTag + '"' +
                (type.endsWith('total') ? ' disabled' : '') +
-               '>' + punchBut;
+               '>';
                
     }
 
