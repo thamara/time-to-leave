@@ -15,8 +15,8 @@ let win;
 let tray;
 const store = new Store();
 const macOS = process.platform === 'darwin';
-var iconpath = path.join(__dirname, macOS ? 'assets/timer.png' : 'assets/icon-win.ico');
-var trayIcon = path.join(__dirname, macOS ? 'assets/timer-16.png' : 'assets/icon-win.ico');
+var iconpath = path.join(__dirname, macOS ? 'assets/timer.png' : 'assets/timer.ico');
+var trayIcon = path.join(__dirname, macOS ? 'assets/timer-16.png' : 'assets/timer.ico');
 
 function createWindow () {
   // Create the browser window.
