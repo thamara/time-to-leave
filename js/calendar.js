@@ -123,7 +123,7 @@ function punchDate() {
     }
 
     var dayStr = year + '-' + month + '-' + day + '-';
-    var entry = ''
+    var entry = '';
     if (document.getElementById(dayStr + 'day-end').value == '') {
         entry = 'day-end';
     }
@@ -137,7 +137,7 @@ function punchDate() {
         entry = 'day-begin';
     }
     if (entry.length <= 0) {
-        return
+        return;
     }
     document.getElementById(dayStr + entry).value = hourMinToHourFormated(hour, min);
     updateTimeDayCallback(dayStr + entry);
