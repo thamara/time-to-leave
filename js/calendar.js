@@ -208,6 +208,12 @@ class Calendar {
             updateTimeDayCallback(this.id);
         });
 
+        if (!showDay(this.today.getFullYear(), this.today.getMonth(), this.today.getDate())) {
+            document.getElementById("punch-button").disabled = true
+        } else {
+            document.getElementById("punch-button").disabled = false
+        }
+
         $('#punch-button').on('click', function() {
             punchDate();
         });
