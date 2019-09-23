@@ -209,9 +209,9 @@ class Calendar {
         });
 
         if (!showDay(this.today.getFullYear(), this.today.getMonth(), this.today.getDate())) {
-            document.getElementById("punch-button").disabled = true
+            document.getElementById('punch-button').disabled = true;
         } else {
-            document.getElementById("punch-button").disabled = false
+            document.getElementById('punch-button').disabled = false;
         }
 
         $('#punch-button').on('click', function() {
