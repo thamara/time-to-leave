@@ -40,7 +40,7 @@ function readPreferences() {
     } catch(err) {
         preferences = {};
     }
-    return preferences;
+    return preferences ? preferences : {};
 }
 
 /*
