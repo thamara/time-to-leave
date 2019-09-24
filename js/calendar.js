@@ -272,10 +272,12 @@ class Calendar {
     updateBasedOnDB() {
         var d = new Date(this.year, this.month, 0), monthLength = d.getDate();
         var monthTotal = '00:00';
+        var totalWorkingDays = 0;
         for (var day = 1; day <= monthLength; ++day) {
             if (!showDay(this.year, this.month, day)) {
                 continue;
             }
+            totalWorkingDays += 1;
             var dayStr = this.year + '-' + this.month + '-' + day + '-';
             var lunchBegin = this._setData(dayStr + 'lunch-begin');
             var lunchEnd = this._setData(dayStr + 'lunch-end');
@@ -291,6 +293,8 @@ class Calendar {
             colorErrorLine(this.year, this.month, day, dayBegin, lunchBegin, lunchEnd, dayEnd);
         }
         document.getElementById('month-total').value = monthTotal;
+        document.getElementById('month-working-days').value = totalWorkingDays;
+        
         this.updateLeaveBy();
     }
 
@@ -354,8 +358,12 @@ class Calendar {
     static _getMonthTotalRowCode () {
         var monthTotal = '<input type="text" id="month-total" size="5" disabled>';
         var monthTotalText = 'Month Total';
+        var workingDays = '<input type="text" id="month-working-days" size="5" disabled>';
+        var workingDaysText = 'Total of working days';
         var code = '<tr class="month-total-row">' + 
-                     '<td class="month-total-text" colspan="7">' + monthTotalText + '</td>' +
+                     '<td class="month-total-text" colspan="5">' + workingDaysText + '</td>' +
+                     '<td class="month-total-time">' + workingDays + '</td>' +
+                     '<td class="month-total-text">' + monthTotalText + '</td>' +
                      '<td class="month-total-time">' + monthTotal + '</td>' +
                    '</tr>';
         return code;
