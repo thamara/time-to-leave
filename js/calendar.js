@@ -354,7 +354,7 @@ class Calendar {
     static _getMonthTotalRowCode () {
         var monthTotal = '<input type="text" id="month-total" size="5" disabled>';
         var monthTotalText = 'Month Total';
-        var code = '<tr class="month-total-row">' +
+        var code = '<tr class="month-total-row">' + 
                      '<td class="month-total-text" colspan="7">' + monthTotalText + '</td>' +
                      '<td class="month-total-time">' + monthTotal + '</td>' +
                    '</tr>';
