@@ -139,8 +139,9 @@ function punchDate() {
     if (entry.length <= 0) {
         return;
     }
-    document.getElementById(dayStr + entry).value = hourMinToHourFormated(hour, min);
-    updateTimeDayCallback(dayStr + entry);
+    var value = hourMinToHourFormated(hour, min);
+    document.getElementById(dayStr + entry).value = value;
+    updateTimeDayCallback(dayStr + entry, value);
 }
 
 //Helds the calendar information and manipulation functions
@@ -205,7 +206,7 @@ class Calendar {
         this.updateBasedOnDB();
         this.updateLeaveBy();
         $('input[type=\'time\']').on('input propertychange', function() {
-            updateTimeDayCallback(this.id);
+            updateTimeDayCallback(this.id, this.value);
         });
 
         if (!showDay(this.today.getFullYear(), this.today.getMonth(), this.today.getDate())) {
@@ -457,84 +458,85 @@ class Calendar {
 }
 
 /*
- * Updates the DB with the information of computed (total lunch time, and day time)
+ * Returns the entries for the day.
  */
-function updateTimeDay(year, month, day) {
-    var valuesToSet = computeTimeDay(year, month, day);
-    store.set(valuesToSet);
+function getDaysEntries(year, month, day) {
+    var dayStr = year + '-' + month + '-' + day + '-';
+    return [store.get(dayStr + 'day-begin'),
+        store.get(dayStr + 'lunch-begin'),
+        store.get(dayStr + 'lunch-end'),
+        store.get(dayStr + 'day-end')];
 }
 
 /*
- * Compute information of total lunch time and day time
+ * Updates the DB with the information of computed (total lunch time, and day time)
  */
-function computeTimeDay(year, month, day) {
-    if (!showDay(year, month, day)) {
-        return {};
-    }
-    var valuesToSet = {};
+function updateTimeDay(year, month, day, key, newValue) {
+    var baseStr = year + '-' + month + '-' + day + '-';
+    var dayStr = baseStr + key;
+    var oldValue = store.get(dayStr);
 
-    var dayStr = year + '-' + month + '-' + day + '-';
-    var lunchBegin = document.getElementById(dayStr + 'lunch-begin').value;
-    var lunchEnd = document.getElementById(dayStr + 'lunch-end').value;
-
-    if (validateTime(lunchBegin)) {
-        valuesToSet[dayStr + 'lunch-begin'] = lunchBegin;
-    }
-    if (validateTime(lunchEnd)) {
-        valuesToSet[dayStr + 'lunch-end'] = lunchEnd;
-    }
-
-    if (validateTime(lunchBegin) && validateTime(lunchEnd) && lunchEnd >= lunchBegin) {
-        var lunchTime = subtractTime(lunchBegin, lunchEnd);
-        document.getElementById(dayStr + 'lunch-total').value = lunchTime;
-        valuesToSet[dayStr + 'lunch-total'] = lunchTime;
+    if (validateTime(newValue)) {
+        //update db
+        store.set(dayStr, newValue);
     } else {
-        // Clear db and view if the lunch times are invalid
-        document.getElementById(dayStr + 'lunch-total').value = '';
-        valuesToSet[dayStr + 'lunch-total'] = '';
-    }
-    var dayBegin = document.getElementById(dayStr + 'day-begin').value;
-    var dayEnd = document.getElementById(dayStr + 'day-end').value;
-    if (validateTime(dayBegin)) {
-        valuesToSet[dayStr + 'day-begin'] = dayBegin;
-    }
-    if (validateTime(dayEnd)) {
-        valuesToSet[dayStr + 'day-end'] = dayEnd;
-    }
-    if (validateTime(dayBegin) && validateTime(dayEnd) && dayEnd >= dayBegin) {
-        var totalInOffice = subtractTime(dayBegin, dayEnd);
-        if (lunchTime) {
-            var totalDayTime = subtractTime(lunchTime, totalInOffice);
-            totalInOffice = totalDayTime;
-        } else {
-            totalInOffice = '';
+        if (oldValue && validateTime(oldValue)) {
+            store.delete(dayStr);
+            //remve entry from db
         }
-        document.getElementById(dayStr + 'day-total').value = totalInOffice;
-        valuesToSet[dayStr + 'day-total'] = totalInOffice;
-    } else {
-        // Clear db and view if the day times are invalid
-        document.getElementById(dayStr + 'day-total').value = '';
-        valuesToSet[dayStr + 'day-total'] = '';
     }
+    //update totals
+    var [dayBegin, lunchBegin, lunchEnd, dayEnd] = getDaysEntries(year, month, day);
+    
+    //compute lunch time
+    var lunchTime = '';
+    if (lunchBegin && lunchEnd && 
+        validateTime(lunchBegin) && validateTime(lunchEnd) &&
+        (lunchEnd > lunchBegin)) {
+        lunchTime = subtractTime(lunchBegin, lunchEnd);
+    }
+    var dayTotal = '';
+    if (dayBegin && dayEnd && 
+        validateTime(dayBegin) && validateTime(dayEnd) &&
+        (dayEnd > dayBegin)) {
+        dayTotal = subtractTime(dayBegin, dayEnd);
+        if (lunchTime.length > 0 && 
+            validateTime(lunchTime) &&
+            (lunchBegin > dayBegin) &&
+            (dayEnd > lunchEnd)) {
+            dayTotal = subtractTime(lunchTime, dayTotal);
+        }
+    }
+
+    if (lunchTime.length > 0) {
+        store.set(baseStr + 'lunch-total', lunchTime);
+    } else {
+        store.delete(baseStr + 'lunch-total');
+    }
+    document.getElementById(baseStr + 'lunch-total').value = lunchTime;
+
+    if (dayTotal.length > 0) {
+        store.set(baseStr + 'day-total', dayTotal);
+    } else {
+        store.delete(baseStr + 'day-total');
+    }
+    document.getElementById(baseStr + 'day-total').value = dayTotal;
 
     var trID = ('tr-' + year + '-' + month + '-' + day);
     if (hasInputError(dayBegin, lunchBegin, lunchEnd, dayEnd)) {
-        delete valuesToSet[dayStr + 'day-total'];
-        document.getElementById(dayStr + 'day-total').value = '';
         document.getElementById(trID).classList.add('error-tr');
     } else if (document.getElementById(trID).classList.contains('error-tr')) {
         document.getElementById(trID).classList.remove('error-tr');
     }
-
-    return valuesToSet;
 }
 
 /*
  * Based on the key of the input, updates the values for total in db and display it on page
  */
-function updateTimeDayCallback(key) {
-    var [year, month, day] = key.split('-');
-    updateTimeDay(year, month, day);
+function updateTimeDayCallback(key, value) {
+    var [year, month, day, stage, step] = key.split('-');
+    var fieldKey = stage + '-' + step;
+    updateTimeDay(year, month, day, fieldKey, value);
     calendar.updateLeaveBy();
 }
 
