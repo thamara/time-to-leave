@@ -5,6 +5,7 @@ const { ipcRenderer } = require('electron');
 const {
     hourMinToHourFormated,
     subtractTime, 
+    multiplyTime,
     sumTime, 
     validateTime
 } = require('./js/time_math.js');
@@ -156,6 +157,7 @@ class Calendar {
         this.today = new Date();
         this.month = this.today.getMonth();
         this.year = this.today.getFullYear();
+        this.workingDays = 0;
         this._initCalendar();
     }
 
@@ -266,18 +268,47 @@ class Calendar {
         return value;
     }
 
+    updateBalance() {
+        var d = new Date(this.year, this.month, 0), 
+            now = new Date(),
+            monthLength = d.getDate(),
+            workingDaysToCompute = 0,
+            monthTotalWorked = '00:00';
+
+        for (var day = 1; day <= monthLength; ++day) {
+            if (!showDay(this.year, this.month, day)) {
+                continue;
+            }
+            d = new Date(this.year, this.month, day);
+            if (d > now) {
+                //balance considers only up until yesterday
+                break;
+            }
+            workingDaysToCompute += 1;
+
+            var dayStr = this.year + '-' + this.month + '-' + day + '-' + 'day-total';
+            var dayTotal = document.getElementById(dayStr).value;
+            if (dayTotal) {
+                monthTotalWorked = sumTime(monthTotalWorked, dayTotal);
+            }
+        }
+        var monthTotalToWork = multiplyTime(getHoursPerDay(), workingDaysToCompute);
+        var balance = subtractTime(monthTotalWorked, monthTotalToWork);
+        document.getElementById('month-balance').value = balance;
+    }
+
     /*
      * Updates data displayed based on the database.
      */
     updateBasedOnDB() {
         var d = new Date(this.year, this.month, 0), monthLength = d.getDate();
         var monthTotal = '00:00';
-        var totalWorkingDays = 0;
+        this.workingDays = 0;
         for (var day = 1; day <= monthLength; ++day) {
             if (!showDay(this.year, this.month, day)) {
                 continue;
             }
-            totalWorkingDays += 1;
+            this.workingDays += 1;
             var dayStr = this.year + '-' + this.month + '-' + day + '-';
             var lunchBegin = this._setData(dayStr + 'lunch-begin');
             var lunchEnd = this._setData(dayStr + 'lunch-end');
@@ -293,8 +324,9 @@ class Calendar {
             colorErrorLine(this.year, this.month, day, dayBegin, lunchBegin, lunchEnd, dayEnd);
         }
         document.getElementById('month-total').value = monthTotal;
-        document.getElementById('month-working-days').value = totalWorkingDays;
-        
+        document.getElementById('month-working-days').value = this.workingDays;
+        this.updateBalance();
+
         this.updateLeaveBy();
     }
 
@@ -356,15 +388,19 @@ class Calendar {
      * Returns the month total field html code
      */
     static _getMonthTotalRowCode () {
-        var monthTotal = '<input type="text" id="month-total" size="5" disabled>';
+        var monthTotal = '<input type="text" id="month-total" size="8" disabled>';
         var monthTotalText = 'Month Total';
+        var monthBalance = '<input type="text" id="month-balance" size="8" disabled>';
+        var monthBalanceText = 'Month Balance';
         var workingDays = '<input type="text" id="month-working-days" size="5" disabled>';
         var workingDaysText = 'Total of working days';
         var code = '<tr class="month-total-row">' + 
-                     '<td class="month-total-text" colspan="5">' + workingDaysText + '</td>' +
+                     '<td class="month-total-text" colspan="3">' + workingDaysText + '</td>' +
                      '<td class="month-total-time">' + workingDays + '</td>' +
                      '<td class="month-total-text">' + monthTotalText + '</td>' +
                      '<td class="month-total-time">' + monthTotal + '</td>' +
+                     '<td class="month-total-text">' + monthBalanceText + '</td>' +
+                     '<td class="month-total-time">' + monthBalance + '</td>' +
                    '</tr>';
         return code;
     }
@@ -574,6 +610,7 @@ function updateTimeDayCallback(key, value) {
     var fieldKey = stage + '-' + step;
     updateTimeDay(year, month, day, fieldKey, value);
     calendar.updateLeaveBy();
+    calendar.updateBalance();
 }
 
 /*

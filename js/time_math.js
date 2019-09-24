@@ -36,6 +36,17 @@ function subtractTime (t1, t2) {
 }
 
 /**
+ * Multiplies t * n
+ * Time should be formated as HH:MM
+ */
+function multiplyTime (t, n) {
+    var st1 = t.split(':');
+    var totalMin = Number(st1[1]) + (Number(st1[0]) * 60);
+    totalMin = totalMin * n;
+    return minutesToHourFormated(totalMin);
+}
+
+/**
  * Sums time first to second (t1 + t2)
  * Time should be formated as HH:MM
  */
@@ -57,6 +68,7 @@ function validateTime(time) {
 
 module.exports = {
     hourMinToHourFormated,
+    multiplyTime,
     minutesToHourFormated,
     subtractTime,
     sumTime,
