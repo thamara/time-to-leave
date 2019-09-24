@@ -5,10 +5,6 @@
     font-size: 120%;
 }
 
-.table-total-month {
-  text-align: right;
-}
-
 .container {
   font-family: 'montserrat';
 }
@@ -82,6 +78,11 @@ th {
   border-bottom: 4px solid rgb(164, 158, 207);
 }
 
+.month-total-row {
+  border-bottom: 4px solid rgb(164, 158, 207);
+  border-top: 4px solid rgb(164, 158, 207);
+}
+
 tr {
   border-bottom: 2px solid #CBCBCB;
 }
@@ -130,13 +131,17 @@ input[type="time"]::-webkit-clear-button {
   color: rgb(133, 133, 133);
 }
 
-.leave-by-text {
+.leave-by-text, .month-total-text {
   text-align: right;
   margin-top: auto;
   font-size: 90%;
 }
 
-.leave-by-time {
+.month-total-text {
+  font-weight: bold;
+}
+
+.leave-by-time, .month-total-time {
   text-align: left;
 }
 

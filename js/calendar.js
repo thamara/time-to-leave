@@ -258,11 +258,12 @@ class Calendar {
      * Updates data displayed based on the database.
      */
     _setData(key) {
+        var value = '';
         if (store.has(key)) {
-            document.getElementById(key).value = store.get(key);
-        } else {
-            document.getElementById(key).value = '';
+            value = store.get(key);
         }
+        document.getElementById(key).value = value;
+        return value;
     }
 
     /*
@@ -270,30 +271,26 @@ class Calendar {
      */
     updateBasedOnDB() {
         var d = new Date(this.year, this.month, 0), monthLength = d.getDate();
+        var monthTotal = '00:00';
         for (var day = 1; day <= monthLength; ++day) {
             if (!showDay(this.year, this.month, day)) {
                 continue;
             }
             var dayStr = this.year + '-' + this.month + '-' + day + '-';
-            this._setData(dayStr + 'lunch-begin');
-            this._setData(dayStr + 'lunch-end');
-            this._setData(dayStr + 'lunch-total');
-            this._setData(dayStr + 'day-begin');
-            this._setData(dayStr + 'day-end');
-            this._setData(dayStr + 'day-total');
-            
-            var lunchBegin = document.getElementById(dayStr + 'lunch-begin').value;
-            var lunchEnd = document.getElementById(dayStr + 'lunch-end').value;
-            var dayBegin = document.getElementById(dayStr + 'day-begin').value;
-            var dayEnd = document.getElementById(dayStr + 'day-end').value;
-            var trID = ('tr-' + this.year + '-' + this.month + '-' + day);
-            if (hasInputError(dayBegin, lunchBegin, lunchEnd, dayEnd)) {
-                document.getElementById(dayStr + 'day-total').value = '';
-                document.getElementById(trID).classList.add('error-tr');
-            } else if (document.getElementById(trID).classList.contains('error-tr')) {
-                document.getElementById(trID).classList.remove('error-tr');
+            var lunchBegin = this._setData(dayStr + 'lunch-begin');
+            var lunchEnd = this._setData(dayStr + 'lunch-end');
+            /*var lunchTotal = */this._setData(dayStr + 'lunch-total');
+            var dayBegin = this._setData(dayStr + 'day-begin');
+            var dayEnd = this._setData(dayStr + 'day-end');
+            var dayTotal = this._setData(dayStr + 'day-total');
+
+            if (dayTotal) {
+                monthTotal = sumTime(monthTotal, dayTotal);
             }
+            
+            colorErrorLine(this.year, this.month, day, dayBegin, lunchBegin, lunchEnd, dayEnd);
         }
+        document.getElementById('month-total').value = monthTotal;
         this.updateLeaveBy();
     }
 
@@ -349,6 +346,19 @@ class Calendar {
                '" size="5"' +
                (type.endsWith('total') ? ' disabled' : '') +
                '>';
+    }
+
+    /*
+     * Returns the month total field html code
+     */
+    static _getMonthTotalRowCode () {
+        var monthTotal = '<input type="text" id="month-total" size="5" disabled>';
+        var monthTotalText = 'Month Total';
+        var code = '<tr class="month-total-row">' +
+                     '<td class="month-total-text" colspan="7">' + monthTotalText + '</td>' +
+                     '<td class="month-total-time">' + monthTotal + '</td>' +
+                   '</tr>';
+        return code;
     }
 
     /*
@@ -450,6 +460,7 @@ class Calendar {
         for (var day = 1; day <= monthLength; ++day) {
             html += this._getInputsRowCode(this.year, this.month, day);
         }
+        html += Calendar._getMonthTotalRowCode();
         html += '</table><br>';
         html += '</div>';
 
@@ -466,6 +477,15 @@ function getDaysEntries(year, month, day) {
         store.get(dayStr + 'lunch-begin'),
         store.get(dayStr + 'lunch-end'),
         store.get(dayStr + 'day-end')];
+}
+
+function colorErrorLine(year, month, day, dayBegin, lunchBegin, lunchEnd, dayEnd) {
+    var trID = ('tr-' + year + '-' + month + '-' + day);
+    if (hasInputError(dayBegin, lunchBegin, lunchEnd, dayEnd)) {
+        document.getElementById(trID).classList.add('error-tr');
+    } else if (document.getElementById(trID).classList.contains('error-tr')) {
+        document.getElementById(trID).classList.remove('error-tr');
+    }
 }
 
 /*
@@ -485,6 +505,9 @@ function updateTimeDay(year, month, day, key, newValue) {
             //remve entry from db
         }
     }
+
+    var oldDayTotal = store.get(baseStr + 'day-total');
+
     //update totals
     var [dayBegin, lunchBegin, lunchEnd, dayEnd] = getDaysEntries(year, month, day);
     
@@ -522,12 +545,17 @@ function updateTimeDay(year, month, day, key, newValue) {
     }
     document.getElementById(baseStr + 'day-total').value = dayTotal;
 
-    var trID = ('tr-' + year + '-' + month + '-' + day);
-    if (hasInputError(dayBegin, lunchBegin, lunchEnd, dayEnd)) {
-        document.getElementById(trID).classList.add('error-tr');
-    } else if (document.getElementById(trID).classList.contains('error-tr')) {
-        document.getElementById(trID).classList.remove('error-tr');
+    var displayedMonthTotal = document.getElementById('month-total').value;
+    var currentMonthTotal = displayedMonthTotal;
+    if (validateTime(oldDayTotal)) {
+        currentMonthTotal = subtractTime(oldDayTotal, currentMonthTotal);
     }
+    if (dayTotal.length > 0) {
+        currentMonthTotal = sumTime(currentMonthTotal, dayTotal);
+    }
+    document.getElementById('month-total').value = currentMonthTotal;
+
+    colorErrorLine(year, month, day, dayBegin, lunchBegin, lunchEnd, dayEnd);
 }
 
 /*
