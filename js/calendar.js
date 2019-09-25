@@ -408,7 +408,7 @@ class Calendar {
             trID = ('tr-' + year + '-' + month + '-' + day);
         
         if (!showDay(year, month, day)) {
-            return  '<tr'+ (isToday ? ' class="isToday"' : '') + ' id="' + trID + '">' +
+            return  '<tr'+ (isToday ? ' class="today-non-working"' : '') + ' id="' + trID + '">' +
                     '<td class="weekday ti">' + this.options.weekabbrs[weekDay] + '</td>' +
                     '<td class="day ti">' + day + '</td>' +
                     '<td class="day non-working-day" colspan="6">' + '</td>' +
