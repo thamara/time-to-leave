@@ -292,8 +292,8 @@ class Calendar {
                 monthTotalWorked = sumTime(monthTotalWorked, dayTotal);
             }
         }
-        var monthTotalToWork = multiplyTime(getHoursPerDay(), workingDaysToCompute);
-        var balance = subtractTime(monthTotalWorked, monthTotalToWork);
+        var monthTotalToWork = multiplyTime(getHoursPerDay(), workingDaysToCompute * -1);
+        var balance = sumTime(monthTotalToWork, monthTotalWorked);
         document.getElementById('month-balance').value = balance;
     }
 
