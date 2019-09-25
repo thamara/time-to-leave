@@ -145,6 +145,20 @@ input[type="time"]::-webkit-clear-button {
   text-align: left;
 }
 
+.footer-pre {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  right: 0;
+  bottom: 60px;
+  height: 16px;
+}
+
+.month-summary {
+  width: 100%;
+  background-color: white;
+}
+
 .footer {
   position: fixed;
   left: 0;

@@ -385,27 +385,6 @@ class Calendar {
     }
 
     /*
-     * Returns the month total field html code
-     */
-    static _getMonthTotalRowCode () {
-        var monthTotal = '<input type="text" id="month-total" size="8" disabled>';
-        var monthTotalText = 'Month Total';
-        var monthBalance = '<input type="text" id="month-balance" size="8" disabled>';
-        var monthBalanceText = 'Month Balance';
-        var workingDays = '<input type="text" id="month-working-days" size="5" disabled>';
-        var workingDaysText = 'Total of working days';
-        var code = '<tr class="month-total-row">' + 
-                     '<td class="month-total-text" colspan="3">' + workingDaysText + '</td>' +
-                     '<td class="month-total-time">' + workingDays + '</td>' +
-                     '<td class="month-total-text">' + monthTotalText + '</td>' +
-                     '<td class="month-total-time">' + monthTotal + '</td>' +
-                     '<td class="month-total-text">' + monthBalanceText + '</td>' +
-                     '<td class="month-total-time">' + monthBalance + '</td>' +
-                   '</tr>';
-        return code;
-    }
-
-    /*
      * Returns the summary field html code
      */
     static _getSummaryRowCode () {
@@ -504,7 +483,6 @@ class Calendar {
         for (var day = 1; day <= monthLength; ++day) {
             html += this._getInputsRowCode(this.year, this.month, day);
         }
-        html += Calendar._getMonthTotalRowCode();
         html += '</table><br>';
         html += '</div>';
 
