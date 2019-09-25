@@ -69,6 +69,15 @@ test('Subtract time 12:00 - 00:01', (t) => {
     t.assert(subtractTime('00:01', '12:00') === '11:59', "Subtract time 12:00 - 00:01 = 11:59")
     t.end()  
 })
+test('Subtract time 12:00 - 13:00', (t) => {
+    t.assert(subtractTime('13:00', '12:00') === '-01:00', "Subtract time 13:00 - 12:00 = -01:00")
+    t.end()  
+})
+
+test('Subtract time 00:00 - 13:00', (t) => {
+    t.assert(subtractTime('13:00', '00:00') === '-13:00', "Subtract time 00:00 - 13:00 = -13:00")
+    t.end()  
+})
 
 // Sum time
 test('Add time 00:00 + 00:00', (t) => {
@@ -85,6 +94,10 @@ test('Add time 00:59 + 00:01', (t) => {
 })
 test('Add time 12:00 + 12:00', (t) => {
     t.assert(sumTime('12:00', '12:00') === '24:00', "Add time 12:00 + 12:00 = 24:00")
+    t.end()  
+})
+test('Add time 12:00 + -12:00', (t) => {
+    t.assert(sumTime('12:00', '-12:00') === '00:00', "Add time 12:00 + -12:00 = 00:00")
     t.end()  
 })
 

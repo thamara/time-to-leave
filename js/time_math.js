@@ -10,6 +10,22 @@ function hourMinToHourFormated (hours, minutes) {
 }
 
 /**
+ * Converts hour to min.
+ * Hours must be formated as HH:MM
+ */
+function hourToMinutes(time) {
+    var st = time.split(':');
+    var isNeg = st[0] == '-';
+    st[0] = isNeg ? st[0].substr(1) : st[0];
+
+    var min = Number(st[1]) + (Number(st[0]) * 60);
+    if (isNeg) {
+        min = min * -1;
+    }
+    return min;
+}
+
+/**
  * Formats a given amount of minutes into string HH:MM
  */
 function minutesToHourFormated (min) {
@@ -27,11 +43,7 @@ function minutesToHourFormated (min) {
  * Time should be formated as HH:MM
  */
 function subtractTime (t1, t2) {
-    var st1 = t1.split(':');
-    var st2 = t2.split(':');
-    var d1 = new Date(2019, 1, 1, st1[0], st1[1], 0, 0);
-    var d2 = new Date(2019, 1, 1, st2[0], st2[1], 0, 0);
-    var diffMin = (d2 - d1)/1000/60;
+    var diffMin = hourToMinutes(t2) - hourToMinutes(t1);
     return minutesToHourFormated(diffMin);
 }
 
@@ -40,8 +52,7 @@ function subtractTime (t1, t2) {
  * Time should be formated as HH:MM
  */
 function multiplyTime (t, n) {
-    var st1 = t.split(':');
-    var totalMin = Number(st1[1]) + (Number(st1[0]) * 60);
+    var totalMin = hourToMinutes(t);
     totalMin = totalMin * n;
     return minutesToHourFormated(totalMin);
 }
@@ -51,10 +62,8 @@ function multiplyTime (t, n) {
  * Time should be formated as HH:MM
  */
 function sumTime(t1, t2) {
-    var st1 = t1.split(':');
-    var st2 = t2.split(':');
-    var totalMin = Number(st1[1]) + (Number(st1[0]) * 60) + Number(st2[1]) + (Number(st2[0]) * 60);
-    return minutesToHourFormated(totalMin);
+    var sumMin = hourToMinutes(t2) + hourToMinutes(t1);
+    return minutesToHourFormated(sumMin);
 }
 
 /**
