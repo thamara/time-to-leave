@@ -206,16 +206,17 @@ class Calendar {
     _initCalendar() {
         this._generateTemplate();
         this.updateBasedOnDB();
-        this.updateLeaveBy();
-        $('input[type=\'time\']').on('input propertychange', function() {
-            updateTimeDayCallback(this.id, this.value);
-        });
-
+        
         if (!showDay(this.today.getFullYear(), this.today.getMonth(), this.today.getDate())) {
             document.getElementById('punch-button').disabled = true;
         } else {
             document.getElementById('punch-button').disabled = false;
         }
+
+        this.updateLeaveBy();
+        $('input[type=\'time\']').on('input propertychange', function() {
+            updateTimeDayCallback(this.id, this.value);
+        });
 
         $('#punch-button').on('click', function() {
             punchDate();
@@ -339,8 +340,8 @@ class Calendar {
             this.today.getFullYear() != this.getYear()) {
             return;
         }
+        var [dayBegin, lunchBegin, lunchEnd, dayEnd] = getDaysEntriesFromHTML(this.today.getFullYear(), this.today.getMonth(), this.today.getDate());
         var dayKey = this.today.getFullYear() + '-' + this.today.getMonth() + '-' + this.today.getDate() + '-';
-        var dayBegin = document.getElementById(dayKey + 'day-begin').value;
         if (validateTime(dayBegin)) {
             var leaveBy = sumTime(dayBegin, getHoursPerDay());
             var lunchTotal = document.getElementById(dayKey + 'lunch-total').value;
@@ -350,6 +351,13 @@ class Calendar {
             document.getElementById('leave-by').value = leaveBy <= '23:59' ? leaveBy : '--:--';
         } else {
             document.getElementById('leave-by').value = '';
+        }
+
+        if (dayBegin.length && lunchBegin.length && lunchEnd.length && dayEnd.length) {
+            //All entries computed
+            document.getElementById('punch-button').disabled = true;
+        } else {
+            document.getElementById('punch-button').disabled = false;
         }
     }
 
@@ -499,6 +507,17 @@ function getDaysEntries(year, month, day) {
         store.get(dayStr + 'lunch-begin'),
         store.get(dayStr + 'lunch-end'),
         store.get(dayStr + 'day-end')];
+}
+
+/*
+ * Returns the entries for the day, from HTML (for performance).
+ */
+function getDaysEntriesFromHTML(year, month, day) {
+    var dayStr = year + '-' + month + '-' + day + '-';
+    return [document.getElementById(dayStr + 'day-begin').value,
+        document.getElementById(dayStr + 'lunch-begin').value,
+        document.getElementById(dayStr + 'lunch-end').value,
+        document.getElementById(dayStr + 'day-end').value];
 }
 
 function colorErrorLine(year, month, day, dayBegin, lunchBegin, lunchEnd, dayEnd) {
