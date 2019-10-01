@@ -36,6 +36,7 @@ function createWindow () {
                             webPreferences: {
                                 nodeIntegration: true
                             } });
+                        prefWindow.setMenu(null);
                         prefWindow.loadURL(htmlPath);
                         prefWindow.show();
                         //prefWindow.webContents.openDevTools()
@@ -121,7 +122,6 @@ function createWindow () {
             ]
         }
     ]);
-    Menu.setApplicationMenu(menu);
 
     win = new BrowserWindow({
         width: 1000,
@@ -131,7 +131,8 @@ function createWindow () {
             nodeIntegration: true
         }
     });
-
+    win.setMenu(menu);
+    
     // and load the index.html of the app.
     win.loadFile(path.join(__dirname, 'index.html'));
 
