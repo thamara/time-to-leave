@@ -1,6 +1,7 @@
 const { app, BrowserWindow, Menu, dialog, ipcMain, Tray } = require('electron');
 const path = require('path');
 const Store = require('electron-store');
+const { notify } = require('./js/notification');
 
 const { savePreferences } = require('./js/UserPreferences.js');
 
@@ -144,6 +145,14 @@ function createWindow () {
 
     tray = new Tray(trayIcon);
     var contextMenu = Menu.buildFromTemplate([
+        {
+            label: 'Punch in time', click: function () {
+                var now = new Date();
+
+                win.webContents.executeJavaScript('punchDate()');
+                notify(`Punched time ${now.getHours()}:${now.getMinutes()}`);
+            }
+        },
         {
             label: 'Show App', click: function () {
                 win.show();
