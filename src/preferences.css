@@ -11,7 +11,7 @@
     font-size: 15px;
 }
 
-input { 
+input {
     border: none;
   }
 
@@ -53,11 +53,13 @@ td {
   font-variant-caps: all-petite-caps;
 }
 
-.non-working-label {
+#non-working-label {
   display: block;
   font-weight: normal;
-  margin-top: 500px;
-  padding-right: 500px;
-  padding-left: 500px;
   text-align: left;
+  margin: 40px 0px 0px 8px;
+}
+
+#non-working-label input {
+   margin-right: 8px;
 }
