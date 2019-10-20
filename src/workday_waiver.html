@@ -1,0 +1,60 @@
+<html>
+<header>
+    <title>Time to Leave - Workday Waiver Manager</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="workday_waiver.css">
+
+    <script>
+        delete module.exports
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="workday_waiver.js"></script>
+</header>
+<body>
+    <div class="container">
+        <div class="container-page">
+            Workday Waiver Manager
+            <p class="header-help">Changes take effect when closing this window</p>
+        </div>
+
+        <div class="container-title">Add Waiver</div>
+        <div class="add-waiver">
+            <table class="data">
+                <tbody>
+                <tr>
+                    <td>Date</td>
+                    <td><input id="date" type="date"></td>
+                </tr>
+                <tr>
+                    <td>Hours</td>
+                    <td><input id="hours" type="time"></td>
+                </tr>
+                <tr>
+                    <td>Reason</td>
+                    <td colspan="3"><input id="reason" type="text" maxlength="30" size="60" placeholder="Reason for the waiver"></td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+            <button class="waive-button" id="waive-button">
+                Waive
+              </button>
+        </div>
+
+        <div class="container-title">Waived workday list</div>
+        <div class="list-waiver">
+            <table class="waiver-list-table data" id="waiver-list-table">
+                <tbody>
+                <thead>
+                    <td class="table-header">Day</td>
+                    <td class="table-header">Waiver Reason</td>
+                    <td class="table-header">Hours waived</td>
+                    <td class="table-header">Delete</td>
+                </thead>
+                </tbody>
+            </table>
+        </div>
+        <br>
+    </div>
+</body>
+</html>

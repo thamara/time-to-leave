@@ -17,6 +17,7 @@ const { applyTheme } = require('./js/Themes.js');
 
 // Global values for calendar
 const store = new Store();
+const waivedWorkdays = new Store({name: 'waived-workdays'});
 let preferences = getUserPreferences();
 let calendar = null;
 
@@ -319,20 +320,32 @@ class Calendar {
             if (!showDay(this.year, this.month, day)) {
                 continue;
             }
+
             this.workingDays += 1;
+
+            var currentDay = new Date(this.year, this.month, day),
+                dateStr = currentDay.toISOString().substr(0, 10);
+
             var dayStr = this.year + '-' + this.month + '-' + day + '-';
-            var lunchBegin = this._setData(dayStr + 'lunch-begin');
-            var lunchEnd = this._setData(dayStr + 'lunch-end');
-            /*var lunchTotal = */this._setData(dayStr + 'lunch-total');
-            var dayBegin = this._setData(dayStr + 'day-begin');
-            var dayEnd = this._setData(dayStr + 'day-end');
-            var dayTotal = this._setData(dayStr + 'day-total');
+            if (waivedWorkdays.has(dateStr)) {
+                var waivedInfo = waivedWorkdays.get(dateStr);
+                var waivedDayTotal = waivedInfo['hours'];
+                document.getElementById(dayStr + 'day-total').value = waivedDayTotal;
+                monthTotal = sumTime(monthTotal, waivedDayTotal);
+            } else {
+                var lunchBegin = this._setData(dayStr + 'lunch-begin');
+                var lunchEnd = this._setData(dayStr + 'lunch-end');
+                /*var lunchTotal = */this._setData(dayStr + 'lunch-total');
+                var dayBegin = this._setData(dayStr + 'day-begin');
+                var dayEnd = this._setData(dayStr + 'day-end');
+                var dayTotal = this._setData(dayStr + 'day-total');
 
-            if (dayTotal) {
-                monthTotal = sumTime(monthTotal, dayTotal);
+                if (dayTotal) {
+                    monthTotal = sumTime(monthTotal, dayTotal);
+                }
+
+                colorErrorLine(this.year, this.month, day, dayBegin, lunchBegin, lunchEnd, dayEnd);
             }
-
-            colorErrorLine(this.year, this.month, day, dayBegin, lunchBegin, lunchEnd, dayEnd);
         }
         document.getElementById('month-total').value = monthTotal;
         document.getElementById('month-working-days').value = this.workingDays;
@@ -423,7 +436,8 @@ class Calendar {
             weekDay = currentDay.getDay(),
             today = new Date(),
             isToday = (today.getDate() == day && today.getMonth() == month && today.getFullYear() == year),
-            trID = ('tr-' + year + '-' + month + '-' + day);
+            trID = ('tr-' + year + '-' + month + '-' + day),
+            dateStr = currentDay.toISOString().substr(0, 10);
 
         if (!showDay(year, month, day)) {
             if (preferences['hide-non-working-days']) {
@@ -437,6 +451,19 @@ class Calendar {
                     '</tr>\n';
             }
         }
+
+        if (waivedWorkdays.has(dateStr)) {
+            var waivedInfo = waivedWorkdays.get(dateStr);
+            var summaryStr = '<b>Waived day: </b>' + waivedInfo['reason'];
+            var waivedLineHtmlCode =
+                 '<tr'+ (isToday ? ' class="isToday"' : '') + ' id="' + trID + '">' +
+                    '<td class="weekday ti">' + this.options.weekabbrs[weekDay] + '</td>' +
+                    '<td class="day ti">' + day + '</td>' +
+                    '<td class="waived-day-text" colspan="5">' + summaryStr + '</td>' +
+                    '<td class="ti ti-total">' + Calendar._getTotalCode(year, month, day, 'day-total') + '</td>' +
+                '</tr>\n';
+            return waivedLineHtmlCode;
+        } 
 
         var htmlCode =
                  '<tr'+ (isToday ? ' class="isToday"' : '') + ' id="' + trID + '">' +
