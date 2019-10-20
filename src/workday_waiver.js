@@ -80,6 +80,7 @@ function addWaiver() {
 
     //Cleanup
     document.getElementById('reason').value = '';
+    toggleAddButton();
 }
 
 function deleteEntry(day) {
