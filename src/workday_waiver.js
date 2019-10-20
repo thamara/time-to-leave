@@ -37,9 +37,10 @@ function addRowToListTable(day, reason, hours) {
     dayCell.innerHTML = day;
     reasonCell.innerHTML = reason;
     hoursCell.innerHTML = hours;
-    delButtonCell.innerHTML = '<input class="delete-btn" id="delete-' + day + '" type="image" src="../assets/delete.svg" alt="Delete entry" height="12" width="12"></input>';
+    var id = 'delete-' + day;
+    delButtonCell.innerHTML = '<input class="delete-btn" id="' + id + '" type="image" src="../assets/delete.svg" alt="Delete entry" height="12" width="12"></input>';
     
-    $('input[class=\'delete-btn\']').on('click', function() {
+    $('#'+ id).on('click', function() {
         deleteEntry(this.id.replace('delete-', ''));
     });
 }
