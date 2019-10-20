@@ -76,6 +76,9 @@ function addWaiver() {
 }
 
 function deleteEntry(day) {
+    if (!confirm('Are you sure you want to delete waiver on day ' + day + '?')) {
+        return;
+    }
     store.delete(day);
     var table = document.getElementById('waiver-list-table');
     while(table.rows.length > 1) {
