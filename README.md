@@ -57,8 +57,7 @@ npm run package-win
 If you want to help, do read our [contributing](CONTRIBUTING.md) guidelines.
 
 
-### Credits
----
+## Credits
 Icons made by [freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com).
 
 Original Timer icon by [lucy-g](https://icon-icons.com/icon/timer/121243), colored variations and formats modified from it.
