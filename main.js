@@ -1,7 +1,8 @@
-const { app, BrowserWindow, Menu, dialog, ipcMain, Tray } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain, Tray, net } = require('electron');
 const path = require('path');
 const Store = require('electron-store');
 const { shell } = require('electron');
+const isOnline = require('is-online');
 const { notify } = require('./js/notification');
 const { savePreferences } = require('./js/UserPreferences.js');
 const os = require('os');
@@ -19,6 +20,54 @@ const store = new Store();
 const macOS = process.platform === 'darwin';
 var iconpath = path.join(__dirname, macOS ? 'assets/timer.png' : 'assets/timer.ico');
 var trayIcon = path.join(__dirname, macOS ? 'assets/timer-16-Template.png' : 'assets/timer-grey.ico');
+
+function shouldcheckForUpdates() {
+    var lastChecked = store.get('update-remind-me-after');
+    var today = new Date(),
+        todayDate = today.toISOString().substr(0, 10);
+    return !lastChecked || todayDate > lastChecked;
+}
+
+async function checkForUpdates() {
+    var online = await isOnline();
+    if (!online) {
+        return;
+    }
+    
+    const request = net.request('https://api.github.com/repos/thamara/time-to-leave/releases/latest');
+    request.on('response', (response) => {
+        response.on('data', (chunk) => {
+            var result = `${chunk}`;
+            var re = new RegExp('.*(tag_name).*');
+            var matches = result.matchAll(re);
+            for (const match of matches) {
+                var res = match[0].replace(/.*v(\d+\.\d+\.\d+).*/g, '$1');
+                if (app.getVersion() < res) {
+                    const options = {
+                        type: 'question',
+                        buttons: ['Dismiss', 'Download latest version', 'Remind me later'],
+                        defaultId: 1,
+                        title: 'TTL Check for updates',
+                        message: 'You are using an old version of TTL and is missing out on a lot of new cool things!',
+                    };
+              
+                    dialog.showMessageBox(null, options, (response) => {
+                        if (response == 1) {
+                            //Download latest version
+                            shell.openExternal('https://github.com/thamara/time-to-leave/releases/latest');
+                        } else if (response == 2) {
+                            // Remind me later
+                            var today = new Date(),
+                                todayDate = today.toISOString().substr(0, 10);
+                            store.set('update-remind-me-after', todayDate);
+                        }
+                    });
+                }
+            }
+        });
+    });
+    request.end();
+}
 
 function createWindow () {
   // Create the browser window.
@@ -140,6 +189,12 @@ function createWindow () {
                     }
                 },
                 {
+                    label: 'Check for updates',
+                    click () {
+                        checkForUpdates();
+                    }
+                },
+                {
                     type: 'separator'
                 },
                 {
@@ -230,6 +285,10 @@ function createWindow () {
 
         return false;
     });
+
+    if (shouldcheckForUpdates()) {
+        checkForUpdates();
+    }
 }
 
 // This method will be called when Electron has finished

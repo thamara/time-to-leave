@@ -15,7 +15,8 @@ const defaultPreferences = {
     'working-days-friday': true,
     'working-days-saturday': false,
     'working-days-sunday': false,
-    'theme': 'light'
+    'theme': 'light',
+    'update-remind-me-after' : '2019-01-01',
 };
 
 /*
