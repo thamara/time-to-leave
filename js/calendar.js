@@ -461,7 +461,7 @@ class Calendar {
      * Returns the header of the page, with the image, name and a message.
      */
     _getPageHeader (year, month) {
-        var todayBut = '<input id="current-month" type="image" src="assets/calendar.svg" alt="Current Month" height="24" width="24"></input>';
+        var todayBut = '<input id="current-month" type="image" src="assets/calendar.svg" alt="Current Month" title="Go to Current Month" height="24" width="24"></input>';
         var leftBut = '<input id="prev-month" type="image" src="assets/left-arrow.svg" alt="Previous Month" height="24" width="24"></input>';
         var ritghBut = '<input id="next-month" type="image" src="assets/right-arrow.svg" alt="Next Month" height="24" width="24"></input>';
         return '<div class="title-header">'+
