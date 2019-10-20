@@ -20,6 +20,12 @@ const macOS = process.platform === 'darwin';
 var iconpath = path.join(__dirname, macOS ? 'assets/timer.png' : 'assets/timer.ico');
 var trayIcon = path.join(__dirname, macOS ? 'assets/timer-16-Template.png' : 'assets/timer-grey.ico');
 
+function shouldcheckForUpdates() {
+    var lastChecked = store.get('update-remind-me-after');
+    var today = new Date(),
+        todayDate = today.toISOString().substr(0, 10);
+    return !lastChecked || todayDate > lastChecked;
+}
 
 async function checkForUpdates() {
     var online = await isOnline();
@@ -38,7 +44,7 @@ async function checkForUpdates() {
                 if (app.getVersion() < res) {
                     const options = {
                         type: 'question',
-                        buttons: ['Dismiss', 'Download latest version'],
+                        buttons: ['Dismiss', 'Download latest version', 'Remind me later'],
                         defaultId: 1,
                         title: 'TTL Check for updates',
                         message: 'You are using an old version of TTL and is missing out on a lot of new cool things!',
@@ -46,7 +52,13 @@ async function checkForUpdates() {
               
                     dialog.showMessageBox(null, options, (response) => {
                         if (response == 1) {
+                            //Download latest version
                             shell.openExternal('https://github.com/thamara/time-to-leave/releases/latest');
+                        } else if (response == 2) {
+                            // Remind me later
+                            var today = new Date(),
+                                todayDate = today.toISOString().substr(0, 10);
+                            store.set('update-remind-me-after', todayDate);
                         }
                     });
                 }
@@ -247,7 +259,9 @@ function createWindow () {
         return false;
     });
 
-    checkForUpdates();
+    if (shouldcheckForUpdates()) {
+        checkForUpdates();
+    }
 }
 
 // This method will be called when Electron has finished

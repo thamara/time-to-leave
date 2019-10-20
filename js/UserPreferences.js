@@ -14,6 +14,7 @@ const defaultPreferences = {
     'working-days-friday': true,
     'working-days-saturday': false,
     'working-days-sunday': false,
+    'update-remind-me-after' : '2019-01-01',
 };
 
 var derivedPreferences;
