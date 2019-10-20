@@ -18,8 +18,6 @@ const defaultPreferences = {
     'theme': 'light'
 };
 
-var derivedPreferences;
-
 /*
  * Returns the preference file path, considering the userData path
  */
@@ -49,39 +47,51 @@ function readPreferences() {
     return preferences ? preferences : {};
 }
 
+function getDerivedPrefsFromLoadedPrefs(loadedPreferences){
+    var derivedPreferences = {};
+    Object.keys(defaultPreferences).forEach(function(key){
+        derivedPreferences[key] = loadedPreferences[key] || defaultPreferences[key];
+    });
+
+    return defaultPreferences;
+}
+
 /*
- * Returns true if something is missing or invalid in preferences file
+ * initializes users preferences if it is not already exists
+ * or any keys of existing preferences is invalid
  */
-function shouldSaveDerivedPreferencesFile() {
+function initPreferencesFileIfNotExistsOrInvalid() {
     if (!fs.existsSync(getPreferencesFilePath())) {
-        return true;
+        savePreferences(defaultPreferences);
+        return;
     }
 
-    var shouldSaveDerivedPref = false;
+    var shouldSaveDerivedPrefs = false,
+        loadedPrefs = readPreferences(),
+        derivedPrefs = getDerivedPrefsFromLoadedPrefs(loadedPrefs),
+        loadedPref = Object.keys(loadedPrefs).sort(),
+        derivedPrefsKeys = Object.keys(derivedPrefs).sort();
 
     // Validate keys
-    var prefs = readPreferences();
-    derivedPreferences = Object.assign(defaultPreferences, prefs);
-    var loadedPref = Object.keys(prefs).sort();
-    var derivedPrefKeys = Object.keys(derivedPreferences).sort();
-    if (JSON.stringify(loadedPref) != JSON.stringify(derivedPrefKeys)) {
-        shouldSaveDerivedPref = true;
+    if (JSON.stringify(loadedPref) != JSON.stringify(derivedPrefsKeys)) {
+        shouldSaveDerivedPrefs = true;
     }
+
     // Validate the values
-    for(var key of derivedPrefKeys) {
-        var value = derivedPreferences[key];
+    for(var key of derivedPrefsKeys) {
+        var value = derivedPrefs[key];
         switch (key) {
         case 'hours-per-day': {
             if (!validateTime(value)) {
-                derivedPreferences[key] = defaultPreferences[key];
-                shouldSaveDerivedPref = true;
+                derivedPrefs[key] = defaultPreferences[key];
+                shouldSaveDerivedPrefs = true;
             }
             break;
         }
         case 'notification': {
             if (value != 'enabled' && value != 'disabled') {
-                derivedPreferences[key] = defaultPreferences[key];
-                shouldSaveDerivedPref = true;
+                derivedPrefs[key] = defaultPreferences[key];
+                shouldSaveDerivedPrefs = true;
             }
             break;
         }
@@ -93,15 +103,15 @@ function shouldSaveDerivedPreferencesFile() {
         case 'working-days-saturday':
         case 'working-days-sunday': {
             if (value != true && value != false) {
-                derivedPreferences[key] = defaultPreferences[key];
-                shouldSaveDerivedPref = true;
+                derivedPrefs[key] = defaultPreferences[key];
+                shouldSaveDerivedPrefs = true;
             }
             break;
         }
         case 'hide-non-working-days': {
             if (value != true && value != false) {
-                derivedPreferences[key] = defaultPreferences[key];
-                shouldSaveDerivedPref = true;
+                derivedPrefs[key] = defaultPreferences[key];
+                shouldSaveDerivedPrefs = true;
             }
             break;
         }
@@ -109,23 +119,23 @@ function shouldSaveDerivedPreferencesFile() {
             return isValidTheme(value);
         }
         }
-    } 
-    return shouldSaveDerivedPref;
+    }
+
+    if(shouldSaveDerivedPrefs) {
+        savePreferences(derivedPrefs);
+    }
 }
 
 /**
  * Returns the user preferences.
  * @return {{string: any}} Associative array of user settings
  */
-function getUserPreferences() {
-    // Initialize preferences file if it doesn't exists or is invalid
-    if (shouldSaveDerivedPreferencesFile()) {
-        savePreferences(derivedPreferences || defaultPreferences);
-    }
+function getLoadedOrDerivedUserPreferences() {
+    initPreferencesFileIfNotExistsOrInvalid();
     return readPreferences();
 }
 
 module.exports = {
-    getUserPreferences,
+    getUserPreferences: getLoadedOrDerivedUserPreferences,
     savePreferences
 };
