@@ -12,7 +12,7 @@ const {
     hourToMinutes
 } = require('./js/time_math.js');
 const { notify } = require('./js/notification.js');
-const { getUserPreferences } = require('./js/UserPreferences.js');
+const { getUserPreferences, showDay } = require('./js/UserPreferences.js');
 const { applyTheme } = require('./js/Themes.js');
 
 // Global values for calendar
@@ -68,29 +68,6 @@ function hasInputError(dayBegin, lunchBegin, lunchEnd, dayEnd) {
         }
     }
     return false;
-}
-
-/*
- * Returns true if we should display week day.
- */
-function showWeekDay(weekDay) {
-    switch (weekDay) {
-    case 0: return preferences['working-days-sunday'];
-    case 1: return preferences['working-days-monday'];
-    case 2: return preferences['working-days-tuesday'];
-    case 3: return preferences['working-days-wednesday'];
-    case 4: return preferences['working-days-thursday'];
-    case 5: return preferences['working-days-friday'];
-    case 6: return preferences['working-days-saturday'];
-    }
-}
-
-/*
- * Returns true if we should display day.
- */
-function showDay(year, month, day)  {
-    var currentDay = new Date(year, month, day), weekDay = currentDay.getDay();
-    return showWeekDay(weekDay);
 }
 
 /*

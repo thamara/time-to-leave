@@ -136,7 +136,32 @@ function getLoadedOrDerivedUserPreferences() {
     return readPreferences();
 }
 
+/*
+ * Returns true if we should display week day.
+ */
+function showWeekDay(weekDay) {
+    var preferences = getLoadedOrDerivedUserPreferences();
+    switch (weekDay) {
+    case 0: return preferences['working-days-sunday'];
+    case 1: return preferences['working-days-monday'];
+    case 2: return preferences['working-days-tuesday'];
+    case 3: return preferences['working-days-wednesday'];
+    case 4: return preferences['working-days-thursday'];
+    case 5: return preferences['working-days-friday'];
+    case 6: return preferences['working-days-saturday'];
+    }
+}
+
+/*
+ * Returns true if we should display day.
+ */
+function showDay(year, month, day)  {
+    var currentDay = new Date(year, month, day), weekDay = currentDay.getDay();
+    return showWeekDay(weekDay);
+}
+
 module.exports = {
     getUserPreferences: getLoadedOrDerivedUserPreferences,
-    savePreferences
+    savePreferences,
+    showDay
 };
