@@ -1,25 +1,12 @@
 const notifier = require('node-notifier');
 const path = require('path');
 
-/**
- * Notify user it's time to leave.
- */
-function notifyUser() {
-    notifier.notify(
-        {
-            title: 'Time to leave',
-            message: 'Hey there! I think it\'s time to leave.',
-            icon: path.join(path.dirname(require.main.filename), 'assets/timer.png'), // Absolute path (doesn't work on balloons)
-            sound: true, // Only Notification Center or Windows Toasters
-            wait: true
-        },
-      );
-}
+const title = 'Time to Leave';
 
 function notify(msg) {
     notifier.notify(
         {
-            title: 'Time to leave',
+            title: title,
             message: msg,
             icon: path.join(path.dirname(require.main.filename), 'assets/timer.png'), // Absolute path (doesn't work on balloons)
             sound: true, // Only Notification Center or Windows Toasters
@@ -29,6 +16,5 @@ function notify(msg) {
 }
 
 module.exports = {
-    notifyUser,
     notify
 };
