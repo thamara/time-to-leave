@@ -19,26 +19,30 @@
 
         <div class="container-title">Add Waiver</div>
         <div class="add-waiver">
-            <table class="data">
-                <tbody>
-                <tr>
-                    <td>Date</td>
-                    <td><input id="date" type="date"></td>
-                </tr>
-                <tr>
-                    <td>Hours</td>
-                    <td><input id="hours" type="time"></td>
-                </tr>
-                <tr>
-                    <td>Reason</td>
-                    <td colspan="3"><input id="reason" type="text" maxlength="30" size="60" placeholder="Reason for the waiver"></td>
-                </tr>
-                </tbody>
-            </table>
-            <br>
-            <button class="waive-button" id="waive-button">
-                Waive
-            </button>
+            <form>
+                <table class="data">
+                    <tbody>
+                    <tr>
+                        <td>Date</td>
+                        <td><input id="date" type="date"></td>
+                    </tr>
+                    <tr>
+                        <td>Hours</td>
+                        <td>
+                            <input type="text" id="hours" maxlength=8 pattern="^\d+:\d+$" placeholder="HH:mm" size=8>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Reason</td>
+                        <td colspan="3"><input id="reason" type="text" maxlength="30" size="60" placeholder="Reason for the waiver"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button class="waive-button" id="waive-button">
+                    Waive
+                </button>
+            </form>
         </div>
 
         <div class="container-title">Waived workday list</div>

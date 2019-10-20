@@ -1,4 +1,5 @@
 const { getUserPreferences, showDay } = require('../js/UserPreferences.js');
+const { validateTime } = require('../js/time_math.js');
 const Store = require('electron-store');
 
 const store = new Store({name: 'waived-workdays'});
@@ -56,6 +57,11 @@ function addWaiver() {
     var date = document.getElementById('date').value,
         reason = document.getElementById('reason').value,
         hours = document.getElementById('hours').value;
+
+    if (!(validateTime(hours))) {
+        // The error is shown in the page, no need to handle it here
+        return;
+    }
 
     if (store.has(date)) {
         alert('You already have a waiver on this day. Remove it before adding a new one.');
