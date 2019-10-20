@@ -1,4 +1,4 @@
-const { getUserPreferences } = require('../js/UserPreferences.js');
+const { getUserPreferences, showDay } = require('../js/UserPreferences.js');
 const Store = require('electron-store');
 
 const store = new Store({name: 'waived-workdays'});
@@ -15,7 +15,7 @@ function setHours() {
     document.getElementById('hours').value = usersStyles['hours-per-day'];
 }
 
-function enableDisableAddButton() {
+function toggleAddButton() {
     var value = document.getElementById('reason').value;
     if(value.length > 0){
         $('#waive-button').removeAttr('disabled');
@@ -62,6 +62,12 @@ function addWaiver() {
         return;
     }
 
+    var [year, month, day] = date.split('-');
+    if (!showDay(year, month - 1, day)) {
+        alert('This is not a working day.');
+        return;
+    }
+
     store.set(date, { 'reason' : reason, 'hours' : hours });
     addRowToListTable(date, reason, hours);
 
@@ -81,12 +87,12 @@ function deleteEntry(day) {
 $(() => {
     setToday();
     setHours();
-    enableDisableAddButton();
+    toggleAddButton();
 
     populateList();
 
     $('#reason').on('keyup', function() {
-        enableDisableAddButton();
+        toggleAddButton();
     });
 
     $('#waive-button').on('click', function() {
