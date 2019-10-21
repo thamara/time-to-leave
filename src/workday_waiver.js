@@ -1,5 +1,6 @@
 const { getUserPreferences, showDay } = require('../js/UserPreferences.js');
 const { validateTime } = require('../js/time_math.js');
+const { applyTheme } = require('../js/Themes.js');
 const Store = require('electron-store');
 
 const store = new Store({name: 'waived-workdays'});
@@ -96,6 +97,9 @@ function deleteEntry(day) {
 }
 
 $(() => {
+    let prefs = getUserPreferences();
+    applyTheme(prefs.theme);
+
     setToday();
     setHours();
     toggleAddButton();
