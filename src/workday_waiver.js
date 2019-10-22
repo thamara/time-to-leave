@@ -1,5 +1,5 @@
 const { getUserPreferences, showDay } = require('../js/UserPreferences.js');
-const { validateTime } = require('../js/time_math.js');
+const { validateTime, diffDays } = require('../js/time_math.js');
 const { applyTheme } = require('../js/Themes.js');
 const Store = require('electron-store');
 
@@ -10,7 +10,8 @@ let usersStyles =  getUserPreferences();
 
 function setToday () {
     var today = new Date();
-    document.getElementById('date').value = today.toISOString().substr(0, 10);
+    document.getElementById('start_date').value = today.toISOString().substr(0, 10);
+    document.getElementById('end_date').value = today.toISOString().substr(0, 10);
 }
 
 function setHours() {
@@ -56,7 +57,8 @@ function populateList() {
 }
 
 function addWaiver() {
-    var date = document.getElementById('date').value,
+    var start_date = new Date(document.getElementById('start_date').value),
+        end_date = new Date(document.getElementById('end_date').value),
         reason = document.getElementById('reason').value,
         hours = document.getElementById('hours').value;
 
@@ -65,19 +67,24 @@ function addWaiver() {
         return;
     }
 
-    if (store.has(date)) {
-        alert('You already have a waiver on this day. Remove it before adding a new one.');
-        return;
-    }
+    var temp_date = start_date;
 
-    var [year, month, day] = date.split('-');
-    if (!showDay(year, month - 1, day)) {
-        alert('This is not a working day.');
-        return;
-    }
+    var diff = diffDays(start_date, end_date);
 
-    store.set(date, { 'reason' : reason, 'hours' : hours });
-    addRowToListTable(date, reason, hours);
+    for (var i = 0; i <= diff; i++) {
+        var temp_year = temp_date.getFullYear(),
+            temp_month = temp_date.getMonth(),
+            temp_day = temp_date.getDay();
+
+        var temp_date_str = temp_date.toISOString().substr(0, 10);
+
+        if (showDay(temp_year, temp_month - 1, temp_day) && !store.has(temp_date)) {
+            store.set(temp_date_str, { 'reason' : reason, 'hours' : hours });
+            addRowToListTable(temp_date_str, reason, hours);
+        }
+
+        temp_date.setDate(temp_date.getDate() + 1);
+    }
 
     //Cleanup
     document.getElementById('reason').value = '';
