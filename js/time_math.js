@@ -82,6 +82,11 @@ function validateTime(time) {
     return re.test(time);
 }
 
+/**
+ * Get a difference between two dates.
+ * date1, or date2 should be javascript Date instance.
+ * @return Number
+ */
 function diffDays(date1, date2) {
     const diffTime = Math.abs(date2 - date1);
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
