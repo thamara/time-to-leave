@@ -85,30 +85,6 @@ function createWindow () {
             label: 'Menu',
             submenu: [
                 {
-                    label: 'Preferences',
-                    accelerator: macOS ? 'Command+,' : 'Control+,',
-                    click () {
-                        const htmlPath = path.join('file://', __dirname, 'src/preferences.html');
-                        let prefWindow = new BrowserWindow({ width: 600,
-                            height: 450,
-                            parent: win,
-                            resizable: false,
-                            icon: iconpath,
-                            webPreferences: {
-                                nodeIntegration: true
-                            } });
-                        prefWindow.setMenu(null);
-                        prefWindow.loadURL(htmlPath);
-                        prefWindow.show();
-                        //prefWindow.webContents.openDevTools()
-                        prefWindow.on('close', function () {
-                            prefWindow = null;
-                            savePreferences(savedPreferences);
-                            win.webContents.send('PREFERENCE_SAVED', savedPreferences);
-                        });
-                    },
-                },
-                {
                     label: 'Workday Waiver Manager',
                     click () {
                         const htmlPath = path.join('file://', __dirname, 'src/workday_waiver.html');
@@ -129,27 +105,7 @@ function createWindow () {
                         });
                     },
                 },
-                {
-                    label:'Clear database', 
-                    click() { 
-                        const options = {
-                            type: 'question',
-                            buttons: ['Cancel', 'Yes, please', 'No, thanks'],
-                            defaultId: 2,
-                            title: 'Clear database',
-                            message: 'Are you sure you want to clear all the data?',
-                        };
-
-                        dialog.showMessageBox(null, options, (response) => {
-                            if (response == 1) {
-                                store.clear();
-                                waivedWorkdays.clear();
-                                win.reload();
-                            }
-                        });
-                    }
-                },
-                {type:'separator'},
+                {type: 'separator'},
                 {
                     label:'Exit',
                     accelerator: macOS ? 'CommandOrControl+Q' : 'Control+Q',
@@ -182,7 +138,52 @@ function createWindow () {
                     label: 'Select All',
                     accelerator: 'Command+A',
                     selector: 'selectAll:'
-                }
+                },
+                {type: 'separator'},
+                {
+                    label: 'Preferences',
+                    accelerator: macOS ? 'Command+,' : 'Control+,',
+                    click () {
+                        const htmlPath = path.join('file://', __dirname, 'src/preferences.html');
+                        let prefWindow = new BrowserWindow({ width: 600,
+                            height: 450,
+                            parent: win,
+                            resizable: false,
+                            icon: iconpath,
+                            webPreferences: {
+                                nodeIntegration: true
+                            } });
+                        prefWindow.setMenu(null);
+                        prefWindow.loadURL(htmlPath);
+                        prefWindow.show();
+                        //prefWindow.webContents.openDevTools()
+                        prefWindow.on('close', function () {
+                            prefWindow = null;
+                            savePreferences(savedPreferences);
+                            win.webContents.send('PREFERENCE_SAVED', savedPreferences);
+                        });
+                    },
+                },
+                {
+                    label:'Clear database', 
+                    click() { 
+                        const options = {
+                            type: 'question',
+                            buttons: ['Cancel', 'Yes, please', 'No, thanks'],
+                            defaultId: 2,
+                            title: 'Clear database',
+                            message: 'Are you sure you want to clear all the data?',
+                        };
+
+                        dialog.showMessageBox(null, options, (response) => {
+                            if (response == 1) {
+                                store.clear();
+                                waivedWorkdays.clear();
+                                win.reload();
+                            }
+                        });
+                    }
+                },
             ]
         },
         {
