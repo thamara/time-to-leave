@@ -4,7 +4,7 @@ const Store = require('electron-store');
 const { shell } = require('electron');
 const isOnline = require('is-online');
 const { notify } = require('./js/notification');
-const { savePreferences } = require('./js/user-preferences.js');
+const { savePreferences } = require('./js/user_preferences.js');
 const os = require('os');
 
 let savedPreferences = null;
