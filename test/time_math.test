@@ -4,7 +4,7 @@ const {
     subtractTime, 
     sumTime, 
     validateTime
-} = require('../js/time_math.js');
+} = require('../js/time-math.js');
 
 // Format hours test
 test('Format hours 00:01', (t) => {

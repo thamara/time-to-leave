@@ -10,9 +10,9 @@ const {
     sumTime,
     validateTime,
     hourToMinutes
-} = require('./js/time_math.js');
+} = require('./js/time-math.js');
 const { notify } = require('./js/notification.js');
-const { getUserPreferences, showDay } = require('./js/user_preferences.js');
+const { getUserPreferences, showDay } = require('./js/user-preferences.js');
 const { applyTheme } = require('./js/themes.js');
 
 // Global values for calendar

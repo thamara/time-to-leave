@@ -1,7 +1,7 @@
 const electron = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { validateTime } = require('./time_math.js');
+const { validateTime } = require('./time-math.js');
 const { isValidTheme } = require('./themes.js');
 
 const defaultPreferences = {

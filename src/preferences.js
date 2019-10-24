@@ -1,6 +1,6 @@
 const { ipcRenderer } = require('electron');
-const { getUserPreferences } = require('../js/UserPreferences.js');
-const { applyTheme } = require('../js/Themes.js');
+const { getUserPreferences } = require('../js/user-preferences.js');
+const { applyTheme } = require('../js/themes.js');
 
 // Global values for preferences page
 let usersStyles =  getUserPreferences();
