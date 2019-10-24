@@ -12,7 +12,7 @@ const {
     hourToMinutes
 } = require('./js/time_math.js');
 const { notify } = require('./js/notification.js');
-const { getUserPreferences, showDay } = require('./js/UserPreferences.js');
+const { getUserPreferences, showDay } = require('./js/user-preferences.js');
 const { applyTheme } = require('./js/Themes.js');
 
 // Global values for calendar
