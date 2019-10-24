@@ -72,6 +72,18 @@ function addWaiver() {
     var diff = diffDays(start_date, end_date);
 
     for (var i = 0; i <= diff; i++) {
+        var temp_date_str = temp_date.toISOString().substr(0, 10);
+
+        if (store.has(temp_date_str)) {
+            alert('You already have a waiver in range of this day. Remove it before adding a new one.');
+
+            return;
+        }
+
+        temp_date.setDate(temp_date.getDate() + 1);
+    }
+
+    for (var i = 0; i <= diff; i++) {
         var temp_year = temp_date.getFullYear(),
             temp_month = temp_date.getMonth(),
             temp_day = temp_date.getDay();
