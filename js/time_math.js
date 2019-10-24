@@ -88,7 +88,7 @@ function validateTime(time) {
  * @return Number
  */
 function diffDays(date1, date2) {
-    const diffTime = Math.abs(date2 - date1);
+    const diffTime = date2 - date1;
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
 

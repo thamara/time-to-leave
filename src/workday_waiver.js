@@ -71,13 +71,15 @@ function addWaiver() {
 
     var diff = diffDays(start_date, end_date);
 
+    if (diff < 0) {
+        alert('End date cannot be less than start date.');
+    }
+
     for (var i = 0; i <= diff; i++) {
         var temp_date_str = temp_date.toISOString().substr(0, 10);
 
         if (store.has(temp_date_str)) {
-            alert('You already have a waiver in range of this day. Remove it before adding a new one.');
-
-            return;
+            alert(`You already have a waiver on ${temp_date_str}. Remove it before adding a new one.`);
         }
 
         temp_date.setDate(temp_date.getDate() + 1);
