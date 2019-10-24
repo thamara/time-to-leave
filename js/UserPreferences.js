@@ -117,7 +117,7 @@ function initPreferencesFileIfNotExistsOrInvalid() {
             break;
         }
         case 'theme' : {
-            return isValidTheme(value);
+            shouldSaveDerivedPrefs |= !isValidTheme(value);
         }
         }
     }
