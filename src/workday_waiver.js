@@ -83,12 +83,12 @@ function addWaiver() {
         temp_date.setDate(temp_date.getDate() + 1);
     }
 
-    for (var i = 0; i <= diff; i++) {
+    for (i = 0; i <= diff; i++) {
         var temp_year = temp_date.getFullYear(),
             temp_month = temp_date.getMonth(),
             temp_day = temp_date.getDay();
 
-        var temp_date_str = temp_date.toISOString().substr(0, 10);
+        temp_date_str = temp_date.toISOString().substr(0, 10);
 
         if (showDay(temp_year, temp_month - 1, temp_day) && !store.has(temp_date_str)) {
             store.set(temp_date_str, { 'reason' : reason, 'hours' : hours });
