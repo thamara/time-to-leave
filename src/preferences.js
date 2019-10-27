@@ -4,7 +4,7 @@ const { applyTheme } = require('../js/Themes.js');
 
 // Global values for preferences page
 let usersStyles =  getUserPreferences();
-let preferences = {};
+let preferences = usersStyles;
 
 $(() => {
     // Theme-handling should be towards the top. Applies theme early so it's more natural.
