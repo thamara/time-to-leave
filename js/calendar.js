@@ -191,8 +191,10 @@ class Calendar {
 
         if (!showDay(this.today.getFullYear(), this.today.getMonth(), this.today.getDate())) {
             document.getElementById('punch-button').disabled = true;
+            ipcRenderer.send('TOGGLE_TRAY_PUNCH_TIME', false);
         } else {
             document.getElementById('punch-button').disabled = false;
+            ipcRenderer.send('TOGGLE_TRAY_PUNCH_TIME', true);
         }
 
         this.updateLeaveBy();
@@ -376,8 +378,10 @@ class Calendar {
         if (dayBegin.length && lunchBegin.length && lunchEnd.length && dayEnd.length) {
             //All entries computed
             document.getElementById('punch-button').disabled = true;
+            ipcRenderer.send('TOGGLE_TRAY_PUNCH_TIME', false);
         } else {
             document.getElementById('punch-button').disabled = false;
+            ipcRenderer.send('TOGGLE_TRAY_PUNCH_TIME', true);
         }
     }
 
