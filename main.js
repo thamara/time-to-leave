@@ -4,7 +4,7 @@ const Store = require('electron-store');
 const { shell } = require('electron');
 const isOnline = require('is-online');
 const { notify } = require('./js/notification');
-const { savePreferences } = require('./js/UserPreferences.js');
+const { savePreferences } = require('./js/user-preferences.js');
 const os = require('os');
 
 let savedPreferences = null;
@@ -91,7 +91,7 @@ function createWindow () {
                 {
                     label: 'Workday Waiver Manager',
                     click () {
-                        const htmlPath = path.join('file://', __dirname, 'src/workday_waiver.html');
+                        const htmlPath = path.join('file://', __dirname, 'src/workday-waiver.html');
                         let waiverWindow = new BrowserWindow({ width: 600, 
                             height: 500, 
                             parent: win,

@@ -1,6 +1,6 @@
-const { getUserPreferences, showDay } = require('../js/UserPreferences.js');
-const { validateTime, diffDays } = require('../js/time_math.js');
-const { applyTheme } = require('../js/Themes.js');
+const { getUserPreferences, showDay } = require('../js/user-preferences.js');
+const { validateTime, diffDays } = require('../js/time-math.js');
+const { applyTheme } = require('../js/themes.js');
 const Store = require('electron-store');
 
 const store = new Store({name: 'waived-workdays'});
