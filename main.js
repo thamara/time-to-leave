@@ -91,7 +91,7 @@ function createWindow () {
                 {
                     label: 'Workday Waiver Manager',
                     click () {
-                        const htmlPath = path.join('file://', __dirname, 'src/workday-waiver.html');
+                        const htmlPath = path.join('file://', __dirname, 'src/workday_waiver.html');
                         let waiverWindow = new BrowserWindow({ width: 600, 
                             height: 500, 
                             parent: win,
