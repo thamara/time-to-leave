@@ -27,6 +27,17 @@ var trayIcon = path.join(__dirname, macOS ? 'assets/timer-16-Template.png' : 'as
 var contextMenu;
 var launchDate = new Date();
 
+// Logic for recommending user to punch in when they've been idle for too long
+var recommendPunchIn = false;
+setTimeout(() => { recommendPunchIn = true; }, 30 * 60 * 1000);
+
+function checkIdleAndNotify() {
+    if (recommendPunchIn) {
+        recommendPunchIn = false;
+        notify('Don\'t forget to punch in!');
+    }
+}
+
 function shouldcheckForUpdates() {
     var lastChecked = store.get('update-remind-me-after');
     var today = new Date(),
@@ -357,6 +368,9 @@ function createWindow () {
 app.on('ready', createWindow);
 app.on('ready', () => {
     setInterval(refreshOnDayChange, 60 * 60 * 1000);
+    const { powerMonitor } = require('electron');
+    powerMonitor.on('unlock-screen', () => { checkIdleAndNotify(); });
+    powerMonitor.on('resume', () => { checkIdleAndNotify(); });
 });
 
 // Quit when all windows are closed.
