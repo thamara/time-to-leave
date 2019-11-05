@@ -58,7 +58,7 @@ async function checkForUpdates(showUpToDateDialog) {
             var re = new RegExp('.*(tag_name).*');
             var matches = result.matchAll(re);
             for (const match of matches) {
-                var res = match[0].replace(/.*v(\d+\.\d+\.\d+).*/g, '$1');
+                var res = match[0].replace(/.*v.(\d+\.\d+\.\d+).*/g, '$1');
                 if (app.getVersion() < res) {
                     const options = {
                         type: 'question',
