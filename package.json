@@ -5,8 +5,8 @@
   "description": "Log work hours and get notified when it's time to leave the office and start to live.",
   "homepage": "https://github.com/thamara/time-to-leave#readme",
   "repository": {
-    "type" : "git",
-    "url" : "github:thamara/time-to-leave.git"
+    "type": "git",
+    "url": "github:thamara/time-to-leave.git"
   },
   "main": "main.js",
   "scripts": {
@@ -17,11 +17,14 @@
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icon-mac.icns --prune=true --out=release-builds",
     "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/timer.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Time to Leave\""
   },
-  "pre-commit": [ "lint-fix","test" ],
+  "pre-commit": [
+    "lint-fix",
+    "test"
+  ],
   "author": "Thamara Andrade",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^6.0.9",
+    "electron": "^7.0.1",
     "electron-eslint": "^3.12.2",
     "electron-packager": "^14.0.6",
     "mocha": "^6.2.0",
