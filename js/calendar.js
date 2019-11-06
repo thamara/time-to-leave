@@ -315,35 +315,37 @@ class Calendar {
                 continue;
             }
 
-            var isToday = (this.today.getDate() === day && this.today.getMonth() === this.month && this.today.getFullYear() === this.year);
-            if (isToday) {
-                break;
-            }
-            this.workingDays += 1;
-
             var currentDay = new Date(this.year, this.month, day),
                 dateStr = currentDay.toISOString().substr(0, 10);
 
+            var dayTotal = null;
             var dayStr = this.year + '-' + this.month + '-' + day + '-';
             if (waivedWorkdays.has(dateStr)) {
                 var waivedInfo = waivedWorkdays.get(dateStr);
                 var waivedDayTotal = waivedInfo['hours'];
                 document.getElementById(dayStr + 'day-total').value = waivedDayTotal;
-                monthTotal = sumTime(monthTotal, waivedDayTotal);
+                dayTotal = waivedDayTotal;
             } else {
                 var lunchBegin = this._setData(dayStr + 'lunch-begin');
                 var lunchEnd = this._setData(dayStr + 'lunch-end');
-                /*var lunchTotal = */this._setData(dayStr + 'lunch-total');
+                this._setData(dayStr + 'lunch-total');
                 var dayBegin = this._setData(dayStr + 'day-begin');
                 var dayEnd = this._setData(dayStr + 'day-end');
-                var dayTotal = this._setData(dayStr + 'day-total');
-
-                if (dayTotal) {
-                    monthTotal = sumTime(monthTotal, dayTotal);
-                }
+                dayTotal = this._setData(dayStr + 'day-total');
 
                 colorErrorLine(this.year, this.month, day, dayBegin, lunchBegin, lunchEnd, dayEnd);
             }
+
+            var isToday = (this.today.getDate() === day && this.today.getMonth() === this.month && this.today.getFullYear() === this.year);
+            if (isToday) {
+                break;
+            }
+
+            if (dayTotal) {
+                monthTotal = sumTime(monthTotal, dayTotal);
+            }
+
+            this.workingDays += 1;
         }
         var monthDayInput = document.getElementById('month-day-input');
         if (monthDayInput)
