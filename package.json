@@ -36,6 +36,6 @@
   "dependencies": {
     "electron-store": "^5.0.0",
     "is-online": "^8.2.0",
-    "node-notifier": "^5.4.3"
+    "node-notifier": "^6.0.0"
   }
 }
