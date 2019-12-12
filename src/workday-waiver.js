@@ -56,6 +56,10 @@ function populateList() {
     }
 }
 
+function getDateFromISOStr(isoStr) {
+    return isoStr.split('-');
+}
+
 function addWaiver() {
     var start_date = new Date(document.getElementById('start_date').value),
         end_date = new Date(document.getElementById('end_date').value),
@@ -87,11 +91,8 @@ function addWaiver() {
 
     temp_date.setDate(start_date.getDate());
     for (i = 0; i <= diff; i++) {
-        var temp_year = temp_date.getFullYear(),
-            temp_month = temp_date.getMonth(),
-            temp_day = temp_date.getDay();
-
         temp_date_str = temp_date.toISOString().substr(0, 10);
+        var [temp_year, temp_month, temp_day] = getDateFromISOStr(temp_date_str);
         if (showDay(temp_year, temp_month, temp_day) && !store.has(temp_date_str)) {
             store.set(temp_date_str, { 'reason' : reason, 'hours' : hours });
             addRowToListTable(temp_date_str, reason, hours);
