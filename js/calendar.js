@@ -465,7 +465,7 @@ class Calendar {
     /*
      * Returns the code of a calendar row
      */
-    _getInputsRowCode (year, month, day, balanceRowPosition) {
+    _getInputsRowCode (year, month, day) {
         var currentDay = new Date(year, month, day),
             weekDay = currentDay.getDay(),
             today = new Date(),
@@ -474,15 +474,14 @@ class Calendar {
             dateStr = currentDay.toISOString().substr(0, 10);
 
         if (!showDay(year, month, day)) {
-            if (preferences['hide-non-working-days']) {
-                return '';
-            }
-            else {
-                return  '<tr'+ (isToday ? ' class="today-non-working"' : '') + ' id="' + trID + '">' +
+            if (!preferences['hide-non-working-days']) {
+                return '<tr'+ (isToday ? ' class="today-non-working"' : '') + ' id="' + trID + '">' +
                         '<td class="weekday ti">' + this.options.weekabbrs[weekDay] + '</td>' +
                         '<td class="day ti">' + day + '</td>' +
                         '<td class="day non-working-day" colspan="6">' + '</td>' +
                     '</tr>\n';
+            } else {
+                return '';
             }
         }
 
@@ -513,10 +512,6 @@ class Calendar {
                     '<td class="ti">' + Calendar._getInputCode(year, month, day, 'day-end') + '</td>' +
                     '<td class="ti ti-total">' + Calendar._getTotalCode(year, month, day, 'day-total') + '</td>' +
                 '</tr>\n';
-
-        if (day === balanceRowPosition) {
-            htmlCode += Calendar._getBalanceRowCode();
-        }
 
         if (isToday) {
             htmlCode += Calendar._getSummaryRowCode();
@@ -592,7 +587,10 @@ class Calendar {
         var balanceRowPosition = this._getBalanceRowPosition();
         
         for (var day = 1; day <= monthLength; ++day) {
-            html += this._getInputsRowCode(this.year, this.month, day, balanceRowPosition);
+            html += this._getInputsRowCode(this.year, this.month, day);
+            if (day === balanceRowPosition) {
+                html += Calendar._getBalanceRowCode();
+            }
         }
         html += '</table><br>';
         html += '</div>';
