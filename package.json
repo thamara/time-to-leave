@@ -11,6 +11,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "mocha": "mocha",
     "test": "node test/time_math.test | tap-spec",
     "lint": "./node_modules/.bin/eslint *.js src/ js/ test/",
     "lint-fix": "./node_modules/.bin/eslint *.js src/ js/ test/ --fix",
