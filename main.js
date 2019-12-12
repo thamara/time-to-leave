@@ -67,18 +67,16 @@ async function checkForUpdates(showUpToDateDialog) {
                         title: 'TTL Check for updates',
                         message: 'You are using an old version of TTL and is missing out on a lot of new cool things!',
                     };
-              
-                    dialog.showMessageBox(null, options, (response) => {
-                        if (response === 1) {
-                            //Download latest version
-                            shell.openExternal('https://github.com/thamara/time-to-leave/releases/latest');
-                        } else if (response === 2) {
-                            // Remind me later
-                            var today = new Date(),
-                                todayDate = today.toISOString().substr(0, 10);
-                            store.set('update-remind-me-after', todayDate);
-                        }
-                    });
+                    let response = dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), options);
+                    if (response === 1) {
+                        //Download latest version
+                        shell.openExternal('https://github.com/thamara/time-to-leave/releases/latest');
+                    } else if (response === 2) {
+                        // Remind me later
+                        var today = new Date(),
+                            todayDate = today.toISOString().substr(0, 10);
+                        store.set('update-remind-me-after', todayDate);
+                    }
                 } else {
                     if (showUpToDateDialog)
                     {
@@ -208,13 +206,20 @@ function createWindow () {
                             message: 'Are you sure you want to clear all the data?',
                         };
 
-                        dialog.showMessageBox(null, options, (response) => {
-                            if (response === 1) {
-                                store.clear();
-                                waivedWorkdays.clear();
-                                win.reload();
-                            }
-                        });
+                        let response = dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), options);
+                        if (response === 1) {
+                            store.clear();
+                            waivedWorkdays.clear();
+                            win.reload();
+                            dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
+                            {
+                                title: 'Time to Leave',
+                                message: 'Clear Database',
+                                type: 'info',
+                                icon: iconpath,
+                                detail: `\nAll cleared!`
+                            });
+                        }
                     }
                 },
             ]
