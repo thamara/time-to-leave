@@ -212,13 +212,13 @@ function createWindow () {
                             waivedWorkdays.clear();
                             win.reload();
                             dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
-                            {
-                                title: 'Time to Leave',
-                                message: 'Clear Database',
-                                type: 'info',
-                                icon: iconpath,
-                                detail: `\nAll cleared!`
-                            });
+                                {
+                                    title: 'Time to Leave',
+                                    message: 'Clear Database',
+                                    type: 'info',
+                                    icon: iconpath,
+                                    detail: '\nAll cleared!'
+                                });
                         }
                     }
                 },
