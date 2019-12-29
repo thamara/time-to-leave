@@ -302,24 +302,8 @@ function createWindow () {
         }
     });
 
-
     Menu.setApplicationMenu(menu);
-
-    const dockMenu = Menu.buildFromTemplate([
-        {
-            label: 'Punch time', click: function () {
-                var now = new Date();
-
-                win.webContents.executeJavaScript('punchDate()');
-                // Slice keeps "HH:MM" part of "HH:MM:SS GMT+HHMM (GMT+HH:MM)" time string
-                notify(`Punched time ${now.toTimeString().slice(0,5)}`);
-            }
-        }
-    ]);
-
     if (macOS) {
-        // Use the macOS dock if we've got it
-        app.dock.setMenu(dockMenu);
         win.maximize();
     } else {
         win.setMenu(menu);
@@ -349,6 +333,7 @@ function createWindow () {
         {
             label: 'Quit', click: function () {
                 app.isQuiting = true;
+                win = null;
                 app.quit();
             }
         }
@@ -376,13 +361,14 @@ function createWindow () {
     });
 
     // Emitted when the window is closed.
-    win.on('closed', function (event) {
-        if(app.isQuiting !== undefined && !app.isQuiting){
+    win.on('close', function (event) {
+        if(!app.isQuiting){
             event.preventDefault();
             win.hide();
+        } else if(app.isQuitting){
+            win = null;
+            app.quit();
         }
-
-        return false;
     });
 
     if (shouldcheckForUpdates()) {
@@ -412,6 +398,8 @@ app.on('activate', () => {
     // dock icon is clicked and there are no other windows open.
     if (win === null) {
         createWindow();
+    } else {
+        win.show();
     }
 });
 
