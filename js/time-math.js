@@ -1,7 +1,7 @@
 /**
  * Formats hour, min into string HH:MM
  */
-function hourMinToHourFormated (hours, minutes) {
+function hourMinToHourFormated(hours, minutes) {
     var paddingHour = hours < 10 ?  '0' : '';
     var paddingMin = minutes < 10 ?  '0' : '';
     return paddingHour + hours +
@@ -35,7 +35,7 @@ function hourToMinutes(time) {
 /**
  * Formats a given amount of minutes into string HH:MM
  */
-function minutesToHourFormated (min) {
+function minutesToHourFormated(min) {
     var signStr = min < 0 ? '-' : '';
     if (min < 0) {
         min = Math.abs(min);
@@ -49,7 +49,7 @@ function minutesToHourFormated (min) {
  * Subtracts time first from second (t2 - t1)
  * Time should be formated as HH:MM
  */
-function subtractTime (t1, t2) {
+function subtractTime(t1, t2) {
     var diffMin = hourToMinutes(t2) - hourToMinutes(t1);
     return minutesToHourFormated(diffMin);
 }
@@ -58,7 +58,7 @@ function subtractTime (t1, t2) {
  * Multiplies t * n
  * Time should be formated as HH:MM
  */
-function multiplyTime (t, n) {
+function multiplyTime(t, n) {
     var totalMin = hourToMinutes(t);
     totalMin = totalMin * n;
     return minutesToHourFormated(totalMin);

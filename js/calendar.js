@@ -29,7 +29,7 @@ let calendar = null;
 /*
  * Get nofified when preferences has been updated.
  */
-ipcRenderer.on('PREFERENCE_SAVED', function (event, inputs) {
+ipcRenderer.on('PREFERENCE_SAVED', function(event, inputs) {
     preferences = inputs;
     calendar.redraw();
     applyTheme(preferences.theme);
@@ -411,7 +411,7 @@ class Calendar {
     /*
      * Returns the time input html code of a date
      */
-    static _getInputCode (year, month, day, type) {
+    static _getInputCode(year, month, day, type) {
         var idTag = year + '-' + month + '-' + day + '-' + type;
 
         return '<input type="time" id="' + idTag + '"' +
@@ -423,7 +423,7 @@ class Calendar {
     /*
      * Returns the total field html code of a date
      */
-    static _getTotalCode (year, month, day, type) {
+    static _getTotalCode(year, month, day, type) {
         return '<input type="text" class="total-input" id="' +
                year + '-' + month + '-' + day + '-' + type +
                '" size="5"' +
@@ -434,7 +434,7 @@ class Calendar {
     /*
      * Returns the summary field html code
      */
-    static _getSummaryRowCode () {
+    static _getSummaryRowCode() {
         var leaveByCode = '<input type="text" id="leave-by" size="5" disabled>';
         var summaryStr = 'Based on the time you arrived today, you should leave by';
         var code = '<tr class="summary">' +
@@ -447,7 +447,7 @@ class Calendar {
     /*
      * Returns the html code for the row with workng days, month total and balance
      */
-    static _getBalanceRowCode () {
+    static _getBalanceRowCode() {
         return '<tr>' +
               '<tr class="month-total-row">' +
                   '<td class="month-total-text" title="Last day used for balance">On</td>' +
@@ -465,7 +465,7 @@ class Calendar {
     /*
      * Returns the code of a calendar row
      */
-    _getInputsRowCode (year, month, day) {
+    _getInputsRowCode(year, month, day) {
         var currentDay = new Date(year, month, day),
             weekDay = currentDay.getDay(),
             today = new Date(),
@@ -523,7 +523,7 @@ class Calendar {
     /*
      * Returns the header of the page, with the image, name and a message.
      */
-    _getPageHeader (year, month) {
+    _getPageHeader(year, month) {
         var todayBut = '<input id="current-month" type="image" src="assets/calendar.svg" alt="Current Month" title="Go to Current Month" height="24" width="24"></input>';
         var leftBut = '<input id="prev-month" type="image" src="assets/left-arrow.svg" alt="Previous Month" height="24" width="24"></input>';
         var ritghBut = '<input id="next-month" type="image" src="assets/right-arrow.svg" alt="Next Month" height="24" width="24"></input>';
@@ -543,7 +543,7 @@ class Calendar {
     /*
      * Returns the code of the header of the calendar table
      */
-    _getTableHeaderCode () {
+    _getTableHeaderCode() {
         return '<thead>' +
                 '<tr>' +
                     '<th class="th th-label th-day-name dayheader" colspan="2">Day</th>' +
@@ -641,11 +641,9 @@ function updateTimeDay(year, month, day, key, newValue) {
     if (validateTime(newValue)) {
         //update db
         store.set(dayStr, newValue);
-    } else {
-        if (oldValue && validateTime(oldValue)) {
-            store.delete(dayStr);
+    } else if (oldValue && validateTime(oldValue)) {
+        store.delete(dayStr);
             //remve entry from db
-        }
     }
 
     var oldDayTotal = store.get(baseStr + 'day-total');

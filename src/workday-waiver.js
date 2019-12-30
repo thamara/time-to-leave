@@ -9,7 +9,7 @@ const store = new Store({name: 'waived-workdays'});
 // Global values
 let usersStyles =  getUserPreferences();
 
-function setDates (day) {
+function setDates(day) {
     document.getElementById('start_date').value = day;
     document.getElementById('end_date').value = day;
 }
@@ -20,7 +20,7 @@ function setHours() {
 
 function toggleAddButton() {
     var value = document.getElementById('reason').value;
-    if(value.length > 0){
+    if (value.length > 0) {
         $('#waive-button').removeAttr('disabled');
     } 
     else {
@@ -112,7 +112,7 @@ function deleteEntry(day) {
     }
     store.delete(day);
     var table = document.getElementById('waiver-list-table');
-    while(table.rows.length > 1) {
+    while (table.rows.length > 1) {
         table.deleteRow(1);
     }
     populateList();

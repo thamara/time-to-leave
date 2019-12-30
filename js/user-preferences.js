@@ -42,15 +42,15 @@ function readPreferences() {
     var preferences;
     try {
         preferences = JSON.parse(fs.readFileSync(getPreferencesFilePath()));
-    } catch(err) {
+    } catch (err) {
         preferences = {};
     }
     return preferences ? preferences : {};
 }
 
-function getDerivedPrefsFromLoadedPrefs(loadedPreferences){
+function getDerivedPrefsFromLoadedPrefs(loadedPreferences) {
     var derivedPreferences = {};
-    Object.keys(defaultPreferences).forEach(function(key){
+    Object.keys(defaultPreferences).forEach(function(key) {
         derivedPreferences[key] = loadedPreferences[key] || defaultPreferences[key];
     });
 
@@ -79,7 +79,7 @@ function initPreferencesFileIfNotExistsOrInvalid() {
     }
 
     // Validate the values
-    for(var key of derivedPrefsKeys) {
+    for (var key of derivedPrefsKeys) {
         var value = derivedPrefs[key];
         switch (key) {
         case 'hours-per-day': {
@@ -122,7 +122,7 @@ function initPreferencesFileIfNotExistsOrInvalid() {
         }
     }
 
-    if(shouldSaveDerivedPrefs) {
+    if (shouldSaveDerivedPrefs) {
         savePreferences(derivedPrefs);
     }
 }

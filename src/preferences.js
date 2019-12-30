@@ -39,7 +39,7 @@ $(() => {
         applyTheme(this.value);
     });
 
-    for(var i = 0 ; i < inputs.length; i++) {
+    for (var i = 0; i < inputs.length; i++) {
         let input = inputs[i];
         if (inputs[i].type === 'checkbox') {
             if (input.name in usersStyles) {
