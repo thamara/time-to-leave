@@ -50,7 +50,7 @@ async function checkForUpdates(showUpToDateDialog) {
     if (!online) {
         return;
     }
-    
+
     const request = net.request('https://api.github.com/repos/thamara/time-to-leave/releases/latest');
     request.on('response', (response) => {
         response.on('data', (chunk) => {
@@ -86,7 +86,7 @@ async function checkForUpdates(showUpToDateDialog) {
                             title: 'TTL Check for updates',
                             message: 'Your TTL is up to date.'
                         };
-                        dialog.showMessageBox(null, options);  
+                        dialog.showMessageBox(null, options);
                     }
                 }
             }
@@ -119,8 +119,8 @@ function createWindow () {
                             global.waiverDay = today.toISOString().substr(0, 10);
                         }
                         const htmlPath = path.join('file://', __dirname, 'src/workday-waiver.html');
-                        let waiverWindow = new BrowserWindow({ width: 600, 
-                            height: 500, 
+                        let waiverWindow = new BrowserWindow({ width: 600,
+                            height: 500,
                             parent: win,
                             resizable: true,
                             icon: iconpath,
@@ -131,7 +131,7 @@ function createWindow () {
                         waiverWindow.loadURL(htmlPath);
                         waiverWindow.show();
                         waiverWindow.on('close', function () {
-                            waiverWindow = null; 
+                            waiverWindow = null;
                             win.reload();
                         });
                     },
@@ -196,8 +196,8 @@ function createWindow () {
                     },
                 },
                 {
-                    label:'Clear database', 
-                    click() { 
+                    label:'Clear database',
+                    click() {
                         const options = {
                             type: 'question',
                             buttons: ['Cancel', 'Yes, please', 'No, thanks'],
@@ -302,8 +302,24 @@ function createWindow () {
         }
     });
 
+
     Menu.setApplicationMenu(menu);
+
+    const dockMenu = Menu.buildFromTemplate([
+        {
+            label: 'Punch time', click: function () {
+                var now = new Date();
+
+                win.webContents.executeJavaScript('punchDate()');
+                // Slice keeps "HH:MM" part of "HH:MM:SS GMT+HHMM (GMT+HH:MM)" time string
+                notify(`Punched time ${now.toTimeString().slice(0,5)}`);
+            }
+        }
+    ]);
+
     if (macOS) {
+        // Use the macOS dock if we've got it
+        app.dock.setMenu(dockMenu);
         win.maximize();
     } else {
         win.setMenu(menu);
