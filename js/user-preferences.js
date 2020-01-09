@@ -154,6 +154,7 @@ function showWeekDay(weekDay) {
 
 /*
  * Returns true if we should display day.
+ * @note: The month should be 0-based (i.e.: 0 is Jan, 11 is Dec).
  */
 function showDay(year, month, day)  {
     var currentDay = new Date(year, month, day), weekDay = currentDay.getDay();

@@ -70,7 +70,7 @@ function addWaiver() {
         reason = document.getElementById('reason').value,
         hours = document.getElementById('hours').value;
 
-        if (!(validateTime(hours))) {
+    if (!(validateTime(hours))) {
         // The error is shown in the page, no need to handle it here
         return;
     }
@@ -92,12 +92,12 @@ function addWaiver() {
         temp_date.setDate(temp_date.getDate() + 1);
     }
 
-    temp_date = new Date(start_date);;
+    temp_date = new Date(start_date);
 
     for (i = 0; i <= diff; i++) {
         temp_date_str = getDateStr(temp_date);
         var [temp_year, temp_month, temp_day] = getDateFromISOStr(temp_date_str);
-        if (showDay(temp_year, temp_month, temp_day) && !store.has(temp_date_str)) {
+        if (showDay(temp_year, temp_month-1, temp_day) && !store.has(temp_date_str)) {
             store.set(temp_date_str, { 'reason' : reason, 'hours' : hours });
             addRowToListTable(temp_date_str, reason, hours);
         }
