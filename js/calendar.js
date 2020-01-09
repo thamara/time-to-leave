@@ -14,6 +14,7 @@ const {
 const { notify } = require('./js/notification.js');
 const { getUserPreferences, showDay } = require('./js/user-preferences.js');
 const { applyTheme } = require('./js/themes.js');
+const { getDateStr } = require('./js/date-aux.js');
 const {
     formatDayId,
     sendWaiverDay,
@@ -47,14 +48,6 @@ function notificationIsEnabled() {
  */
 function getHoursPerDay() {
     return preferences['hours-per-day'];
-}
-
-
-/*
- * Given a JS Date, return the string in the format YYYY-MM-DD.
- */
-function getDateStr(date) {
-    return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
 }
 
 /*

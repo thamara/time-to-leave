@@ -3,6 +3,7 @@ const path = require('path');
 const Store = require('electron-store');
 const isOnline = require('is-online');
 const { notify } = require('./js/notification');
+const { getDateStr } = require('./js/date-aux.js');
 const { savePreferences } = require('./js/user-preferences.js');
 const os = require('os');
 
@@ -40,7 +41,7 @@ function checkIdleAndNotify() {
 function shouldcheckForUpdates() {
     var lastChecked = store.get('update-remind-me-after');
     var today = new Date(),
-        todayDate = today.toISOString().substr(0, 10);
+        todayDate = getDateStr(today);
     return !lastChecked || todayDate > lastChecked;
 }
 
@@ -73,7 +74,7 @@ async function checkForUpdates(showUpToDateDialog) {
                     } else if (response === 2) {
                         // Remind me later
                         var today = new Date(),
-                            todayDate = today.toISOString().substr(0, 10);
+                            todayDate = getDateStr(today);
                         store.set('update-remind-me-after', todayDate);
                     }
                 } else {
@@ -115,7 +116,7 @@ function createWindow () {
                     click (item, window, event) {
                         if (event) {
                             const today = new Date();
-                            global.waiverDay = today.toISOString().substr(0, 10);
+                            global.waiverDay = getDateStr(today);
                         }
                         const htmlPath = path.join('file://', __dirname, 'src/workday-waiver.html');
                         let waiverWindow = new BrowserWindow({ width: 600,
