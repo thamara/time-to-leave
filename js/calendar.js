@@ -49,6 +49,14 @@ function getHoursPerDay() {
     return preferences['hours-per-day'];
 }
 
+
+/*
+ * Given a JS Date, return the string in the format YYYY-MM-DD.
+ */
+function getDateStr(date) {
+    return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+}
+
 /*
  * Analyze the inputs of a day, and return if it has an error.
  * An error means that an input earlier in the day is higher than another.
@@ -310,16 +318,18 @@ class Calendar {
         var monthLength = this.getMonthLength();
         var monthTotal = '00:00';
         this.workingDays = 0;
+        var stopCountingMonthStats = false;
         for (var day = 1; day <= monthLength; ++day) {
             if (!showDay(this.year, this.month, day)) {
                 continue;
             }
 
             var currentDay = new Date(this.year, this.month, day),
-                dateStr = currentDay.toISOString().substr(0, 10);
+                dateStr = getDateStr(currentDay);
 
             var dayTotal = null;
             var dayStr = this.year + '-' + this.month + '-' + day + '-';
+
             if (waivedWorkdays.has(dateStr)) {
                 var waivedInfo = waivedWorkdays.get(dateStr);
                 var waivedDayTotal = waivedInfo['hours'];
@@ -336,9 +346,9 @@ class Calendar {
                 colorErrorLine(this.year, this.month, day, dayBegin, lunchBegin, lunchEnd, dayEnd);
             }
 
-            var isToday = (this.today.getDate() === day && this.today.getMonth() === this.month && this.today.getFullYear() === this.year);
-            if (isToday) {
-                break;
+            stopCountingMonthStats |= (this.today.getDate() === day && this.today.getMonth() === this.month && this.today.getFullYear() === this.year);
+            if (stopCountingMonthStats) {
+                continue;
             }
 
             if (dayTotal) {
@@ -374,7 +384,7 @@ class Calendar {
         if (!showDay(this.today.getFullYear(), this.today.getMonth(), this.today.getDate()) ||
             this.today.getMonth() !== this.getMonth() ||
             this.today.getFullYear() !== this.getYear() ||
-            waivedWorkdays.has(this.today.toISOString().substr(0, 10))) {
+            waivedWorkdays.has(getDateStr(this.today))) {
             return;
         }
         var [dayBegin, lunchBegin, lunchEnd, dayEnd] = getDaysEntriesFromHTML(this.today.getFullYear(), this.today.getMonth(), this.today.getDate());
@@ -471,7 +481,7 @@ class Calendar {
             today = new Date(),
             isToday = (today.getDate() === day && today.getMonth() === month && today.getFullYear() === year),
             trID = ('tr-' + year + '-' + month + '-' + day),
-            dateStr = currentDay.toISOString().substr(0, 10);
+            dateStr = getDateStr(currentDay);
 
         if (!showDay(year, month, day)) {
             if (!preferences['hide-non-working-days']) {
