@@ -77,17 +77,15 @@ async function checkForUpdates(showUpToDateDialog) {
                             todayDate = getDateStr(today);
                         store.set('update-remind-me-after', todayDate);
                     }
-                } else {
-                    if (showUpToDateDialog)
+                } else if (showUpToDateDialog)
                     {
-                        const options = {
-                            type: 'info',
-                            buttons: ['OK'],
-                            title: 'TTL Check for updates',
-                            message: 'Your TTL is up to date.'
-                        };
-                        dialog.showMessageBox(null, options);
-                    }
+                    const options = {
+                        type: 'info',
+                        buttons: ['OK'],
+                        title: 'TTL Check for updates',
+                        message: 'Your TTL is up to date.'
+                    };
+                    dialog.showMessageBox(null, options);
                 }
             }
         });
@@ -104,7 +102,7 @@ function refreshOnDayChange() {
     }
 }
 
-function createWindow () {
+function createWindow() {
     // Create the browser window.
     var menu = Menu.buildFromTemplate([
         {
@@ -113,7 +111,7 @@ function createWindow () {
                 {
                     label: 'Workday Waiver Manager',
                     id: 'workday-waiver-manager',
-                    click (item, window, event) {
+                    click(item, window, event) {
                         if (event) {
                             const today = new Date();
                             global.waiverDay = getDateStr(today);
@@ -130,7 +128,7 @@ function createWindow () {
                         waiverWindow.setMenu(null);
                         waiverWindow.loadURL(htmlPath);
                         waiverWindow.show();
-                        waiverWindow.on('close', function () {
+                        waiverWindow.on('close', function() {
                             waiverWindow = null;
                             win.reload();
                         });
@@ -174,7 +172,7 @@ function createWindow () {
                 {
                     label: 'Preferences',
                     accelerator: macOS ? 'Command+,' : 'Control+,',
-                    click () {
+                    click() {
                         const htmlPath = path.join('file://', __dirname, 'src/preferences.html');
                         let prefWindow = new BrowserWindow({ width: 600,
                             height: 600,
@@ -188,7 +186,7 @@ function createWindow () {
                         prefWindow.loadURL(htmlPath);
                         prefWindow.show();
                         //prefWindow.webContents.openDevTools()
-                        prefWindow.on('close', function () {
+                        prefWindow.on('close', function() {
                             prefWindow = null;
                             savePreferences(savedPreferences);
                             win.webContents.send('PREFERENCE_SAVED', savedPreferences);
@@ -230,14 +228,14 @@ function createWindow () {
                 {
                     label: 'Reload',
                     accelerator: 'CommandOrControl+R',
-                    click () {
+                    click() {
                         BrowserWindow.getFocusedWindow().reload();
                     }
                 },
                 {
                     label: 'Toggle Developer Tools',
                     accelerator: macOS ? 'Command+Alt+I' : 'Control+Shift+I',
-                    click () {
+                    click() {
                         BrowserWindow.getFocusedWindow().toggleDevTools();
                     }
                 }
@@ -248,13 +246,13 @@ function createWindow () {
             submenu: [
                 {
                     label: 'TTL GitHub',
-                    click () {
+                    click() {
                         shell.openExternal('https://github.com/thamara/time-to-leave');
                     }
                 },
                 {
                     label: 'Check for updates',
-                    click () {
+                    click() {
                         checkForUpdates(/*showUpToDateDialog=*/true);
                     }
                 },
@@ -269,7 +267,7 @@ function createWindow () {
                 },
                 {
                     label: 'About',
-                    click () {
+                    click() {
                         const version = app.getVersion();
                         const electronVersion = process.versions.electron;
                         const chromeVersion = process.versions.chrome;
@@ -333,7 +331,7 @@ function createWindow () {
     tray = new Tray(trayIcon);
     var contextMenuTemplate = [
         {
-            label: 'Punch time', click: function () {
+            label: 'Punch time', click: function() {
                 var now = new Date();
 
                 win.webContents.executeJavaScript('punchDate()');
@@ -342,13 +340,14 @@ function createWindow () {
             }
         },
         {
-            label: 'Show App', click: function () {
+            label: 'Show App', click: function() {
                 win.show();
             }
         },
         {
-            label: 'Quit', click: function () {
+            label: 'Quit', click: function() {
                 app.isQuiting = true;
+                win = null;
                 app.quit();
             }
         }
@@ -370,19 +369,17 @@ function createWindow () {
     // Open the DevTools.
     //win.webContents.openDevTools();
 
-    win.on('minimize',function(event){
+    win.on('minimize',function(event) {
         event.preventDefault();
         win.hide();
     });
 
     // Emitted when the window is closed.
-    win.on('closed', function (event) {
-        if(app.isQuiting !== undefined && !app.isQuiting){
+    win.on('close', function(event) {
+        if (!app.isQuiting) {
             event.preventDefault();
             win.hide();
         }
-
-        return false;
     });
 
     if (shouldcheckForUpdates()) {
@@ -412,6 +409,8 @@ app.on('activate', () => {
     // dock icon is clicked and there are no other windows open.
     if (win === null) {
         createWindow();
+    } else {
+        win.show();
     }
 });
 

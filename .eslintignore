@@ -1,5 +1,5 @@
 assets/
 node_modules/
-*.svg
-*.html
-*.css
+**/*.svg
+**/*.html
+**/*.css
