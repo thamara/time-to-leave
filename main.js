@@ -305,7 +305,7 @@ function createWindow() {
 
     const dockMenu = Menu.buildFromTemplate([
         {
-            label: 'Punch time', click: function () {
+            label: 'Punch time', click: function() {
                 var now = new Date();
 
                 win.webContents.executeJavaScript('punchDate()');
