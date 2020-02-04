@@ -57,7 +57,7 @@ npm run package-win
 ## Contributing
 
 If you want to help, do read our [contributing](CONTRIBUTING.md) guidelines.
-
+Also, join our [discord channel](https://discord.gg/THph9C) to discuss upcoming features and more.
 
 ## Credits
 Icons made by [freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com).
