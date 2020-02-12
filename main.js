@@ -2,6 +2,7 @@ const { app, BrowserWindow, dialog, ipcMain, Menu, net, shell, Tray } = require(
 const path = require('path');
 const Store = require('electron-store');
 const isOnline = require('is-online');
+const { importDatabaseFromFile, exportDatabaseToFile } = require('./js/import-export.js');
 const { notify } = require('./js/notification');
 const { getDateStr } = require('./js/date-aux.js');
 const { savePreferences } = require('./js/user-preferences.js');
@@ -197,6 +198,83 @@ function createWindow() {
                             savePreferences(savedPreferences);
                             win.webContents.send('PREFERENCE_SAVED', savedPreferences);
                         });
+                    },
+                },
+                {type: 'separator'},
+                {
+                    label: 'Export database',
+                    click() {
+                        var options = {
+                            title: 'Export DB to file',
+                            defaultPath : 'time_to_leave',
+                            buttonLabel : 'Export',
+                  
+                            filters : [
+                                { name: '.ttldb', extensions: ['ttldb',] },
+                                { name: 'All Files', extensions: ['*'] }
+                            ]
+                        };
+                        let response = dialog.showSaveDialogSync(options);
+                        if (response) {
+                            exportDatabaseToFile(response);
+                            dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
+                                {
+                                    title: 'Time to Leave',
+                                    message: 'Database export',
+                                    type: 'info',
+                                    icon: iconpath,
+                                    detail: '\Okay, database was exported.'
+                                });
+                        }
+                    },
+                },
+                {
+                    label: 'Import database',
+                    click() {
+                        var options = {
+                            title: 'Import DB from file',
+                            buttonLabel : 'Import',
+                  
+                            filters : [
+                              {name: '.ttldb', extensions: ['ttldb',]},
+                              {name: 'All Files', extensions: ['*']}
+                            ]
+                        };
+                        let response = dialog.showOpenDialogSync(options);
+                        if (response) {
+                            const options = {
+                                type: 'question',
+                                buttons: ['Yes, please', 'No, thanks'],
+                                defaultId: 2,
+                                title: 'Import database',
+                                message: 'Are you sure you want to import a database? It will override any current information.',
+                            };
+    
+                            let confirmation = dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), options);
+                            if (confirmation === /*Yes*/0) {
+                                if (importDatabaseFromFile(response)) {
+                                    dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
+                                        {
+                                            title: 'Time to Leave',
+                                            message: 'Database imported',
+                                            type: 'info',
+                                            icon: iconpath,
+                                            detail: '\Yay! Import successful!'
+                                        });
+                                }
+                                // Reload only the calendar itself to avoid a flash
+                                win.webContents.executeJavaScript('calendar.redraw()');
+                                dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
+                                    {
+                                        title: 'Time to Leave',
+                                        message: 'Database imported',
+                                        type: 'info',
+                                        icon: iconpath,
+                                        detail: '\Yay! Import successful!'
+                                    }
+                                );
+                            }
+                        }
                     },
                 },
                 {
