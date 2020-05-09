@@ -1,3 +1,9 @@
 1.5.2 (in development)
 ------------------------------------------------------------------------
 - Fix: [#213] Count today preference fixed to work as expected.
+- Fix: [#209] Punch time button to only fill one entry (not the entire row)
+- Fix: [#215] Fixed exception: isNan is not defined
+- Fix: [#27] Adding day balance on when to leave bar after day is done 
+- Fix: [#210] Count today preference is respected
+- Fix: [#211] Adjusted preferences window size to fit the whole content
+- Upgrade: Upgrading jquery to 3.5.0
