@@ -6,4 +6,6 @@
 - Fix: [#27] Adding day balance on when to leave bar after day is done 
 - Fix: [#210] Count today preference is respected
 - Fix: [#211] Adjusted preferences window size to fit the whole content
+- Enhancement: [#228] Improved performance of TTL - Now moving through the calendar is much faster
+- Enhancement: [#152] Adding a "Copy" option in the "About message", making it easier to copy information when opening an issue
 - Upgrade: Upgrading jquery to 3.5.0
