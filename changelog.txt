@@ -11,3 +11,4 @@
 - Enhancement: [#228] Improved performance of TTL - Now moving through the calendar is much faster
 - Enhancement: [#152] Adding a "Copy" option in the "About message", making it easier to copy information when opening an issue
 - Upgrade: Upgrading jquery to 3.5.0
+- Upgrade: [#236] Upgrade all dependencies
