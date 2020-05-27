@@ -3,6 +3,7 @@ const { validateTime, diffDays } = require('../js/time-math.js');
 const { applyTheme } = require('../js/themes.js');
 const { getDateStr } = require('../js/date-aux.js');
 const { remote } = require('electron');
+const { BrowserWindow, dialog } = remote;
 const Store = require('electron-store');
 
 const store = new Store({name: 'waived-workdays'});
@@ -111,13 +112,23 @@ function addWaiver() {
 function deleteEntryOnClick(event) {
     let deleteButton = $(event.target);
     let day = deleteButton.data('day');
-    if (!confirm('Are you sure you want to delete waiver on day ' + day + '?')) {
-        return;
-    }
-    store.delete(day);
 
-    let row = deleteButton.closest('tr');
-    row.remove();
+    dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
+        {
+            title: 'Time to Leave',
+            message: 'Are you sure you want to delete waiver on day ' + day + '?',
+            type: 'info',
+            buttons: ['Yes', 'No']
+        }).then((result) => {
+        const buttonId = result.response;
+        if (buttonId === 1) {
+            return;
+        }
+        store.delete(day);
+
+        let row = deleteButton.closest('tr');
+        row.remove();
+    });
 }
 
 $(() => {
