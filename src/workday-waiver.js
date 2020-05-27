@@ -41,11 +41,9 @@ function addRowToListTable(day, reason, hours) {
     reasonCell.innerHTML = reason;
     hoursCell.innerHTML = hours;
     var id = 'delete-' + day;
-    delButtonCell.innerHTML = '<input class="delete-btn" id="' + id + '" type="image" src="../assets/delete.svg" alt="Delete entry" height="12" width="12"></input>';
+    delButtonCell.innerHTML = '<input class="delete-btn" data-day="' + day + '" id="' + id + '" type="image" src="../assets/delete.svg" alt="Delete entry" height="12" width="12"></input>';
     
-    $('#'+ id).on('click', function() {
-        deleteEntry(this.id.replace('delete-', ''));
-    });
+    $('#'+ id).on('click', deleteEntryOnClick);
 }
 
 function populateList() {
@@ -110,16 +108,16 @@ function addWaiver() {
     toggleAddButton();
 }
 
-function deleteEntry(day) {
+function deleteEntryOnClick(event) {
+    let deleteButton = $(event.target);
+    let day = deleteButton.data('day');
     if (!confirm('Are you sure you want to delete waiver on day ' + day + '?')) {
         return;
     }
     store.delete(day);
-    var table = $('#waiver-list-table')[0];
-    while (table.rows.length > 1) {
-        table.deleteRow(1);
-    }
-    populateList();
+
+    let row = deleteButton.closest('tr');
+    row.remove();
 }
 
 $(() => {
