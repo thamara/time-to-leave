@@ -76,16 +76,26 @@ function addWaiver() {
 
     var diff = diffDays(start_date, end_date);
     if (diff < 0) {
-        alert('End date cannot be less than start date.');
-        return;
+        dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
+            {
+                message: 'End date cannot be less than start date.'
+            }
+        ).then(() => {
+            return;
+        });
     }
 
     var temp_date = new Date(start_date);
     for (var i = 0; i <= diff; i++) {
         var temp_date_str = getDateStr(temp_date);
         if (store.has(temp_date_str)) {
-            alert(`You already have a waiver on ${temp_date_str}. Remove it before adding a new one.`);
-            return;
+            dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
+                {
+                    message: `You already have a waiver on ${temp_date_str}. Remove it before adding a new one.`
+                }
+            ).then(() => {
+                return;
+            });
         }
 
         temp_date.setDate(temp_date.getDate() + 1);
