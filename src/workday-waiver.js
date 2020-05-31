@@ -6,6 +6,7 @@ const { getUserPreferences, showDay } = require('../js/user-preferences.js');
 const { validateTime, diffDays } = require('../js/time-math.js');
 const { applyTheme } = require('../js/themes.js');
 const { getDateStr } = require('../js/date-aux.js');
+const { bindDevToolsShortcut } = require('../js/window-aux.js');
 
 const waiverStore = new Store({name: 'waived-workdays'});
 
@@ -169,4 +170,6 @@ $(() => {
     $('#waive-button').on('click', () => {
         addWaiver();
     });
+
+    bindDevToolsShortcut(window);
 });
