@@ -3,6 +3,7 @@ const { validateTime, diffDays } = require('../js/time-math.js');
 const { applyTheme } = require('../js/themes.js');
 const { getDateStr } = require('../js/date-aux.js');
 const { remote } = require('electron');
+const { BrowserWindow, dialog } = remote;
 const Store = require('electron-store');
 
 const store = new Store({name: 'waived-workdays'});
@@ -41,11 +42,9 @@ function addRowToListTable(day, reason, hours) {
     reasonCell.innerHTML = reason;
     hoursCell.innerHTML = hours;
     var id = 'delete-' + day;
-    delButtonCell.innerHTML = '<input class="delete-btn" id="' + id + '" type="image" src="../assets/delete.svg" alt="Delete entry" height="12" width="12"></input>';
+    delButtonCell.innerHTML = '<input class="delete-btn" data-day="' + day + '" id="' + id + '" type="image" src="../assets/delete.svg" alt="Delete entry" height="12" width="12"></input>';
     
-    $('#'+ id).on('click', function() {
-        deleteEntry(this.id.replace('delete-', ''));
-    });
+    $('#'+ id).on('click', deleteEntryOnClick);
 }
 
 function populateList() {
@@ -77,16 +76,26 @@ function addWaiver() {
 
     var diff = diffDays(start_date, end_date);
     if (diff < 0) {
-        alert('End date cannot be less than start date.');
-        return;
+        dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
+            {
+                message: 'End date cannot be less than start date.'
+            }
+        ).then(() => {
+            return;
+        });
     }
 
     var temp_date = new Date(start_date);
     for (var i = 0; i <= diff; i++) {
         var temp_date_str = getDateStr(temp_date);
         if (store.has(temp_date_str)) {
-            alert(`You already have a waiver on ${temp_date_str}. Remove it before adding a new one.`);
-            return;
+            dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
+                {
+                    message: `You already have a waiver on ${temp_date_str}. Remove it before adding a new one.`
+                }
+            ).then(() => {
+                return;
+            });
         }
 
         temp_date.setDate(temp_date.getDate() + 1);
@@ -110,16 +119,26 @@ function addWaiver() {
     toggleAddButton();
 }
 
-function deleteEntry(day) {
-    if (!confirm('Are you sure you want to delete waiver on day ' + day + '?')) {
-        return;
-    }
-    store.delete(day);
-    var table = $('#waiver-list-table')[0];
-    while (table.rows.length > 1) {
-        table.deleteRow(1);
-    }
-    populateList();
+function deleteEntryOnClick(event) {
+    let deleteButton = $(event.target);
+    let day = deleteButton.data('day');
+
+    dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
+        {
+            title: 'Time to Leave',
+            message: 'Are you sure you want to delete waiver on day ' + day + '?',
+            type: 'info',
+            buttons: ['Yes', 'No']
+        }).then((result) => {
+        const buttonId = result.response;
+        if (buttonId === 1) {
+            return;
+        }
+        store.delete(day);
+
+        let row = deleteButton.closest('tr');
+        row.remove();
+    });
 }
 
 $(() => {
