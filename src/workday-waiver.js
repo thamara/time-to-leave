@@ -6,7 +6,7 @@ const { getUserPreferences, showDay } = require('../js/user-preferences.js');
 const { validateTime, diffDays } = require('../js/time-math.js');
 const { applyTheme } = require('../js/themes.js');
 const { getDateStr } = require('../js/date-aux.js');
-const { bindDevToolsShortcut } = require('../js/window-aux.js');
+const { bindDevToolsShortcut, showAlert, showDialog } = require('../js/window-aux.js');
 
 const waiverStore = new Store({name: 'waived-workdays'});
 
@@ -75,13 +75,8 @@ function addWaiver() {
 
     let diff = diffDays(startDate, endDate);
     if (diff < 0) {
-        dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
-            {
-                message: 'End date cannot be less than start date.'
-            }
-        ).then(() => {
-            return;
-        });
+        showAlert('End date cannot be less than start date.');
+        return;
     }
 
     let tempDate = new Date(startDate);
@@ -91,26 +86,16 @@ function addWaiver() {
         let [tempYear, tempMonth, tempDay] = getDateFromISOStr(tempDateStr);
         noWorkingDaysOnRange &= !showDay(tempYear, tempMonth-1, tempDay) && !waiverStore.has(tempDateStr);
         if (waiverStore.has(tempDateStr)) {
-            dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
-                {
-                    message: `You already have a waiver on ${tempDateStr}. Remove it before adding a new one.`
-                }
-            ).then(() => {
-                return;
-            });
+            showAlert(`You already have a waiver on ${temp_date_str}. Remove it before adding a new one.`);
+            return;
         }
 
         tempDate.setDate(tempDate.getDate() + 1);
     }
 
     if (noWorkingDaysOnRange) {
-        dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
-            {
-                message: 'Cannot add waiver. Range does not contain any working day.'
-            }
-        ).then(() => {
-            return;
-        });
+        showAlert('Cannot add waiver. Range does not contain any working day.');
+        return;
     }
 
     tempDate = new Date(startDate);
@@ -135,13 +120,13 @@ function deleteEntryOnClick(event) {
     let deleteButton = $(event.target);
     let day = deleteButton.data('day');
 
-    dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
-        {
-            title: 'Time to Leave',
-            message: 'Are you sure you want to delete waiver on day ' + day + '?',
-            type: 'info',
-            buttons: ['Yes', 'No']
-        }).then((result) => {
+    let options = {
+        title: 'Time to Leave',
+        message: `Are you sure you want to delete waiver on day ${day} ?`,
+        type: 'info',
+        buttons: ['Yes', 'No']
+    };
+    showDialog(options, (result) => {
         const buttonId = result.response;
         if (buttonId === 1) {
             return;
