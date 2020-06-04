@@ -141,6 +141,7 @@ function createWindow() {
                             resizable: true,
                             icon: iconpath,
                             webPreferences: {
+                                enableRemoteModule: true,
                                 nodeIntegration: true
                             } });
                         waiverWindow.setMenu(null);
@@ -202,6 +203,7 @@ function createWindow() {
                             resizable: true,
                             icon: iconpath,
                             webPreferences: {
+                                enableRemoteModule: true,
                                 nodeIntegration: true
                             } });
                         prefWindow.setMenu(null);
