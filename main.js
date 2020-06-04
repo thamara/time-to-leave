@@ -6,7 +6,7 @@ const isOnline = require('is-online');
 const { importDatabaseFromFile, exportDatabaseToFile } = require('./js/import-export.js');
 const { notify } = require('./js/notification');
 const { getDateStr } = require('./js/date-aux.js');
-const { getUserPreferences, savePreferences } = require('./js/user-preferences.js');
+const { getDefaultWidthHeight, getUserPreferences, savePreferences } = require('./js/user-preferences.js');
 const os = require('os');
 
 let savedPreferences = null;
@@ -28,6 +28,8 @@ ipcMain.on('SET_WAIVER_DAY', (event, waiverDay) => {
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
+let waiverWindow = null;
+let prefWindow = null;
 let tray;
 const store = new Store();
 const waivedWorkdays = new Store({name: 'waived-workdays'});
@@ -123,12 +125,17 @@ function createWindow() {
                     label: 'Workday Waiver Manager',
                     id: 'workday-waiver-manager',
                     click(item, window, event) {
+                        if (waiverWindow !== null) {
+                            waiverWindow.show();
+                            return;
+                        }
+                        
                         if (event) {
                             const today = new Date();
                             global.waiverDay = getDateStr(today);
                         }
                         const htmlPath = path.join('file://', __dirname, 'src/workday-waiver.html');
-                        let waiverWindow = new BrowserWindow({ width: 600,
+                        waiverWindow = new BrowserWindow({ width: 600,
                             height: 500,
                             parent: win,
                             resizable: true,
@@ -184,9 +191,14 @@ function createWindow() {
                     label: 'Preferences',
                     accelerator: macOS ? 'Command+,' : 'Control+,',
                     click() {
+                        if (prefWindow !== null) {
+                            prefWindow.show();
+                            return;
+                        }
+                      
                         const htmlPath = path.join('file://', __dirname, 'src/preferences.html');
-                        let prefWindow = new BrowserWindow({ width: 400,
-                            height: 460,
+                        prefWindow = new BrowserWindow({ width: 400,
+                            height: 500,
                             parent: win,
                             resizable: true,
                             icon: iconpath,
@@ -393,10 +405,13 @@ function createWindow() {
         }
     ]);
 
+    let widthHeight = getDefaultWidthHeight();
+
     win = new BrowserWindow({
-        width: 1000,
-        height: 1000,
-        useContentSize: true,
+        width: widthHeight.width,
+        height: widthHeight.height,
+        minWidth: 450,
+        useContentSize: false,
         zoomToPageWidth: true, //MacOS only
         icon: iconpath,
         show: false,
@@ -459,6 +474,14 @@ function createWindow() {
     ipcMain.on('TOGGLE_TRAY_PUNCH_TIME', function(_event, arg) {
         contextMenuTemplate[0].enabled = arg;
         contextMenu = Menu.buildFromTemplate(contextMenuTemplate);
+    });
+
+    ipcMain.on('RESIZE_MAIN_WINDOW', (event, width, height) => {
+        win.setSize(width, height);
+    });
+
+    ipcMain.on('VIEW_CHANGED', (event, savedPreferences) => {
+        win.webContents.send('PREFERENCE_SAVED', savedPreferences);
     });
 
     tray.on('click', function handleCliked() {

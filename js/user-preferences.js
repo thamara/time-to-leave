@@ -22,6 +22,7 @@ const defaultPreferences = {
     'working-days-friday': true,
     'working-days-saturday': false,
     'working-days-sunday': false,
+    'view': 'month'
 };
 
 /*
@@ -122,9 +123,12 @@ function initPreferencesFileIfNotExistsOrInvalid() {
             break;
         }
         // Handle Enum Inputs
-        case 'theme' : {
+        case 'theme':
             shouldSaveDerivedPrefs |= !isValidTheme(value);
-        }
+            break;
+        case 'view':
+            shouldSaveDerivedPrefs |= !(value === 'month' || value === 'day');
+            break;
         }
     }
 
@@ -169,9 +173,34 @@ function showDay(year, month, day, preferences = undefined)  {
     return showWeekDay(weekDay, preferences);
 }
 
+function switchCalendarView() {
+    let preferences = getLoadedOrDerivedUserPreferences();
+    if (preferences['view'] === 'month') {
+        preferences['view'] = 'day';
+    }
+    else {
+        preferences['view'] = 'month';
+    }
+    savePreferences(preferences);
+
+    return preferences;
+}
+
+function getDefaultWidthHeight() {
+    let preferences = getLoadedOrDerivedUserPreferences();
+    if (preferences['view'] === 'month') {
+        return { width: 1010, height: 800 };
+    }
+    else {
+        return { width: 500, height: 500 };
+    }
+}
+
 module.exports = {
     defaultPreferences,
+    getDefaultWidthHeight,
     getUserPreferences: getLoadedOrDerivedUserPreferences,
     savePreferences,
-    showDay
+    showDay,
+    switchCalendarView
 };

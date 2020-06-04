@@ -18,6 +18,10 @@ $(() => {
     preferences[theme] = selectedThemeOption;
     $('html').attr('data-theme', selectedThemeOption);
 
+    if ('view' in usersStyles) {
+        $('#view').val(usersStyles['view']);
+    }
+
     $('input[type="checkbox"]').change(function() {
         preferences[this.name] = this.checked;
         ipcRenderer.send('PREFERENCE_SAVE_DATA_NEEDED', preferences);
@@ -34,6 +38,10 @@ $(() => {
         applyTheme(this.value);
     });
 
+    $('#view').change(function() {
+        preferences['view'] = this.value;
+        ipcRenderer.send('PREFERENCE_SAVE_DATA_NEEDED', preferences);
+    });
 
     $('input').each(function() {
         let input = $(this);
