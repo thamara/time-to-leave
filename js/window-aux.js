@@ -7,7 +7,7 @@ const { BrowserWindow, dialog } = remote;
  */
 function bindDevToolsShortcut(window) {
     window.addEventListener('keyup', (event) => {
-        if (event.ctrlKey && event.shiftKey && (event.keyCode == 73 || event.keyCode == 105)) { // 'i' or 'I'
+        if (event.ctrlKey && event.shiftKey && (event.keyCode === 73 || event.keyCode === 105)) { // 'i' or 'I'
             BrowserWindow.getFocusedWindow().webContents.toggleDevTools();
             event.preventDefault();
             return false;
