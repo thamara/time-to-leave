@@ -1,5 +1,4 @@
 const { remote } = require('electron');
-const { BrowserWindow, dialog } = remote;
 const Store = require('electron-store');
 
 const { getUserPreferences, showDay } = require('../js/user-preferences.js');
