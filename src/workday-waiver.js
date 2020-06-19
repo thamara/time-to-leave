@@ -85,7 +85,7 @@ function addWaiver() {
         let [tempYear, tempMonth, tempDay] = getDateFromISOStr(tempDateStr);
         noWorkingDaysOnRange &= !showDay(tempYear, tempMonth-1, tempDay) && !waiverStore.has(tempDateStr);
         if (waiverStore.has(tempDateStr)) {
-            showAlert(`You already have a waiver on ${temp_date_str}. Remove it before adding a new one.`);
+            showAlert(`You already have a waiver on ${tempDateStr}. Remove it before adding a new one.`);
             return;
         }
 
