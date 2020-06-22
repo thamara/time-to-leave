@@ -1,4 +1,7 @@
-1.5.2 (in development)
+1.5.3 (in development)
+------------------------------------------------------------------------
+
+1.5.2
 ------------------------------------------------------------------------
 - Fix: [#27] Adding day balance on when to leave bar after day is done
 - Fix: [#209] Punch time button to only fill one entry (not the entire row)
