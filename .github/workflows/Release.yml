@@ -39,19 +39,6 @@ jobs:
       run: |
         npm ci
         npm run package:deb
-    - name: 'Packing DEB...'
-      if: success()
-      run: npx electron-installer-debian --src 'release-builds/time-to-leave-linux-x64/' --dest 'packages/' --arch amd64 --verbose
-    - name: 'Release to GH'
-      if: success()
-      uses: ncipollo/release-action@v1
-      with:
-        allowUpdates: true
-        artifacts: 'packages/**.deb'
-        artifactContentType: application/vnd.debian.binary-package
-        draft: true
-        tag: ci
-        token: ${{ secrets.GITHUB_TOKEN }}
     - name: 'Packing RPM'
       if: success()
       run: |
