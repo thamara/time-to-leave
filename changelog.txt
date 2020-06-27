@@ -1,8 +1,19 @@
-1.5.3 (in development)
+1.5.5 (in development)
 ------------------------------------------------------------------------
 - Fix: [#276] Fixed lunch of app in debian
 
 Who build 1.5.3:
+
+
+1.5.4
+------------------------------------------------------------------------
+- Fix: [#276] Fixed lunch of app in debian
+
+Who build 1.5.3:
+- thamara
+
+
+1.5.3 - Skipped
 
 
 1.5.2
