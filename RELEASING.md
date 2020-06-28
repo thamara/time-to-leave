@@ -6,4 +6,4 @@ Guide on how to release Time To Leave:
 4 - `git push origin master stable/vX.Y.Z`
 5 - Bump `changelog.txt` and on `package.json` to developer version (version + 1)-dev
 6 - `git commit -am "Bump to version vX.Y.Z-dev`
-7 - `git push origin master`
+7 - `git push`
