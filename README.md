@@ -18,8 +18,6 @@ You can also add waivers on the days you did not work.
 
 ## How to install
 
----
-
 ### Dependencies
 
 -   [Node.js](https://nodejs.org/en/): version 8.x or higher
