@@ -55,6 +55,9 @@ npm run package-mac
 
 # Windows
 npm run package-win
+
+# Windows
+npm run package-deb
 ```
 
 ## Contributing
