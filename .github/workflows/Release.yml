@@ -31,6 +31,9 @@ jobs:
         draft: true
         tag: ${{ env.APP_VERSION }}
         token: ${{ secrets.GITHUB_TOKEN }}
+        # Only update body on Release Notes Action
+        omitBody: true
+        omitBodyDuringUpdate: true
 
   'Linux':
     runs-on: ubuntu-latest
@@ -56,6 +59,9 @@ jobs:
         draft: true
         tag: ${{ env.APP_VERSION }}
         token: ${{ secrets.GITHUB_TOKEN }}
+        # Only update body on Release Notes Action
+        omitBody: true
+        omitBodyDuringUpdate: true
     - name: 'Packing RPM'
       if: success()
       run: |
@@ -71,6 +77,9 @@ jobs:
         draft: true
         tag: ${{ env.APP_VERSION }}
         token: ${{ secrets.GITHUB_TOKEN }}
+        # Only update body on Release Notes Action
+        omitBody: true
+        omitBodyDuringUpdate: true
 
   'Windows':
       runs-on: windows-latest
@@ -96,6 +105,9 @@ jobs:
           draft: true
           tag: ${{ env.APP_VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          # Only update body on Release Notes Action
+          omitBody: true
+          omitBodyDuringUpdate: true
       - name: 'Release EXE to GH'
         if: success()
         uses: ncipollo/release-action@v1
@@ -106,3 +118,39 @@ jobs:
           draft: true
           tag: ${{ env.APP_VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          # Only update body on Release Notes Action
+          omitBody: true
+          omitBodyDuringUpdate: true
+
+
+  'ReleaseNotes':
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+    - name: ' Building...'
+      run: |
+        npm ci
+    - name: set env
+      run: echo "::set-env name=APP_VERSION::$(node -p "require('./package.json').version")"
+    - name: Create Release notes file for version
+      run: |
+        sed '/^[[:space:]]*$/d' changelog.txt > changelog.plain
+        csplit changelog.plain '/^[0-9]+*/' '{*}' -z -n 4 -f version
+        csplit version0000  '/^Who build\n*/' '{*}' -z -n 4 -f block
+        UPDATES=$(tail -n +3 block0000)
+        PEOPLE=$(tail -n +2 block0001)
+        VERSION=$(node -p "require('./package.json').version")
+        awk -v r="$UPDATES" '{gsub(/__UPDATES__/,r)}1' release_template.md > tmp && mv tmp release_template.md
+        awk -v r="$PEOPLE" '{gsub(/__PEOPLE__/,r)}1' release_template.md > tmp && mv tmp release_template.md
+        awk -v r="$VERSION" '{gsub(/__VERSION__/,r)}1' release_template.md > tmp && mv tmp release_template.md
+    - name: 'Release to GH'
+      if: success()
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        draft: true
+        tag: ${{ env.APP_VERSION }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        # Only update body on Release Notes Action
+        bodyFile: 'release_template.md'
