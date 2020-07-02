@@ -56,7 +56,7 @@ npm run package-mac
 # Windows
 npm run package-win
 
-# Windows
+# Debian
 npm run package-deb
 ```
 
