@@ -137,7 +137,7 @@ jobs:
       run: |
         sed '/^[[:space:]]*$/d' changelog.txt > changelog.plain
         csplit changelog.plain '/^[0-9]+*/' '{*}' -z -n 4 -f version
-        csplit version0000  '/^Who build*/' '{*}' -z -n 4 -f block
+        csplit version0000  '/^Who built*/' '{*}' -z -n 4 -f block
         UPDATES=$(tail -n +3 block0000)
         PEOPLE=$(tail -n +2 block0001)
         VERSION=$(node -p "require('./package.json').version")

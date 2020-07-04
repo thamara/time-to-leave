@@ -7,7 +7,7 @@
 ## Full changelog
 __UPDATES__
 
-# Who build TTL v__VERSION__
+# Who built TTL v__VERSION__
 This version was developed with <3 by:
 
 __PEOPLE__
