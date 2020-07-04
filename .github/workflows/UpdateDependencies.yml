@@ -1,10 +1,10 @@
 on:
   schedule:
-  - cron: '0 19 * * *'
+  - cron: '20 19 * * *'
 name: Update package dependencies
 jobs:
   package-update:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@master
     - name: set remote url
