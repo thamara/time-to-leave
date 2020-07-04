@@ -1,4 +1,4 @@
-name: PR Checks
+name: 'Code Coverage'
 on: push
 jobs:
   'Checking':
@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
-      - name: '        Tests'
+      - name: 'Tests'
         run: npm cit
       - name: Coveralls GitHub Action ${{ matrix.os }}
         if: success()
