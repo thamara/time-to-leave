@@ -1,6 +1,5 @@
 on:
-  schedule:
-  - cron: '15 1 * * *'
+  push:
 name: Update package dependencies
 jobs:
   package-update:
