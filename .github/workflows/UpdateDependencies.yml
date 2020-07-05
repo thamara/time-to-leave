@@ -1,6 +1,6 @@
 on:
   schedule:
-  - cron: '15 1 * * *'
+  - cron: '0 0 * * *'
 name: Update package dependencies
 jobs:
   package-update:
@@ -10,13 +10,12 @@ jobs:
     - name: set remote url
       run: git remote set-url --push origin https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
     - name: package-update
-      uses: thamara/actions-package-update@commit-skip-check
+      uses: taichi/actions-package-update@master
       env:
         AUTHOR_EMAIL: tkcandrade@gmail.com
         AUTHOR_NAME: Thamara Andrade
         EXECUTE: "true"
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         LOG_LEVEL: debug
-        COMMIT_NO_VERIFY: true
       with:
         args: -u --packageFile package.json --loglevel verbose
