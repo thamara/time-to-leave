@@ -4,7 +4,7 @@ on:
 name: Update package dependencies
 jobs:
   package-update:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
     - name: set remote url
