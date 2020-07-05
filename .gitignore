@@ -97,3 +97,4 @@ typings/
 # Release builds
 release-builds
 *.ttldb
+release_template.md
