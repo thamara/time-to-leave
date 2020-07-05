@@ -10,12 +10,13 @@ jobs:
     - name: set remote url
       run: git remote set-url --push origin https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
     - name: package-update
-      uses: taichi/actions-package-update@master
+      uses: thamara/actions-package-update@commit-skip-check
       env:
         AUTHOR_EMAIL: tkcandrade@gmail.com
         AUTHOR_NAME: Thamara Andrade
         EXECUTE: "true"
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         LOG_LEVEL: debug
+        COMMIT_NO_VERIFY: "true"
       with:
         args: -u --packageFile package.json --loglevel verbose
