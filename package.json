@@ -34,7 +34,6 @@
   },
   "pre-commit": [
     "clean",
-    "test",
     "lint-fix",
     "clean"
   ],
