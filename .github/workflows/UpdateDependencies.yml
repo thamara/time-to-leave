@@ -1,6 +1,6 @@
 on:
   schedule:
-  - cron: '45 0 * * *'
+  - cron: '15 1 * * *'
 name: Update package dependencies
 jobs:
   package-update:
@@ -17,6 +17,6 @@ jobs:
         EXECUTE: "true"
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         LOG_LEVEL: debug
-        COMMIT_NO_VERIFY: "true"
+        COMMIT_NO_VERIFY: true
       with:
         args: -u --packageFile package.json --loglevel verbose
