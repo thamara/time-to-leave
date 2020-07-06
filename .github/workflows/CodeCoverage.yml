@@ -1,5 +1,7 @@
 name: 'Code Coverage'
 on: push
+  branches:
+    - master
 jobs:
   'Checking':
     runs-on: ${{ matrix.os }}
