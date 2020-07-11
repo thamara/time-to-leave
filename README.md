@@ -63,7 +63,7 @@ npm run package-deb
 ## Contributing
 
 If you want to help, do read our [contributing](CONTRIBUTING.md) guidelines.
-Also, join our [discord channel](https://discord.gg/THph9C) to discuss upcoming features and more.
+Also, join our [discord channel](https://discord.gg/THph9C) to discuss upcoming features and more. 
 
 ## Credits
 
