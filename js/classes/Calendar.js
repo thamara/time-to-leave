@@ -17,6 +17,7 @@ const {
     sendWaiverDay,
     displayWaiverWindow
 } = require('../workday-waiver-aux.js');
+const { computeAllTimeBalancelUntilAsync } = require('../time-balance.js');
 
 // Global values for calendar
 const store = new Store();
@@ -84,6 +85,25 @@ class Calendar {
         this._draw();
     }
 
+    _updateAllTimeBalance() {
+        var targetYear = this._getCalendarYear(),
+            targetMonth = this._getCalendarMonth(),
+            // If we are not displaying the current month we need to compute the balance including the
+            // last day of the month. To do so we move to the first day of the following month.
+            targetDate = (targetYear === this._getTodayYear() && targetMonth === this._getTodayMonth()) ?
+                new Date(targetYear, targetMonth, this._getCalendarDate()) :
+                new Date(targetYear, targetMonth + 1, 1);
+        computeAllTimeBalancelUntilAsync(targetDate).then(balance => {
+            var balanceElement = $('#overall-balance');
+            if (balanceElement) {
+                balanceElement.val(balance);
+                balanceElement.html(balance);
+                balanceElement.removeClass('text-success text-danger');
+                balanceElement.addClass(isNegative(balance) ? 'text-danger' : 'text-success');
+            }
+        });
+    }
+
     /*
      * Draws elements of the Calendar that depend on data.
      */
@@ -109,6 +129,8 @@ class Calendar {
             sendWaiverDay(waiverDay);
             displayWaiverWindow();
         });
+
+        this._updateAllTimeBalance();
     }
 
     /*
@@ -225,10 +247,10 @@ class Calendar {
                     '<td class="month-total-time" title="Last day used for balance"><input type="text" id="month-day-input"   size="2" disabled></td>' +
                     '<td class="month-total-text" title="How many working days there\'s in the month">Working days</td>' +
                     '<td class="month-total-time" title="How many working days there\'s in the month"><input type="text"  id="month-working-days" size="5" disabled></td>' +
-                    '<td class="month-total-text" title="How many hours you logged in this month">Month Sum</td>' +
-                    '<td class="month-total-time" title="How many hours you logged in this month"><input type="text"  id="month-total" size="8" disabled></td>' +
-                    '<td class="month-total-text" title="Balance up until today for this month. A positive balance means extra    hours you don\'t need to work today (or the rest of the month).">Month Balance</td>' +
-                    '<td class="month-total-time" title="Balance up until today for this month. A positive balance means extra    hours you don\'t need to work today (or the rest of the month)."><input type="text" id="month-balance"     size="8" disabled></td>' +
+                    '<td class="month-total-text" title="Balance up until today for this month. A positive balance means extra hours you don\'t need to work today (or the rest of the month).">Month Balance</td>' +
+                    '<td class="month-total-time" title="Balance up until today for this month. A positive balance means extra hours you don\'t need to work today (or the rest of the month)."><input type="text" id="month-balance"     size="8" disabled></td>' +
+                    '<td class="month-total-text" title="Overall balance until end of the month or current day">Overall Balance</td>' +
+                    '<td class="month-total-time" title="Overall balance until end of the month or current day"><input type="text" id="overall-balance" size="8" placeholder="..." disabled></td>' +
                 '</tr>' +
             '</tr>';
     }
@@ -700,11 +722,6 @@ class Calendar {
         {
             monthDayInput.val(this._getBalanceRowPosition());
         }
-        var monthDayTotal = $('#month-total');
-        if (monthDayTotal)
-        {
-            monthDayTotal.val(monthTotal);
-        }
         var monthWorkingDays = $('#month-working-days');
         if (monthWorkingDays)
         {
@@ -817,8 +834,6 @@ class Calendar {
 
         this._updateDbEntry(year, month, day, key, newValue);
 
-        var oldDayTotal = this._getStore(day, month, year, 'day-total');
-
         var [dayBegin, lunchBegin, lunchEnd, dayEnd] = this._getDaysEntries(month, day);
         var lunchTime = this._computeLunchTime(lunchBegin, lunchEnd);
         var dayTotal = this._computeDayTotal(dayBegin, dayEnd, lunchBegin, lunchEnd, lunchTime);
@@ -828,16 +843,6 @@ class Calendar {
 
         this._updateDbEntry(year, month, day, 'day-total', dayTotal);
         $('#' + baseStr + 'day-total').val(dayTotal);
-
-        var displayedMonthTotal = $('#month-total').val();
-        var currentMonthTotal = displayedMonthTotal;
-        if (validateTime(oldDayTotal)) {
-            currentMonthTotal = subtractTime(oldDayTotal, currentMonthTotal);
-        }
-        if (dayTotal.length > 0) {
-            currentMonthTotal = sumTime(currentMonthTotal, dayTotal);
-        }
-        $('#month-total').val(currentMonthTotal);
 
         this._colorErrorLine(year, month, day, dayBegin, lunchBegin, lunchEnd, dayEnd);
     }
@@ -994,8 +999,8 @@ class DayCalendar extends Calendar {
         return '<div class="month-total-row">' +
                     '<div class="half-width">' +
                     '<div class="month-total-element">' +
-                        '<div class="month-total-text month-sum" title="How many hours you logged in this month">Month Sum</div>' +
-                        '<div class="month-total-time month-sum-time" title="How many hours you logged in this month"><span id="month-total"></div>' +
+                        '<div class="month-total-text month-sum" title="Overall balance until end of the month or current day">Overall Balance</div>' +
+                        '<div class="month-total-time month-sum-time" title="Overall balance until end of the month or current day"><span id="overall-balance"></div>' +
                         '</div>' +
                     '</div>' +
                     '<div class="half-width">' +
@@ -1182,11 +1187,6 @@ class DayCalendar extends Calendar {
             balanceElement.html(balance);
             balanceElement.removeClass('text-success text-danger');
             balanceElement.addClass(isNegative(balance) ? 'text-danger' : 'text-success');
-        }
-        let monthDayTotal = $('#month-total');
-        if (monthDayTotal)
-        {
-            monthDayTotal.html(monthTotalWorked);
         }
     }
 
