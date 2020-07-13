@@ -69,7 +69,7 @@ html[data-theme="dark"] {
   --day-calendar-select-icon: -webkit-image-set(url(data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiPg0KICAgIDxwb2x5Z29uIHBvaW50cz0iNTAgODUsIDEwMCAwLCAwIDAiIGZpbGw9IndoaXRlIj48L3BvbHlnb24+DQo8L3N2Zz4=) 1x);
 }
 
-html[data-theme="pastel-rainbow"] {
+html[data-theme="cadent-star"] {
   --page-bground: transparent;
   --page-color: black;
   --table-bground: rgba(255, 238, 227, 0.3);
@@ -107,11 +107,11 @@ html[data-theme="dark"] .text-danger {
   color: rgb(226, 93, 90);
 }
 
-html[data-theme="pastel-rainbow"] .text-danger {
+html[data-theme="cadent-star"] .text-danger {
   color: rgb(226, 93, 90);
 }
 
-html[data-theme="pastel-rainbow"] body {
+html[data-theme="cadent-star"] body {
   background-image: linear-gradient(to right, #ff9aa2, #ffb7b2, #ffdac1, #e2f0cb, #b5ead7, #c7ceea);
 }
 
