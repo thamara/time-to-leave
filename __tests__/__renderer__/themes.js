@@ -11,7 +11,7 @@ describe('Theme Functions', function() {
         test('should validate', () => {
             expect(isValidTheme('light')).toBeTruthy();
             expect(isValidTheme('dark')).toBeTruthy();
-            expect(isValidTheme('pastel-rainbow')).toBeTruthy();
+            expect(isValidTheme('cadent-star')).toBeTruthy();
         });
     });
 
@@ -26,7 +26,7 @@ describe('Theme Functions', function() {
         test('should apply', () => {
             expect(applyTheme('light')).toBeTruthy();
             expect(applyTheme('dark')).toBeTruthy();
-            expect(applyTheme('pastel-rainbow')).toBeTruthy();
+            expect(applyTheme('cadent-star')).toBeTruthy();
         });
 
         test('should not apply', function() {
@@ -35,4 +35,3 @@ describe('Theme Functions', function() {
         });
     });
 });
-

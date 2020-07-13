@@ -1,4 +1,4 @@
-const themeOptions = [ 'light', 'dark', 'pastel-rainbow' ];
+const themeOptions = ['light', 'dark', 'cadent-star'];
 
 /**
  * Checks whether the provided theme is valid. This list should be reflected in the `styles.css` file.
