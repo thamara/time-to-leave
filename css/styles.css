@@ -10,6 +10,7 @@ html[data-theme="light"] {
   --page-color: black;
   --table-bground: white;
   --input-bground: transparent;
+  --table-header-bground: var(--table-bground);
   --table-border: rgb(203, 203, 203);
   --table-total-border: rgb(164, 158, 207);
   --table-cell-offtime-bground: rgb(245, 245, 245);
@@ -40,6 +41,7 @@ html[data-theme="dark"] {
   --page-bground: rgb(39, 39, 39);
   --page-color: white;
   --table-bground: rgb(39, 39, 39);
+  --table-header-bground: var(--table-bground);
   --table-border: rgb(90, 90, 90);
   --input-bground: transparent;
   --table-total-border: rgb(95, 92, 121);
@@ -72,13 +74,14 @@ html[data-theme="pastel-rainbow"] {
   --page-color: black;
   --table-bground: rgba(255, 238, 227, 0.3);
   --input-bground: transparent;
+  --table-header-bground: rgba(255, 238, 227, 0.9);
   --table-border: #28292f;
   --table-total-border: rgb(121, 121, 121);
   --table-cell-offtime-bground: rgba(0, 0, 0, 0.1);
   --table-cell-offtime-color: rgba(0, 0, 0, 0.5);
   --table-cell-total-bground: transparent;
   --table-cell-total-color: var(--table-cell-offtime-color);
-  --table-header-label-bground: rgba(255, 238, 227, 0.5);
+  --table-header-label-bground: rgba(255, 238, 227, 0.9);
   --table-header-label-shadow: var(--table-border);
   --error: red;
   --punch-bground: var(--table-total-border);
@@ -187,7 +190,7 @@ body {
   width: 90%;
   position: sticky;
   top: 0;
-  background: var(--table-bground);
+  background: var(--table-header-bground);
 }
 
 #calendar .table-header th {
