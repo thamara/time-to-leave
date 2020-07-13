@@ -24,6 +24,8 @@ function getFirstInputInDb() {
 }
 
 function _formatDateForWaivedWorkdayDb(year, month, day) {
+    // WaivedWorkday are formated with two digits for the month/day (01 instead of 1)
+    // and has the month described by 1-12 (jan - dec)
     function twoDigitNumber(num) {
         return num < 10 ? `0${num}` : `${num}`;
     }
@@ -51,7 +53,7 @@ function _getBalanceForDay(date, hoursPerDay) {
     return dayBalance;
 }
 
-async function computeAllTimeBalancelUntilDay(today) {
+async function computeAllTimeBalancelUntil(day) {
     const preferences = getUserPreferences();
     const firstInput = getFirstInputInDb();
     if (firstInput === '') {
@@ -62,29 +64,26 @@ async function computeAllTimeBalancelUntilDay(today) {
 
     var allTimeTotal = '00:00';
     const hoursPerDay = _getHoursPerDay();
-    while (getDateStr(date) !== getDateStr(today) && today > date) {
-        if (!showDay(date.getFullYear(), date.getMonth(), date.getDate(), preferences)) {
-            date.setDate(date.getDate() + 1);
-            continue;
+    while (getDateStr(date) !== getDateStr(day) && day > date) {
+        if (showDay(date.getFullYear(), date.getMonth(), date.getDate(), preferences)) {
+            const dayBalance = _getBalanceForDay(date, hoursPerDay);
+            allTimeTotal = sumTime(dayBalance, allTimeTotal);
         }
-        const dayBalance = _getBalanceForDay(date, hoursPerDay);
-        allTimeTotal = sumTime(dayBalance, allTimeTotal);
-
         date.setDate(date.getDate() + 1);
     }
     return allTimeTotal;
 }
 
-async function computeAllTimeBalancelUntilDayAsync(today) {
+async function computeAllTimeBalancelUntilAsync(day) {
     return new Promise(resolve => {
         setTimeout(() => {
-            resolve(computeAllTimeBalancelUntilDay(today));
+            resolve(computeAllTimeBalancelUntil(day));
         }, 1);
     });
 }
 
 module.exports = {
-    computeAllTimeBalancelUntilDayAsync,
-    computeAllTimeBalancelUntilDay,
+    computeAllTimeBalancelUntilAsync,
+    computeAllTimeBalancelUntil,
     getFirstInputInDb
 };
