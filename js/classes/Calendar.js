@@ -245,8 +245,8 @@ class Calendar {
                     '<td class="month-total-time" title="Last day used for balance"><input type="text" id="month-day-input"   size="2" disabled></td>' +
                     '<td class="month-total-text" title="How many working days there\'s in the month">Working days</td>' +
                     '<td class="month-total-time" title="How many working days there\'s in the month"><input type="text"  id="month-working-days" size="5" disabled></td>' +
-                    '<td class="month-total-text" title="Balance up until today for this month. A positive balance means extra    hours you don\'t need to work today (or the rest of the month).">Month Balance</td>' +
-                    '<td class="month-total-time" title="Balance up until today for this month. A positive balance means extra    hours you don\'t need to work today (or the rest of the month)."><input type="text" id="month-balance"     size="8" disabled></td>' +
+                    '<td class="month-total-text" title="Balance up until today for this month. A positive balance means extra hours you don\'t need to work today (or the rest of the month).">Month Balance</td>' +
+                    '<td class="month-total-time" title="Balance up until today for this month. A positive balance means extra hours you don\'t need to work today (or the rest of the month)."><input type="text" id="month-balance"     size="8" disabled></td>' +
                     '<td class="month-total-text" title="Overall balance until end of the month or current day">Overall Balance</td>' +
                     '<td class="month-total-time" title="Overall balance until end of the month or current day"><input type="text" id="overall-balance" size="8" placeholder="..." disabled></td>' +
                 '</tr>' +
