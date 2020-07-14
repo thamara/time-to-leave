@@ -1,23 +1,24 @@
 /* eslint-disable no-undef */
 const Store = require('electron-store');
 const {
-    computeAllTimeBalancelUntilAsync,
     computeAllTimeBalancelUntil,
     getFirstInputInDb
 } = require('../../js/time-balance');
 
-// Global values for calendar
-const store = new Store();
-const waivedWorkdays = new Store({ name: 'waived-workdays' });
-
 describe('Time Balance', () => {
     test('getFirstInputInDb: no input', () => {
         const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
+        waivedWorkdays.clear();
         expect(getFirstInputInDb()).toBe('');
     });
 
     test('getFirstInputInDb: input 1', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
+        store.clear();
+        waivedWorkdays.clear();
         const entryEx = {
             '2020-3-1-day-begin': '08:00'
         };
@@ -26,6 +27,10 @@ describe('Time Balance', () => {
     });
 
     test('getFirstInputInDb: input 2', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
+        store.clear();
+        waivedWorkdays.clear();
         const entryEx = {
             '2020-3-1-day-begin': '08:00',
             '2020-3-3-day-begin': '08:00'
@@ -35,6 +40,10 @@ describe('Time Balance', () => {
     });
 
     test('getFirstInputInDb: input 3', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
+        store.clear();
+        waivedWorkdays.clear();
         const entryEx = {
             '2020-3-1-day-begin': '08:00',
             '2020-3-3-day-begin': '08:00',
@@ -45,6 +54,8 @@ describe('Time Balance', () => {
     });
 
     test('getFirstInputInDb: input 4', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
         waivedWorkdays.clear();
         const entryEx = {
@@ -84,12 +95,16 @@ describe('Time Balance', () => {
     });
 
     test('computeAllTimeBalancelUntil: no input', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
         waivedWorkdays.clear();
         expect(computeAllTimeBalancelUntil(new Date())).resolves.toBe('00:00');
     });
 
     test('computeAllTimeBalancelUntil: only regular days', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
         waivedWorkdays.clear();
         const entryEx = {
@@ -111,6 +126,8 @@ describe('Time Balance', () => {
     });
 
     test('computeAllTimeBalancelUntil: only regular days (with overtime)', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
         waivedWorkdays.clear();
         const entryEx = {
@@ -126,6 +143,8 @@ describe('Time Balance', () => {
     });
 
     test('computeAllTimeBalancelUntil: only regular days (with undertime)', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
         waivedWorkdays.clear();
         const entryEx = {
@@ -141,6 +160,8 @@ describe('Time Balance', () => {
     });
 
     test('computeAllTimeBalancelUntil: only regular days (with mixed time)', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
         waivedWorkdays.clear();
         const entryEx = {
@@ -158,6 +179,8 @@ describe('Time Balance', () => {
     });
 
     test('computeAllTimeBalancelUntil: missing entries', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
         waivedWorkdays.clear();
         const entryEx = {
@@ -176,6 +199,8 @@ describe('Time Balance', () => {
     });
 
     test('computeAllTimeBalancelUntil: with waived days', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
         waivedWorkdays.clear();
         const entryEx = {
@@ -196,6 +221,8 @@ describe('Time Balance', () => {
     });
 
     test('computeAllTimeBalancelUntil: with waived days 2', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
         waivedWorkdays.clear();
         const entryEx = {
@@ -218,6 +245,8 @@ describe('Time Balance', () => {
     });
 
     test('computeAllTimeBalancelUntil: with waived days (not full)', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
         waivedWorkdays.clear();
         const entryEx = {
@@ -238,6 +267,8 @@ describe('Time Balance', () => {
     });
 
     test('computeAllTimeBalancelUntil: target date in the past of entries', () => {
+        const store = new Store();
+        const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
         waivedWorkdays.clear();
         const entryEx = {
@@ -246,13 +277,9 @@ describe('Time Balance', () => {
         };
         store.set(entryEx);
         const waivedEntries = {
-            '2020-07-02': { reason: 'Waiver', hours: '02:00' }, // trie
+            '2020-07-02': { reason: 'Waiver', hours: '02:00' }, // tue
         };
         waivedWorkdays.set(waivedEntries);
         expect(computeAllTimeBalancelUntil(new Date(2020, 5, 1))).resolves.toBe('00:00');
-    });
-
-    test('computeAllTimeBalancelUntilAsync: should do seamless call', async() => {
-        await computeAllTimeBalancelUntilAsync(new Date(2020, 5, 1));
     });
 });
