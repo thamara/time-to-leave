@@ -1,5 +1,9 @@
 name: PR Checks
-on: [pull_request, push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 jobs:
   'Checking':
     runs-on: ${{ matrix.os }}
