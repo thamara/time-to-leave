@@ -4,13 +4,12 @@ const fs = require('fs');
 const path = require('path');
 /* eslint-disable-next-line no-global-assign */
 $ = require('jquery');
-const { 
+const {
     addWaiver,
     populateList,
     setDates,
-    setHours 
+    setHours
 } = require('../../src/workday-waiver');
-const console = require('console');
 
 function prepareMockup() {
     const waivedWorkdays = new Store({ name: 'waived-workdays' });

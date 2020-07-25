@@ -94,9 +94,9 @@ class Calendar {
             targetDate = isCurrentMonth ?
                 new Date(targetYear, targetMonth, this._getCalendarDate()) :
                 new Date(targetYear, targetMonth + 1, 1);
-            if (isCurrentMonth && this._getCountToday()) {
-                targetDate.setDate(targetDate.getDate() + 1);
-            }
+        if (isCurrentMonth && this._getCountToday()) {
+            targetDate.setDate(targetDate.getDate() + 1);
+        }
         computeAllTimeBalancelUntilAsync(targetDate).then(balance => {
             var balanceElement = $('#overall-balance');
             if (balanceElement) {
