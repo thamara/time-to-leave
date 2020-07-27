@@ -1,4 +1,4 @@
-1.5.5 (in development)
+1.5.5
 ------------------------------------------------------------------------
 - Enhancement: [#11] Introducing an easy way of sourcing holidays based on user location
 - Enhancement: [#164] Overall Balance to replace Month Sum - Now you get an all time balance of your working hours. (Too much overtime huh?!)
@@ -6,6 +6,8 @@
 
 Who built 1.5.5:
 - thamara
+- tupaschoal
+- araujoarthur0
 
 
 1.5.4
