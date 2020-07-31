@@ -53,7 +53,7 @@ function _getBalanceForDay(date, hoursPerDay) {
     return dayBalance;
 }
 
-async function computeAllTimeBalancelUntil(day) {
+async function computeAllTimeBalanceUntil(day) {
     const preferences = getUserPreferences();
     const firstInput = getFirstInputInDb();
     if (firstInput === '') {
@@ -74,16 +74,16 @@ async function computeAllTimeBalancelUntil(day) {
     return allTimeTotal;
 }
 
-async function computeAllTimeBalancelUntilAsync(day) {
+async function computeAllTimeBalanceUntilAsync(day) {
     return new Promise(resolve => {
         setTimeout(() => {
-            resolve(computeAllTimeBalancelUntil(day));
+            resolve(computeAllTimeBalanceUntil(day));
         }, 1);
     });
 }
 
 module.exports = {
-    computeAllTimeBalancelUntilAsync,
-    computeAllTimeBalancelUntil,
+    computeAllTimeBalanceUntilAsync,
+    computeAllTimeBalanceUntil,
     getFirstInputInDb
 };

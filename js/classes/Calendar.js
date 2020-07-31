@@ -17,7 +17,7 @@ const {
     sendWaiverDay,
     displayWaiverWindow
 } = require('../workday-waiver-aux.js');
-const { computeAllTimeBalancelUntilAsync } = require('../time-balance.js');
+const { computeAllTimeBalanceUntilAsync } = require('../time-balance.js');
 
 // Global values for calendar
 const store = new Store();
@@ -97,7 +97,7 @@ class Calendar {
         if (isCurrentMonth && this._getCountToday()) {
             targetDate.setDate(targetDate.getDate() + 1);
         }
-        computeAllTimeBalancelUntilAsync(targetDate).then(balance => {
+        computeAllTimeBalanceUntilAsync(targetDate).then(balance => {
             var balanceElement = $('#overall-balance');
             if (balanceElement) {
                 balanceElement.val(balance);
