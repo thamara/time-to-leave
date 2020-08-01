@@ -92,7 +92,7 @@ class Calendar {
             // last day of the month. To do so we move to the first day of the following month
             isCurrentMonth = targetYear === this._getTodayYear() && targetMonth === this._getTodayMonth(),
             targetDate = isCurrentMonth ?
-                new Date(targetYear, targetMonth, this._getCalendarDate()) :
+                new Date(targetYear, targetMonth, this._getTodayDate()) :
                 new Date(targetYear, targetMonth + 1, 1);
         if (isCurrentMonth && this._getCountToday()) {
             targetDate.setDate(targetDate.getDate() + 1);
