@@ -85,8 +85,13 @@ class Calendar {
         this._draw();
     }
 
-    _updateAllTimeBalance() {
-        var targetYear = this._getCalendarYear(),
+    /**
+     * Returns a date object for which the all time balance will be calculated.
+     * If current month, returns the actual day. If not, first day of following month.
+     * @return {Date}
+     */
+    _getTargetDayForAllTimeBalance() {
+        let targetYear = this._getCalendarYear(),
             targetMonth = this._getCalendarMonth(),
             // If we are not displaying the current month we need to compute the balance including the
             // last day of the month. To do so we move to the first day of the following month
@@ -97,6 +102,11 @@ class Calendar {
         if (isCurrentMonth && this._getCountToday()) {
             targetDate.setDate(targetDate.getDate() + 1);
         }
+        return targetDate;
+    }
+
+    _updateAllTimeBalance() {
+        const targetDate = this._getTargetDayForAllTimeBalance();
         computeAllTimeBalanceUntilAsync(targetDate).then(balance => {
             var balanceElement = $('#overall-balance');
             if (balanceElement) {
@@ -1254,6 +1264,20 @@ class DayCalendar extends Calendar {
         this._updateBalance();
 
         this._updateLeaveBy();
+    }
+
+    /**
+     * Returns a date object for which the all time balance will be calculated.
+     * For DayCalendar, it's the day of CalendarDate => the day being displayed.
+     * If "count_today" is active, the following day.
+     * @return {Date}
+     */
+    _getTargetDayForAllTimeBalance() {
+        let targetDate = new Date(this._getCalendarYear(), this._getCalendarMonth(), this._getCalendarDate());
+        if (this._getCountToday()) {
+            targetDate.setDate(targetDate.getDate() + 1);
+        }
+        return targetDate;
     }
 }
 
