@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 const Store = require('electron-store');
 const {
-    computeAllTimeBalancelUntil,
+    computeAllTimeBalanceUntil,
     getFirstInputInDb
 } = require('../../js/time-balance');
 
@@ -94,15 +94,15 @@ describe('Time Balance', () => {
         expect(getFirstInputInDb()).toBe('2020-6-6-day-begin');
     });
 
-    test('computeAllTimeBalancelUntil: no input', () => {
+    test('computeAllTimeBalanceUntil: no input', () => {
         const store = new Store();
         const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
         waivedWorkdays.clear();
-        expect(computeAllTimeBalancelUntil(new Date())).resolves.toBe('00:00');
+        expect(computeAllTimeBalanceUntil(new Date())).resolves.toBe('00:00');
     });
 
-    test('computeAllTimeBalancelUntil: only regular days', () => {
+    test('computeAllTimeBalanceUntil: only regular days', () => {
         const store = new Store();
         const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
@@ -112,20 +112,20 @@ describe('Time Balance', () => {
         };
         store.set(entryEx);
         // time balance until thu (excluding thu)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 2))).resolves.toBe('00:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 2))).resolves.toBe('00:00');
         // time balance until fri (excluding fri)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 3))).resolves.toBe('-08:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 3))).resolves.toBe('-08:00');
         // time balance until sat (excluding sat)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 4))).resolves.toBe('-16:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-16:00');
         // time balance until sun (excluding sun)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 5))).resolves.toBe('-16:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 5))).resolves.toBe('-16:00');
         // time balance until mon (excluding mon)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 6))).resolves.toBe('-16:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 6))).resolves.toBe('-16:00');
         // time balance until tue (excluding tue)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 7))).resolves.toBe('-24:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 7))).resolves.toBe('-24:00');
     });
 
-    test('computeAllTimeBalancelUntil: only regular days (with overtime)', () => {
+    test('computeAllTimeBalanceUntil: only regular days (with overtime)', () => {
         const store = new Store();
         const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
@@ -135,14 +135,14 @@ describe('Time Balance', () => {
         };
         store.set(entryEx);
         // time balance until thu (excluding thu)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 2))).resolves.toBe('01:30');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 2))).resolves.toBe('01:30');
         // time balance until fri (excluding fri)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 3))).resolves.toBe('-06:30');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 3))).resolves.toBe('-06:30');
         // time balance until sat (excluding sat)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 4))).resolves.toBe('-14:30');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-14:30');
     });
 
-    test('computeAllTimeBalancelUntil: only regular days (with undertime)', () => {
+    test('computeAllTimeBalanceUntil: only regular days (with undertime)', () => {
         const store = new Store();
         const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
@@ -152,14 +152,14 @@ describe('Time Balance', () => {
         };
         store.set(entryEx);
         // time balance until thu (excluding thu)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 2))).resolves.toBe('-01:45');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 2))).resolves.toBe('-01:45');
         // time balance until fri (excluding fri)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 3))).resolves.toBe('-09:45');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 3))).resolves.toBe('-09:45');
         // time balance until sat (excluding sat)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 4))).resolves.toBe('-17:45');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-17:45');
     });
 
-    test('computeAllTimeBalancelUntil: only regular days (with mixed time)', () => {
+    test('computeAllTimeBalanceUntil: only regular days (with mixed time)', () => {
         const store = new Store();
         const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
@@ -171,14 +171,14 @@ describe('Time Balance', () => {
         };
         store.set(entryEx);
         // time balance until thu (excluding thu)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 2))).resolves.toBe('-01:45');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 2))).resolves.toBe('-01:45');
         // time balance until fri (excluding fri)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 3))).resolves.toBe('-00:30');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 3))).resolves.toBe('-00:30');
         // time balance until sat (excluding sat)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 4))).resolves.toBe('-02:15');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-02:15');
     });
 
-    test('computeAllTimeBalancelUntil: missing entries', () => {
+    test('computeAllTimeBalanceUntil: missing entries', () => {
         const store = new Store();
         const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
@@ -189,16 +189,16 @@ describe('Time Balance', () => {
         };
         store.set(entryEx);
         // time balance until thu (excluding thu)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 2))).resolves.toBe('00:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 2))).resolves.toBe('00:00');
         // time balance until fri (excluding fri)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 3))).resolves.toBe('-08:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 3))).resolves.toBe('-08:00');
         // time balance until sat (excluding sat)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 4))).resolves.toBe('-08:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-08:00');
         // time balance until sun (excluding sun)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 5))).resolves.toBe('-08:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 5))).resolves.toBe('-08:00');
     });
 
-    test('computeAllTimeBalancelUntil: with waived days', () => {
+    test('computeAllTimeBalanceUntil: with waived days', () => {
         const store = new Store();
         const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
@@ -213,14 +213,14 @@ describe('Time Balance', () => {
         };
         waivedWorkdays.set(waivedEntries);
         // time balance until thu (excluding thu)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 2))).resolves.toBe('00:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 2))).resolves.toBe('00:00');
         // time balance until fri (excluding fri)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 3))).resolves.toBe('00:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 3))).resolves.toBe('00:00');
         // time balance until sat (excluding sat)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 4))).resolves.toBe('00:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('00:00');
     });
 
-    test('computeAllTimeBalancelUntil: with waived days 2', () => {
+    test('computeAllTimeBalanceUntil: with waived days 2', () => {
         const store = new Store();
         const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
@@ -235,16 +235,16 @@ describe('Time Balance', () => {
         };
         waivedWorkdays.set(waivedEntries);
         // time balance until wed (excluding wed)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 8))).resolves.toBe('00:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 8))).resolves.toBe('00:00');
         // time balance until tue (excluding tue)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 9))).resolves.toBe('00:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 9))).resolves.toBe('00:00');
         // time balance until fri (excluding fri)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 10))).resolves.toBe('00:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 10))).resolves.toBe('00:00');
         // time balance until sat (excluding sat)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 11))).resolves.toBe('00:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 11))).resolves.toBe('00:00');
     });
 
-    test('computeAllTimeBalancelUntil: with waived days (not full)', () => {
+    test('computeAllTimeBalanceUntil: with waived days (not full)', () => {
         const store = new Store();
         const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
@@ -259,14 +259,14 @@ describe('Time Balance', () => {
         };
         waivedWorkdays.set(waivedEntries);
         // time balance until tue (excluding tue)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 2))).resolves.toBe('00:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 2))).resolves.toBe('00:00');
         // time balance until fri (excluding fri)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 3))).resolves.toBe('-06:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 3))).resolves.toBe('-06:00');
         // time balance until sat (excluding sat)
-        expect(computeAllTimeBalancelUntil(new Date(2020, 6, 4))).resolves.toBe('-06:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-06:00');
     });
 
-    test('computeAllTimeBalancelUntil: target date in the past of entries', () => {
+    test('computeAllTimeBalanceUntil: target date in the past of entries', () => {
         const store = new Store();
         const waivedWorkdays = new Store({ name: 'waived-workdays' });
         store.clear();
@@ -280,6 +280,6 @@ describe('Time Balance', () => {
             '2020-07-02': { reason: 'Waiver', hours: '02:00' }, // tue
         };
         waivedWorkdays.set(waivedEntries);
-        expect(computeAllTimeBalancelUntil(new Date(2020, 5, 1))).resolves.toBe('00:00');
+        expect(computeAllTimeBalanceUntil(new Date(2020, 5, 1))).resolves.toBe('00:00');
     });
 });
