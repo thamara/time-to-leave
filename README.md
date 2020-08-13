@@ -1,14 +1,16 @@
 <div align="center">
-  <img src="assets/timer.svg" alt="Time to Leave Logo" height="150">
+  <img src="assets/timer.svg" alt="Time to Leave Logo" height="100">
   
   <br/>
   
-  <p><strong>Time to Leave</strong></p>
+  <h1><strong>Time to Leave</strong></h1>
   <p>Log work hours and get notified when it's time to leave the office and start to live</p>
+  
+  <br/>
+  
+  <img src="https://user-images.githubusercontent.com/846063/67172932-9e1db580-f393-11e9-87bc-1f51d57f8788.png" alt="Time to Leave Screenshot" height="500">
  
 </div>
-
-![time-to-leave](https://user-images.githubusercontent.com/846063/67172932-9e1db580-f393-11e9-87bc-1f51d57f8788.png)
 
 Just log the time you started working today, and the program will compute what time you should leave the office, considering the time you spent on lunch. When it's time, the program will notify you.
 
