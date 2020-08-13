@@ -1,6 +1,12 @@
-# time-to-leave
-
-Log work hours and get notified when it's time to leave the office and start to live.
+<div align="center">
+  <img src="assets/timer.svg" alt="Time to Leave Logo" height="150">
+  
+  <br/>
+  
+  <p><strong>Time to Leave</strong></p>
+  <p>Log work hours and get notified when it's time to leave the office and start to live</p>
+ 
+</div>
 
 ![time-to-leave](https://user-images.githubusercontent.com/846063/67172932-9e1db580-f393-11e9-87bc-1f51d57f8788.png)
 
