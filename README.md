@@ -9,10 +9,14 @@
   <br/>
   
   <img src="https://user-images.githubusercontent.com/846063/67172932-9e1db580-f393-11e9-87bc-1f51d57f8788.png" alt="Time to Leave Screenshot" height="500">
+  
+  <br/>
  
 </div>
 
-Just log the time you started working today, and the program will compute what time you should leave the office, considering the time you spent on lunch. When it's time, the program will notify you.
+---
+
+Log the time you started working today, and the program will compute what time you should leave the office, considering the time you spent on lunch. When it's time, the program will notify you.
 
 ![time-to-leave-notification](https://user-images.githubusercontent.com/846063/64999052-c9a51000-d8bc-11e9-9ed5-9e500d084a65.png)
 
