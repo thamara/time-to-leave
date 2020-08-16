@@ -8,7 +8,7 @@
   
   <br/>
   
-  <img src="https://user-images.githubusercontent.com/846063/67172932-9e1db580-f393-11e9-87bc-1f51d57f8788.png" alt="Time to Leave Screenshot" height="500">
+  <img src="https://user-images.githubusercontent.com/846063/67172932-9e1db580-f393-11e9-87bc-1f51d57f8788.png" alt="Time to Leave Screenshot">
   
   <br/>
  
