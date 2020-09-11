@@ -30,6 +30,12 @@ You can also add waivers on the days you did not work.
 
 ## How to install
 
+Works on MacOS, Windows and Linux!
+
+Download the desired version from [the latest release](https://github.com/thamara/time-to-leave/releases/tag/v.1.5.5).
+
+## How to build it
+
 ### Dependencies
 
 -   [Node.js](https://nodejs.org/en/): version 8.x or higher
