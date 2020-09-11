@@ -135,7 +135,7 @@ jobs:
       run: echo "::set-env name=APP_VERSION::$(node -p "require('./package.json').version")"
     - name: Parse release information
       run: |
-        sed '/^[[:space:]]*$/d' changelog.txt > changelog.plain
+        sed '/^[[:space:]]*$/d' changelog.md > changelog.plain
         csplit changelog.plain '/^[0-9]+*/' '{*}' -z -n 4 -f version
         csplit version0000  '/^Who built*/' '{*}' -z -n 4 -f block
         echo "::set-env name=UPDATES::$(tail -n +3 block0000)"
