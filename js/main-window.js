@@ -98,10 +98,14 @@ function createWindow()
         tray.popUpContextMenu(contextMenu);
     });
 
-    mainWindow.on('minimize', () =>
+    mainWindow.on('minimize', (event) =>
     {
-        event.preventDefault();
-        mainWindow.hide();
+        let savedPreferences = getUserPreferences();
+        if (savedPreferences['minimize-to-tray'])
+        {
+            event.preventDefault();
+            mainWindow.hide();
+        }
     });
 
     // Emitted when the window is closed.
