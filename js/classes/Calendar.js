@@ -961,16 +961,21 @@ class Calendar {
      */
     _hasInputError(dayBegin, lunchBegin, lunchEnd, dayEnd) {
         var dayValues = new Array();
-        if (validateTime(dayBegin)) {
+        var hasLunchStarted = false;
+        if (validateTime(dayBegin)) {            
             dayValues.push(dayBegin);
         }
         if (validateTime(lunchBegin)) {
+            hasLunchStarted = true;
             dayValues.push(lunchBegin);
         }
         if (validateTime(lunchEnd)) {
+            if (!hasLunchStarted) return true;
+            hasLunchStarted = false;
             dayValues.push(lunchEnd);
         }
         if (validateTime(dayEnd)) {
+            if (hasLunchStarted) return true;
             dayValues.push(dayEnd);
         }
         for (var index = 0; index < dayValues.length; index++) {
