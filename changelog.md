@@ -17,6 +17,7 @@ Who built 1.5.6:
 -   anatdagan
 -   daretobedifferent18
 -   ibamibrhm
+-   kumaranshu72
 
 ## 1.5.5
 
