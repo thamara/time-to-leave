@@ -89,7 +89,7 @@ function readPreferences() {
 
 function getDerivedPrefsFromLoadedPrefs(loadedPreferences) {
     var derivedPreferences = {};
-    Object.keys(defaultPreferences).forEach(function (key) {
+    Object.keys(defaultPreferences).forEach(function(key) {
         derivedPreferences[key] = (typeof loadedPreferences[key] !== 'undefined') ? loadedPreferences[key] : defaultPreferences[key];
     });
 
@@ -135,7 +135,7 @@ function initPreferencesFileIfNotExistsOrInvalid() {
             'theme': () => shouldSaveDerivedPrefs |= !isValidTheme,
             'number-of-entries': () => shouldSaveDerivedPrefs |= !(value === 'fixed' || value === 'flexible'),
             'view': () => (derivedPrefs['number-of-entries'] === 'flexible') ? shouldSaveDerivedPrefs |= !(value === 'month') : shouldSaveDerivedPrefs |= !(value === 'month' || value === 'day'),
-        }
+        };
         if (key in inputEnum) inputEnum[key]();
     }
 
@@ -162,13 +162,13 @@ function showWeekDay(weekDay, preferences = undefined) {
         preferences = getLoadedOrDerivedUserPreferences();
     }
     switch (weekDay) {
-        case 0: return preferences['working-days-sunday'];
-        case 1: return preferences['working-days-monday'];
-        case 2: return preferences['working-days-tuesday'];
-        case 3: return preferences['working-days-wednesday'];
-        case 4: return preferences['working-days-thursday'];
-        case 5: return preferences['working-days-friday'];
-        case 6: return preferences['working-days-saturday'];
+    case 0: return preferences['working-days-sunday'];
+    case 1: return preferences['working-days-monday'];
+    case 2: return preferences['working-days-tuesday'];
+    case 3: return preferences['working-days-wednesday'];
+    case 4: return preferences['working-days-thursday'];
+    case 5: return preferences['working-days-friday'];
+    case 6: return preferences['working-days-saturday'];
     }
 }
 
