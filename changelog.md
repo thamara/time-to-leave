@@ -4,10 +4,12 @@
 -   Fix: Fixed behavior of calendar when moving to next/previous month when current day is in the range of 29-31.
 -   Fix: [#334] Improving performance of overall balance calculation and fixing balance target date after month change
 -   Fix: [#362] Fixed initial size of preferences window
+-   Fix: [#214] Check that lunch has beginning and end, if there is lunch
 -   Enhancement: [#328] Swap position for overall and month balance on day view
 -   Enhancement: [#333] Adding start date for overall balance on preferences
 -   Enhancement: [#357] Adding flexible table format for month calendar with variable number of entries per day
--   Fix: [#214] Check that lunch has beginning and end, if there is lunch
+-   Enhancement: [#383] Add system default theme that auto-detect if dark or light mode is set
+
 
 Who built 1.5.6:
 
@@ -18,6 +20,7 @@ Who built 1.5.6:
 -   daretobedifferent18
 -   ibamibrhm
 -   kumaranshu72
+-   06b
 
 ## 1.5.5
 
