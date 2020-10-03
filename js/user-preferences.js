@@ -52,6 +52,7 @@ const timeInputs = [
 ];
 
 const isBoolean = (val) => typeof val !== 'boolean';
+const isValidTime = (val) => !validateTime(val) && Number.isNaN(Number(val)) || val < 1 || val > 30;
 
 /*
  * Returns the preference file path, considering the userData path
@@ -126,7 +127,7 @@ function initPreferencesFileIfNotExistsOrInvalid() {
             shouldSaveDerivedPrefs = true;
         }
 
-        if (timeInputs.includes(key) && !validateTime(value)) {
+        if (timeInputs.includes(key) && isValidTime(value)) {
             derivedPrefs[key] = defaultPreferences[key];
             shouldSaveDerivedPrefs = true;
         }
@@ -134,7 +135,9 @@ function initPreferencesFileIfNotExistsOrInvalid() {
         const inputEnum = {
             'theme': () => shouldSaveDerivedPrefs |= !isValidTheme,
             'number-of-entries': () => shouldSaveDerivedPrefs |= !(value === 'fixed' || value === 'flexible'),
-            'view': () => (derivedPrefs['number-of-entries'] === 'flexible') ? shouldSaveDerivedPrefs |= !(value === 'month') : shouldSaveDerivedPrefs |= !(value === 'month' || value === 'day'),
+            'view': () => (derivedPrefs['number-of-entries'] === 'flexible') 
+                ? shouldSaveDerivedPrefs |= !(value === 'month') 
+                : shouldSaveDerivedPrefs |= !(value === 'month' || value === 'day'),
         };
         if (key in inputEnum) inputEnum[key]();
     }
