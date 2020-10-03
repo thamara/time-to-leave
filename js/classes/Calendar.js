@@ -18,6 +18,7 @@ const {
     displayWaiverWindow
 } = require('../workday-waiver-aux.js');
 const { computeAllTimeBalanceUntilAsync } = require('../time-balance.js');
+const { generateKey } = require('../date-db-formatter');
 
 // Global values for calendar
 const store = new Store();
@@ -150,8 +151,7 @@ class Calendar {
      * @return {string|undefined} A time string
      */
     _getStore(day, month, year, key) {
-        var idTag = year + '-' + month + '-' + day + '-' + key;
-
+        var idTag = generateKey(year, month, day, key);
         return this._internalStore[idTag];
     }
 
@@ -164,7 +164,7 @@ class Calendar {
      * @param {string} newValue valid time value
      */
     _setStore(day, month, year, key, newValue) {
-        var idTag = year + '-' + month + '-' + day + '-' + key;
+        var idTag = generateKey(year, month, day, key);
 
         this._internalStore[idTag] = newValue;
         store.set(idTag, newValue);
@@ -178,7 +178,7 @@ class Calendar {
      * @param {string} key
      */
     _removeStore(day, month, year, key) {
-        var idTag = year + '-' + month + '-' + day + '-' + key;
+        var idTag = generateKey(year, month, day, key);
 
         this._internalStore[idTag] = undefined;
         store.delete(idTag);
@@ -215,7 +215,7 @@ class Calendar {
      * @return {string}
      */
     static _getInputCode(year, month, day, key) {
-        var idTag = year + '-' + month + '-' + day + '-' + key;
+        var idTag = generateKey(year, month, day, key);
 
         return '<input type="time" id="' + idTag + '"' +
                (key.endsWith('total') ? ' disabled' : '') +
@@ -231,7 +231,7 @@ class Calendar {
      * @return {string}
      */
     static _getTotalCode(year, month, day, key) {
-        var idTag = year + '-' + month + '-' + day + '-' + key;
+        var idTag = generateKey(year, month, day, key);
 
         return '<input type="text" class="total-input" id="' +
                idTag + '" size="5"' +
@@ -290,7 +290,7 @@ class Calendar {
             weekDay = currentDay.getDay(),
             today = new Date(),
             isToday = (today.getDate() === day && today.getMonth() === month && today.getFullYear() === year),
-            trID = ('tr-' + year + '-' + month + '-' + day);
+            trID = ('tr-' + generateKey(year, month, day));
 
         if (!this._showDay(year, month, day)) {
             if (!this._getHideNonWorkingDays()) {
@@ -666,7 +666,7 @@ class Calendar {
             return;
         }
 
-        var dayStr = year + '-' + month + '-' + day + '-';
+        var dayStr = generateKey(year, month, day) + '-';
         var entry = '';
         if ($('#' + dayStr + 'day-end').val() === '') {
             entry = 'day-end';
@@ -920,7 +920,7 @@ class Calendar {
      * @param {string} newValue Time value
      */
     _updateTimeDay(year, month, day, key, newValue) {
-        var baseStr = year + '-' + month + '-' + day + '-';
+        var baseStr = generateKey(year, month, day) + '-';
 
         this._updateDbEntry(year, month, day, key, newValue);
 
@@ -1006,7 +1006,7 @@ class Calendar {
      * @param {string} dayEnd
      */
     _colorErrorLine(year, month, day, dayBegin, lunchBegin, lunchEnd, dayEnd) {
-        var trID = ('#tr-' + year + '-' + month + '-' + day);
+        var trID = ('#tr-' + generateKey(year, month, day));
         $(trID).toggleClass('error-tr', this._hasInputError(dayBegin, lunchBegin, lunchEnd, dayEnd));
     }
 
