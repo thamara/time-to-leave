@@ -135,9 +135,7 @@ function initPreferencesFileIfNotExistsOrInvalid() {
         const inputEnum = {
             'theme': () => shouldSaveDerivedPrefs |= !isValidTheme,
             'number-of-entries': () => shouldSaveDerivedPrefs |= !(value === 'fixed' || value === 'flexible'),
-            'view': () => (derivedPrefs['number-of-entries'] === 'flexible')
-                ? shouldSaveDerivedPrefs |= !(value === 'month')
-                : shouldSaveDerivedPrefs |= !(value === 'month' || value === 'day'),
+            'view': () => shouldSaveDerivedPrefs |= !(value === 'month' || value === 'day'),
         };
         if (key in inputEnum) inputEnum[key]();
     }
