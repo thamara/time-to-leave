@@ -1,6 +1,6 @@
 'use strict';
 
-const themeOptions = ['light', 'dark', 'cadent-star'];
+const themeOptions = ['system-default', 'light', 'dark', 'cadent-star'];
 
 /**
  * Checks whether the provided theme is valid. This list should be reflected in the `styles.css` file.
@@ -19,6 +19,10 @@ function isValidTheme(testTheme) {
 function applyTheme(theme) {
     if (isValidTheme(theme) === false) {
         return false;
+    }
+
+    if (theme === 'system-default') {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
 
     // Applies to the Primary view
