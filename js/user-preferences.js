@@ -52,7 +52,7 @@ const timeInputs = [
 ];
 
 const isNotBoolean = (val) => typeof val !== 'boolean';
-const isValidTime = (val) => validateTime(val) || Number.isNaN(Number(val)) || val < 1 || val > 30;
+const isValidPreferenceTime = (val) => validateTime(val) || Number.isNaN(Number(val)) || val < 1 || val > 30;
 
 /*
  * Returns the preference file path, considering the userData path
@@ -127,7 +127,7 @@ function initPreferencesFileIfNotExistsOrInvalid() {
             shouldSaveDerivedPrefs = true;
         }
 
-        if (timeInputs.includes(key) && isValidTime(value)) {
+        if (timeInputs.includes(key) && isValidPreferenceTime(value)) {
             derivedPrefs[key] = defaultPreferences[key];
             shouldSaveDerivedPrefs = true;
         }
@@ -216,5 +216,5 @@ module.exports = {
     showDay,
     switchCalendarView,
     isNotBoolean,
-    isValidTime
+    isValidPreferenceTime
 };

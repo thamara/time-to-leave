@@ -7,7 +7,7 @@ const {
     getUserPreferences,
     savePreferences,
     isNotBoolean,
-    isValidTime,
+    isValidPreferenceTime,
 } = require('../../js/user-preferences');
 const fs = require('fs');
 
@@ -22,13 +22,13 @@ describe('Should return false if the value is not boolean type', () => {
 
 describe('Should return true if the value is a valid time', () => {
     test('Value as time format (hh:mm)', () => {
-        expect(isValidTime('00:35')).toBe(true);
+        expect(isValidPreferenceTime('00:35')).toBe(true);
     });
     test('Value as number type (val < 1 || val > 30)', () => {
-        expect(isValidTime(60)).toBe(true);
+        expect(isValidPreferenceTime(60)).toBe(true);
     });
     test('Value as boolean type', () => {
-        expect(isValidTime(true)).toBe(false);
+        expect(isValidPreferenceTime(true)).toBe(false);
     });
 });
 
