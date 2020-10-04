@@ -215,4 +215,6 @@ module.exports = {
     savePreferences,
     showDay,
     switchCalendarView,
+    isNotBoolean,
+    isValidTime
 };

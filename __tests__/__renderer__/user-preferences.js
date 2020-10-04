@@ -6,8 +6,31 @@ const {
     getPreferencesFilePath,
     getUserPreferences,
     savePreferences,
+    isNotBoolean,
+    isValidTime,
 } = require('../../js/user-preferences');
 const fs = require('fs');
+
+describe('Should return false if the value is not boolean type', () => {
+    test('Value as boolean type', () => {
+        expect(isNotBoolean(true)).toBe(false);
+    });
+    test('Value as string type', () => {
+        expect(isNotBoolean('string')).toBe(true);
+    });
+});
+
+describe('Should return true if the value is a valid time', () => {
+    test('Value as time format (hh:mm)', () => {
+        expect(isValidTime('00:35')).toBe(true);
+    });
+    test('Value as number type (val < 1 || val > 30)', () => {
+        expect(isValidTime(60)).toBe(true);
+    });
+    test('Value as boolean type', () => {
+        expect(isValidTime(true)).toBe(false);
+    });
+});
 
 describe('User Preferences save/load', () => {
     process.env.NODE_ENV = 'test';
