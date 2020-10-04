@@ -10,7 +10,8 @@
 -   Enhancement: [#333] Adding start date for overall balance on preferences
 -   Enhancement: [#357] Adding flexible table format for month calendar with variable number of entries per day
 -   Enhancement: [#369] Adding flexible table format for day calendar as well
--   Enhancement: [#383] Add system default theme that auto-detect if dark or light mode is set
+-   Enhancement: [#383] Adding system default theme that auto-detect if dark or light mode is set
+-   Enhancement: [#394] Adding option to control the behavior of the Minimize button
 
 Who built 1.5.6:
 
@@ -23,6 +24,7 @@ Who built 1.5.6:
 -   kumaranshu72
 -   06b
 -   skevprog
+-   michaelknowles
 
 ## 1.5.5
 
