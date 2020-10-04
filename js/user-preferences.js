@@ -51,8 +51,8 @@ const timeInputs = [
     'hours-per-day',
 ];
 
-const isBoolean = (val) => typeof val !== 'boolean';
-const isValidTime = (val) => !validateTime(val) && Number.isNaN(Number(val)) || val < 1 || val > 30;
+const isNotBoolean = (val) => typeof val !== 'boolean';
+const isValidTime = (val) => validateTime(val) || Number.isNaN(Number(val)) || val < 1 || val > 30;
 
 /*
  * Returns the preference file path, considering the userData path
@@ -122,7 +122,7 @@ function initPreferencesFileIfNotExistsOrInvalid() {
     for (const key of derivedPrefsKeys) {
         let value = derivedPrefs[key];
 
-        if (isBoolean(value) && booleanInputs.includes(key)) {
+        if (isNotBoolean(value) && booleanInputs.includes(key)) {
             derivedPrefs[key] = defaultPreferences[key];
             shouldSaveDerivedPrefs = true;
         }
@@ -214,5 +214,5 @@ module.exports = {
     getPreferencesFilePath,
     savePreferences,
     showDay,
-    switchCalendarView
+    switchCalendarView,
 };
