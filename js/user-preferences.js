@@ -180,7 +180,7 @@ function showWeekDay(weekDay, preferences = undefined) {
  * @note: The month should be 0-based (i.e.: 0 is Jan, 11 is Dec).
  */
 function showDay(year, month, day, preferences = undefined) {
-    var currentDay = new Date(year, month, day), weekDay = currentDay.getDay();
+    let currentDay = new Date(year, month, day), weekDay = currentDay.getDay();
     return showWeekDay(weekDay, preferences);
 }
 
