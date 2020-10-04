@@ -106,16 +106,20 @@ function createWindow()
         tray.popUpContextMenu(contextMenu);
     });
 
-    mainWindow.on('minimize', () =>
+    mainWindow.on('minimize', (event) =>
     {
-        event.preventDefault();
-        mainWindow.hide();
+        const savedPreferences = getUserPreferences();
+        if (savedPreferences['minimize-to-tray'])
+        {
+            event.preventDefault();
+            mainWindow.hide();
+        }
     });
 
     // Emitted when the window is closed.
     mainWindow.on('close', (event) =>
     {
-        let savedPreferences = getUserPreferences();
+        const savedPreferences = getUserPreferences();
         if (!app.isQuitting && savedPreferences['close-to-tray'])
         {
             event.preventDefault();
