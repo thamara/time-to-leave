@@ -16,8 +16,8 @@ const defaultPreferences = {
     'notifications-interval': '5',
     'start-at-login': false,
     'theme': 'system-default',
-    'overall-balance-start-date' : '2019-01-01',
-    'update-remind-me-after' : '2019-01-01',
+    'overall-balance-start-date': '2019-01-01',
+    'update-remind-me-after': '2019-01-01',
     'working-days-monday': true,
     'working-days-tuesday': true,
     'working-days-wednesday': true,
@@ -28,6 +28,31 @@ const defaultPreferences = {
     'view': 'month',
     'number-of-entries': 'fixed'
 };
+
+// Handle Boolean Inputs
+const booleanInputs = [
+    'count-today',
+    'close-to-tray',
+    'hide-non-working-days',
+    'notification',
+    'repetition',
+    'start-at-login',
+    'working-days-monday',
+    'working-days-tuesday',
+    'working-days-wednesday',
+    'working-days-thursday',
+    'working-days-friday',
+    'working-days-saturday',
+    'working-days-sunday',
+];
+
+const timeInputs = [
+    'notifications-interval',
+    'hours-per-day',
+];
+
+const isNotBoolean = (val) => typeof val !== 'boolean';
+const isValidPreferenceTime = (val) => validateTime(val) || Number.isNaN(Number(val)) || val < 1 || val > 30;
 
 /*
  * Returns the preference file path, considering the userData path
@@ -94,59 +119,33 @@ function initPreferencesFileIfNotExistsOrInvalid() {
     }
 
     // Validate the values
-    for (let key of derivedPrefsKeys) {
+    for (const key of derivedPrefsKeys) {
         let value = derivedPrefs[key];
-        switch (key) {
-        // Handle Time Inputs
-        case 'notifications-interval':
-            if (Number.isNaN(Number(value)) || value < 1 || value > 30) {
-                derivedPrefs[key] = defaultPreferences[key];
-                shouldSaveDerivedPrefs = true;
-            }
-            break;
-        case 'hours-per-day': {
-            if (!validateTime(value)) {
-                derivedPrefs[key] = defaultPreferences[key];
-                shouldSaveDerivedPrefs = true;
-            }
-            break;
+
+        if (isNotBoolean(value) && booleanInputs.includes(key)) {
+            derivedPrefs[key] = defaultPreferences[key];
+            shouldSaveDerivedPrefs = true;
         }
-        // Handle Boolean Inputs
-        case 'count-today':
-        case 'close-to-tray':
-        case 'hide-non-working-days':
-        case 'notification':
-        case 'repetition':
-        case 'start-at-login':
-        case 'working-days-monday':
-        case 'working-days-tuesday':
-        case 'working-days-wednesday':
-        case 'working-days-thursday':
-        case 'working-days-friday':
-        case 'working-days-saturday':
-        case 'working-days-sunday': {
-            if (value !== true && value !== false) {
-                derivedPrefs[key] = defaultPreferences[key];
-                shouldSaveDerivedPrefs = true;
-            }
-            break;
+
+        if (timeInputs.includes(key) && isValidPreferenceTime(value)) {
+            derivedPrefs[key] = defaultPreferences[key];
+            shouldSaveDerivedPrefs = true;
         }
-        // Handle Enum Inputs
-        case 'theme':
-            shouldSaveDerivedPrefs |= !isValidTheme(value);
-            break;
-        case 'view':
-            shouldSaveDerivedPrefs |= !(value === 'month' || value === 'day');
-            break;
-        case 'number-of-entries':
-            shouldSaveDerivedPrefs |= !(value === 'fixed' || value === 'flexible');
-            break;
-        }
+
+        const inputEnum = {
+            'theme': () => shouldSaveDerivedPrefs |= !isValidTheme,
+            'number-of-entries': () => shouldSaveDerivedPrefs |= !(value === 'fixed' || value === 'flexible'),
+            'view': () => (derivedPrefs['number-of-entries'] === 'flexible')
+                ? shouldSaveDerivedPrefs |= !(value === 'month')
+                : shouldSaveDerivedPrefs |= !(value === 'month' || value === 'day'),
+        };
+        if (key in inputEnum) inputEnum[key]();
     }
 
     if (shouldSaveDerivedPrefs) {
         savePreferences(derivedPrefs);
     }
+
 }
 
 /**
@@ -180,7 +179,7 @@ function showWeekDay(weekDay, preferences = undefined) {
  * Returns true if we should display day.
  * @note: The month should be 0-based (i.e.: 0 is Jan, 11 is Dec).
  */
-function showDay(year, month, day, preferences = undefined)  {
+function showDay(year, month, day, preferences = undefined) {
     let currentDay = new Date(year, month, day), weekDay = currentDay.getDay();
     return showWeekDay(weekDay, preferences);
 }
@@ -215,5 +214,7 @@ module.exports = {
     getPreferencesFilePath,
     savePreferences,
     showDay,
-    switchCalendarView
+    switchCalendarView,
+    isNotBoolean,
+    isValidPreferenceTime
 };
