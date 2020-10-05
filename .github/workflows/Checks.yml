@@ -14,7 +14,9 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
       - name: '        Tests'
-        run: npm cit
+        run: |
+          npm cit
+          npm run lint
       - name: '     Coverage'
         if: success()
         uses: actions/upload-artifact@v1.0.0
