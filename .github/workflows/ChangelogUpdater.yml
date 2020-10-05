@@ -28,11 +28,9 @@ jobs:
         env:
           COMMENT_BODY: ${{ github.event.comment.body }}
           USER: ${{ github.event.comment.user.login }}
-          PR: ${{ context.issue.number }}
         run: |
           echo "Found it"
           echo "Body: $COMMENT_BODY"
-          echo "PR: $PR"
           echo $COMMENT_BODY > comment_body.file
           python3 scripts/update-changelog.py -changelog-file changelog.md -changes-file comment_body.file
       - name: Commit changelog
