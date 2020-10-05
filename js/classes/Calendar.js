@@ -1073,7 +1073,7 @@ class Calendar
      */
     _hasInputError(dayBegin, lunchBegin, lunchEnd, dayEnd)
     {
-        let dayValues = new Array();
+        let dayValues = new [];
         let hasLunchStarted = false;
         if (validateTime(dayBegin))
         {
