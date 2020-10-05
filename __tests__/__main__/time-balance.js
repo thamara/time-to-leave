@@ -12,16 +12,16 @@ const store = new Store();
 const flexibleStore = new Store({name: 'flexible-store'});
 const waivedWorkdays = new Store({name: 'waived-workdays'});
 
-describe('Time Balance', () => 
+describe('Time Balance', () =>
 {
-    beforeAll(() => 
+    beforeAll(() =>
     {
         const preferences = defaultPreferences;
         preferences['number-of-entries'] = 'fixed';
         savePreferences(preferences);
     });
 
-    beforeEach(() => 
+    beforeEach(() =>
     {
         const preferences = getUserPreferences();
         expect(preferences['number-of-entries']).toBe('fixed');
@@ -29,12 +29,12 @@ describe('Time Balance', () =>
         waivedWorkdays.clear();
     });
 
-    test('getFirstInputInDb: no input', () => 
+    test('getFirstInputInDb: no input', () =>
     {
         expect(getFirstInputInDb()).toBe('');
     });
 
-    test('getFirstInputInDb: input 1', () => 
+    test('getFirstInputInDb: input 1', () =>
     {
         const entryEx = {
             '2020-3-1-day-begin': '08:00'
@@ -43,7 +43,7 @@ describe('Time Balance', () =>
         expect(getFirstInputInDb()).toBe('2020-3-1-day-begin');
     });
 
-    test('getFirstInputInDb: input 2', () => 
+    test('getFirstInputInDb: input 2', () =>
     {
         const entryEx = {
             '2020-3-1-day-begin': '08:00',
@@ -53,7 +53,7 @@ describe('Time Balance', () =>
         expect(getFirstInputInDb()).toBe('2020-3-1-day-begin');
     });
 
-    test('getFirstInputInDb: input 3', () => 
+    test('getFirstInputInDb: input 3', () =>
     {
         const entryEx = {
             '2020-3-1-day-begin': '08:00',
@@ -64,7 +64,7 @@ describe('Time Balance', () =>
         expect(getFirstInputInDb()).toBe('2020-2-1-day-begin');
     });
 
-    test('getFirstInputInDb: input 4', () => 
+    test('getFirstInputInDb: input 4', () =>
     {
         const entryEx = {
             '2020-6-6-day-begin': '10:00',
@@ -102,12 +102,12 @@ describe('Time Balance', () =>
         expect(getFirstInputInDb()).toBe('2020-6-6-day-begin');
     });
 
-    test('computeAllTimeBalanceUntil: no input', () => 
+    test('computeAllTimeBalanceUntil: no input', () =>
     {
         expect(computeAllTimeBalanceUntil(new Date())).resolves.toBe('00:00');
     });
 
-    test('computeAllTimeBalanceUntil: only regular days', () => 
+    test('computeAllTimeBalanceUntil: only regular days', () =>
     {
         const entryEx = {
             '2020-6-1-day-total': '08:00' // wed
@@ -127,7 +127,7 @@ describe('Time Balance', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 7))).resolves.toBe('-24:00');
     });
 
-    test('computeAllTimeBalanceUntil: only regular days (with overtime)', () => 
+    test('computeAllTimeBalanceUntil: only regular days (with overtime)', () =>
     {
         const entryEx = {
             '2020-6-1-day-total': '09:30' // wed
@@ -141,7 +141,7 @@ describe('Time Balance', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-14:30');
     });
 
-    test('computeAllTimeBalanceUntil: only regular days (with undertime)', () => 
+    test('computeAllTimeBalanceUntil: only regular days (with undertime)', () =>
     {
         const entryEx = {
             '2020-6-1-day-total': '06:15' // wec
@@ -155,7 +155,7 @@ describe('Time Balance', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-17:45');
     });
 
-    test('computeAllTimeBalanceUntil: only regular days (with mixed time)', () => 
+    test('computeAllTimeBalanceUntil: only regular days (with mixed time)', () =>
     {
         const entryEx = {
             '2020-6-1-day-total': '06:15', // wed
@@ -171,7 +171,7 @@ describe('Time Balance', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-02:15');
     });
 
-    test('computeAllTimeBalanceUntil: missing entries', () => 
+    test('computeAllTimeBalanceUntil: missing entries', () =>
     {
         const entryEx = {
             '2020-6-1-day-total': '08:00', // wed
@@ -188,7 +188,7 @@ describe('Time Balance', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 5))).resolves.toBe('-08:00');
     });
 
-    test('computeAllTimeBalanceUntil: with waived days', () => 
+    test('computeAllTimeBalanceUntil: with waived days', () =>
     {
         const entryEx = {
             '2020-6-1-day-total': '08:00', // wed
@@ -207,7 +207,7 @@ describe('Time Balance', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('00:00');
     });
 
-    test('computeAllTimeBalanceUntil: with waived days 2', () => 
+    test('computeAllTimeBalanceUntil: with waived days 2', () =>
     {
         const entryEx = {
             '2020-6-8-day-total': '08:00', // wed
@@ -228,7 +228,7 @@ describe('Time Balance', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 11))).resolves.toBe('00:00');
     });
 
-    test('computeAllTimeBalanceUntil: with waived days (not full)', () => 
+    test('computeAllTimeBalanceUntil: with waived days (not full)', () =>
     {
         const entryEx = {
             '2020-6-1-day-total': '08:00', // wed
@@ -247,7 +247,7 @@ describe('Time Balance', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-06:00');
     });
 
-    test('computeAllTimeBalanceUntil: target date in the past of entries', () => 
+    test('computeAllTimeBalanceUntil: target date in the past of entries', () =>
     {
         const entryEx = {
             '2020-6-1-day-total': '08:00', // wed
@@ -262,16 +262,16 @@ describe('Time Balance', () =>
     });
 });
 
-describe('Time Balance (flexible)', () => 
+describe('Time Balance (flexible)', () =>
 {
-    beforeAll(() => 
+    beforeAll(() =>
     {
         const preferences = defaultPreferences;
         preferences['number-of-entries'] = 'flexible';
         savePreferences(preferences);
     });
 
-    beforeEach(() => 
+    beforeEach(() =>
     {
         const preferences = getUserPreferences();
         expect(preferences['number-of-entries']).toBe('flexible');
@@ -279,12 +279,12 @@ describe('Time Balance (flexible)', () =>
         waivedWorkdays.clear();
     });
 
-    test('getFirstInputInDb: no input', () => 
+    test('getFirstInputInDb: no input', () =>
     {
         expect(getFirstInputInDb()).toBe('');
     });
 
-    test('getFirstInputInDb: input 1', () => 
+    test('getFirstInputInDb: input 1', () =>
     {
         const entryEx = {
             '2020-3-1': {'values': ['08:00']}
@@ -293,7 +293,7 @@ describe('Time Balance (flexible)', () =>
         expect(getFirstInputInDb()).toBe('2020-3-1');
     });
 
-    test('getFirstInputInDb: input 2', () => 
+    test('getFirstInputInDb: input 2', () =>
     {
         const entryEx = {
             '2020-3-1': {'values': ['08:00']},
@@ -303,7 +303,7 @@ describe('Time Balance (flexible)', () =>
         expect(getFirstInputInDb()).toBe('2020-3-1');
     });
 
-    test('getFirstInputInDb: input 3', () => 
+    test('getFirstInputInDb: input 3', () =>
     {
         const entryEx = {
             '2020-3-1': {'values': ['08:00']},
@@ -314,7 +314,7 @@ describe('Time Balance (flexible)', () =>
         expect(getFirstInputInDb()).toBe('2020-2-1');
     });
 
-    test('getFirstInputInDb: input 4', () => 
+    test('getFirstInputInDb: input 4', () =>
     {
         const entryEx = {
             '2020-6-6': {'values': ['10:00', '12:00', '13:00', '14:00']},
@@ -327,12 +327,12 @@ describe('Time Balance (flexible)', () =>
         expect(getFirstInputInDb()).toBe('2020-6-6');
     });
 
-    test('computeAllTimeBalanceUntil: no input', () => 
+    test('computeAllTimeBalanceUntil: no input', () =>
     {
         expect(computeAllTimeBalanceUntil(new Date())).resolves.toBe('00:00');
     });
 
-    test('computeAllTimeBalanceUntil: only regular days', () => 
+    test('computeAllTimeBalanceUntil: only regular days', () =>
     {
         const entryEx = {
             '2020-6-1': {'values': ['08:00', '12:00', '13:00', '17:00']} // wed (8h total)
@@ -352,7 +352,7 @@ describe('Time Balance (flexible)', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 7))).resolves.toBe('-24:00');
     });
 
-    test('computeAllTimeBalanceUntil: only regular days (6 entries)', () => 
+    test('computeAllTimeBalanceUntil: only regular days (6 entries)', () =>
     {
         const entryEx = {
             '2020-6-1': {'values': ['08:00', '10:00', '10:30', '11:30', '13:00', '17:00']} // wed (7h total)
@@ -372,7 +372,7 @@ describe('Time Balance (flexible)', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 7))).resolves.toBe('-25:00');
     });
 
-    test('computeAllTimeBalanceUntil: only regular days (with overtime)', () => 
+    test('computeAllTimeBalanceUntil: only regular days (with overtime)', () =>
     {
         const entryEx = {
             '2020-6-1': {'values': ['08:00', '12:00', '13:00', '18:30']} // wed (9h30 total)
@@ -386,7 +386,7 @@ describe('Time Balance (flexible)', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-14:30');
     });
 
-    test('computeAllTimeBalanceUntil: only regular days (with overtime and 8 entries)', () => 
+    test('computeAllTimeBalanceUntil: only regular days (with overtime and 8 entries)', () =>
     {
         const entryEx = {
             '2020-6-1': {'values': ['06:00', '12:00', '13:00', '14:00', '14:30', '16:00', '17:00', '18:30']} // wed (10h total)
@@ -400,7 +400,7 @@ describe('Time Balance (flexible)', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-14:00');
     });
 
-    test('computeAllTimeBalanceUntil: only regular days (with undertime)', () => 
+    test('computeAllTimeBalanceUntil: only regular days (with undertime)', () =>
     {
         const entryEx = {
             '2020-6-1': {'values': ['08:00', '12:00', '13:00', '15:15']} // wed (6h15 total)
@@ -414,7 +414,7 @@ describe('Time Balance (flexible)', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-17:45');
     });
 
-    test('computeAllTimeBalanceUntil: only regular days (with mixed time)', () => 
+    test('computeAllTimeBalanceUntil: only regular days (with mixed time)', () =>
     {
         const entryEx = {
             '2020-6-1': {'values': ['08:00', '12:00', '13:00', '15:15']}, // wed (6h15 total)
@@ -430,7 +430,7 @@ describe('Time Balance (flexible)', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-02:15');
     });
 
-    test('computeAllTimeBalanceUntil: irregular days (with mixed time)', () => 
+    test('computeAllTimeBalanceUntil: irregular days (with mixed time)', () =>
     {
         const entryEx = {
             '2020-6-6': {'values': ['08:00', '12:00']}, // mon (even #entries, but < 4 => no total)
@@ -452,7 +452,7 @@ describe('Time Balance (flexible)', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 11))).resolves.toBe('-14:00');
     });
 
-    test('computeAllTimeBalanceUntil: missing entries', () => 
+    test('computeAllTimeBalanceUntil: missing entries', () =>
     {
         const entryEx = {
             '2020-6-1': {'values': ['08:00', '12:00', '13:00', '17:00']}, // wed (8h total)
@@ -469,7 +469,7 @@ describe('Time Balance (flexible)', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 5))).resolves.toBe('-08:00');
     });
 
-    test('computeAllTimeBalanceUntil: with waived days', () => 
+    test('computeAllTimeBalanceUntil: with waived days', () =>
     {
         const entryEx = {
             '2020-6-1': {'values': ['08:00', '12:00', '13:00', '17:00']}, // wed (8h total)
@@ -488,7 +488,7 @@ describe('Time Balance (flexible)', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('00:00');
     });
 
-    test('computeAllTimeBalanceUntil: with waived days 2', () => 
+    test('computeAllTimeBalanceUntil: with waived days 2', () =>
     {
         const entryEx = {
             '2020-6-8': {'values': ['08:00', '12:00', '13:00', '17:00']} // wed (8h total)
@@ -509,7 +509,7 @@ describe('Time Balance (flexible)', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 11))).resolves.toBe('00:00');
     });
 
-    test('computeAllTimeBalanceUntil: with waived days (not full)', () => 
+    test('computeAllTimeBalanceUntil: with waived days (not full)', () =>
     {
         const entryEx = {
             '2020-6-1': {'values': ['08:00', '12:00', '13:00', '17:00']}, // wed (8h total)
@@ -528,7 +528,7 @@ describe('Time Balance (flexible)', () =>
         expect(computeAllTimeBalanceUntil(new Date(2020, 6, 4))).resolves.toBe('-06:00');
     });
 
-    test('computeAllTimeBalanceUntil: target date in the past of entries', () => 
+    test('computeAllTimeBalanceUntil: target date in the past of entries', () =>
     {
         const entryEx = {
             '2020-6-1': {'values': ['08:00', '12:00', '13:00', '17:00']}, // wed (8h total)

@@ -3,13 +3,13 @@ const path = require('path');
 let mockFiles = Object.create(null);
 // example of newMockFiles
 // { "./testFolder/file1.txt": "This is the file content"
-function __createMockFiles(newMockFiles) 
+function __createMockFiles(newMockFiles)
 {
     mockFiles = Object.create(null);
-    for (const file in newMockFiles) 
+    for (const file in newMockFiles)
     {
         const dir = path.dirname(file);
-        if (!mockFiles[dir]) 
+        if (!mockFiles[dir])
         {
             mockFiles[dir] = [];
         }
@@ -17,7 +17,7 @@ function __createMockFiles(newMockFiles)
         mockFiles[dir][path.basename(file)] = newMockFiles[file];
     }
 }
-function existsSync(pathToDirectory) 
+function existsSync(pathToDirectory)
 {
     return mockFiles[pathToDirectory];
 }

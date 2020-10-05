@@ -7,7 +7,7 @@ const { CalendarFactory } = require('../../../js/classes/CalendarFactory');
 
 window.$ = window.jQuery = require('jquery');
 
-describe('Calendar class Tests', () => 
+describe('Calendar class Tests', () =>
 {
     process.env.NODE_ENV = 'test';
 
@@ -40,21 +40,21 @@ describe('Calendar class Tests', () =>
     let testPreferences = defaultPreferences;
     let calendar = CalendarFactory.getInstance(testPreferences);
 
-    test('Calendar creates with today\'s date', () => 
+    test('Calendar creates with today\'s date', () =>
     {
         expect(calendar._getCalendarDate()).toBe(today.getDate());
         expect(calendar._getCalendarYear()).toBe(today.getFullYear());
         expect(calendar._getCalendarMonth()).toBe(today.getMonth());
     });
 
-    test('Calendar "today" methods return today\'s date', () => 
+    test('Calendar "today" methods return today\'s date', () =>
     {
         expect(calendar._getTodayDate()).toBe(today.getDate());
         expect(calendar._getTodayYear()).toBe(today.getFullYear());
         expect(calendar._getTodayMonth()).toBe(today.getMonth());
     });
 
-    test('Calendar internal storage correct loading', () => 
+    test('Calendar internal storage correct loading', () =>
     {
         expect(calendar._internalStore['2020-3-1-day-begin']).toBe('08:00');
         expect(calendar._getStore(1, 3, 2020, 'day-begin')).toBe('08:00');
@@ -80,7 +80,7 @@ describe('Calendar class Tests', () =>
         expect(store.size).toStrictEqual(9);
     });
 
-    test('Calendar internal waiver storage correct loading', () => 
+    test('Calendar internal waiver storage correct loading', () =>
     {
         // Waiver Store internally saves the human month index, but the calendar methods use JS month index
         expect(calendar._internalWaiverStore['2019-12-31']).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
@@ -107,7 +107,7 @@ describe('Calendar class Tests', () =>
         expect(calendar._getWaiverStore(31, 11, 2010)).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
     });
 
-    test('Calendar Month Changes', () => 
+    test('Calendar Month Changes', () =>
     {
         expect(calendar._getCalendarMonth()).toBe(today.getMonth());
         const expectedNextMonth = today.getMonth() + 1 === 12 ? 0 : (today.getMonth() + 1);
@@ -126,13 +126,13 @@ describe('Calendar class Tests', () =>
         expect(calendar._getCalendarMonth()).toBe(today.getMonth());
     });
 
-    test('Calendar Year Changes', () => 
+    test('Calendar Year Changes', () =>
     {
         expect(calendar._getCalendarYear()).toBe(today.getFullYear());
         const expectedNextYear = today.getFullYear() + 1;
         const expectedPrevYear = today.getFullYear() - 1;
 
-        for (let i = 0; i < 12; i++) 
+        for (let i = 0; i < 12; i++)
         {
             calendar._nextMonth();
         }
@@ -143,7 +143,7 @@ describe('Calendar class Tests', () =>
         calendar._goToCurrentDate();
         expect(calendar._getCalendarYear()).toBe(today.getFullYear());
 
-        for (let i = 0; i < 12; i++) 
+        for (let i = 0; i < 12; i++)
         {
             calendar._prevMonth();
         }
@@ -155,9 +155,9 @@ describe('Calendar class Tests', () =>
         expect(calendar._getCalendarYear()).toBe(today.getFullYear());
     });
 
-    describe('Calendar RefreshOnDayChange', () => 
+    describe('Calendar RefreshOnDayChange', () =>
     {
-        test('Calendar refresh set correctly', () => 
+        test('Calendar refresh set correctly', () =>
         {
             // Calendar is set as if someone was looking at previous month
             calendar._prevMonth();
@@ -171,7 +171,7 @@ describe('Calendar class Tests', () =>
             expect(calendar._getCalendarMonth()).toBe(today.getMonth());
         });
 
-        test('Calendar refresh set to another month', () => 
+        test('Calendar refresh set to another month', () =>
         {
             // Calendar is set as if someone was looking at previous month
             calendar._prevMonth();
@@ -183,9 +183,9 @@ describe('Calendar class Tests', () =>
         });
     });
 
-    describe('hasInputError(dayBegin, lunchBegin, lunchEnd, dayEnd)', () => 
+    describe('hasInputError(dayBegin, lunchBegin, lunchEnd, dayEnd)', () =>
     {
-        test('Test scenarios where there is no error on the inputs', () => 
+        test('Test scenarios where there is no error on the inputs', () =>
         {
             expect(calendar._hasInputError('00:00', '12:00', '13:00', '20:00')).not.toBeTruthy();
             expect(calendar._hasInputError('00:00', '12:00', '13:00', '')).not.toBeTruthy();
@@ -195,7 +195,7 @@ describe('Calendar class Tests', () =>
             expect(calendar._hasInputError('00:00', '', '', '20:00')).not.toBeTruthy();
         });
 
-        test('Test scenarios where there is error on the inputs', () => 
+        test('Test scenarios where there is error on the inputs', () =>
         {
             expect(calendar._hasInputError('23:00', '', '', '00:00')).toBeTruthy();
             expect(calendar._hasInputError('', '23:00', '', '00:00')).toBeTruthy();
@@ -207,7 +207,7 @@ describe('Calendar class Tests', () =>
         });
     });
 
-    test('Calendar to FixedDayCalendar', () => 
+    test('Calendar to FixedDayCalendar', () =>
     {
         store.clear();
         store.set(regularEntries);

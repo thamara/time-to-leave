@@ -10,12 +10,12 @@ const { getDateStr, getMonthLength } = require('../date-aux.js');
 const { Calendar } = require('./Calendar.js');
 const { generateKey } = require('../date-db-formatter');
 
-class FixedDayCalendar extends Calendar 
+class FixedDayCalendar extends Calendar
 {
     /**
     * @param {Object.<string, any>} preferences
     */
-    constructor(preferences) 
+    constructor(preferences)
     {
         super(preferences);
     }
@@ -23,7 +23,7 @@ class FixedDayCalendar extends Calendar
     /*
     * Display calendar defined.
     */
-    _initCalendar() 
+    _initCalendar()
     {
         this._generateTemplate();
 
@@ -31,7 +31,7 @@ class FixedDayCalendar extends Calendar
         $('#prev-day').click(() => { this._prevDay(); });
         $('#switch-view').click(() => { this._switchView(); });
         $('#current-day').click(() => { this._goToCurrentDate(); });
-        $('#input-calendar-date').change((event) => 
+        $('#input-calendar-date').change((event) =>
         {
             let [year, month, day] = $(event.target).val().split('-');
             this._goToDate(new Date(year, month-1, day));
@@ -43,7 +43,7 @@ class FixedDayCalendar extends Calendar
     /*
      * Generates the calendar HTML view.
      */
-    _generateTemplate() 
+    _generateTemplate()
     {
         let body = this._getBody();
         $('#calendar').html(body);
@@ -53,7 +53,7 @@ class FixedDayCalendar extends Calendar
     /*
      * Returns the header of the page, with the image, name and a message.
      */
-    static _getPageHeader() 
+    static _getPageHeader()
     {
         let switchView = '<input id="switch-view" type="image" src="assets/switch.svg" alt="Switch View" title="Switch View" height="24" width="24"></input>';
         let todayBut = '<input id="current-day" type="image" src="assets/calendar.svg" alt="Current Day" title="Go to Current Day" height="24" width="24"></input>';
@@ -76,7 +76,7 @@ class FixedDayCalendar extends Calendar
     /*
      * Returns the template code of the body of the page.
      */
-    _getBody() 
+    _getBody()
     {
         let html = '<div>';
         html += this.constructor._getPageHeader();
@@ -89,7 +89,7 @@ class FixedDayCalendar extends Calendar
     /*
      * Returns the summary field HTML code.
      */
-    static _getSummaryRowCode() 
+    static _getSummaryRowCode()
     {
         let leaveByCode = '<input type="text" id="leave-by" size="5" disabled>';
         let summaryStr = 'You should leave by:';
@@ -109,7 +109,7 @@ class FixedDayCalendar extends Calendar
     /*
      * Returns the HTML code for the row with working days, month total and balance.
      */
-    static _getBalanceRowCode() 
+    static _getBalanceRowCode()
     {
         return '<div class="month-total-row">' +
                     '<div class="half-width">' +
@@ -130,18 +130,18 @@ class FixedDayCalendar extends Calendar
     /*
      * Returns the code of the table body of the calendar.
      */
-    _generateTableBody() 
+    _generateTableBody()
     {
         return this._getInputsRowCode(this._getCalendarYear(), this._getCalendarMonth(), this._getCalendarDate()) + this.constructor._getBalanceRowCode();
     }
 
-    _getInputsRowCode(year, month, day) 
+    _getInputsRowCode(year, month, day)
     {
         let today = new Date(),
             isToday = (today.getDate() === day && today.getMonth() === month && today.getFullYear() === year),
             trID = ('tr-' + generateKey(year, month, day));
 
-        if (!this._showDay(year, month, day)) 
+        if (!this._showDay(year, month, day))
         {
             return '<div class="today-non-working" id="' + trID + '">' +
                         '<div class="non-working-day">Not a working day</div>' +
@@ -149,7 +149,7 @@ class FixedDayCalendar extends Calendar
         }
 
         let waivedInfo = this._getWaiverStore(day, month, year);
-        if (waivedInfo !== undefined) 
+        if (waivedInfo !== undefined)
         {
             let summaryStr = '<b>Waived day: </b>' + waivedInfo['reason'];
             let waivedLineHtmlCode =
@@ -184,7 +184,7 @@ class FixedDayCalendar extends Calendar
                     '<div class="ti ti-total">' + this.constructor._getTotalCode(year, month, day, 'day-total') + '</div>' +
                 '</div>\n';
 
-        if (isToday) 
+        if (isToday)
         {
             htmlCode += this.constructor._getSummaryRowCode();
         }
@@ -195,7 +195,7 @@ class FixedDayCalendar extends Calendar
     /*
      * Updates the code of the table header of the calendar, to be called on demand.
      */
-    _updateTableHeader() 
+    _updateTableHeader()
     {
         let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let today = this._calendarDate;
@@ -206,7 +206,7 @@ class FixedDayCalendar extends Calendar
     /*
      * Display next day.
      */
-    _nextDay() 
+    _nextDay()
     {
         this._changeDay(1);
     }
@@ -214,7 +214,7 @@ class FixedDayCalendar extends Calendar
     /*
      * Display previous day.
      */
-    _prevDay() 
+    _prevDay()
     {
         this._changeDay(-1);
     }
@@ -222,7 +222,7 @@ class FixedDayCalendar extends Calendar
     /*
      * Go to current day.
      */
-    _goToCurrentDate() 
+    _goToCurrentDate()
     {
         this._goToDate(new Date());
     }
@@ -230,7 +230,7 @@ class FixedDayCalendar extends Calendar
     /**
     * Returns if Calendar date agrees with parameter date.
     */
-    _isCalendarOnDate(date) 
+    _isCalendarOnDate(date)
     {
         return date.getDate() === this._getCalendarDate() && date.getMonth() === this._getCalendarMonth() && date.getFullYear() === this._getCalendarYear();
     }
@@ -239,7 +239,7 @@ class FixedDayCalendar extends Calendar
     * Go to date.
     * @param {Date} date
     */
-    _goToDate(date) 
+    _goToDate(date)
     {
         this._calendarDate = date;
         this.redraw();
@@ -249,7 +249,7 @@ class FixedDayCalendar extends Calendar
      * Change the calendar view by a number of days.
      * @param int numDays number of days to be changed (positive/negative)
      */
-    _changeDay(numDays) 
+    _changeDay(numDays)
     {
         this._calendarDate.setDate(this._calendarDate.getDate() + numDays);
         this.redraw();
@@ -258,11 +258,11 @@ class FixedDayCalendar extends Calendar
     /*
      * Draws elements of the Calendar that depend on data.
      */
-    _draw() 
+    _draw()
     {
         super._draw();
 
-        if (!this._isCalendarOnDate(new Date())) 
+        if (!this._isCalendarOnDate(new Date()))
         {
             $('#punch-button').prop('disabled', true);
             ipcRenderer.send('TOGGLE_TRAY_PUNCH_TIME', false);
@@ -276,10 +276,10 @@ class FixedDayCalendar extends Calendar
     * @param {int} oldMonthDate
     * @param {int} oldYearDate
     */
-    refreshOnDayChange(oldDayDate, oldMonthDate, oldYearDate) 
+    refreshOnDayChange(oldDayDate, oldMonthDate, oldYearDate)
     {
         let date = new Date(oldYearDate, oldMonthDate, oldDayDate);
-        if (this._isCalendarOnDate(date)) 
+        if (this._isCalendarOnDate(date))
         {
             this._goToCurrentDate();
         }
@@ -288,7 +288,7 @@ class FixedDayCalendar extends Calendar
     /*
     * Updates the monthly time balance.
     */
-    _updateBalance() 
+    _updateBalance()
     {
         let yesterday = new Date(this._calendarDate);
         yesterday.setDate(this._calendarDate.getDate() - 1);
@@ -297,20 +297,20 @@ class FixedDayCalendar extends Calendar
         let countDays = false;
 
         let limit = this._getCountToday() ? this._getCalendarDate() : (yesterday.getMonth() !== this._getCalendarMonth() ? 0 : yesterday.getDate());
-        for (let day = 1; day <= limit; ++day) 
+        for (let day = 1; day <= limit; ++day)
         {
-            if (!this._showDay(this._getCalendarYear(), this._getCalendarMonth(), day)) 
+            if (!this._showDay(this._getCalendarYear(), this._getCalendarMonth(), day))
             {
                 continue;
             }
 
             let dayTotal = this._getDayTotal(day, this._getCalendarMonth(), this._getCalendarYear());
-            if (dayTotal !== undefined) 
+            if (dayTotal !== undefined)
             {
                 countDays = true;
                 monthTotalWorked = sumTime(monthTotalWorked, dayTotal);
             }
-            if (countDays) 
+            if (countDays)
             {
                 workingDaysToCompute += 1;
             }
@@ -329,37 +329,37 @@ class FixedDayCalendar extends Calendar
     /*
      * Updates data displayed based on the database.
      */
-    _updateBasedOnDB() 
+    _updateBasedOnDB()
     {
         let monthLength = getMonthLength(this._getCalendarYear(), this._getCalendarMonth());
         let workingDays = 0;
         let stopCountingMonthStats = false;
-        for (let day = 1; day <= monthLength; ++day) 
+        for (let day = 1; day <= monthLength; ++day)
         {
 
-            if (stopCountingMonthStats) 
+            if (stopCountingMonthStats)
             {
                 break;
             }
 
             stopCountingMonthStats |= (this._getCalendarDate() === day);
 
-            if (!this._showDay(this._getCalendarYear(), this._getCalendarMonth(), day)) 
+            if (!this._showDay(this._getCalendarYear(), this._getCalendarMonth(), day))
             {
                 continue;
             }
 
             let dayStr = this._getCalendarYear() + '-' + this._getCalendarMonth() + '-' + day + '-';
 
-            if (day === this._getCalendarDate()) 
+            if (day === this._getCalendarDate())
             {
                 let waivedInfo = this._getWaiverStore(day, this._getCalendarMonth(), this._getCalendarYear());
-                if (waivedInfo !== undefined) 
+                if (waivedInfo !== undefined)
                 {
                     let waivedDayTotal = waivedInfo['hours'];
                     $('#' + dayStr + 'day-total').val(waivedDayTotal);
                 }
-                else 
+                else
                 {
                     let lunchBegin = this._setTableData(day, this._getCalendarMonth(), 'lunch-begin');
                     let lunchEnd = this._setTableData(day, this._getCalendarMonth(), 'lunch-end');
@@ -395,10 +395,10 @@ class FixedDayCalendar extends Calendar
      * If "count_today" is active, the following day.
      * @return {Date}
      */
-    _getTargetDayForAllTimeBalance() 
+    _getTargetDayForAllTimeBalance()
     {
         let targetDate = new Date(this._getCalendarYear(), this._getCalendarMonth(), this._getCalendarDate());
-        if (this._getCountToday()) 
+        if (this._getCountToday())
         {
             targetDate.setDate(targetDate.getDate() + 1);
         }

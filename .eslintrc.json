@@ -47,6 +47,7 @@
             "single"
         ],
         "semi": "error",
+        "no-trailing-spaces": "error",
         "semi-spacing": [
             "error", {
                 "before": false,

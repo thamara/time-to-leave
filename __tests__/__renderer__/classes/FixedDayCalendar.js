@@ -7,7 +7,7 @@ const { CalendarFactory } = require('../../../js/classes/CalendarFactory');
 
 window.$ = window.jQuery = require('jquery');
 
-describe('FixedDayCalendar class Tests', () => 
+describe('FixedDayCalendar class Tests', () =>
 {
     process.env.NODE_ENV = 'test';
 
@@ -41,7 +41,7 @@ describe('FixedDayCalendar class Tests', () =>
     testPreferences['view'] = 'day';
     let calendar = CalendarFactory.getInstance(testPreferences);
 
-    test('FixedDayCalendar starts with today\'s date', () => 
+    test('FixedDayCalendar starts with today\'s date', () =>
     {
         expect(calendar.constructor.name).toBe('FixedDayCalendar');
         expect(calendar._getCalendarDate()).toBe(today.getDate());
@@ -49,7 +49,7 @@ describe('FixedDayCalendar class Tests', () =>
         expect(calendar._getCalendarMonth()).toBe(today.getMonth());
     });
 
-    test('FixedDayCalendar internal storage correct loading', () => 
+    test('FixedDayCalendar internal storage correct loading', () =>
     {
         expect(calendar._internalStore['2020-3-1-day-begin']).toBe('08:00');
         expect(calendar._getStore(1, 3, 2020, 'day-begin')).toBe('08:00');
@@ -75,7 +75,7 @@ describe('FixedDayCalendar class Tests', () =>
         expect(store.size).toStrictEqual(9);
     });
 
-    test('FixedDayCalendar internal waiver storage correct loading', () => 
+    test('FixedDayCalendar internal waiver storage correct loading', () =>
     {
         // Waiver Store internally saves the human month index, but the calendar methods use JS month index
         expect(calendar._internalWaiverStore['2019-12-31']).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
@@ -102,7 +102,7 @@ describe('FixedDayCalendar class Tests', () =>
         expect(calendar._getWaiverStore(31, 11, 2010)).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
     });
 
-    test('FixedDayCalendar Day Changes', () => 
+    test('FixedDayCalendar Day Changes', () =>
     {
         expect(calendar._getCalendarDate()).toBe(today.getDate());
 
@@ -134,7 +134,7 @@ describe('FixedDayCalendar class Tests', () =>
         expect(calendar._getCalendarDate()).toBe(today.getDate());
     });
 
-    test('FixedDayCalendar Month Changes', () => 
+    test('FixedDayCalendar Month Changes', () =>
     {
         expect(calendar._getCalendarMonth()).toBe(today.getMonth());
         const expectedNextMonth = today.getMonth() + 1 === 12 ? 0 : (today.getMonth() + 1);
@@ -145,7 +145,7 @@ describe('FixedDayCalendar class Tests', () =>
         const distToNextMonth = (new Date(today.getFullYear(), today.getMonth(), 0)).getDate() - today.getDate() + 2;
         const distToPrevMonth = today.getDate() + 1;
 
-        for (let i = 0; i < distToNextMonth; i++) 
+        for (let i = 0; i < distToNextMonth; i++)
         {
             calendar._nextDay();
         }
@@ -156,7 +156,7 @@ describe('FixedDayCalendar class Tests', () =>
         expect(calendar._getCalendarDate()).toBe(today.getDate());
         expect(calendar._getCalendarMonth()).toBe(today.getMonth());
 
-        for (let i = 0; i < distToPrevMonth; i++) 
+        for (let i = 0; i < distToPrevMonth; i++)
         {
             calendar._prevDay();
         }
@@ -168,13 +168,13 @@ describe('FixedDayCalendar class Tests', () =>
         expect(calendar._getCalendarMonth()).toBe(today.getMonth());
     });
 
-    test('FixedDayCalendar Year Changes', () => 
+    test('FixedDayCalendar Year Changes', () =>
     {
         expect(calendar._getCalendarYear()).toBe(today.getFullYear());
         const expectedNextYear = today.getFullYear() + 1;
         const expectedPrevYear = today.getFullYear() - 1;
 
-        for (let i = 0; i < 365; i++) 
+        for (let i = 0; i < 365; i++)
         {
             calendar._nextDay();
         }
@@ -186,7 +186,7 @@ describe('FixedDayCalendar class Tests', () =>
         expect(calendar._getCalendarMonth()).toBe(today.getMonth());
         expect(calendar._getCalendarYear()).toBe(today.getFullYear());
 
-        for (let i = 0; i < 365; i++) 
+        for (let i = 0; i < 365; i++)
         {
             calendar._prevDay();
         }
@@ -199,9 +199,9 @@ describe('FixedDayCalendar class Tests', () =>
         expect(calendar._getCalendarYear()).toBe(today.getFullYear());
     });
 
-    describe('FixedDayCalendar RefreshOnDayChange', () => 
+    describe('FixedDayCalendar RefreshOnDayChange', () =>
     {
-        test('FixedDayCalendar refresh set correctly', () => 
+        test('FixedDayCalendar refresh set correctly', () =>
         {
             // Calendar is set as if someone was looking at previous day
             calendar._prevDay();
@@ -215,7 +215,7 @@ describe('FixedDayCalendar class Tests', () =>
             expect(calendar._getCalendarMonth()).toBe(today.getMonth());
         });
 
-        test('FixedDayCalendar refresh set to another day', () => 
+        test('FixedDayCalendar refresh set to another day', () =>
         {
             // Calendar is set as if someone was looking at previous day
             calendar._prevDay();

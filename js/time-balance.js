@@ -123,7 +123,7 @@ function _getDayTotalsFromStores(firstDate, limitDate)
     const preferences = getUserPreferences();
     let totals = {};
 
-    const getDateStrAndDateValue = (value, date) => 
+    const getDateStrAndDateValue = (value, date) =>
     {
         const dateStr = getDateStr(date);
 
