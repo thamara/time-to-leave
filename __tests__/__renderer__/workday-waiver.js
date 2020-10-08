@@ -89,7 +89,7 @@ describe('Test Workday Waiver Window', function() {
         });
 
         test('End date less than start date', () => {
-            setHours('10:00');
+            setHours();
             $('#start-date').val('2020-07-20');
             $('#end-date').val('2020-07-19');
             const waver = addWaiver();
