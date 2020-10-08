@@ -13,7 +13,7 @@ const { bindDevToolsShortcut, showAlert, showDialog } = require('../js/window-au
 const waiverStore = new Store({name: 'waived-workdays'});
 var hd = new Holidays();
 
-function isTestEnv () {
+function isTestEnv() {
     return process.env.NODE_ENV === 'test';
 }
 

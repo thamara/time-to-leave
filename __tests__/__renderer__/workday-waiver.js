@@ -24,7 +24,6 @@ const {
     clearHolidayTable,
     clearWaiverList,
     loadHolidaysTable,
-    addHolidaysAsWaiver,
     initializeHolidayInfo
 } = require('../../src/workday-waiver');
 
