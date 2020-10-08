@@ -13,6 +13,10 @@ const { bindDevToolsShortcut, showAlert, showDialog } = require('../js/window-au
 const waiverStore = new Store({name: 'waived-workdays'});
 var hd = new Holidays();
 
+function isTestEnv () {
+    return process.env.NODE_ENV === 'test';
+}
+
 function setDates(day) {
     $('#start-date').val(day);
     $('#end-date').val(day);
@@ -73,13 +77,15 @@ function addWaiver() {
 
     if (!(validateTime(hours))) {
         // The error is shown in the page, no need to handle it here
-        return;
+        return false;
     }
 
     let diff = diffDays(startDate, endDate);
     if (diff < 0) {
-        showAlert('End date cannot be less than start date.');
-        return;
+        if (!isTestEnv()) {
+            showAlert('End date cannot be less than start date.');
+        }
+        return false;
     }
 
     let tempDate = new Date(startDate);
@@ -89,16 +95,20 @@ function addWaiver() {
         let [tempYear, tempMonth, tempDay] = getDateFromISOStr(tempDateStr);
         noWorkingDaysOnRange &= !showDay(tempYear, tempMonth-1, tempDay) && !waiverStore.has(tempDateStr);
         if (waiverStore.has(tempDateStr)) {
-            showAlert(`You already have a waiver on ${tempDateStr}. Remove it before adding a new one.`);
-            return;
+            if (!isTestEnv()) {
+                showAlert(`You already have a waiver on ${tempDateStr}. Remove it before adding a new one.`);
+            }
+            return false;
         }
 
         tempDate.setDate(tempDate.getDate() + 1);
     }
 
     if (noWorkingDaysOnRange) {
-        showAlert('Cannot add waiver. Range does not contain any working day.');
-        return;
+        if (!isTestEnv()) {
+            showAlert('Cannot add waiver. Range does not contain any working day.');
+        }
+        return false;
     }
 
     tempDate = new Date(startDate);
@@ -213,13 +223,12 @@ function getHolidays() {
 
 function iterateOnHolidays(funct) {
     let holidays = getHolidays();
-    
+
     for (let holiday of holidays) {
         let startDate = new Date(holiday['start']),
             endDate = new Date(holiday['end']),
             reason = holiday['name'];
         let diff = diffDays(startDate, endDate) - 1;
-
         let tempDate = new Date(startDate);
         for (let i = 0; i <= diff; i++) {
             let tempDateStr = getDateStr(tempDate);
@@ -246,7 +255,7 @@ function addHolidayToList(day, reason, workingDay, conflicts) {
     if (conflicts)
         $(row.cells[3]).addClass('text-danger');
     conflictsCell.innerHTML = conflicts;
-    importCell.innerHTML = `<label class="switch"><input type="checkbox" ${conflicts || workingDay === 'No' ? '' : 'checked'} name="import-${day}" id="import-${day}"><span class="slider round"></span></label>`;
+    importCell.innerHTML = `<label class="switch"><input type="checkbox" checked="${conflicts || workingDay === 'No' ? '' : 'checked'}" name="import-${day}" id="import-${day}"><span class="slider round"></span></label>`;
 }
 
 function clearHolidayTable() {
@@ -281,7 +290,7 @@ function loadHolidaysTable() {
         let conflicts = waiverStore.get(holidayDate);
         addHolidayToList(holidayDate, holidayReason, workingDay, conflicts ? conflicts['reason'] : '');
     }
-    
+
     iterateOnHolidays(addHoliday);
     // Show table and enable button
     $('#holiday-list-table').show();
@@ -290,6 +299,7 @@ function loadHolidaysTable() {
 
 function addHolidaysAsWaiver() {
     function addHoliday(holidayDate, holidayReason) {
+        console.log(holidayDate);
         let importHoliday = $(`#import-${holidayDate}`)[0].checked;
         if (importHoliday) {
             waiverStore.set(holidayDate, { 'reason' : holidayReason, 'hours' : '08:00' });
@@ -360,5 +370,20 @@ module.exports = {
     addWaiver,
     populateList,
     setDates,
-    setHours
+    setHours,
+    toggleAddButton,
+    deleteEntryOnClick,
+    populateCountry,
+    populateState,
+    populateCity,
+    populateYear,
+    getHolidays,
+    iterateOnHolidays,
+    addHolidayToList,
+    clearTable,
+    clearHolidayTable,
+    clearWaiverList,
+    loadHolidaysTable,
+    addHolidaysAsWaiver,
+    initializeHolidayInfo
 };
