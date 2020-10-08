@@ -75,27 +75,32 @@
                 <label id='overall-balance-start-date'><input type="date" name="overall-balance-start-date"></label>
             </div>
             <div class="flex-box">
+                <p>Minimize button should minimize to tray</p>
+                <label id='minimize-to-tray' class="switch"><input type="checkbox" name="minimize-to-tray"><span class="slider round"></span></label>
+            </div>
+            <div class="flex-box">
                 <p>Close button should minimize to tray</p>
                 <label id='close-to-tray' class="switch"><input type="checkbox" name="close-to-tray"><span class="slider round"></span></label>
             </div>
             <div class="flex-box">
                 <p>Themes</p>
-                <select id="theme" name="theme">
-                    <option value="light" selected>Light</option>
+                <select class="selects-right" id="theme" name="theme">
+                    <option value="system-default" selected>System Default</option>
+                    <option value="light">Light</option>
                     <option value="dark">Dark</option>
                     <option value="cadent-star">Cadent Star</option>
                 </select>
             </div>
             <div class="flex-box">
                 <p>View</p>
-                <select id="view" name="view">
+                <select class="selects-right" id="view" name="view">
                     <option value="month" selected>Month</option>
                     <option value="day">Day</option>
                 </select>
             </div>
             <div class="flex-box">
                 <p>Number of Entries</p>
-                <select id="number-of-entries" name="number-of-entries">
+                <select class="selects-right" id="number-of-entries" name="number-of-entries">
                     <option value="fixed" selected>Fixed</option>
                     <option value="flexible">Flexible</option>
                 </select>

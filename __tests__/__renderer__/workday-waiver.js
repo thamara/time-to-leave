@@ -27,25 +27,28 @@ const {
     initializeHolidayInfo
 } = require('../../src/workday-waiver');
 
-function prepareMockup() {
+function prepareMockup()
+{
     const waivedWorkdays = new Store({ name: 'waived-workdays' });
     waivedWorkdays.clear();
     const workdayWaiverHtml = path.join(__dirname, '../../src/workday-waiver.html');
     const content = fs.readFileSync(workdayWaiverHtml);
-    var parser = new DOMParser();
-    var htmlDoc = parser.parseFromString(content, 'text/html');
+    let parser = new DOMParser();
+    let htmlDoc = parser.parseFromString(content, 'text/html');
     document.body.innerHTML = htmlDoc.body.innerHTML;
     populateList();
 }
 
-function addTestWaiver(day, reason) {
+function addTestWaiver(day, reason)
+{
     $('#reason').val(reason);
     setDates(day);
     setHours();
     return addWaiver();
 }
 
-function testWaiverCount(expected) {
+function testWaiverCount(expected)
+{
     const waivedWorkdays = new Store({ name: 'waived-workdays' });
     expect(waivedWorkdays.size).toBe(expected);
     expect($('#waiver-list-table tbody')[0].rows.length).toBe(expected);
@@ -67,6 +70,7 @@ describe('Test Workday Waiver Window', function() {
             addTestWaiver('2020-07-16', 'some reason');
             testWaiverCount(1);
         });
+
 
         test('One + two Waivers', () => {
             //Start with none

@@ -11,18 +11,21 @@ const {
 } = require('./saved-preferences.js');
 const { importDatabaseFromFile, exportDatabaseToFile, migrateFixedDbToFlexible } = require('./import-export.js');
 const { notify } = require('./notification');
-const { os } = require('os');
+const os = require('os');
 const { savePreferences } = require('./user-preferences.js');
 const path = require('path');
 const Store = require('electron-store');
 let { waiverWindow, prefWindow } = require('./windows');
 
-function migrateFixedDbToFlexibleRequest(mainWindow, options) {
+function migrateFixedDbToFlexibleRequest(mainWindow, options)
+{
     let response = dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), options);
-    if (response === 1) {
+    if (response === 1)
+    {
         const migrateResult = migrateFixedDbToFlexible();
         mainWindow.webContents.executeJavaScript('calendar.reload()');
-        if (migrateResult) {
+        if (migrateResult)
+        {
             Menu.getApplicationMenu().getMenuItemById('migrate-to-flexible-calendar').enabled = false;
             dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
                 {
@@ -32,7 +35,9 @@ function migrateFixedDbToFlexibleRequest(mainWindow, options) {
                     icon: appConfig.iconpath,
                     detail: 'Yay! Migration successful!'
                 });
-        } else {
+        }
+        else
+        {
             dialog.showMessageBoxSync({
                 type: 'warning',
                 title: 'Failed migrating',
@@ -106,7 +111,7 @@ function getContextMenuTemplate(mainWindow)
         {
             label: 'Punch time', click: function()
             {
-                var now = new Date();
+                let now = new Date();
 
                 mainWindow.webContents.executeJavaScript('calendar.punchDate()');
                 // Slice keeps "HH:MM" part of "HH:MM:SS GMT+HHMM (GMT+HH:MM)" time string
@@ -134,7 +139,7 @@ function getDockMenuTemplate(mainWindow)
         {
             label: 'Punch time', click: function()
             {
-                var now = new Date();
+                let now = new Date();
 
                 mainWindow.webContents.executeJavaScript('calendar.punchDate()');
                 // Slice keeps "HH:MM" part of "HH:MM:SS GMT+HHMM (GMT+HH:MM)" time string
@@ -180,7 +185,7 @@ function getEditMenuTemplate(mainWindow)
                 }
 
                 const htmlPath = path.join('file://', __dirname, '../src/preferences.html');
-                prefWindow = new BrowserWindow({ width: 400,
+                prefWindow = new BrowserWindow({ width: 450,
                     height: 560,
                     parent: mainWindow,
                     resizable: true,
@@ -207,7 +212,8 @@ function getEditMenuTemplate(mainWindow)
 
                     if (!getAlreadyAskedForFlexibleDbMigration() &&
                         savedPreferences && savedPreferences['number-of-entries'] === 'flexible' &&
-                        store.size !== 0 && flexibleStore.size === 0) {
+                        store.size !== 0 && flexibleStore.size === 0)
+                    {
                         setAlreadyAskedForFlexibleDbMigration(true);
                         const options = {
                             type: 'question',
@@ -227,7 +233,8 @@ function getEditMenuTemplate(mainWindow)
             label: 'Migrate to flexible calendar',
             id: 'migrate-to-flexible-calendar',
             enabled: enableMigrationToFlexibleButton(),
-            click() {
+            click()
+            {
                 const options = {
                     type: 'question',
                     buttons: ['Cancel', 'Yes, please', 'No, thanks'],
@@ -244,7 +251,7 @@ function getEditMenuTemplate(mainWindow)
             label: 'Export database',
             click()
             {
-                var options = {
+                let options = {
                     title: 'Export DB to file',
                     defaultPath : 'time_to_leave',
                     buttonLabel : 'Export',
@@ -273,7 +280,7 @@ function getEditMenuTemplate(mainWindow)
             label: 'Import database',
             click()
             {
-                var options = {
+                let options = {
                     title: 'Import DB from file',
                     buttonLabel : 'Import',
 

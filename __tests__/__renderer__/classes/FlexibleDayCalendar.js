@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-'use strict';
 
 const Store = require('electron-store');
 const { defaultPreferences } = require('../../../js/user-preferences');
@@ -7,26 +6,31 @@ const { CalendarFactory } = require('../../../js/classes/CalendarFactory');
 
 window.$ = window.jQuery = require('jquery');
 
-describe('FixedDayCalendar class Tests', () =>
+window.$.fn.extend({
+    mousewheel: function()
+    {
+        /*mocked empty function*/
+    },
+
+    unmousewheel: function()
+    {
+        /*mocked empty function*/
+    }
+});
+
+describe('FlexibleDayCalendar class Tests', () =>
 {
     process.env.NODE_ENV = 'test';
 
-    const store = new Store();
-    const waivedWorkdays = new Store({ name: 'waived-workdays' });
+    const flexibleStore = new Store({name: 'flexible-store'});
+    const waivedWorkdays = new Store({name: 'waived-workdays'});
 
-    store.clear();
+    flexibleStore.clear();
     const regularEntries = {
-        '2020-3-1-day-begin': '08:00',
-        '2020-3-1-day-end': '17:00',
-        '2020-3-1-day-total': '08:00',
-        '2020-3-1-lunch-begin': '12:00',
-        '2020-3-1-lunch-end': '13:00',
-        '2020-3-1-lunch-total': '01:00',
-        '2020-3-2-day-begin': '10:00',
-        '2020-3-2-day-end': '18:00',
-        '2020-3-2-day-total': '08:00',
+        '2020-3-1': {'values': ['08:00', '12:00', '13:00', '17:00']},
+        '2020-3-2': {'values': ['10:00', '18:00']}
     };
-    store.set(regularEntries);
+    flexibleStore.set(regularEntries);
 
     waivedWorkdays.clear();
     const waivedEntries = {
@@ -38,44 +42,52 @@ describe('FixedDayCalendar class Tests', () =>
 
     const today = new Date();
     let testPreferences = defaultPreferences;
+    testPreferences['number-of-entries'] = 'flexible';
     testPreferences['view'] = 'day';
     let calendar = CalendarFactory.getInstance(testPreferences);
 
-    test('FixedDayCalendar starts with today\'s date', () =>
+    test('FlexibleDayCalendar starts with today\'s date', () =>
     {
-        expect(calendar.constructor.name).toBe('FixedDayCalendar');
+        expect(calendar.constructor.name).toBe('FlexibleDayCalendar');
         expect(calendar._getCalendarDate()).toBe(today.getDate());
         expect(calendar._getCalendarYear()).toBe(today.getFullYear());
         expect(calendar._getCalendarMonth()).toBe(today.getMonth());
     });
 
-    test('FixedDayCalendar internal storage correct loading', () =>
+    test('FlexibleDayCalendar "today" methods return today\'s date', () =>
     {
-        expect(calendar._internalStore['2020-3-1-day-begin']).toBe('08:00');
-        expect(calendar._getStore(1, 3, 2020, 'day-begin')).toBe('08:00');
-        expect(calendar._internalStore['2010-3-1-day-begin']).toBe(undefined);
-        expect(calendar._getStore(1, 3, 2010, 'day-begin')).toBe(undefined);
-
-        expect(Object.keys(calendar._internalStore).length).toStrictEqual(9);
-        expect(store.size).toStrictEqual(9);
-
-        calendar._setStore(1, 3, 2010, 'day-begin', '05:00');
-        expect(calendar._internalStore['2010-3-1-day-begin']).toBe('05:00');
-        expect(calendar._getStore(1, 3, 2010, 'day-begin')).toBe('05:00');
-
-        expect(Object.keys(calendar._internalStore).length).toStrictEqual(10);
-        expect(store.size).toStrictEqual(10);
-
-        calendar._removeStore(1, 3, 2010, 'day-begin');
-        expect(calendar._internalStore['2010-3-1-day-begin']).toBe(undefined);
-        expect(calendar._getStore(1, 3, 2010, 'day-begin')).toBe(undefined);
-
-        // remove just sets the value as undefined in internal store, if it existed
-        expect(Object.keys(calendar._internalStore).length).toStrictEqual(10);
-        expect(store.size).toStrictEqual(9);
+        expect(calendar._getTodayDate()).toBe(today.getDate());
+        expect(calendar._getTodayYear()).toBe(today.getFullYear());
+        expect(calendar._getTodayMonth()).toBe(today.getMonth());
     });
 
-    test('FixedDayCalendar internal waiver storage correct loading', () =>
+    test('FlexibleDayCalendar internal storage correct loading', () =>
+    {
+        expect(calendar._internalStore['2020-3-1']).toStrictEqual(regularEntries['2020-3-1']);
+        expect(calendar._getStore('2020-3-1')).toStrictEqual(regularEntries['2020-3-1']['values']);
+        expect(calendar._internalStore['2010-3-1']).toBe(undefined);
+        expect(calendar._getStore('2010-3-1')).toStrictEqual([]);
+
+        expect(Object.keys(calendar._internalStore).length).toStrictEqual(2);
+        expect(flexibleStore.size).toStrictEqual(2);
+
+        calendar._setStore('2010-3-1', ['05:00']);
+        expect(calendar._internalStore['2010-3-1']).toStrictEqual({'values': ['05:00']});
+        expect(calendar._getStore('2010-3-1')).toStrictEqual(['05:00']);
+
+        expect(Object.keys(calendar._internalStore).length).toStrictEqual(3);
+        expect(flexibleStore.size).toStrictEqual(3);
+
+        calendar._removeStore('2010-3-1');
+        expect(calendar._internalStore['2010-3-1']).toBe(undefined);
+        expect(calendar._getStore('2010-3-1')).toStrictEqual([]);
+
+        // remove just sets the value as undefined in internal store, if it existed
+        expect(Object.keys(calendar._internalStore).length).toStrictEqual(3);
+        expect(flexibleStore.size).toStrictEqual(2);
+    });
+
+    test('FlexibleDayCalendar internal waiver storage correct loading', () =>
     {
         // Waiver Store internally saves the human month index, but the calendar methods use JS month index
         expect(calendar._internalWaiverStore['2019-12-31']).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
@@ -102,7 +114,7 @@ describe('FixedDayCalendar class Tests', () =>
         expect(calendar._getWaiverStore(31, 11, 2010)).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
     });
 
-    test('FixedDayCalendar Day Changes', () =>
+    test('FlexibleDayCalendar Day Changes', () =>
     {
         expect(calendar._getCalendarDate()).toBe(today.getDate());
 
@@ -134,7 +146,7 @@ describe('FixedDayCalendar class Tests', () =>
         expect(calendar._getCalendarDate()).toBe(today.getDate());
     });
 
-    test('FixedDayCalendar Month Changes', () =>
+    test('FlexibleDayCalendar Month Changes', () =>
     {
         expect(calendar._getCalendarMonth()).toBe(today.getMonth());
         const expectedNextMonth = today.getMonth() + 1 === 12 ? 0 : (today.getMonth() + 1);
@@ -168,7 +180,7 @@ describe('FixedDayCalendar class Tests', () =>
         expect(calendar._getCalendarMonth()).toBe(today.getMonth());
     });
 
-    test('FixedDayCalendar Year Changes', () =>
+    test('FlexibleDayCalendar Year Changes', () =>
     {
         expect(calendar._getCalendarYear()).toBe(today.getFullYear());
         const expectedNextYear = today.getFullYear() + 1;
@@ -199,9 +211,9 @@ describe('FixedDayCalendar class Tests', () =>
         expect(calendar._getCalendarYear()).toBe(today.getFullYear());
     });
 
-    describe('FixedDayCalendar RefreshOnDayChange', () =>
+    describe('FlexibleDayCalendar RefreshOnDayChange', () =>
     {
-        test('FixedDayCalendar refresh set correctly', () =>
+        test('FlexibleDayCalendar refresh set correctly', () =>
         {
             // Calendar is set as if someone was looking at previous day
             calendar._prevDay();
@@ -215,7 +227,7 @@ describe('FixedDayCalendar class Tests', () =>
             expect(calendar._getCalendarMonth()).toBe(today.getMonth());
         });
 
-        test('FixedDayCalendar refresh set to another day', () =>
+        test('FlexibleDayCalendar refresh set to another day', () =>
         {
             // Calendar is set as if someone was looking at previous day
             calendar._prevDay();
@@ -225,5 +237,47 @@ describe('FixedDayCalendar class Tests', () =>
 
             expect(calendar._getCalendarDate()).not.toBe(today.getDate());
         });
+    });
+
+    test('Calendar to FlexibleDayCalendar', () =>
+    {
+        let testPreferences = defaultPreferences;
+        testPreferences['view'] = 'month';
+        testPreferences['number-of-entries'] = 'fixed';
+        let calendar = CalendarFactory.getInstance(testPreferences);
+        expect(calendar.constructor.name).toBe('Calendar');
+
+        testPreferences['view'] = 'day';
+        testPreferences['number-of-entries'] = 'flexible';
+        calendar = CalendarFactory.getInstance(testPreferences, calendar);
+        expect(calendar.constructor.name).toBe('FlexibleDayCalendar');
+    });
+
+    test('FixedDayCalendar to FlexibleDayCalendar', () =>
+    {
+        let testPreferences = defaultPreferences;
+        testPreferences['view'] = 'day';
+        testPreferences['number-of-entries'] = 'fixed';
+        let calendar = CalendarFactory.getInstance(testPreferences);
+        expect(calendar.constructor.name).toBe('FixedDayCalendar');
+
+        testPreferences['view'] = 'day';
+        testPreferences['number-of-entries'] = 'flexible';
+        calendar = CalendarFactory.getInstance(testPreferences, calendar);
+        expect(calendar.constructor.name).toBe('FlexibleDayCalendar');
+    });
+
+    test('FlexibleMonthCalendar to FlexibleDayCalendar', () =>
+    {
+        let testPreferences = defaultPreferences;
+        testPreferences['view'] = 'month';
+        testPreferences['number-of-entries'] = 'flexible';
+        let calendar = CalendarFactory.getInstance(testPreferences);
+        expect(calendar.constructor.name).toBe('FlexibleMonthCalendar');
+
+        testPreferences['view'] = 'day';
+        testPreferences['number-of-entries'] = 'flexible';
+        calendar = CalendarFactory.getInstance(testPreferences, calendar);
+        expect(calendar.constructor.name).toBe('FlexibleDayCalendar');
     });
 });
