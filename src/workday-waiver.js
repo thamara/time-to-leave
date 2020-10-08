@@ -13,11 +13,13 @@ const { bindDevToolsShortcut, showAlert, showDialog } = require('../js/window-au
 const waiverStore = new Store({name: 'waived-workdays'});
 let hd = new Holidays();
 
-function isTestEnv() {
+function isTestEnv()
+{
     return process.env.NODE_ENV === 'test';
 }
 
-function setDates(day) {
+function setDates(day)
+{
     $('#start-date').val(day);
     $('#end-date').val(day);
 }
@@ -93,8 +95,10 @@ function addWaiver()
 
     let diff = diffDays(startDate, endDate);
 
-    if (diff < 0) {
-        if (!isTestEnv()) {
+    if (diff < 0)
+    {
+        if (!isTestEnv())
+        {
             showAlert('End date cannot be less than start date.');
         }
         return false;
@@ -108,8 +112,10 @@ function addWaiver()
         let [tempYear, tempMonth, tempDay] = getDateFromISOStr(tempDateStr);
         noWorkingDaysOnRange &= !showDay(tempYear, tempMonth-1, tempDay) && !waiverStore.has(tempDateStr);
 
-        if (waiverStore.has(tempDateStr)) {
-            if (!isTestEnv()) {
+        if (waiverStore.has(tempDateStr))
+        {
+            if (!isTestEnv())
+            {
                 showAlert(`You already have a waiver on ${tempDateStr}. Remove it before adding a new one.`);
             }
             return false;
@@ -118,8 +124,10 @@ function addWaiver()
         tempDate.setDate(tempDate.getDate() + 1);
     }
 
-    if (noWorkingDaysOnRange) {
-        if (!isTestEnv()) {
+    if (noWorkingDaysOnRange)
+    {
+        if (!isTestEnv())
+        {
             showAlert('Cannot add waiver. Range does not contain any working day.');
         }
         return false;
@@ -266,7 +274,8 @@ function iterateOnHolidays(funct)
 {
     let holidays = getHolidays();
 
-    for (let holiday of holidays) {
+    for (let holiday of holidays)
+    {
         let startDate = new Date(holiday['start']),
             endDate = new Date(holiday['end']),
             reason = holiday['name'];
@@ -348,8 +357,10 @@ function loadHolidaysTable()
     toggleAddButton('holiday-button', true);
 }
 
-function addHolidaysAsWaiver() {
-    function addHoliday(holidayDate, holidayReason) {
+function addHolidaysAsWaiver()
+{
+    function addHoliday(holidayDate, holidayReason)
+    {
         console.log(holidayDate);
         let importHoliday = $(`#import-${holidayDate}`)[0].checked;
         if (importHoliday)
