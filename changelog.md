@@ -26,6 +26,7 @@ Who built 1.5.6:
 <!--- Begin users - Do not remove -->
 
 -   06b
+-   BamButz
 -   Tailine
 -   akaash11
 -   anatdagan
