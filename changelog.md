@@ -11,6 +11,7 @@
 -   Enhancement: [#394] Adding option to control the behavior of the Minimize button
 -   Enhancement: [#414] Right-align content of selection boxes from Preferences Window
 -   Enhancement: [#442] Modernizing scrollbar styling
+-   Enhancement: [#455] Small adjustments on the Punch button
 -   Enhancementnt: [#448] Changed link color in Workday Waiver Manager to match themes
 -   Fix: Fixed behavior of calendar when moving to next/previous month when current day is in the range of 29-31.
 -   Fix: [#214] Check that lunch has beginning and end, if there is lunch
@@ -31,6 +32,7 @@ Who built 1.5.6:
 -   akaash11
 -   anatdagan
 -   araujoarthur0
+-   ccsCoder
 -   cssCoder
 -   daretobedifferent18
 -   fikimaul
