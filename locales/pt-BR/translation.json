@@ -90,6 +90,27 @@
         "workday-waiver-manager": "Gerenciador de Folgas",
         "yes-please": "Sim, por favor"
     },
+    "$FlexibleDayCalendar": {
+        "switch-view": "Trocar Visualização",
+        "current-day": "Ir para o Dia Atual",
+        "previous-day": "Dia Anterior",
+        "next-day": "Próximo Dia",
+        "time-to-leave": "Time to Leave",
+        "leave-by": "Você deve sair às:",
+        "day-done-balance": "Tudo certo por hoje. Saldo do dia:",
+        "balance-up-until-today-for-this-month": "Saldo até hoje para este mês. Um saldo positivo significa horas extras que você não precisa trabalhar hoje (ou o resto do mês)",
+        "month-balance": "Saldo Mensal",
+        "overall-balance-month": "Saldo total até o fim do mês ou dia atual",
+        "overall-balance": "Saldo Total",
+        "not-a-working-day": "Nao é um dia útil",
+        "waived-day": "Dia de folga",
+        "day-total": "Total do Dia",
+        "remove-entry": "Remover registro",
+        "entry-removal-confirmation": "Tem certeza que deseja excluir a última linha de registro?",
+        "yes": "Sim",
+        "no": "Não",
+        "entry": "Registro"
+    },
     "$Calendar": {
         "leave-by": "Based on the time you arrived today, you should leave by",
         "all-done": "All done for today. Balance of the day:",
