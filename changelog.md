@@ -44,6 +44,7 @@ Who built 1.5.6:
 -   sano2019
 -   skevprog
 -   thamara
+-   tiagohermano
 
 <!--- End users - Do not remove -->
 
