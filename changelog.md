@@ -40,6 +40,7 @@ Who built 1.5.6:
 -   michaelknowles
 -   nilold
 -   parikhdhruv24791
+-   parnus01
 -   sajeevan16
 -   sano2019
 -   skevprog
