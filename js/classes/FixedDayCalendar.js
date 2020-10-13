@@ -149,7 +149,7 @@ class FixedDayCalendar extends Calendar
                     '</div>\n';
         }
 
-        let waivedInfo = this._getWaiverStore(day, month, year);
+        let waivedInfo = this._getWaiverStore(year, month, day);
         if (waivedInfo !== undefined)
         {
             let summaryStr = `<b>${i18n.t('$FixedDayCalendar.waived-day')}: </b>` + waivedInfo['reason'];
@@ -305,7 +305,7 @@ class FixedDayCalendar extends Calendar
                 continue;
             }
 
-            let dayTotal = this._getDayTotal(day, this._getCalendarMonth(), this._getCalendarYear());
+            let dayTotal = this._getDayTotal(this._getCalendarYear(), this._getCalendarMonth(), day);
             if (dayTotal !== undefined)
             {
                 countDays = true;
@@ -354,7 +354,7 @@ class FixedDayCalendar extends Calendar
 
             if (day === this._getCalendarDate())
             {
-                let waivedInfo = this._getWaiverStore(day, this._getCalendarMonth(), this._getCalendarYear());
+                let waivedInfo = this._getWaiverStore(this._getCalendarYear(), this._getCalendarMonth(), day);
                 if (waivedInfo !== undefined)
                 {
                     let waivedDayTotal = waivedInfo['hours'];

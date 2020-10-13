@@ -163,7 +163,7 @@ class FlexibleDayCalendar extends FlexibleMonthCalendar
                     '</div>\n';
         }
 
-        let waivedInfo = this._getWaiverStore(day, month, year);
+        let waivedInfo = this._getWaiverStore(year, month, day);
         if (waivedInfo !== undefined)
         {
             let summaryStr = `<b>${i18n.t('$FlexibleDayCalendar.waived-day')}</b>` + waivedInfo['reason'];
@@ -408,7 +408,7 @@ class FlexibleDayCalendar extends FlexibleMonthCalendar
             return dayTotal;
         }
 
-        const waiverTotal = this._getWaiverStore(day, month, year);
+        const waiverTotal = this._getWaiverStore(year, month, day);
         if (waiverTotal !== undefined)
         {
             return waiverTotal['hours'];
@@ -518,7 +518,7 @@ class FlexibleDayCalendar extends FlexibleMonthCalendar
             const dateKey = generateKey(this._getCalendarYear(), this._getCalendarMonth(), day);
             if (day === this._getCalendarDate())
             {
-                let waivedInfo = this._getWaiverStore(day, this._getCalendarMonth(), this._getCalendarYear());
+                let waivedInfo = this._getWaiverStore(this._getCalendarYear(), this._getCalendarMonth(), day);
                 if (waivedInfo !== undefined)
                 {
                     let waivedDayTotal = waivedInfo['hours'];

@@ -91,9 +91,9 @@ describe('FlexibleMonthCalendar class Tests', () =>
     {
         // Waiver Store internally saves the human month index, but the calendar methods use JS month index
         expect(calendar._internalWaiverStore['2019-12-31']).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
-        expect(calendar._getWaiverStore(31, 11, 2019)).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
+        expect(calendar._getWaiverStore(2019, 11, 31)).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
         expect(calendar._internalWaiverStore['2010-12-31']).toStrictEqual(undefined);
-        expect(calendar._getWaiverStore(31, 11, 2010)).toStrictEqual(undefined);
+        expect(calendar._getWaiverStore(2010, 11, 31)).toStrictEqual(undefined);
 
         expect(waivedWorkdays.size).toStrictEqual(3);
         expect(Object.keys(calendar._internalWaiverStore).length).toStrictEqual(3);
@@ -104,14 +104,14 @@ describe('FlexibleMonthCalendar class Tests', () =>
         waivedWorkdays.set(newWaivedEntry);
 
         expect(calendar._internalWaiverStore['2010-12-31']).toStrictEqual(undefined);
-        expect(calendar._getWaiverStore(31, 11, 2010)).toStrictEqual(undefined);
+        expect(calendar._getWaiverStore(2010, 11, 31)).toStrictEqual(undefined);
 
         calendar.loadInternalWaiveStore();
 
         expect(Object.keys(calendar._internalWaiverStore).length).toStrictEqual(4);
 
         expect(calendar._internalWaiverStore['2010-12-31']).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
-        expect(calendar._getWaiverStore(31, 11, 2010)).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
+        expect(calendar._getWaiverStore(2010, 11, 31)).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
     });
 
     test('FlexibleMonthCalendar Month Changes', () =>

@@ -52,23 +52,23 @@ describe('FixedDayCalendar class Tests', () =>
     test('FixedDayCalendar internal storage correct loading', () =>
     {
         expect(calendar._internalStore['2020-3-1-day-begin']).toBe('08:00');
-        expect(calendar._getStore(1, 3, 2020, 'day-begin')).toBe('08:00');
+        expect(calendar._getStore(2020, 3, 1, 'day-begin')).toBe('08:00');
         expect(calendar._internalStore['2010-3-1-day-begin']).toBe(undefined);
-        expect(calendar._getStore(1, 3, 2010, 'day-begin')).toBe(undefined);
+        expect(calendar._getStore(2010, 3, 1, 'day-begin')).toBe(undefined);
 
         expect(Object.keys(calendar._internalStore).length).toStrictEqual(9);
         expect(store.size).toStrictEqual(9);
 
-        calendar._setStore(1, 3, 2010, 'day-begin', '05:00');
+        calendar._setStore(2010, 3, 1, 'day-begin', '05:00');
         expect(calendar._internalStore['2010-3-1-day-begin']).toBe('05:00');
-        expect(calendar._getStore(1, 3, 2010, 'day-begin')).toBe('05:00');
+        expect(calendar._getStore(2010, 3, 1, 'day-begin')).toBe('05:00');
 
         expect(Object.keys(calendar._internalStore).length).toStrictEqual(10);
         expect(store.size).toStrictEqual(10);
 
-        calendar._removeStore(1, 3, 2010, 'day-begin');
+        calendar._removeStore(2010, 3, 1, 'day-begin');
         expect(calendar._internalStore['2010-3-1-day-begin']).toBe(undefined);
-        expect(calendar._getStore(1, 3, 2010, 'day-begin')).toBe(undefined);
+        expect(calendar._getStore(2010, 3, 1, 'day-begin')).toBe(undefined);
 
         // remove just sets the value as undefined in internal store, if it existed
         expect(Object.keys(calendar._internalStore).length).toStrictEqual(10);
@@ -79,9 +79,9 @@ describe('FixedDayCalendar class Tests', () =>
     {
         // Waiver Store internally saves the human month index, but the calendar methods use JS month index
         expect(calendar._internalWaiverStore['2019-12-31']).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
-        expect(calendar._getWaiverStore(31, 11, 2019)).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
+        expect(calendar._getWaiverStore(2019, 11, 31)).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
         expect(calendar._internalWaiverStore['2010-12-31']).toStrictEqual(undefined);
-        expect(calendar._getWaiverStore(31, 11, 2010)).toStrictEqual(undefined);
+        expect(calendar._getWaiverStore(2010, 11, 31)).toStrictEqual(undefined);
 
         expect(waivedWorkdays.size).toStrictEqual(3);
         expect(Object.keys(calendar._internalWaiverStore).length).toStrictEqual(3);
@@ -92,14 +92,14 @@ describe('FixedDayCalendar class Tests', () =>
         waivedWorkdays.set(newWaivedEntry);
 
         expect(calendar._internalWaiverStore['2010-12-31']).toStrictEqual(undefined);
-        expect(calendar._getWaiverStore(31, 11, 2010)).toStrictEqual(undefined);
+        expect(calendar._getWaiverStore(2010, 11, 31)).toStrictEqual(undefined);
 
         calendar.loadInternalWaiveStore();
 
         expect(Object.keys(calendar._internalWaiverStore).length).toStrictEqual(4);
 
         expect(calendar._internalWaiverStore['2010-12-31']).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
-        expect(calendar._getWaiverStore(31, 11, 2010)).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
+        expect(calendar._getWaiverStore(2010, 11, 31)).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
     });
 
     test('FixedDayCalendar Day Changes', () =>

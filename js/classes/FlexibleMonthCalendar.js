@@ -157,7 +157,7 @@ class FlexibleMonthCalendar extends Calendar
                     '</div></div>\n';
         }
 
-        let waivedInfo = this._getWaiverStore(day, month, year);
+        let waivedInfo = this._getWaiverStore(year, month, day);
         if (waivedInfo !== undefined)
         {
             let summaryStr = '<b>Waived day: </b>' + waivedInfo['reason'];
@@ -214,7 +214,7 @@ class FlexibleMonthCalendar extends Calendar
         this._updateTableBody();
         this._updateBasedOnDB();
 
-        let waivedInfo = this._getWaiverStore(this._getTodayDate(), this._getTodayMonth(), this._getTodayYear());
+        let waivedInfo = this._getWaiverStore(this._getTodayYear(), this._getTodayMonth(), this._getTodayDate());
         let showCurrentDay = this._showDay(this._getTodayYear(), this._getTodayMonth(), this._getTodayDate());
         this._togglePunchButton(showCurrentDay && waivedInfo === undefined);
 
@@ -480,7 +480,7 @@ class FlexibleMonthCalendar extends Calendar
             let dayTotal = null;
             const dateKey = generateKey(this._getCalendarYear(), this._getCalendarMonth(), day);
 
-            let waivedInfo = this._getWaiverStore(day, this._getCalendarMonth(), this._getCalendarYear());
+            let waivedInfo = this._getWaiverStore(this._getCalendarYear(), this._getCalendarMonth(), day);
             if (waivedInfo !== undefined)
             {
                 let waivedDayTotal = waivedInfo['hours'];

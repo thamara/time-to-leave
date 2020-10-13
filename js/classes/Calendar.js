@@ -111,7 +111,7 @@ class Calendar
         this._updateTableBody();
         this._updateBasedOnDB();
 
-        let waivedInfo = this._getWaiverStore(this._getTodayDate(), this._getTodayMonth(), this._getTodayYear());
+        let waivedInfo = this._getWaiverStore(this._getTodayYear(), this._getTodayMonth(), this._getTodayDate());
         let showCurrentDay = this._showDay(this._getTodayYear(), this._getTodayMonth(), this._getTodayDate());
         this._togglePunchButton(showCurrentDay && waivedInfo === undefined);
 
@@ -145,7 +145,7 @@ class Calendar
     {
         let idTag = this._getCalendarYear() + '-' + month + '-' + day + '-' + key;
 
-        let value = this._getStore(day, month, this._getCalendarYear(), key);
+        let value = this._getStore(this._getCalendarYear(), month, day, key);
         if (value === undefined)
         {
             value = '';
@@ -156,13 +156,13 @@ class Calendar
 
     /**
      * Gets value from internal store.
-     * @param {number} day
-     * @param {number} month
      * @param {number} year
+     * @param {number} month
+     * @param {number} day
      * @param {string} key
      * @return {string|undefined} A time string
      */
-    _getStore(day, month, year, key)
+    _getStore(year, month, day, key)
     {
         let idTag = generateKey(year, month, day, key);
         return this._internalStore[idTag];
@@ -170,13 +170,13 @@ class Calendar
 
     /**
      * Saves value on store and updates internal store.
-     * @param {number} day
-     * @param {number} month
      * @param {number} year
+     * @param {number} month
+     * @param {number} day
      * @param {string} key
      * @param {string} newValue valid time value
      */
-    _setStore(day, month, year, key, newValue)
+    _setStore(year, month, day, key, newValue)
     {
         let idTag = generateKey(year, month, day, key);
 
@@ -186,12 +186,12 @@ class Calendar
 
     /**
      * Removes value from store and from internal store.
-     * @param {number} day
-     * @param {number} month
      * @param {number} year
+     * @param {number} month
+     * @param {number} day
      * @param {string} key
      */
-    _removeStore(day, month, year, key)
+    _removeStore(year, month, day, key)
     {
         let idTag = generateKey(year, month, day, key);
 
@@ -201,12 +201,12 @@ class Calendar
 
     /**
      * Gets value from internal waiver store.
-     * @param {number} day
-     * @param {number} month
      * @param {number} year
+     * @param {number} month
+     * @param {number} day
      * @return {string} A time string
      */
-    _getWaiverStore(day, month, year)
+    _getWaiverStore(year, month, day)
     {
         let dayKey = getDateStr(new Date(year, month, day));
 
@@ -330,7 +330,7 @@ class Calendar
             }
         }
 
-        let waivedInfo = this._getWaiverStore(day, month, year);
+        let waivedInfo = this._getWaiverStore(year, month, day);
         if (waivedInfo !== undefined)
         {
             let summaryStr = '<b>Waived day: </b>' + waivedInfo['reason'];
@@ -610,19 +610,19 @@ class Calendar
 
     /**
      * Gets the total for a specific day by looking into both stores.
-     * @param {number} day
-     * @param {number} month
      * @param {number} year
+     * @param {number} month
+     * @param {number} day
      * @return {string|undefined}
      */
-    _getDayTotal(day, month, year)
+    _getDayTotal(year, month, day)
     {
-        let storeTotal = this._getStore(day, month, year, 'day-total');
+        let storeTotal = this._getStore(year, month, day, 'day-total');
         if (storeTotal !== undefined)
         {
             return storeTotal;
         }
-        let waiverTotal = this._getWaiverStore(day, month, year);
+        let waiverTotal = this._getWaiverStore(year, month, day);
         if (waiverTotal !== undefined)
         {
             return waiverTotal['hours'];
@@ -831,7 +831,7 @@ class Calendar
             let dayTotal = null;
             let dayStr = this._getCalendarYear() + '-' + this._getCalendarMonth() + '-' + day + '-';
 
-            let waivedInfo = this._getWaiverStore(day, this._getCalendarMonth(), this._getCalendarYear());
+            let waivedInfo = this._getWaiverStore(this._getCalendarYear(), this._getCalendarMonth(), day);
             if (waivedInfo !== undefined)
             {
                 let waivedDayTotal = waivedInfo['hours'];
@@ -965,11 +965,11 @@ class Calendar
     {
         if (validateTime(newValue))
         {
-            this._setStore(day, month, year, key, newValue);
+            this._setStore(year, month, day, key, newValue);
         }
         else
         {
-            this._removeStore(day, month, year, key);
+            this._removeStore(year, month, day, key);
         }
     }
 
@@ -1054,10 +1054,10 @@ class Calendar
      */
     _getDaysEntries(month, day)
     {
-        return [this._getStore(day, month, this._getCalendarYear(), 'day-begin'),
-            this._getStore(day, month, this._getCalendarYear(), 'lunch-begin'),
-            this._getStore(day, month, this._getCalendarYear(), 'lunch-end'),
-            this._getStore(day, month, this._getCalendarYear(), 'day-end')];
+        return [this._getStore(this._getCalendarYear(), month, day, 'day-begin'),
+            this._getStore(this._getCalendarYear(), month, day, 'lunch-begin'),
+            this._getStore(this._getCalendarYear(), month, day, 'lunch-end'),
+            this._getStore(this._getCalendarYear(), month, day, 'day-end')];
     }
 
     /**
