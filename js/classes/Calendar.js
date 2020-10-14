@@ -47,11 +47,10 @@ class Calendar
     _initCalendar()
     {
         this._generateTemplate();
-
-        $('#next-month').click(() => { this._nextMonth(); });
-        $('#prev-month').click(() => { this._prevMonth(); });
-        $('#current-month').click(() => { this._goToCurrentDate(); });
-        $('#switch-view').click(() => { this._switchView(); });
+        $('#next-month').on('click', () => { this._nextMonth(); });
+        $('#prev-month').on('click', () => { this._prevMonth(); });
+        $('#current-month').on('click', () => { this._goToCurrentDate(); });
+        $('#switch-view').on('click', () => { this._switchView(); });
 
         this._draw();
     }
@@ -90,10 +89,8 @@ class Calendar
                 let balanceElement = $('#overall-balance');
                 if (balanceElement)
                 {
-                    balanceElement.val(balance);
-                    balanceElement.html(balance);
-                    balanceElement.removeClass('text-success text-danger');
-                    balanceElement.addClass(isNegative(balance) ? 'text-danger' : 'text-success');
+                    balanceElement.val(balance).removeClass('text-success text-danger')
+                        .html(balance).addClass(isNegative(balance) ? 'text-danger' : 'text-success');
                 }
             })
             .catch(err =>
