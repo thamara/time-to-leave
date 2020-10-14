@@ -12,6 +12,7 @@
 -   Enhancement: [#414] Right-align content of selection boxes from Preferences Window
 -   Enhancement: [#442] Modernizing scrollbar styling
 -   Enhancement: [#455] Small adjustments on the Punch button
+-   Enhancement: [#455] Small adjustments on the alignment of the date on the Preferences Window
 -   Enhancementnt: [#448] Changed link color in Workday Waiver Manager to match themes
 -   Fix: Fixed behavior of calendar when moving to next/previous month when current day is in the range of 29-31.
 -   Fix: [#214] Check that lunch has beginning and end, if there is lunch
