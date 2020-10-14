@@ -40,6 +40,7 @@ Who built 1.5.6:
 -   fikimaul
 -   greyGroot
 -   ibamibrhm
+-   ju-pinheiro
 -   kumaranshu72
 -   michaelknowles
 -   nilold
