@@ -42,6 +42,7 @@ Who built 1.5.6:
 -   ibamibrhm
 -   ju-pinheiro
 -   kumaranshu72
+-   mfayaq
 -   michaelknowles
 -   nilold
 -   parikhdhruv24791
