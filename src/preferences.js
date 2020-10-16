@@ -159,7 +159,7 @@ function renderPreferencesWindow()
     {
         let input = $(this);
         let name = input.attr('name');
-
+        /* istanbul ignore else */
         if (input.attr('type') === 'checkbox')
         {
             /* istanbul ignore else */
@@ -210,7 +210,7 @@ function renderPreferencesWindow()
 
     bindDevToolsShortcut(window);
 }
-
+/* istanbul ignore next */
 $(() =>
 {
     renderPreferencesWindow();

@@ -42,13 +42,18 @@ function prepareMockup()
 function changeItemValue(item, value)
 {
     testPreferences[item] = value;
-    $(`#${item}`).val(testPreferences[item]);
+    $(`#${item}`)
+        .val(testPreferences[item])
+        .trigger('change');
 }
 
 function changeItemInputValue(item, value)
 {
     testPreferences[item] = value;
-    $(`input[name*='${item}']`).prop('checked', testPreferences[item]);
+
+    $(`input[name*='${item}']`)
+        .prop('checked', testPreferences[item])
+        .trigger('change');
 }
 
 function checkRenderedItem(item, isCheckbox = false)
@@ -65,14 +70,19 @@ function checkRenderedItem(item, isCheckbox = false)
         expect($(`#${item}`).val()).toBe(testPreferences[item]);
     }
 }
-const preferencesFilePath = getPreferencesFilePath();
-if (fs.existsSync(preferencesFilePath)) fs.unlinkSync(preferencesFilePath);
 
-let testPreferences = defaultPreferences;
+function resetPreferenceFile()
+{
+    const preferencesFilePath = getPreferencesFilePath();
+    if (fs.existsSync(preferencesFilePath)) fs.unlinkSync(preferencesFilePath);
+}
+
+let testPreferences = Object.assign({}, defaultPreferences);
 
 describe('Test Preferences Window', () =>
 {
     process.env.NODE_ENV = 'test';
+    resetPreferenceFile();
 
     describe('Changing values of items in window', () =>
     {
@@ -113,14 +123,20 @@ describe('Test Preferences Window', () =>
             changeItemValue('hours-per-day', '05:00');
             checkRenderedItem('hours-per-day');
         });
+        test('Change repetition to false', () =>
+        {
+            changeItemInputValue('repetition', false);
+            checkRenderedItem('repetition', isCheckBox);
+        });
         test('Change notification to false', () =>
         {
             changeItemInputValue('notification', false);
             checkRenderedItem('notification', isCheckBox);
         });
-        test('Change repetition to false', () =>
+        test('Re-change notification to true and expect repetition to stay false - changed above', () =>
         {
-            changeItemInputValue('repetition', false);
+            changeItemInputValue('notification', true);
+            checkRenderedItem('notification', isCheckBox);
             checkRenderedItem('repetition', isCheckBox);
         });
         test('Change notifications-interval to 10', () =>
@@ -164,10 +180,6 @@ describe('Test Preferences Window', () =>
             changeItemValue('number-of-entries', 'flexible');
             checkRenderedItem('number-of-entries');
         });
-        test('Changing language from en to pt-BR', () =>
-        {
-            changeItemValue('language', 'pt-BR');
-            checkRenderedItem('language');
-        });
     });
 });
+
