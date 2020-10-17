@@ -62,13 +62,13 @@ class FlexibleMonthCalendar extends Calendar
      */
     static _getPageHeader()
     {
-        let switchView = `<input id="switch-view" type="image" src="assets/switch.svg" alt="${i18n.t('$FlexibleDayCalendar.switch-view')}" title="${i18n.t('$FlexibleDayCalendar.switch-view')}" height="24" width="24"></input>`;
-        let todayBut = `<input id="current-month" type="image" src="assets/calendar.svg" alt="${i18n.t('$FlexibleDayCalendar.current-month')}" title="${i18n.t('$FlexibleDayCalendar.current-month')}" height="24" width="24"></input>`;
-        let leftBut = `<input id="prev-month" type="image" src="assets/left-arrow.svg" alt="${i18n.t('$FlexibleDayCalendar.previous-month')}" height="24" width="24"></input>`;
-        let rightBut = `<input id="next-month" type="image" src="assets/right-arrow.svg" alt="${i18n.t('$FlexibleDayCalendar.next-month')}" height="24" width="24"></input>`;
+        let switchView = `<input id="switch-view" type="image" src="assets/switch.svg" alt="${i18n.t('$FlexibleMonthCalendar.switch-view')}" title="${i18n.t('$FlexibleMonthCalendar.switch-view')}" height="24" width="24"></input>`;
+        let todayBut = `<input id="current-month" type="image" src="assets/calendar.svg" alt="${i18n.t('$FlexibleMonthCalendar.current-month')}" title="${i18n.t('$FlexibleMonthCalendar.current-month')}" height="24" width="24"></input>`;
+        let leftBut = `<input id="prev-month" type="image" src="assets/left-arrow.svg" alt="${i18n.t('$FlexibleMonthCalendar.previous-month')}" height="24" width="24"></input>`;
+        let rightBut = `<input id="next-month" type="image" src="assets/right-arrow.svg" alt="${i18n.t('$FlexibleMonthCalendar.next-month')}" height="24" width="24"></input>`;
         return '<div class="title-header">'+
                     '<div class="title-header title-header-img"><img src="assets/timer.svg" height="64" width="64"></div>' +
-                    `<div class="title-header title-header-text">${i18n.t('$FlexibleDayCalendar.time-to-leave')}</div>` +
+                    `<div class="title-header title-header-text">${i18n.t('$FlexibleMonthCalendar.time-to-leave')}</div>` +
                     '<div class="title-header title-header-msg"></div>' +
                '</div>' +
                 '<table class="table-header"><tr>' +
@@ -86,8 +86,8 @@ class FlexibleMonthCalendar extends Calendar
     static _getTableHeaderCode()
     {
         return '<div class="calendar-table-header">' +
-                    `<div class="header-day">${i18n.t('$FlexibleDayCalendar.day')}</div>` +
-                    `<div class="header-day-total">${i18n.t('$FlexibleDayCalendar.total')}</div>` +
+                    `<div class="header-day">${i18n.t('$FlexibleMonthCalendar.day')}</div>` +
+                    `<div class="header-day-total">${i18n.t('$FlexibleMonthCalendar.total')}</div>` +
                 '</div>\n';
     }
 
