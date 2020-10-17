@@ -1095,6 +1095,13 @@ class Calendar
             if (hasLunchStarted) return true;
             dayValues.push(dayEnd);
         }
+        
+        
+        // Adding fix to implement test pass
+        // Means no valid time was entered
+        if (dayValues.length===0 && (dayBegin!=='' || lunchBegin !== '' || dayEnd !== '' || lunchEnd !== ''))
+            return true;
+        
         for (let index = 0; index < dayValues.length; index++) 
         {
             if (index > 0 && (dayValues[index-1] >= dayValues[index])) 
@@ -1102,6 +1109,8 @@ class Calendar
                 return true;
             }
         }
+
+        
         return false;
     }
 
