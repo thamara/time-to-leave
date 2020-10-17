@@ -62,7 +62,8 @@ def get_updated_file_content(current_changelog_lines: str, new_change: any, new_
         if line == g_begin_users:
             is_sourcing_users = True
 
-    return new_file_content
+    # Include on extra empty line to comply with markdown formatter
+    return new_file_content.append('')
 
 def update_changelog(changelog_filename: str, new_change: any, new_user: any):
     """Updates the changelog file to include the new changes"""
