@@ -9,6 +9,7 @@ const { validateTime, diffDays } = require('../js/time-math.js');
 const { applyTheme } = require('../js/themes.js');
 const { getDateStr } = require('../js/date-aux.js');
 const { bindDevToolsShortcut, showAlert, showDialog } = require('../js/window-aux.js');
+const i18n = require('./configs/i18next.config.js');
 
 const waiverStore = new Store({name: 'waived-workdays'});
 let hd = new Holidays();
@@ -91,7 +92,7 @@ function addWaiver()
     let diff = diffDays(startDate, endDate);
     if (diff < 0)
     {
-        showAlert('End date cannot be less than start date.');
+        showAlert(i18n.t('$WorkdayWaiver.end-date-cannot-be-less'));
         return;
     }
 
@@ -100,11 +101,13 @@ function addWaiver()
     for (let i = 0; i <= diff; i++)
     {
         let tempDateStr = getDateStr(tempDate);
+        let alreadyHaveWaiverStr = i18n.t('$WorkdayWaiver.already-have-waiver');
+        let removeWaiverStr = i18n.t('$WorkdayWaiver.remove-waiver');
         let [tempYear, tempMonth, tempDay] = getDateFromISOStr(tempDateStr);
         noWorkingDaysOnRange &= !showDay(tempYear, tempMonth-1, tempDay) && !waiverStore.has(tempDateStr);
         if (waiverStore.has(tempDateStr))
         {
-            showAlert(`You already have a waiver on ${tempDateStr}. Remove it before adding a new one.`);
+            showAlert(`${alreadyHaveWaiverStr} ${tempDateStr}. ${removeWaiverStr}`);
             return;
         }
 
@@ -113,7 +116,7 @@ function addWaiver()
 
     if (noWorkingDaysOnRange)
     {
-        showAlert('Cannot add waiver. Range does not contain any working day.');
+        showAlert(i18n.t('$WorkdayWaiver.no-working-days-on-range'));
         return;
     }
 
@@ -141,10 +144,12 @@ function deleteEntryOnClick(event)
 {
     let deleteButton = $(event.target);
     let day = deleteButton.data('day');
+    let timeToLeaveStr = i18n.t('$WorkdayWaiver.time-to-leave');
+    let deleteWaiverMessageStr = i18n.t('$WorkdayWaiver.delete-waiver-message');
 
     let options = {
-        title: 'Time to Leave',
-        message: `Are you sure you want to delete waiver on day ${day} ?`,
+        title: timeToLeaveStr,
+        message: `${deleteWaiverMessageStr} ${day} ?`,
         type: 'info',
         buttons: ['Yes', 'No']
     };
@@ -357,7 +362,7 @@ function addHolidaysAsWaiver()
 
     //clear data from table and return the configurations to default
     initializeHolidayInfo();
-    showAlert('Loaded waivers for holidays.');
+    showAlert(i18n.t('$WorkdayWaiver.loaded-waivers-holidays'));
 }
 
 function initializeHolidayInfo()
