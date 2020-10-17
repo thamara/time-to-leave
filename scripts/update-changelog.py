@@ -63,7 +63,8 @@ def get_updated_file_content(current_changelog_lines: str, new_change: any, new_
             is_sourcing_users = True
 
     # Include on extra empty line to comply with markdown formatter
-    return new_file_content.append('')
+    new_file_content.append('')
+    return new_file_content
 
 def update_changelog(changelog_filename: str, new_change: any, new_user: any):
     """Updates the changelog file to include the new changes"""
