@@ -7,7 +7,7 @@ const { Menu } = require('electron').remote;
  * @param {string} dayId - day in '<year>-<month - 1>-<day>' format
  * @returns {string} - day in 'YYYY-MM-DD' format
  */
-function formatDayId(dayId) 
+function formatDayId(dayId)
 {
     const [year, month, day] = dayId.split('-').map((i) => { return parseInt(i); });
     const date = new Date(year, month, day);
@@ -19,7 +19,7 @@ function formatDayId(dayId)
  *
  * @param {string} waiverDay - day in 'YYYY-MM-DD' format
  */
-function sendWaiverDay(waiverDay) 
+function sendWaiverDay(waiverDay)
 {
     ipcRenderer.send('SET_WAIVER_DAY', waiverDay);
 }
@@ -27,7 +27,7 @@ function sendWaiverDay(waiverDay)
 /**
  * Displays workday waiver manager window.
  */
-function displayWaiverWindow() 
+function displayWaiverWindow()
 {
     const waiverMenu = Menu.getApplicationMenu().getMenuItemById('workday-waiver-manager');
     waiverMenu.click();

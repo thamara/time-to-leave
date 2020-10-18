@@ -10,15 +10,34 @@ const { notify } = require('./js/notification.js');
 const { getUserPreferences } = require('./js/user-preferences.js');
 const { applyTheme } = require('./js/themes.js');
 const { CalendarFactory } = require('./js/classes/CalendarFactory.js');
+const i18n = require('./src/configs/i18next.config.js');
 
 // Global values for calendar
 let preferences = getUserPreferences();
 let calendar = null;
 
+const lang = preferences['language'];
+// Need to force load of translations
+ipcRenderer.sendSync('GET_INITIAL_TRANSLATIONS', lang);
+
+ipcRenderer.on('LANGUAGE_CHANGED', (event, message) =>
+{
+    if (!i18n.hasResourceBundle(message.language, message.namespace))
+    {
+        i18n.addResourceBundle(
+            message.language,
+            message.namespace,
+            message.resource
+        );
+    }
+    i18n.changeLanguage(message.language);
+});
+
+
 /*
  * Get nofified when preferences has been updated.
  */
-ipcRenderer.on('PREFERENCE_SAVED', function(event, prefs) 
+ipcRenderer.on('PREFERENCE_SAVED', function(event, prefs)
 {
     preferences = prefs;
     calendar = CalendarFactory.getInstance(prefs, calendar);
@@ -28,7 +47,7 @@ ipcRenderer.on('PREFERENCE_SAVED', function(event, prefs)
 /*
  * Get nofified when waivers get updated.
  */
-ipcRenderer.on('WAIVER_SAVED', function() 
+ipcRenderer.on('WAIVER_SAVED', function()
 {
     calendar.loadInternalWaiveStore();
     calendar.redraw();
@@ -37,7 +56,7 @@ ipcRenderer.on('WAIVER_SAVED', function()
 /*
  * Returns true if the notification is enabled in preferences.
  */
-function notificationIsEnabled() 
+function notificationIsEnabled()
 {
     return preferences['notification'];
 }
@@ -45,15 +64,15 @@ function notificationIsEnabled()
 /*
  * Notify user if it's time to leave
  */
-function notifyTimeToLeave() 
+function notifyTimeToLeave()
 {
-    if (!notificationIsEnabled() || $('#leave-by').length === 0) 
+    if (!notificationIsEnabled() || $('#leave-by').length === 0)
     {
         return;
     }
 
     let timeToLeave = $('#leave-by').val();
-    if (validateTime(timeToLeave)) 
+    if (validateTime(timeToLeave))
     {
         /**
          * How many minutes should pass before the Time-To-Leave notification should be presented again.
@@ -67,7 +86,7 @@ function notifyTimeToLeave()
         let minutesDiff = hourToMinutes(subtractTime(timeToLeave, curTime));
         let isRepeatingInterval = curTime > timeToLeave && (minutesDiff % notificationInterval === 0);
 
-        if (curTime === timeToLeave || (isRepeatingInterval && preferences['repetition'])) 
+        if (curTime === timeToLeave || (isRepeatingInterval && preferences['repetition']))
         {
             notify('Hey there! I think it\'s time to leave.');
         }
@@ -75,12 +94,21 @@ function notifyTimeToLeave()
 }
 
 // On page load, create the calendar and setup notification
-$(() => 
+$(() =>
 {
-    let preferences = getUserPreferences();
-    calendar = CalendarFactory.getInstance(preferences);
-    setInterval(notifyTimeToLeave, 60000);
-    applyTheme(preferences.theme);
+    // Wait until translation is complete
+    i18n.changeLanguage(preferences['language'])
+        .then(() =>
+        {
+            let preferences = getUserPreferences();
+            calendar = CalendarFactory.getInstance(preferences);
+            setInterval(notifyTimeToLeave, 60000);
+            applyTheme(preferences.theme);
 
-    $('#punch-button').click(() => { calendar.punchDate(); });
+            $('#punch-button').on('click', () => { calendar.punchDate(); });
+        })
+        .catch(err =>
+        {
+            console.log('Error when changing language: ' + err);
+        });
 });

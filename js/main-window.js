@@ -13,15 +13,50 @@ const {
     getMainMenuTemplate,
     getViewMenuTemplate
 } = require('./menus');
+const i18n = require('../src/configs/i18next.config');
 let { contextMenu, tray } = require('./windows.js');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow = null;
 
-function getMainWindow() 
+function getMainWindow()
 {
     return mainWindow;
+}
+
+function createMenu()
+{
+    const menu = Menu.buildFromTemplate([
+        {
+            label: i18n.t('$Menu.menu'),
+            submenu: getMainMenuTemplate(mainWindow)
+        },
+        {
+            label: i18n.t('$Menu.edit'),
+            submenu: getEditMenuTemplate(mainWindow)
+        },
+        {
+            label: i18n.t('$Menu.view'),
+            submenu: getViewMenuTemplate()
+        },
+        {
+            label: i18n.t('$Menu.help'),
+            submenu: getHelpMenuTemplate()
+        }
+    ]);
+    Menu.setApplicationMenu(menu);
+    if (appConfig.macOS)
+    {
+        // Use the macOS dock if we've got it
+        let dockMenuTemplate = getDockMenuTemplate(mainWindow);
+        app.dock.setMenu(Menu.buildFromTemplate(dockMenuTemplate));
+        mainWindow.maximize();
+    }
+    else
+    {
+        mainWindow.setMenu(menu);
+    }
 }
 
 function createWindow()
@@ -42,37 +77,8 @@ function createWindow()
         }
     });
 
-    const menu = Menu.buildFromTemplate([
-        {
-            label: 'Menu',
-            submenu: getMainMenuTemplate(mainWindow)
-        },
-        {
-            label: 'Edit',
-            submenu: getEditMenuTemplate(mainWindow)
-        },
-        {
-            label: 'View',
-            submenu: getViewMenuTemplate()
-        },
-        {
-            label: 'Help',
-            submenu: getHelpMenuTemplate()
-        }
-    ]);
-    Menu.setApplicationMenu(menu);
+    createMenu();
 
-    if (appConfig.macOS)
-    {
-        // Use the macOS dock if we've got it
-        let dockMenuTemplate = getDockMenuTemplate(mainWindow);
-        app.dock.setMenu(Menu.buildFromTemplate(dockMenuTemplate));
-        mainWindow.maximize();
-    }
-    else
-    {
-        mainWindow.setMenu(menu);
-    }
     // Prevents flickering from maximize
     mainWindow.show();
 
@@ -137,5 +143,6 @@ function createWindow()
 
 module.exports = {
     createWindow,
+    createMenu,
     getMainWindow
 };

@@ -102,7 +102,7 @@ We have a workflow in the repository that will run all the tests when a Pull Req
 To run all tests locally:
 
 ```bash
-npm run test
+npm run test:jest
 ```
 
 After running, you'll see a message like:
@@ -135,7 +135,7 @@ The error message will tell you more on why it failed, in terms of what was expe
 You can run a specific test, when debugging, for example, by including the name of the test file in the command line. For example, to run only the `themes.js` tests, you can do:
 
 ```bash
-npm run test themes.js
+npm run test:jest themes.js
 ```
 
 More information on jest settings available for use can be seen [on jest's docs](https://jestjs.io/docs/en/cli#running-from-the-command-line).
@@ -166,4 +166,4 @@ All PRs are very welcome, and we'll do our best to review them as fast as possib
 If you want to work on a specific issue, just shout out to us and we'll assign the issue to you.
 Once you are done, just submit a PR with a relevant description of the change, and provide screenshots, if applicable.
 Issues without activity for 7 days will be deemed stale and unassigned, unless justified.
-Tip: Before pushing the PR, make sure the [tests](#Tests) are passing, and that no [lint](#Linting & formatting) issue is present. :)
+Tip: Before pushing the PR, make sure the [tests](#Tests) are passing, and that no [lint](#Linting--formatting) issue is present. :)

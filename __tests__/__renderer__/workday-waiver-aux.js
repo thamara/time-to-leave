@@ -3,7 +3,7 @@
 
 const { formatDayId, sendWaiverDay } = require('../../js/workday-waiver-aux');
 
-describe('Workday Waiver Aux', function() 
+describe('Workday Waiver Aux', function()
 {
     process.env.NODE_ENV = 'test';
 
@@ -12,24 +12,24 @@ describe('Workday Waiver Aux', function()
     const garbageString = '..as';
     const incompleteDate = '---';
 
-    describe('formatDayId(dayId)', function() 
+    describe('formatDayId(dayId)', function()
     {
-        test('should be valid', () => 
+        test('should be valid', () =>
         {
             expect(formatDayId(validJSDay)).toBe('2020-04-10');
             expect(formatDayId(validJSDay2)).toBe('2020-01-10');
         });
 
-        test('should not be valid', () => 
+        test('should not be valid', () =>
         {
             expect(formatDayId(garbageString)).toBeNaN();
             expect(formatDayId(incompleteDate)).toBeNaN();
         });
     });
 
-    describe('sendWaiverDay(dayId)', function() 
+    describe('sendWaiverDay(dayId)', function()
     {
-        test('should do seamless call', async() => 
+        test('should do seamless call', async() =>
         {
             await sendWaiverDay(validJSDay);
             await sendWaiverDay(validJSDay2);

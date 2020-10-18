@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html data-theme="">
+<html data-theme="" lang="en">
 
 <head>
-    <title>Time to Leave - Workday Waiver Manager</title>
+    <title data-i18n="$WorkdayWaiver.title">Time to Leave - Workday Waiver Manager</title>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/styles.css">
 
@@ -14,16 +14,17 @@
 
 <body id="workday-waiver-window" class="common-window">
     <div class="container">
-        <div class="header-title">
+        <div class="header-title" data-i18n="$WorkdayWaiver.waiver-manager">
             Workday Waiver Manager
-            <p class="header-help">Changes take effect when closing this window</p>
+            <p class="header-help" data-i18n="$WorkdayWaiver.header-help">
+                Changes take effect when closing this window</p>
         </div>
         <ul class="nav nav-tabs window-tab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="add-waiver-tab" data-toggle="tab" href="#add-waiver" role="tab" aria-controls="add-waiver" aria-selected="true">Add Waiver</a>
+                <a class="nav-link active" id="add-waiver-tab" data-toggle="tab" href="#add-waiver" role="tab" aria-controls="add-waiver" aria-selected="true" data-i18n="$WorkdayWaiver.add-waiver">Add Waiver</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="holiday-tab" data-toggle="tab" href="#holiday" role="tab" aria-controls="holiday" aria-selected="false">Holiday</a>
+                <a class="nav-link" id="holiday-tab" data-toggle="tab" href="#holiday" role="tab" aria-controls="holiday" aria-selected="false" data-i18n="$WorkdayWaiver.nav-holiday">Holiday</a>
             </li>
         </ul>
 
@@ -34,30 +35,32 @@
                         <tbody>
                             <tr>
                                 <td></td>
-                                <th>Start date</th>
+                                <th data-i18n="$WorkdayWaiver.start-date">Start date</th>
                                 <td></td>
-                                <th>End date</th>
+                                <th data-i18n="$WorkdayWaiver.end-date">End date</th>
                             </tr>
                             <tr>
-                                <th>From</th>
+                                <th data-i18n="$WorkdayWaiver.from">From</th>
                                 <td><input id="start-date" type="date"></td>
-                                <th>to</th>
+                                <th data-i18n="$WorkdayWaiver.to">to</th>
                                 <td><input id="end-date" type="date"></td>
                             </tr>
                             <tr>
-                                <th>Hours</th>
+                                <th data-i18n="$WorkdayWaiver.hours">Hours</th>
                                 <td>
                                     <input type="text" id="hours" maxlength=8 pattern="^\d+:\d+$" placeholder="HH:mm" size=8>
                                 </td>
                             </tr>
                             <tr>
-                                <th>Reason</th>
-                                <td colspan="3"><input id="reason" type="text" maxlength="30" size="60" placeholder="Reason for the waiver"></td>
+                                <th data-i18n="$WorkdayWaiver.reason">Reason</th>
+                                <td colspan="3">
+                                    <input id="reason" type="text" maxlength="30" size="60" placeholder="Reason for the waiver">
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                     <br>
-                    <button class="waive-button" id="waive-button" type="button">
+                    <button class="waive-button" id="waive-button" type="button" data-i18n="$WorkdayWaiver.waive">
                         Waive
                     </button>
                 </form>
@@ -67,19 +70,19 @@
                     <table>
                         <tbody>
                             <tr id="holiday-year">
-                                <th>Year</th>
+                                <th data-i18n="$WorkdayWaiver.year">Year</th>
                                 <td><select id="year" name="year"></select></td>
                             </tr>
                             <tr id="holiday-country">
-                                <th>Country:</th>
+                                <th data-i18n="$WorkdayWaiver.country">Country:</th>
                                 <td><select id="country" name="country"></select></td>
                             </tr>
                             <tr id="holiday-state">
-                                <th>State:</th>
+                                <th data-i18n="$WorkdayWaiver.state">State:</th>
                                 <td><select id="state" name="state"></select></td>
                             </tr>
                             <tr id="holiday-city">
-                                <th>City:</th>
+                                <th data-i18n="$WorkdayWaiver.city">City:</th>
                                 <td><select id="city" name="city"></select></td>
                             </tr>
                         </tbody>
@@ -88,22 +91,24 @@
                     <table id="holiday-list-table">
                         <thead>
                             <tr>
-                                <th>Date</th>
-                                <th>Holiday</th>
-                                <th>On working day</th>
-                                <th>Conflicts?</th>
-                                <th>Import?</th>
+                                <th data-i18n="$WorkdayWaiver.date">Date</th>
+                                <th data-i18n="$WorkdayWaiver.holiday">Holiday</th>
+                                <th data-i18n="$WorkdayWaiver.on-working-day">On working day</th>
+                                <th data-i18n="$WorkdayWaiver.conflicts">Conflicts?</th>
+                                <th data-i18n="$WorkdayWaiver.import">Import?</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
                         <tfoot>
                             <tr>
-                                <th id="table-foot-helper" colspan="5">Attention: Sourcing holidays on days with a waiver will override the waiver.</th>
+                                <th id="table-foot-helper" colspan="5" data-i18n="$WorkdayWaiver.attention">
+                                    Attention: Sourcing holidays on days with a waiver will override the waiver.
+                                </th>
                             </tr>
                         </tfoot>
                     </table>
                     <br>
-                    <button class="waive-button" id="holiday-button" type="button">
+                    <button class="waive-button" id="holiday-button" type="button" data-i18n="$WorkdayWaiver.source-selected-holidays">
                         Source selected holidays
                     </button>
                 </form>
@@ -111,14 +116,14 @@
           </div>
 
         <section>
-            <div class="section-title">Waived workday list</div>
+            <div class="section-title" data-i18n="$WorkdayWaiver.waived-workday-list">Waived workday list</div>
             <table id="waiver-list-table">
                 <thead>
                     <tr>
-                        <th>Day</th>
-                        <th>Waiver Reason</th>
-                        <th>Hours Waived</th>
-                        <th>Delete</th>
+                        <th data-i18n="$WorkdayWaiver.day">Day</th>
+                        <th data-i18n="$WorkdayWaiver.waiver-reason">Waiver Reason</th>
+                        <th data-i18n="$WorkdayWaiver.hours-waived">Hours Waived</th>
+                        <th data-i18n="$WorkdayWaiver.delete">Delete</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
