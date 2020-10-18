@@ -1075,7 +1075,6 @@ class Calendar
     {
         let dayValues = new Array();
         let hasLunchStarted = false;
-        let numNonEmptyInputs = 0;
         if (validateTime(dayBegin)) 
         {            
             dayValues.push(dayBegin);
@@ -1098,25 +1097,8 @@ class Calendar
         }
         
         // If non-empty inputs are passed, they should be valid (be on the day values)
-        if (dayBegin!=='' || lunchBegin !== '' || dayEnd !== '' || lunchEnd !== '') 
-        {
-            if (dayBegin!=='')   
-            {
-                numNonEmptyInputs +=1;
-            }
-            if (lunchBegin!=='')   
-            {
-                numNonEmptyInputs +=1;
-            }
-            if (dayEnd!=='')   
-            {
-                numNonEmptyInputs +=1;
-            }
-            if (lunchEnd!=='')   
-            {
-                numNonEmptyInputs +=1;
-            }
-        }
+        const inputs = [dayBegin, lunchBegin, lunchEnd, dayEnd]
+        const numNonEmptyInputs = inputs.filter(Boolean).length;
 
         if (numNonEmptyInputs!==dayValues.length)
             return true;
