@@ -42,13 +42,6 @@
     "lint-fix",
     "clean"
   ],
-  "stylelint": {
-    "extends": "stylelint-config-standard",
-    "rules": {
-      "selector-list-comma-newline-after": null,
-      "length-zero-no-unit": null
-    }
-  },
   "license": "GPL-3.0",
   "devDependencies": {
     "@jest-runner/electron": "^3.0.0",
