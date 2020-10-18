@@ -1075,6 +1075,7 @@ class Calendar
     {
         let dayValues = new Array();
         let hasLunchStarted = false;
+        let numNonEmptyInputs = 0;
         if (validateTime(dayBegin)) 
         {            
             dayValues.push(dayBegin);
@@ -1096,12 +1097,30 @@ class Calendar
             dayValues.push(dayEnd);
         }
         
-        
-        // Adding fix to implement test pass
-        // Means no valid time was entered
-        if (dayValues.length===0 && (dayBegin!=='' || lunchBegin !== '' || dayEnd !== '' || lunchEnd !== ''))
+        // If non-empty inputs are passed, they should be valid (be on the day values)
+        if (dayBegin!=='' || lunchBegin !== '' || dayEnd !== '' || lunchEnd !== '') 
+        {
+            if (dayBegin!=='')   
+            {
+                numNonEmptyInputs +=1;
+            }
+            if (lunchBegin!=='')   
+            {
+                numNonEmptyInputs +=1;
+            }
+            if (dayEnd!=='')   
+            {
+                numNonEmptyInputs +=1;
+            }
+            if (lunchEnd!=='')   
+            {
+                numNonEmptyInputs +=1;
+            }
+        }
+
+        if (numNonEmptyInputs!==dayValues.length)
             return true;
-        
+
         for (let index = 0; index < dayValues.length; index++) 
         {
             if (index > 0 && (dayValues[index-1] >= dayValues[index])) 
