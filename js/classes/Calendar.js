@@ -1095,10 +1095,7 @@ class Calendar
         const inputs = [dayBegin, lunchBegin, lunchEnd, dayEnd];
         const numNonEmptyInputs = inputs.filter(Boolean).length;
         if (numNonEmptyInputs !== dayValues.length)
-        {
             return true;
-        }
-
         for (let index = 0; index < dayValues.length; index++)
         {
             if (index > 0 && (dayValues[index-1] >= dayValues[index]))
@@ -1106,8 +1103,6 @@ class Calendar
                 return true;
             }
         }
-
-
         return false;
     }
 
