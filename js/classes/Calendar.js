@@ -1100,7 +1100,7 @@ class Calendar
         const inputs = [dayBegin, lunchBegin, lunchEnd, dayEnd];
         const numNonEmptyInputs = inputs.filter(Boolean).length;
 
-        if (numNonEmptyInputs!==dayValues.length)
+        if (numNonEmptyInputs !== dayValues.length)
             return true;
 
         for (let index = 0; index < dayValues.length; index++) 
