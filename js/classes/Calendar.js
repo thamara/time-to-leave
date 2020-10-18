@@ -1097,7 +1097,7 @@ class Calendar
         }
         
         // If non-empty inputs are passed, they should be valid (be on the day values)
-        const inputs = [dayBegin, lunchBegin, lunchEnd, dayEnd]
+        const inputs = [dayBegin, lunchBegin, lunchEnd, dayEnd];
         const numNonEmptyInputs = inputs.filter(Boolean).length;
 
         if (numNonEmptyInputs!==dayValues.length)
