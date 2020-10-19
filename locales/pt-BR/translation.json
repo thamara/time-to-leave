@@ -1,7 +1,8 @@
 {
     "$Language": {
         "en": "English",
-        "pt-BR": "Português - Brasil"
+        "pt-BR": "Português - Brasil",
+		"it": "Italiano"
     },
     "$Preferences": {
         "title": "Time to Leave - Preferências",
