@@ -121,14 +121,14 @@ class FlexibleDayCalendar extends FlexibleMonthCalendar
         return '<div class="month-total-row">' +
                     '<div class="half-width">' +
                     '<div class="month-total-element">' +
-                        `<div class="month-total-text month-balance" title="${i18n.t('$FlexibleDayCalendar.balance-up-until-today-for-this-month')}">${i18n.t('$FlexibleDayCalendar.month-balance')}</div>` +
-                        `<div class="month-total-time month-balance-time" title="${i18n.t('$FlexibleDayCalendar.balance-up-until-today-for-this-month')}"><span type="text" id="month-balance"></div>` +
+                        `<div class="month-total-text month-balance" title="${i18n.t('$FlexibleDayCalendar.month-balance-title')}">${i18n.t('$FlexibleDayCalendar.month-balance')}</div>` +
+                        `<div class="month-total-time month-balance-time" title="${i18n.t('$FlexibleDayCalendar.month-balance-title')}"><span type="text" id="month-balance"></div>` +
                     '</div>' +
                     '</div>' +
                     '<div class="half-width">' +
                     '<div class="month-total-element">' +
-                        `<div class="month-total-text month-sum" title="${i18n.t('$FlexibleDayCalendar.overall-balance-month')}">${i18n.t('$FlexibleDayCalendar.overall-balance')}</div>` +
-                        `<div class="month-total-time month-sum-time" title="${i18n.t('$FlexibleDayCalendar.overall-balance-month')}"><span id="overall-balance"></div>` +
+                        `<div class="month-total-text month-sum" title="${i18n.t('$FlexibleDayCalendar.overall-balance-title')}">${i18n.t('$FlexibleDayCalendar.overall-balance')}</div>` +
+                        `<div class="month-total-time month-sum-time" title="${i18n.t('$FlexibleDayCalendar.overall-balance-title')}"><span id="overall-balance"></div>` +
                     '</div>' +
                     '</div>' +
                 '</div>';
