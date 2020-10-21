@@ -2,6 +2,8 @@
     "$Language": {
         "en": "English",
         "pt-BR": "Português - Brasil",
+        "es": "Español",
+        "it": "Italiano",
         "de-DE": "Deutsch"
     },
     "$Preferences": {
@@ -93,16 +95,16 @@
     },
     "$FlexibleDayCalendar": {
         "switch-view": "Switch View",
+        "current-day": "Go to Current Day",
         "previous-day": "Previous Day",
         "next-day": "Next Day",
         "time-to-leave": "Time to Leave",
-        "current-day": "Go to Current Day",
-        "day-done-balance": "All done for today. Balance of the day:",
         "leave-by": "You should leave by:",
-        "balance-up-until-today-for-this-month": "Balance up until today for this month. A positive balance means extra hours you don't need to work today (or the rest of the month).",
+        "day-done-balance": "All done for today. Balance of the day:",
         "month-balance": "Month Balance",
-        "overall-balance-month": "Overall balance until end of the month or current day",
+        "month-balance-title": "Balance up until today for this month. A positive balance means extra hours you don't need to work today (or the rest of the month).",
         "overall-balance": "Overall Balance",
+        "overall-balance-title": "Overall balance until end of the month or current day",
         "not-a-working-day": "Not a working day",
         "waived-day": "Waived day",
         "day-total": "Day Total",
@@ -123,13 +125,13 @@
         "leave-by": "Based on the time you arrived today, you should leave by",
         "day-done-balance": "All done for today. Balance of the day:",
         "last-day-balance": "Last day used for balance",
-        "working-days-title": "How many working days there's in the month",
-        "balance-up-until-today-for-this-month": "Balance up until today for this month. A positive balance means extra hours you don't need to work today (or the rest of the month).",
-        "overall-balance-month": "Overall balance until end of the month or current day",
         "on": "On",
         "working-days": "Working days",
+        "working-days-title": "How many working days there's in the month",
         "month-balance": "Month Balance",
+        "month-balance-title": "Balance up until today for this month. A positive balance means extra hours you don't need to work today (or the rest of the month).",
         "overall-balance": "Overall Balance",
+        "overall-balance-title": "Overall balance until end of the month or current day",
         "add-waiver-day": "Add a waiver for this day",
         "waived-day": "Waived day",
         "remove-entry": "Remove entry",
@@ -162,7 +164,8 @@
         "lunch-total": "Lunch Total",
         "day-total": "Day Total",
         "day": "Day",
-        "lunch-start": "Lunch Start"
+        "lunch-start": "Lunch Start",
+        "punch-time": "Punch time"
     },
     "$FixedDayCalendar": {
         "leave-by": "You should leave by:",
