@@ -2,7 +2,8 @@
     "$Language": {
         "en": "English",
         "pt-BR": "Português - Brasil",
-        "es-LA": "Español - Latinoamérica"
+        "es-LA": "Español - Latinoamérica",
+        "it": "Italiano"
     },
     "$Preferences": {
         "title": "Time to Leave - Preferencias",
@@ -158,7 +159,7 @@
         "day-start": "Inicio del día",
         "lunch-begin": "Inicio de almuerzo",
         "lunch-end": "Fin del almuerzo",
-        "day-end": "Fin del día",           
+        "day-end": "Fin del día",
         "lunch-total": "Total del almuerzo",
         "day-total": "Total del día",
         "day": "Día",
