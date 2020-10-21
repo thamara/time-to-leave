@@ -21,6 +21,7 @@
 -   Fix: [#362] Fixed initial size of preferences window
 -   Fix: [#377] Fixed the layout which was broken when width < 768px
 -   Fix: [#395] Fixing uncaught exception in main.js on day refresh
+-   Translation: Time to Leave is not available in Italian (it).
 -   Translation: Time to Leave is not available in Spanish (es-LA).
 
 <!--- End changes - Do not remove -->
@@ -41,6 +42,7 @@ Who built 1.5.6:
 -   cssCoder
 -   daretobedifferent18
 -   fikimaul
+-   giovannipessiva
 -   greyGroot
 -   ibamibrhm
 -   jcombs0929
