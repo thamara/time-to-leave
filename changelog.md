@@ -22,7 +22,7 @@
 -   Fix: [#377] Fixed the layout which was broken when width < 768px
 -   Fix: [#395] Fixing uncaught exception in main.js on day refresh
 -   Translation: Time to Leave is not available in Italian (it).
--   Translation: Time to Leave is not available in Spanish (es-LA).
+-   Translation: Time to Leave is not available in Spanish (es).
 
 <!--- End changes - Do not remove -->
 
