@@ -120,10 +120,10 @@ class FlexibleMonthCalendar extends Calendar
                     `<div class="month-total-time" title="${i18n.t('$FlexibleMonthCalendar.last-day-balance')}"><span id="month-day-input"></span></div>` +
                     `<div class="month-total-text" title="${i18n.t('$FlexibleMonthCalendar.working-days-title')}">${i18n.t('$FlexibleMonthCalendar.working-days')}</div>` +
                     `<div class="month-total-time" title="${i18n.t('$FlexibleMonthCalendar.working-days-title')}"><span id="month-working-days"></span></div>` +
-                    `<div class="month-total-text" title="${i18n.t('$FlexibleMonthCalendar.balance-up-until-today-for-this-month')}">${i18n.t('$FlexibleMonthCalendar.month-balance')}</div>` +
-                    `<div class="month-total-time" title="${i18n.t('$FlexibleMonthCalendar.balance-up-until-today-for-this-month')}"><input type="text" id="month-balance"     size="8" disabled></div>` +
-                    `<div class="month-total-text" title="${i18n.t('$FlexibleMonthCalendar.overall-balance-month')}">${i18n.t('$FlexibleMonthCalendar.overall-balance')}</div>` +
-                    `<div class="month-total-time" title="${i18n.t('$FlexibleMonthCalendar.overall-balance-month')}"><input type="text" id="overall-balance" size="8" placeholder="..." disabled></div>` +
+                    `<div class="month-total-text" title="${i18n.t('$FlexibleMonthCalendar.month-balance-title')}">${i18n.t('$FlexibleMonthCalendar.month-balance')}</div>` +
+                    `<div class="month-total-time" title="${i18n.t('$FlexibleMonthCalendar.month-balance-title')}"><input type="text" id="month-balance"     size="8" disabled></div>` +
+                    `<div class="month-total-text" title="${i18n.t('$FlexibleMonthCalendar.overall-balance-title')}">${i18n.t('$FlexibleMonthCalendar.overall-balance')}</div>` +
+                    `<div class="month-total-time" title="${i18n.t('$FlexibleMonthCalendar.overall-balance-title')}"><input type="text" id="overall-balance" size="8" placeholder="..." disabled></div>` +
                 '</div>';
     }
 
