@@ -4,7 +4,8 @@
   <p>Log work hours and get notified when it's time to leave the office and start to live</p>
   <p>Esse documento também está disponível em <a href="docs/README-pt-BR.md">Português (Brasil)</a></p>
   <p>Este documento también está disponíble en <a href="docs/README-es.md">Español</a></p>
-  <p>Questo documento è disponibile anche in <a href="docs/README-it.md">Italiano</a></p>
+  <p>हे कागदजत्र देखील उपलब्ध आहे<a href="docs/README-mr.md">मराठी</a>तसेच उपलब्ध आहे</p>
+
 
   <br/>
 
