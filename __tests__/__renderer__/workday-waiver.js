@@ -4,6 +4,7 @@
 const Store = require('electron-store');
 const fs = require('fs');
 const path = require('path');
+const Holidays = require('date-holidays');
 /* eslint-disable-next-line no-global-assign */
 window.$ = require('jquery');
 const {
@@ -94,8 +95,8 @@ describe('Test Workday Waiver Window', function()
         test('Time is not valid', () =>
         {
             $('#hours').val('not a time');
-            const waver = addWaiver();
-            expect(waver).toBeFalsy();
+            const waiver = addWaiver();
+            expect(waiver).toBeFalsy();
         });
 
         test('End date less than start date', () =>
@@ -103,21 +104,21 @@ describe('Test Workday Waiver Window', function()
             setHours();
             $('#start-date').val('2020-07-20');
             $('#end-date').val('2020-07-19');
-            const waver = addWaiver();
-            expect(waver).toBeFalsy();
+            const waiver = addWaiver();
+            expect(waiver).toBeFalsy();
         });
 
         test('Add waiver with the same date', () =>
         {
             addTestWaiver('2020-07-16', 'some reason');
-            const waver = addTestWaiver('2020-07-16', 'some reason');
-            expect(waver).toBeFalsy();
+            const waiver = addTestWaiver('2020-07-16', 'some reason');
+            expect(waiver).toBeFalsy();
         });
 
         test('Range does not contain any working day', () =>
         {
-            const waver = addTestWaiver('2020-13-01', 'some reason');
-            expect(waver).toBeFalsy();
+            const waiver = addTestWaiver('2020-13-01', 'some reason');
+            expect(waiver).toBeFalsy();
         });
     });
 
@@ -134,8 +135,8 @@ describe('Test Workday Waiver Window', function()
 
         test('Testing button is exist', () =>
         {
-            const isExist = document.querySelectorAll(`#${btnId}`).length;
-            expect(isExist).toBeTruthy();
+            const exists = document.querySelectorAll(`#${btnId}`).length;
+            expect(exists).toBeTruthy();
         });
 
         test('Make disabled', () =>
@@ -158,9 +159,9 @@ describe('Test Workday Waiver Window', function()
         });
     });
 
-    describe('Delete waver', () =>
+    describe('Delete waiver', () =>
     {
-        test('Waver was deleted', () =>
+        test('Waiver was deleted', () =>
         {
             prepareMockup();
             const { showDialog } = require('../../js/window-aux');
@@ -178,7 +179,6 @@ describe('Test Workday Waiver Window', function()
 
     describe('Populating', () =>
     {
-        const Holidays = require('date-holidays');
         const hd = new Holidays();
 
         beforeEach(() =>
@@ -247,8 +247,6 @@ describe('Test Workday Waiver Window', function()
 
     describe('Get holidays feature', () =>
     {
-
-        const Holidays = require('date-holidays');
         const hd = new Holidays();
         const year = '2020';
         const country = 'US';
@@ -300,7 +298,6 @@ describe('Test Workday Waiver Window', function()
 
     describe('Holidays table', () =>
     {
-
         const year = '2020';
         const country = 'US';
         const state = 'CA';
@@ -354,7 +351,7 @@ describe('Test Workday Waiver Window', function()
             prepareMockup();
         });
 
-        test('Holyday added working day, no conflicts', () =>
+        test('Holiday added working day, no conflicts', () =>
         {
             const day = 'test day';
             const reason = 'test reason';
@@ -378,7 +375,6 @@ describe('Test Workday Waiver Window', function()
 
     describe('Clearing the table', () =>
     {
-
         beforeEach(() =>
         {
             prepareMockup();

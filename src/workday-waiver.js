@@ -13,11 +13,6 @@ const { bindDevToolsShortcut, showAlert, showDialog } = require('../js/window-au
 const waiverStore = new Store({name: 'waived-workdays'});
 let hd = new Holidays();
 
-function isTestEnv()
-{
-    return process.env.NODE_ENV === 'test';
-}
-
 function setDates(day)
 {
     $('#start-date').val(day);
@@ -97,10 +92,7 @@ function addWaiver()
 
     if (diff < 0)
     {
-        if (!isTestEnv())
-        {
-            showAlert('End date cannot be less than start date.');
-        }
+        showAlert('End date cannot be less than start date.');
         return false;
     }
 
@@ -114,10 +106,7 @@ function addWaiver()
 
         if (waiverStore.has(tempDateStr))
         {
-            if (!isTestEnv())
-            {
-                showAlert(`You already have a waiver on ${tempDateStr}. Remove it before adding a new one.`);
-            }
+            showAlert(`You already have a waiver on ${tempDateStr}. Remove it before adding a new one.`);
             return false;
         }
 
@@ -126,10 +115,7 @@ function addWaiver()
 
     if (noWorkingDaysOnRange)
     {
-        if (!isTestEnv())
-        {
-            showAlert('Cannot add waiver. Range does not contain any working day.');
-        }
+        showAlert('Cannot add waiver. Range does not contain any working day.');
         return false;
     }
 
@@ -361,7 +347,6 @@ function addHolidaysAsWaiver()
 {
     function addHoliday(holidayDate, holidayReason)
     {
-        console.log(holidayDate);
         let importHoliday = $(`#import-${holidayDate}`)[0].checked;
         if (importHoliday)
         {
@@ -438,23 +423,22 @@ $(() =>
 });
 
 module.exports = {
-    addWaiver,
-    populateList,
-    setDates,
-    setHours,
-    toggleAddButton,
-    deleteEntryOnClick,
-    populateCountry,
-    populateState,
-    populateCity,
-    populateYear,
-    getHolidays,
-    iterateOnHolidays,
     addHolidayToList,
+    addWaiver,
     clearTable,
     clearHolidayTable,
     clearWaiverList,
+    deleteEntryOnClick,
+    getHolidays,
+    initializeHolidayInfo,
+    iterateOnHolidays,
     loadHolidaysTable,
-    addHolidaysAsWaiver,
-    initializeHolidayInfo
+    populateCity,
+    populateCountry,
+    populateList,
+    populateState,
+    populateYear,
+    setDates,
+    setHours,
+    toggleAddButton,
 };
