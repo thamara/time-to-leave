@@ -5,7 +5,7 @@
   <p>Esse documento também está disponível em <a href="docs/README-pt-BR.md">Português (Brasil)</a></p>
   <p>Este documento también está disponíble en <a href="docs/README-es.md">Español</a></p>
   <p>Questo documento è disponibile anche in <a href="docs/README-it.md">Italiano</a></p>
-
+  <p>यह दस्तावेज़ <a href="docs/README-hi.md">Hindi</a> में भी उपलब्ध है </p>
   <br/>
 
 <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20MacOS%20%7C%20Linux-green" alt="Platform">
