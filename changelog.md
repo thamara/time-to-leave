@@ -40,7 +40,6 @@ Who built 1.5.6:
 -   araujoarthur0
 -   bobsany16
 -   ccsCoder
--   cssCoder
 -   daretobedifferent18
 -   fikimaul
 -   giovannipessiva
