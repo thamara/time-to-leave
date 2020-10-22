@@ -23,6 +23,7 @@
 -   Translation: Time to Leave is not available in Italian (it)!
 -   Translation: Time to Leave is not available in Spanish (es)!
 -   Translation: Time to Leave is now available in Brazilian Portuguese (pt-BR)!
+-   Translation: Time to Leave is now available in German (de-DE)!
 -   Translation: Time to Leave is now available in Traditional Chinese (zh-TW)!
 
 <!--- End changes - Do not remove -->
@@ -35,6 +36,7 @@ Who built 1.5.6:
 -   BamButz
 -   MichaelYogar
 -   SolKuczala
+-   Squizzi3
 -   Tailine
 -   akaash11
 -   anatdagan
