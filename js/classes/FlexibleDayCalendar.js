@@ -208,7 +208,9 @@ class FlexibleDayCalendar extends BaseCalendar
     {
         let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let today = this._calendarDate;
-        $('#header-date').html(today.toLocaleDateString(i18n.language, options));
+        // Dev is used as an easter egg for a local dialect in Brazil
+        const locale = i18n.language === 'dev' ? 'pt-BR' : i18n.language;
+        $('#header-date').html(today.toLocaleDateString(locale, options));
         $('#input-calendar-date').val(getDateStr(today));
     }
 
