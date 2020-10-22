@@ -3,7 +3,8 @@
         "en": "English",
         "pt-BR": "Português - Brasil",
         "es": "Español",
-        "it": "Italiano"
+        "it": "Italiano",
+        "zh-TW": "繁體中文"
     },
     "$Preferences": {
         "title": "Time to Leave - Preferencias",
@@ -15,7 +16,7 @@
         "wed": "Mié",
         "thu": "Jue",
         "fri": "Vie",
-        "sat": "Sab",
+        "sat": "Sáb",
         "hideNonWorkingDay": "Ocultar los días no laborables (Vista por mes)",
         "hoursPerDay": "Horas por día",
         "appBehavior": "Comportamiento de la aplicación",
@@ -166,6 +167,10 @@
         "lunch-start": "Comienzo del almuerzo",
         "punch-time": "Hora del golpe"
     },
+    "$Notification": {
+        "time-to-leave": "Hey there! I think it's time to leave.",
+        "punch-reminder": "Don't forget to punch in!"
+    },
     "$FixedDayCalendar": {
         "leave-by": "Deberías irte:",
         "all-done": "Todo listo por hoy. El balance del día:",
@@ -230,12 +235,12 @@
         "friday": "Viernes",
         "saturday": "Sábado",
         "sun": "Dom",
-        "mon": "Mon",
+        "mon": "Lun",
         "tue": "Mar",
-        "wed": "Wed",
-        "thu": "Thu",
+        "wed": "Mié",
+        "thu": "Jue",
         "fri": "Vie",
-        "sat": "Sab",
+        "sat": "Sáb",
         "january": "Enero",
         "february": "Febrero",
         "march": "Marzo",

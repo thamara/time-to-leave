@@ -4,6 +4,7 @@
         "pt-BR": "Português - Brasil",
         "es": "Español",
         "it": "Italiano",
+        "zh-TW": "繁體中文",
         "de-DE": "Deutsch"
     },
     "$Preferences": {
@@ -166,6 +167,10 @@
         "day": "Day",
         "lunch-start": "Lunch Start",
         "punch-time": "Punch time"
+    },
+    "$Notification": {
+        "time-to-leave": "Hey there! I think it's time to leave.",
+        "punch-reminder": "Don't forget to punch in!"
     },
     "$FixedDayCalendar": {
         "leave-by": "You should leave by:",
