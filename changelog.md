@@ -61,6 +61,7 @@ Who built 1.5.6:
 -   taismassaro
 -   thamara
 -   tiagohermano
+-   tupaschoal
 
 <!--- End users - Do not remove -->
 
