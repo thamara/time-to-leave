@@ -38,7 +38,8 @@
         "numberOfEntries": "Number of Entries",
         "fixed": "Fixed",
         "flexible": "Flexible",
-        "language": "Language"
+        "language": "Language",
+        "hours-per-day": "HH:mm"
     },
     "$Menu": {
         "about": "About",
