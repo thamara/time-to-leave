@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/timetoleave.png" alt="Time to Leave Logo">
+  <img src="../assets/timetoleave.png" alt="Time to Leave Logo">
 
   <p>आपले कामकाजाचे तास रेकॉर्ड करा आणि ऑफिसमधून बाहेर पडण्याची आणि जगण्याची वेळ आली तेव्हा सूचित व्हा</p>
 
