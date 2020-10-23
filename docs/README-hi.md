@@ -39,19 +39,19 @@
 
 ## टीटीएल का निर्माण और योगदान कैसे करें
 
-यदि आप मदद करना चाहते हैं, तो हमारे [योगदान] (../CONTRIBUTING.md) दिशानिर्देशों को पढ़ें.
-अधिक जानकारी के लिए आप हमारे [विकास गाइड] (../DEVELOPMENT.md) का भी उल्लेख कर सकते हैं।
+यदि आप मदद करना चाहते हैं, तो हमारे [योगदान](../CONTRIBUTING.md) दिशानिर्देशों को पढ़ें.
+अधिक जानकारी के लिए आप हमारे [विकास गाइड](../DEVELOPMENT.md) का भी उल्लेख कर सकते हैं।
 
 ## संपर्क में रहो!
 
-आगामी सुविधाओं और अधिक की चर्चा करने के लिए हमारे [कलह चैनल] (https://discord.gg/P3KkEF5) में शामिल हों।
+आगामी सुविधाओं और अधिक की चर्चा करने के लिए हमारे [कलह चैनल](https://discord.gg/P3KkEF5) में शामिल हों।
 
 ## क्रेडिट
 
-[Www.flaticon.com] (https://www.flaticon.com) से [freepik] (https://www.flaticon.com/authors/freepik) के प्रतीक।
+[Www.flaticon.com](https://www.flaticon.com) से [freepik](https://www.flaticon.com/authors/freepik) के प्रतीक।
 
-[लुसी-जी] (https://icon-icons.com/icon/timer/121243) द्वारा मूल टाइमर आइकन, रंगीन रूपांतर और उससे संशोधित प्रारूप।
+[लुसी-जी](https://icon-icons.com/icon/timer/121243) द्वारा मूल टाइमर आइकन, रंगीन रूपांतर और उससे संशोधित प्रारूप।
 
-[SVG Repo] (https://www.svgrepo.com/svg/271898/sick) द्वारा बीमार आइकन।
+[SVG Repo](https://www.svgrepo.com/svg/271898/sick) द्वारा बीमार आइकन।
 
-[Www.flaticon.com] (https://www.flaticon.com) से [Pixel perfect] (https://www.flaticon.com/authors/pixel-perfect) द्वारा बनाया गया आइकन देखें।
+[Www.flaticon.com](https://www.flaticon.com) से [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) द्वारा बनाया गया आइकन देखें।

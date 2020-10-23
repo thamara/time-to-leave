@@ -10,7 +10,6 @@
 
   <p>此文檔亦適用於<a href="docs/README-zh-TW.md">繁體中文</a></p>
 
-
   <br/>
 
 <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20MacOS%20%7C%20Linux-green" alt="Platform">
