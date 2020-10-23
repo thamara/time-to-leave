@@ -23,6 +23,7 @@
 -   Fix: [#510] Flexible calendar header mixing with table
 -   Translation: Time to Leave is not available in Hindi (hi)!
 -   Translation: Time to Leave is not available in Italian (it)!
+-   Translation: Time to Leave is not available in Marathi (mr)!
 -   Translation: Time to Leave is not available in Spanish (es)!
 -   Translation: Time to Leave is now available in Brazilian Portuguese (pt-BR)!
 -   Translation: Time to Leave is now available in German (de-DE)!
@@ -37,6 +38,7 @@ Who built 1.5.6:
 -   06b
 -   BamButz
 -   MichaelYogar
+-   RuteshRathod
 -   SolKuczala
 -   Squizzi3
 -   Tailine
