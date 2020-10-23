@@ -169,7 +169,7 @@
     },
     "$Notification": {
         "punch-reminder": "में पंच करने के लिए मत भूलना!",
-        "time-to-leave": "Time to Leave"
+        "time-to-leave": "सुनो! मुझे लगता है कि यह छोड़ने का समय है।"
     },
 
     "$FixedDayCalendar": {
