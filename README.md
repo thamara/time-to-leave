@@ -6,6 +6,7 @@
   <p>Este documento también está disponíble en <a href="docs/README-es.md">Español</a></p>
   <p>Questo documento è disponibile anche in <a href="docs/README-it.md">Italiano</a></p>
   <p>此文檔亦適用於<a href="docs/README-zh-TW.md">繁體中文</a></p>
+  <p>เอกสารฉบับนี้มีให้บริการในรูปแบบภาษาไทย<a href='docs/README-th-TH.md'>ภาษาไทย</a></p>
 
   <br/>
 

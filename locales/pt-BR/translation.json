@@ -5,7 +5,8 @@
         "es": "Español",
         "it": "Italiano",
         "zh-TW": "繁體中文",
-        "de-DE": "Deutsch"
+        "de-DE": "Deutsch",
+        "th-TH": "ไทย"
     },
     "$Preferences": {
         "title": "Time to Leave - Preferências",
