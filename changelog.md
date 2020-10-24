@@ -37,6 +37,7 @@ Who built 1.5.6:
 
 -   06b
 -   BamButz
+-   DevDaveFrame
 -   MichaelYogar
 -   RuteshRathod
 -   SolKuczala
