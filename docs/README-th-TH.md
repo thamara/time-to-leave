@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/timetoleave.png" alt="Time to Leave Logo">
+  <img src="../assets/timetoleave.png" alt="Time to Leave Logo">
 
   <p>บันทึกเวลาการทำงานและแจ้งเตือนเมื่อถึงเวลากลับบ้าน</p>
   
@@ -35,12 +35,12 @@
 
 ## การติดตั้ง
 
-Time to Leave รองรับบนระบบปฏิบัติการ MacOS, Windows และ Linux, สามารถดาวน์โหลดเวอร์ชันล่าสุดได้ [ที่นี่](https://github.com/thamara/time-to-leave/releases/tag/v.1.5.5).
+Time to Leave รองรับบนระบบปฏิบัติการ MacOS, Windows และ Linux, สามารถดาวน์โหลดเวอร์ชันล่าสุดได้[ที่นี่](https://github.com/thamara/time-to-leave/releases/tag/v.1.5.5).
 
 ## การมีส่วนรวมและการร่วมพัฒนา
 
-หากคุณอยากมีส่วนรวมในการช่วย project นี้ สามารถเข้าไปอ่านรายละเอียดการมีส่วนร่วมได้ [ที่นี่](CONTRIBUTING.md).
-ส่วนแนวทางการร่วมพัฒนาสามารถอ่านรายละเอียดได้ [ที่นี่](DEVELOPMENT.md) for more information.
+หากคุณอยากมีส่วนรวมในการช่วย project นี้ สามารถเข้าไปอ่านรายละเอียดการมีส่วนร่วมได้[ที่นี่](CONTRIBUTING.md).
+ส่วนแนวทางการร่วมพัฒนาสามารถอ่านรายละเอียดได้[ที่นี่](DEVELOPMENT.md)
 
 ## พูดคุย-แลกเปลี่ยนความคิดเห็น
 
@@ -50,7 +50,7 @@ Time to Leave รองรับบนระบบปฏิบัติการ
 
 Icons โดย [freepik](https://www.flaticon.com/authors/freepik) จาก [www.flaticon.com](https://www.flaticon.com).
 
-Original Timer icon โดย [lucy-g](https://icon-icons.com/icon/timer/121243), มีการตกแต่งเพิ่มเติม.
+Original Timer icon โดย [lucy-g](https://icon-icons.com/icon/timer/121243), (มีการตกแต่งเพิ่มเติม).
 
 Sick icon โดย [SVG Repo](https://www.svgrepo.com/svg/271898/sick).
 
