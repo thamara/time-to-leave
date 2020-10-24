@@ -42,7 +42,8 @@
         "numberOfEntries": "प्रवेशांची संख्या",
         "fixed": "निश्चित",
         "flexible": "परिवर्तनशील",
-        "language": "भाषा"
+        "language": "भाषा",
+        "hours-per-day": "HH:mm"
     },
     "$Menu": {
         "about": "बद्दल",

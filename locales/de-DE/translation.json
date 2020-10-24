@@ -42,7 +42,8 @@
         "numberOfEntries": "Anzahl an Einträgen",
         "fixed": "Fixiert",
         "flexible": "Flexibel",
-        "language": "Sprache"
+        "language": "Sprache",
+        "hours-per-day": "HH:mm"
     },
     "$Menu": {
         "about": "Über Time-To-Leave",

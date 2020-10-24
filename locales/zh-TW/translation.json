@@ -42,7 +42,8 @@
         "numberOfEntries": "紀錄數量",
         "fixed": "固定",
         "flexible": "自由",
-        "language": "語言"
+        "language": "語言",
+        "hours-per-day": "HH:mm"
     },
     "$Menu": {
         "about": "關於",
