@@ -42,7 +42,8 @@
         "numberOfEntries": "Numero di record",
         "fixed": "Fisso",
         "flexible": "Flessibile",
-        "language": "Linguaggio"
+        "language": "Linguaggio",
+        "hours-per-day": "HH:mm"
     },
     "$Menu": {
         "about": "Informazioni",

@@ -42,7 +42,8 @@
         "numberOfEntries": "Número de entradas",
         "fixed": "Fijo",
         "flexible": "Flexible",
-        "language": "Languaje"
+        "language": "Languaje",
+        "hours-per-day": "HH:mm"
     },
     "$Menu": {
         "about": "Sobre",
