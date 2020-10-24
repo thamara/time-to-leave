@@ -47,6 +47,7 @@ Who built 1.5.6:
 -   alsvader
 -   amitchakraborti9
 -   anatdagan
+-   anujpatel224
 -   araujoarthur0
 -   bobsany16
 -   cbanupama
