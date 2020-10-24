@@ -46,10 +46,7 @@ function showAlert(message)
         'title': 'Time to Leave',
         'message': message
     };
-    if (process.env.NODE_ENV !== 'test')
-    {
-        dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), options);
-    }
+    dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), options);
 }
 
 module.exports = {
