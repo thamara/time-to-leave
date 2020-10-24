@@ -42,11 +42,11 @@ Time to Leave dapat berkerja pada sistem operasi MacOS, Windows and Linux, dan k
 Jika kamu ingin membantu, kamu dapat membaca [panduan untuk berkontribusi](CONTRIBUTING.md).
 Kamu juga dapat melihat [panduan development](DEVELOPMENT.md) untuk informasi lebih lanjut.
 
-## Get in touch!
+## Tetaplah menjalin hubungan dengan kami!
 
 Bergabunglah ke [saluran discord](https://discord.gg/P3KkEF5) kami untuk berdiskusi mengenai fitur kedepan yang akan dibuat dan membicarakan hal-hal lainnya.
 
-## Credits
+## Kredit
 
 Ikon dibuat dengan [freepik](https://www.flaticon.com/authors/freepik) dari [www.flaticon.com](https://www.flaticon.com).
 
