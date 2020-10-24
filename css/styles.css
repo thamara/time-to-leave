@@ -901,6 +901,10 @@ html[data-view='flexible'] .row-waiver .waived-day-text {
   html[data-view='flexible'] .row-waiver .waived-day-text {
     width: 80%;
   }
+
+  html[data-view='flexible'] .row-time {
+    width: 25%;
+  }
 }
 
 html[data-view='flexible'] .arrow {
