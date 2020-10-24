@@ -51,6 +51,7 @@ Who built 1.5.6:
 -   bobsany16
 -   cbanupama
 -   ccsCoder
+-   damirJa
 -   daretobedifferent18
 -   fikimaul
 -   giovannipessiva
