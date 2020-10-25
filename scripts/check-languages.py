@@ -1,7 +1,6 @@
 import argparse
 import json
 import os
-from collections import defaultdict
 
 LOCALES_PATH = 'locales/'
 BASELINE_LANGUAGE = 'en'
