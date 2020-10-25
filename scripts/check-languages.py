@@ -132,7 +132,11 @@ def get_report_from_error(total_strings_for_translation : int, errors : dict) ->
                                                  number_missing_keys,
                                                  total_strings_for_translation,
                                                  (100 * number_missing_keys)/total_strings_for_translation)
-        result += '\n```\n{}\n```\n\n'.format(json.dumps(missing_keys, indent=2))
+        try:
+            result += '\n```\n{}\n```\n\n'.format(json.dumps(missing_keys, indent=2))
+        except:
+            result += '\n```\n{}\n```\n\n'.format(missing_keys)
+
     return result
 
 # Report in stdout and on the output file (if passed) the errors found
@@ -140,7 +144,7 @@ def report(output : str, errors_missing_keys : dict, errors : dict):
     total_strings_for_translation = get_total_strings_for_translation(BASELINE_LANGUAGE)
     if errors_missing_keys:
         print('Missing Keys/Scopes:')
-        print(json.dumps(errors_missing_keys, indent=2))
+        print(errors_missing_keys)
 
     if errors:
         print('Missing Translations')
