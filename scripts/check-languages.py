@@ -4,7 +4,6 @@ import os
 
 LOCALES_PATH = 'locales/'
 BASELINE_LANGUAGE = 'en'
-SCOPE_TO_IGNORE = '$Language'
 SCOPE_KEY_TO_IGNORE = {'$Menu' : ['ttl-github'],
                        '$FlexibleDayCalendar' : ['time-to-leave'],
                        '$FlexibleMonthCalendar' : ['time-to-leave'],
@@ -90,7 +89,6 @@ def get_keys_to_ignore(locale : str, scope : str) -> list:
 # Compare two languages, passing over all scopes, returning the erros for the language
 def compare_language(locale : str, baseline_language : dict, language : dict) -> dict:
     scopes = [x for x in baseline_language]
-    scopes.remove(SCOPE_TO_IGNORE)
     errors = dict()
     for scope in scopes:
         if scope in language:
