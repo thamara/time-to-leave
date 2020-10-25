@@ -8,14 +8,15 @@
         "de-DE": "Deutsch",
         "hi": "हिंदी",
         "mr": "मराठी",
-        "pl": "Polski"
+        "pl": "Polski",
+        "ko": "한국어"
     },
     "$Preferences": {
         "title": "Time to Leave - Preferencje",
         "userPreferences": "Prefernecje użytkownika",
         "workingDays": "Dni pracy",
         "sun": "Niedz",
-        "mon": "Pon", 
+        "mon": "Pon",
         "tue": "Wt",
         "wed": "Śr",
         "thu": "Czw",
