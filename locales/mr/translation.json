@@ -65,6 +65,7 @@
         "database-was-exported": "ठीक आहे, डेटाबेस निर्यात झाला.",
         "edit": "सुधारणे",
         "exit": "बाहेर पडा",
+        "export": "Export",
         "export-database": "डेटाबेस निर्यात करा",
         "export-db-to-file": "फाईलमध्ये डेटाबेस निर्यात करा",
         "failed-entries": "नोंदी अयशस्वी",
