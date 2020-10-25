@@ -15,6 +15,7 @@ const languages = {
 
 /**
 * Get supported language codes
+* @return {Array}
 */
 function getLanguagesCodes()
 {
@@ -23,6 +24,7 @@ function getLanguagesCodes()
 
 /**
 * Returns the name of a given language code
+* @return {String}
 */
 function getLanguageName(code)
 {
