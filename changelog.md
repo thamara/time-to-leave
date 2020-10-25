@@ -25,6 +25,7 @@
 -   Translation: Time to Leave is not available in Hindi (hi)!
 -   Translation: Time to Leave is not available in Indonesian (id)!
 -   Translation: Time to Leave is not available in Italian (it)!
+-   Translation: Time to Leave is not available in Korean (ko)!
 -   Translation: Time to Leave is not available in Marathi (mr)!
 -   Translation: Time to Leave is not available in Polish (pl)!
 -   Translation: Time to Leave is not available in Spanish (es)!
@@ -42,6 +43,7 @@ Who built 1.5.6:
 -   1-byte-man
 -   BamButz
 -   DevDaveFrame
+-   Esot3riA
 -   MichaelYogar
 -   RuteshRathod
 -   SaviPrograms
