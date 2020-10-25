@@ -263,8 +263,8 @@
         "dismissBtn": "Odrzuć",
         "downloadBtn": "Pobierz najnowszą wersję",
         "remindBtn": "Przypomnij później",
-        "title": "TTL Check for updates",
-        "upto-date-msg": "Your TTL is up to date.",
-        "old-version-msg": "You are using an old version of TTL and is missing out on a lot of new cool things!"
+        "title": "Aktualizator Time to Leave",
+        "upto-date-msg": "Time to Leave jest aktualne",
+        "old-version-msg": "Użwasz starej wersji Time to Leave. Omijają cię przez to ciekawe rzeczy!"
     }
 }
