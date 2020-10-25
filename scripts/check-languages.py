@@ -36,7 +36,8 @@ LANG_SCOPE_KEY_TO_IGNORE = {'de-DE': {'$Preferences' : ['themes', 'hours-per-day
                              'id': {'$Preferences' : ['cadentStar', 'hours-per-day'],
                                     '$Menu' : ['edit', 'help', 'menu', 'ok'],
                                     '$FlexibleMonthCalendar' : ['total'],
-                                    '$DateUtil' : ['april', 'september', 'november']}}
+                                    '$DateUtil' : ['april', 'september', 'november']},
+                             'ko': {'$Preferences' : ['hours-per-day']}}
 
 # Return all supported locales
 def get_locales() -> list:
