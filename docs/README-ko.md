@@ -1,7 +1,7 @@
 <div align="center">
   <img src="../assets/timetoleave.png" alt="Time to Leave Logo">
 
-  <p>업무 시간을 기록하고 사무실을 떠나 일상으로 돌아갈 시간을 알려 줍니다</p>
+  <p>업무 시간을 기록하고 사무실을 떠나 일상으로 돌아갈 시간을 알려 줍니다.</p>
 
   <br/>
 
@@ -42,16 +42,16 @@ Time to Leave는 MacOS, Windows 그리고 Linux 환경에서 동작합니다. [�
 본 프로그램에 기여하고 싶으시다면 [기여 가이드라인](../CONTRIBUTING.md)을 참조해 주세요.
 혹은 [개발자 가이드](../DEVELOPMENT.md)에서 더 자세한 정보를 얻을 수 있습니다.
 
-## 같이 소통해요！
+## 같이 소통해요!
 
 저희 [discord 채널](https://discord.gg/P3KkEF5)에 참여해서 추가될 기능들과 기타 사항에 대해 논의해 주세요.
 
-## 鳴謝
+## 협찬
 
-본 프로그램에는 [www.flaticon.com](https://www.flaticon.com)의 [freepik](https://www.flaticon.com/authors/freepik)에서 제작된 아이콘이 사용되었습니다.
+본 프로그램에는 [www.flaticon.com](https://www.flaticon.com)의 [freepik](https://www.flaticon.com/authors/freepik)에서 제작된 아이콘들이 사용되었습니다.
 
-[lucy-g](https://icon-icons.com/icon/timer/121243)의 Original Timer 아이콘 수정본이 사용되었습니다.
+[lucy-g](https://icon-icons.com/icon/timer/121243)의 Original Timer Icon 수정본이 사용되었습니다.
 
-[SVG Repo](https://www.svgrepo.com/svg/271898/sick)의 Sick 아이콘이 사용되었습니다.
+[SVG Repo](https://www.svgrepo.com/svg/271898/sick)의 Sick Icon이 사용되었습니다.
 
-[www.flaticon.com](https://www.flaticon.com)의 [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect)에서 제작된 View Switch 아이콘이 사용되었습니다.
+[www.flaticon.com](https://www.flaticon.com)의 [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect)에서 제작된 View Switch Icon이 사용되었습니다.
