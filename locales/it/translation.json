@@ -1,18 +1,4 @@
 {
-    "$Language": {
-        "en": "English",
-        "pt-BR": "Português - Brasil",
-        "es": "Español",
-        "it": "Italiano",
-        "zh-TW": "繁體中文",
-        "de-DE": "Deutsch",
-        "hi": "हिंदी",
-        "mr": "मराठी",
-        "id": "Bahasa Indonesia",
-        "pl": "Polski",
-        "nl": "Nederlands",
-        "th-TH": "ไทย"
-    },
     "$Preferences": {
         "title": "Time to Leave - Preferenze",
         "userPreferences": "Preferenze utente",
