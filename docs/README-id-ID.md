@@ -39,8 +39,8 @@ Time to Leave dapat berkerja pada sistem operasi MacOS, Windows and Linux, dan k
 
 ## Cara membuat dan berkontribusi untuk TTL
 
-Jika kamu ingin membantu, kamu dapat membaca [panduan untuk berkontribusi](CONTRIBUTING.md).
-Kamu juga dapat melihat [panduan development](DEVELOPMENT.md) untuk informasi lebih lanjut.
+Jika kamu ingin membantu, kamu dapat membaca [panduan untuk berkontribusi](../CONTRIBUTING.md).
+Kamu juga dapat melihat [panduan development](../DEVELOPMENT.md) untuk informasi lebih lanjut.
 
 ## Tetaplah menjalin hubungan dengan kami!
 
