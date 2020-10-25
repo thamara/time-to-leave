@@ -24,6 +24,7 @@ function getLanguagesCodes()
 
 /**
 * Returns the name of a given language code
+* @param {String} code Locale for the language
 * @return {String}
 */
 function getLanguageName(code)
