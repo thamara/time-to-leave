@@ -79,7 +79,7 @@
         "select-all": "모두 선택",
         "send-feedback": "피드백 보내기",
         "should-migrate-to-flexible": "가변 캘린더가 비어 있습니다. 현재 고정 캘린더 데이터베이스를 가변 캘린더로 이전할까요?",
-        "show-app": "Show App",
+        "show-app": "앱 표시",
         "something-went-wrong": "뭔가 잘못된 것 같네요 :(",
         "toggle-dev-tools": "개발자 도구 토글",
         "ttl-github": "TTL GitHub",
