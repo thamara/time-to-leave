@@ -1,15 +1,4 @@
 {
-    "$Language": {
-        "en": "English",
-        "pt-BR": "Português - Brasil",
-        "es": "Español",
-        "it": "Italiano",
-        "zh-TW": "繁體中文",
-        "de-DE": "Deutsch",
-        "hi": "हिंदी",
-        "mr": "मराठी",
-        "pl": "Polski"
-    },
     "$Preferences": {
         "title": "Time to Leave - प्राधान्ये",
         "userPreferences": "वापरकर्ता प्राधान्ये",
@@ -65,6 +54,7 @@
         "database-was-exported": "ठीक आहे, डेटाबेस निर्यात झाला.",
         "edit": "सुधारणे",
         "exit": "बाहेर पडा",
+        "export": "Export",
         "export-database": "डेटाबेस निर्यात करा",
         "export-db-to-file": "फाईलमध्ये डेटाबेस निर्यात करा",
         "failed-entries": "नोंदी अयशस्वी",
