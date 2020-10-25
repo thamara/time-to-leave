@@ -1,16 +1,4 @@
 {
-    "$Language": {
-        "en": "English",
-        "pt-BR": "Português - Brasil",
-        "es": "Español",
-        "it": "Italiano",
-        "zh-TW": "繁體中文",
-        "de-DE": "Deutsch",
-        "hi": "हिंदी",
-        "mr": "मराठी",
-        "pl": "Polski",
-        "ko": "한국어"
-    },
     "$Preferences": {
         "title": "Time to Leave - 설정",
         "userPreferences": "사용자 설정",
