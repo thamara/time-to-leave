@@ -50,6 +50,18 @@ def get_language(language : str) -> dict:
     with open('{}/{}/translation.json'.format(LOCALES_PATH, language)) as f:
         return json.load(f)
 
+# Count number of strings for translation from locale
+def get_total_strings_for_translation(locale : str) -> int:
+    baseline_language = get_language(locale)
+    return count_total_string(baseline_language)
+
+# Count number of strings for translation from language dict
+def count_total_string(language : dict) -> int:
+    total = 0
+    for scope in language:
+        total += len(language[scope])
+    return total
+
 # Returns the values that haven't changed between the baseline scope and the scope
 # Ignore keys supplied in keys_to_ignore
 def find_equal_values(keys_to_ignore : list, baseline_scope : dict, scope : dict) -> dict:
@@ -110,8 +122,22 @@ def get_arguments():
     parser.add_argument("-output", help="Output markdown report file")
     return parser.parse_args()
 
+# Returns a string for the error report
+def get_report_from_error(total_strings_for_translation : int, errors : dict) -> str:
+    result = ''
+    for language in errors:
+        missing_keys = errors[language]
+        number_missing_keys = count_total_string(missing_keys)
+        result += '## {} ({}/{} - {:.2f}% missing):\n'.format(language,
+                                                 number_missing_keys,
+                                                 total_strings_for_translation,
+                                                 (100 * number_missing_keys)/total_strings_for_translation)
+        result += '\n```\n{}\n```\n\n'.format(json.dumps(missing_keys, indent=2))
+    return result
+
 # Report in stdout and on the output file (if passed) the errors found
 def report(output : str, errors_missing_keys : dict, errors : dict):
+    total_strings_for_translation = get_total_strings_for_translation(BASELINE_LANGUAGE)
     if errors_missing_keys:
         print('Missing Keys/Scopes:')
         print(json.dumps(errors_missing_keys, indent=2))
@@ -124,14 +150,10 @@ def report(output : str, errors_missing_keys : dict, errors : dict):
         with open(output, 'w') as f:
             if errors_missing_keys:
                 f.write('# Missing Keys/Scopes:\n')
-                for language in errors_missing_keys:
-                    f.write('## {}:\n'.format(language))
-                    f.write('\n```\n{}\n```\n\n'.format(json.dumps(errors_missing_keys[language], indent=2)))
+                f.write(get_report_from_error(total_strings_for_translation, errors_missing_keys))
             if errors:
                 f.write('# Missing Translations:\n')
-                for language in errors:
-                    f.write('## {}:\n'.format(language))
-                    f.write('\n```\n{}\n```\n\n'.format(json.dumps(errors[language], indent=2)))
+                f.write(get_report_from_error(total_strings_for_translation, errors))
 
 def main():
     args = get_arguments()
