@@ -92,6 +92,7 @@ Who built 1.5.6:
 -   thamara
 -   tiagohermano
 -   tupaschoal
+-   tuxinaut
 -   virginiarcruz
 
 <!--- End users - Do not remove -->
