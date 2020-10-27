@@ -30,6 +30,7 @@
 -   Translation: Time to Leave is not available in Marathi (mr)!
 -   Translation: Time to Leave is not available in Polish (pl)!
 -   Translation: Time to Leave is not available in Spanish (es)!
+-   Translation: Time to Leave is not available in Thai (th-TH)!
 -   Translation: Time to Leave is now available in Brazilian Portuguese (pt-BR)!
 -   Translation: Time to Leave is now available in German (de-DE)!
 -   Translation: Time to Leave is now available in Traditional Chinese (zh-TW)!
@@ -45,6 +46,7 @@ Who built 1.5.6:
 -   BamButz
 -   DevDaveFrame
 -   Esot3riA
+-   Gnoyoyo
 -   MichaelYogar
 -   RuteshRathod
 -   SaviPrograms
