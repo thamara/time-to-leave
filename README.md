@@ -1,20 +1,22 @@
 <div align="center">
   <img src="assets/timetoleave.png" alt="Time to Leave Logo">
-
+        
   <p>Log work hours and get notified when it's time to leave the office and start to live</p>
-  <p>Esse documento também está disponível em <a href="docs/README-pt-BR.md">Português (Brasil)</a></p>
-  <p>Este documento también está disponíble en <a href="docs/README-es.md">Español</a></p>
-  <p>हे कागदजत्र देखील उपलब्ध आहे<a href="docs/README-mr.md">मराठी</a>तसेच उपलब्ध आहे</p>
-  <p>Questo documento è disponibile anche in <a href="docs/README-it.md">Italiano</a></p>
-  <p>Dieses Dokument ist auch verfügbar in <a href="docs/README-de-DE.md">Deutsch</a></p>
-  <p>यह दस्तावेज़ <a href="docs/README-hi.md">Hindi</a> में भी उपलब्ध है </p>
-  <p>此文檔亦適用於<a href="docs/README-zh-TW.md">繁體中文</a></p>
-  <p>Przeczytaj ten dokument w <a href="docs/README-pl.md">języku polskim</a></p>
-  <p>이 문서는 <a href="docs/README-ko.md">한국어</a>로도 제공됩니다</p>
-  <p>Dokumentasi ini tersedia dalam <a href="docs/README-id-ID.md">Bahasa Indonesia</a>
-  <p>เอกสารฉบับนี้มีให้บริการในรูปแบบ<a href='docs/README-th-TH.md'>ภาษาไทย</a></p>
-  <p>Ce document est également disponible en <a href="docs/README-fr-FR.md">Français (France)</a></p>
-  <p>Dit document is ook beschikbaar in het <a href="docs/README-nl.md">Nederlands</a></p>
+  
+  <a href="docs/README-pt-BR.md"><img src="https://img.shields.io/badge/pt--BR-Portugu%C3%AAs-purple" alt="Esse documento também está disponível em Português (Brasil)"></a>
+  <a href="docs/README-es.md"><img src="https://img.shields.io/badge/es-Espa%C3%B1ol-purple" alt="Este documento también está disponíble en Español"></a>
+  <a href="docs/README-it.md"><img src="https://img.shields.io/badge/it-Italiano-purple" alt="Questo documento è disponibile anche in Italiano"></a>
+  <a href="docs/README-mr.md"><img src="https://img.shields.io/badge/mr-मराठी-purple" alt="हे कागदजत्र देखील उपलब्ध आहे मराठी तसेच उपलब्ध आहे"></a>
+  <a href="docs/README-de-DE.md"><img src="https://img.shields.io/badge/de--DE-Deutsch-purple" alt="Dieses Dokument ist auch verfügbar in Deutsch"></a>
+  <a href="docs/README-hi.md"><img src="https://img.shields.io/badge/hi-Hindi-purple" alt="यह दस्तावेज़ Hindi में भी उपलब्ध है"></a>
+  <a href="docs/README-zh-TW.md"><img src="https://img.shields.io/badge/zh--TW-繁體中文-purple" alt="此文檔亦適用於繁體中文"></a>
+  <a href="docs/README-pl.md"><img src="https://img.shields.io/badge/pl-języku%20polskim-purple" alt="Przeczytaj ten dokument w języku polskim"></a>
+  <a href="docs/README-ko.md"><img src="https://img.shields.io/badge/ko-한국어-purple" alt="이 문서는 한국어 로도 제공됩니다"></a>
+  <a href="docs/README-id-ID.md"><img src="https://img.shields.io/badge/id--ID-Bahasa%20Indonesia-purple" alt="Dokumentasi ini tersedia dalam Bahasa Indonesia"></a>
+  <a href="docs/README-th-TH.md"><img src="https://img.shields.io/badge/th--TH-ภาษาไทย-purple" alt="เอกสารฉบับนี้มีให้บริการในรูปแบบภาษาไทย"></a>
+  <a href="docs/README-fr-FR.md"><img src="https://img.shields.io/badge/fr--FR-Fran%C3%A7ais%20(France)-purple" alt="Ce document est également disponible en Français (France)"></a>
+  <a href="docs/README-nl.md"><img src="https://img.shields.io/badge/nl-Nederlands-purple" alt="Dit document is ook beschikbaar in het Nederlands"></a>
+  
   <br/>
 
 <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20MacOS%20%7C%20Linux-green" alt="Platform">
