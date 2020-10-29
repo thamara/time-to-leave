@@ -251,7 +251,7 @@
     "$UpdateManager": {
         "dismissBtn": "Ara no",
         "downloadBtn": "Descarregar darrera versió",
-        "remindBtn": "Recuerdamelo després",
+        "remindBtn": "Recodar després",
         "title": "TTL Verificant actualitzacions",
         "upto-date-msg": "La teva TTL està a el dia.",
         "old-versio-msg": "Estàs usant una versió vella de TTL i perdent-un munt de noves coses"
