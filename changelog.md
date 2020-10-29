@@ -77,6 +77,7 @@ Who built 1.5.6:
 -   jswildcards
 -   ju-pinheiro
 -   kumaranshu72
+-   loiscodes
 -   mfayaq
 -   michaelknowles
 -   nightgrey
