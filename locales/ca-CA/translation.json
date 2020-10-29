@@ -155,7 +155,7 @@
         "lunch-begin": "Inici de dinar",
         "lunch-end": "Cap de l'esmorzar",
         "day-end": "Fi del dia",
-        "lunch-total": "Total d'dinar",
+        "lunch-total": "Total dinar",
         "day-total": "Total del dia",
         "day": "Dia",
         "lunch-start": "Començament de l'esmorzar",
@@ -178,8 +178,8 @@
         "lunch-begin": "Inici de dinar",
         "lunch-end": "Cap de l'esmorzar",
         "day-end": "Fi del dia",
-        "lunch-total": "Total d'dinar",
-        "day-total": "Total d'el dia"
+        "lunch-total": "Total dinar",
+        "day-total": "Total del dia"
     },
     "$WorkdayWaiver": {
         "add-waiver": "Afegeix dia lliure",
