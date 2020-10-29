@@ -1,5 +1,5 @@
-<div align="center">
-  <img src="assets/timetoleave.png" alt="Time to Leave Logo">
+<div align = "center">
+  <img src = "assets / scheduloleave.png" alt = "Temps per deixar el logotip">
 
   <p>Log work hours and get notified when it's time to leave the office and start to live</p>
   <p>Esse documento também está disponível em <a href="docs/README-pt-BR.md">Português (Brasil)</a></p>
@@ -28,41 +28,42 @@
 
   <br/>
 
+
 </div>
 
 ---
 
-Log the time you started working today, and the program will compute what time you should leave the office, considering the time you spent on lunch. When it's time, the program will notify you.
+Registreu el temps que heu començat a treballar avui i el programa calcularà quina hora heu de sortir de l'oficina, tenint en compte el temps que heu passat a dinar. Quan arribi el moment, el programa us ho notificarà.
 
-![time-to-leave-notification](https://user-images.githubusercontent.com/3754225/94519526-4dbc0280-0248-11eb-9738-ffae936cfa4a.jpg)
+! [Notificació de temps per deixar-se] (https://user-images.githubusercontent.com/3754225/94519526-4dbc0280-0248-11eb-9738-ffae936cfa4a.jpg)
 
-You can control the preferences, stating your working days, how many hours you work a day and if you want notification or not.
+Podeu controlar les preferències, indicant els vostres dies laborables, quantes hores treballeu al dia i si voleu o no notificacions.
 
-![time-to-leave-settings](https://user-images.githubusercontent.com/3754225/94519531-4eed2f80-0248-11eb-9303-78f9abe69201.jpg)
+![time-to-leave-settings] (https://user-images.githubusercontent.com/3754225/94519531-4eed2f80-0248-11eb-9303-78f9abe69201.jpg)
 
-You can also add waivers on the days you did not work.
+També podeu afegir exempcions els dies que no hàgiu treballat.
 
-![time-to-leave-waiver](https://user-images.githubusercontent.com/3754225/94762058-4e79a380-03c4-11eb-8f28-1c480dbf8b5c.png)
+![time-to-leave-waiver] (https://user-images.githubusercontent.com/3754225/94762058-4e79a380-03c4-11eb-8f28-1c480dbf8b5c.png)
 
-## How to install TTL
+## Com instal·lar TTL
 
-Time to Leave works on MacOS, Windows and Linux, and you can download the desired version from [the latest release](https://github.com/thamara/time-to-leave/releases/tag/v.1.5.5).
+Time to Leave funciona a MacOS, Windows i Linux i podeu descarregar la versió desitjada des de [l'última versió] (https://github.com/thamara/time-to-leave/releases/tag/v.1.5.5).
 
-## How to build and contribute to TTL
+## Com crear i contribuir a TTL
 
-If you want to help, read our [contributing](CONTRIBUTING.md) guidelines.
-You can also refer to our [development guide](DEVELOPMENT.md) for more information.
+Si voleu ajudar, llegiu les nostres directrius sobre [contribuir] (CONTRIBUTING.md).
+També podeu consultar la nostra [guia de desenvolupament] (DEVELOPMENT.md) per obtenir més informació.
 
-## Get in touch!
+## Posar-se en contacte!
 
-Join our [discord channel](https://discord.gg/P3KkEF5) to discuss upcoming features and more.
+Uniu-vos al nostre [canal discord] (https://discord.gg/P3KkEF5) per parlar de les properes funcions i molt més.
 
-## Credits
+## Crèdits
 
-Icons made by [freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com).
+Icones fetes per [freepik] (https://www.flaticon.com/authors/freepik) de [www.flaticon.com] (https://www.flaticon.com).
 
-Original Timer icon by [lucy-g](https://icon-icons.com/icon/timer/121243), colored variations and formats modified from it.
+Icona de temporitzador original de [lucy-g] (https://icon-icons.com/icon/timer/121243), variacions de colors i formats modificats a partir d’ella.
 
-Sick icon by [SVG Repo](https://www.svgrepo.com/svg/271898/sick).
+Icona Sick de [SVG Repo] (https://www.svgrepo.com/svg/271898/sick).
 
-View Switch icon made by [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) from [www.flaticon.com](https://www.flaticon.com).
+Icona de commutador de visualització creada per [Pixel perfect] (https://www.flaticon.com/authors/pixel-perfect) de [www.flaticon.com] (https://www.flaticon.com).

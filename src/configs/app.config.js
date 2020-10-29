@@ -1,4 +1,5 @@
 const languages = {
+    'ca-CA': 'Catalàn',
     'de-DE': 'Deutsch',
     'en': 'English',
     'es': 'Español',
