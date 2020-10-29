@@ -78,6 +78,7 @@ Who built 1.5.6:
 -   ju-pinheiro
 -   kumaranshu72
 -   loiscodes
+-   mecm1993
 -   mfayaq
 -   michaelknowles
 -   nightgrey
