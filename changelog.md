@@ -23,6 +23,7 @@
 -   Fix: [#395] Fixing uncaught exception in main.js on day refresh
 -   Fix: [#510] Flexible calendar header mixing with table
 -   Translation: Time to Leave is now available in Brazilian Portuguese (pt-BR)!
+-   Translation: Time to Leave is now available in Catalan (ca-CA)!
 -   Translation: Time to Leave is now available in Dutch (nl)!
 -   Translation: Time to Leave is now available in French (fr-fr)!
 -   Translation: Time to Leave is now available in German (de-DE)!
@@ -88,6 +89,7 @@ Who built 1.5.6:
 -   sajeevan16
 -   samin-batra
 -   sano2019
+-   servatj
 -   skevprog
 -   sooster910
 -   susheelg1197
