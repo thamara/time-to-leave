@@ -93,7 +93,7 @@
         "next-day": "Dia següent",
         "time-to-leave": "Time to Leave",
         "current-day": "Anar al dia actual",
-        "day-done-Balance": "Todo a punt per avui. El balanç del día:",
+        "day-done-balance": "Todo a punt per avui. El balanç del día:",
         "leave-by": "Hauries de sortir al les:",
         "month-balance-title": "Balanç a dia d'avui per aquest mes. Un balanç positiu significa hores extres que no haurás de treballar avui (o el que resta de mes).",
         "month-balance": "Balanç del mes",
@@ -136,7 +136,7 @@
     "$Calendar": {
         "leave-by": "Basant-se en l'hora en què va arribar avui, hauria de marxar per",
         "all-done": "Tot a punt per avui. El Balanç del dia:",
-        "last-day-Balance": "Últim dia utilitzat per al Balanç",
+        "last-day-balance": "Últim dia utilitzat per al Balanç",
         "on": "Pres",
         "working-days": "Dies de treball",
         "working-days-title": "Quants dies feiners hi ha al mes",
