@@ -163,7 +163,7 @@
     },
     "$Notification": {
         "time-to-leave": "¡Hola! Creo que es hora de irse",
-        "punch-reminder": "Don't forget to punch in!"
+        "punch-reminder": "¡No olvides marcar tarjeta!"
     },
     "$FixedDayCalendar": {
         "leave-by": "Deberías irte:",
