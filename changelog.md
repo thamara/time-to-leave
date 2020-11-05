@@ -50,6 +50,7 @@ Who built 1.5.6:
 -   Esot3riA
 -   Gnoyoyo
 -   MichaelYogar
+-   RafaelDavisH
 -   RuteshRathod
 -   SaviPrograms
 -   Semvrij
