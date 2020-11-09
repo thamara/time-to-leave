@@ -121,7 +121,7 @@
         "yes": "Ja",
         "no": "Nee"
     },
-    "$Calendar": {
+    "$BaseCalendar": {
         "day-done-balance": "Het is tijd om te gaan. Overzicht van vandaag:",
         "month-balance": "Maandelijks overzicht",
         "month-balance-title": "Overzicht tot vandaag voor deze maand. Een positief overzicht betekent dat je vandaag (of de rest van de maand) geen extra uren hoeft te werken.",

@@ -121,7 +121,7 @@
         "yes": "Sí",
         "no": "No"
     },
-    "$Calendar": {
+    "$BaseCalendar": {
         "day-done-balance": "Todo a punt per avui. El balanç del día:",
         "month-balance": "Balanç del mes",
         "month-balance-title": "Balanç fins avui per a aquest mes. Un Balanç positiu significa hores extres que no necessites treballar avui (o la resta del mes).",

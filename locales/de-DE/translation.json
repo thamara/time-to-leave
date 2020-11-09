@@ -121,7 +121,7 @@
         "yes": "Ja",
         "no": "Nein"
     },
-    "$Calendar": {
+    "$BaseCalendar": {
         "day-done-balance": "Alles erledigt für heute. Tagesbilanz:",
         "month-balance": "Monatsbilanz",
         "month-balance-title": "Bilanz positiv bis heute für diesen Monat. Eine positive Bilanz bedeutet extra Stunden für die Sie heute nicht arbeiten müssen (oder den Rest des Monats).",

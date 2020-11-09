@@ -121,7 +121,7 @@
         "yes": "Oui",
         "no": "Non"
     },
-    "$Calendar": {
+    "$BaseCalendar": {
         "day-done-balance": "Tout est fait pour aujourd'hui. Bilan journée:",
         "month-balance": "Solde mensuel",
         "month-balance-title": "Solde jusqu'à aujourd'hui pour ce mois. Un solde positif signifie des heures supplémentaires dont vous n'avez pas besoin de travailler pour aujourd'hui (ou le reste du mois).",

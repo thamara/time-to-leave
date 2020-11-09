@@ -5,9 +5,7 @@ import os
 LOCALES_PATH = 'locales/'
 BASELINE_LANGUAGE = 'en'
 SCOPE_KEY_TO_IGNORE = {'$Menu' : ['ttl-github'],
-                       '$FlexibleDayCalendar' : ['time-to-leave'],
-                       '$FlexibleMonthCalendar' : ['time-to-leave'],
-                       '$Calendar' : ['time-to-leave'],
+                       '$BaseCalendar' : ['time-to-leave'],
                        '$WorkdayWaiver' : ['time-to-leave']}
 
 LANG_SCOPE_KEY_TO_IGNORE = {'de-DE': {'$Preferences' : ['themes', 'hours-per-day'],

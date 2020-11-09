@@ -121,7 +121,7 @@
         "yes": "Ya",
         "no": "Tidak"
     },
-    "$Calendar": {
+    "$BaseCalendar": {
         "day-done-balance": "Semua selesai hari ini. Keseimbangan hari ini:",
         "month-balance": "Kesimbangan bulan",
         "month-balance-title": "Keseimbangan sampai hari ini untuk bulan ini. Keseimbangan positif berarti jam tambahan yang tidak Perlu Anda kerjakan hari ini (atau sisa bulan).",

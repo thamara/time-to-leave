@@ -121,7 +121,7 @@
         "yes": "Tak",
         "no": "Nie"
     },
-    "$Calendar": {
+    "$BaseCalendar": {
         "day-done-balance": "To wszystko na dzisiaj. Bilans dnia:",
         "month-balance": "Bilans miesięczny",
         "month-balance-title": "Bilans czasu pracy od początku miesiąca do dzisiaj. Dodatni wynik oznacza nadgodziny nie musisz już więcej dzisiaj pracować (ani do końca miesiąca).",
