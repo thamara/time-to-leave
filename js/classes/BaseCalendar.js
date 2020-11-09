@@ -55,7 +55,6 @@ class BaseCalendar
     _getTargetDayForAllTimeBalance()
     {
         throw Error('Please implement this.');
-        return new Date();
     }
 
     /**
