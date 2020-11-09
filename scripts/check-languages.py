@@ -149,11 +149,15 @@ def get_report_from_error(total_strings_for_translation : int, errors : dict) ->
     return result
 
 # Report in stdout and on the output file (if passed) the errors found
-def report(output : str, errors_missing_keys : dict, errors : dict):
+def report(output : str, errors_missing_keys : dict, errors_extra_keys : dict, errors : dict):
     total_strings_for_translation = get_total_strings_for_translation(BASELINE_LANGUAGE)
     if errors_missing_keys:
         print('Missing Keys/Scopes:')
         print(errors_missing_keys)
+
+    if errors_extra_keys:
+        print('Extra Keys/Scopes:')
+        print(errors_extra_keys)
 
     if errors:
         print('Missing Translations')
@@ -164,6 +168,9 @@ def report(output : str, errors_missing_keys : dict, errors : dict):
             if errors_missing_keys:
                 f.write('# Missing Keys/Scopes:\n')
                 f.write(get_report_from_error(total_strings_for_translation, errors_missing_keys))
+            if errors_extra_keys:
+                f.write('# Extra Keys/Scopes:\n')
+                f.write(get_report_from_error(total_strings_for_translation, errors_extra_keys))
             if errors:
                 f.write('# Missing Translations:\n')
                 f.write(get_report_from_error(total_strings_for_translation, errors))
@@ -176,10 +183,14 @@ def main():
     baseline_language = get_language(BASELINE_LANGUAGE)
 
     errors_missing_keys = dict()
+    errors_extra_keys = dict()
     for locale in locales:
         mising_keys = get_missing_keys(baseline_language, get_language(locale))
+        extra_keys = get_missing_keys(get_language(locale), baseline_language)
         if mising_keys:
             errors_missing_keys[locale] = mising_keys
+        if extra_keys:
+            errors_extra_keys[locale] = extra_keys
 
     errors = dict()
     for locale in locales:
@@ -188,7 +199,7 @@ def main():
         if language_error:
             errors[locale] = language_error
 
-    report(output, errors_missing_keys, errors)
+    report(output, errors_missing_keys, errors_extra_keys, errors)
 
 if __name__ == "__main__":
     main()
