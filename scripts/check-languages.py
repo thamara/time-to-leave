@@ -45,7 +45,10 @@ LANG_SCOPE_KEY_TO_IGNORE = {'de-DE': {'$Preferences' : ['themes', 'hours-per-day
                                        '$Menu' : ['menu', 'ok'],
                                        '$FlexibleDayCalendar' : ['no'],
                                        '$FlexibleMonthCalendar' : ['total', 'no'],
-                                       '$WorkdayWaiver' : ['no']}}
+                                       '$WorkdayWaiver' : ['no']},
+                             'dev': {'$Preferences' : ['hours-per-day'],
+                                     '$Menu' : ['menu', 'ok'],
+                                     '$FlexibleMonthCalendar' : ['total']}}
 
 # Return all supported locales
 def get_locales() -> list:

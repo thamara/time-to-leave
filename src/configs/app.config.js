@@ -12,6 +12,7 @@ const languages = {
     'nl': 'Nederlands',
     'pl': 'Polski',
     'pt-BR': 'Português - Brasil',
+    'dev' : 'Português - Minerês',
     'th-TH': 'ไทย',
     'zh-TW': '繁體中文'
 };
@@ -36,6 +37,7 @@ function getLanguageName(code)
 }
 
 module.exports = {
+    languages: ['en', 'pt-BR', 'es', 'it', 'zh-TW', 'de-DE', 'hi', 'mr', 'pl', 'nl', 'th-TH', 'dev'],
     fallbackLng: 'en',
     namespace: 'translation',
     getLanguagesCodes,
