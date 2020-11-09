@@ -513,6 +513,11 @@ class FlexibleMonthCalendar extends BaseCalendar
         let monthTotal = '00:00';
         let workingDays = 0;
         let stopCountingMonthStats = false;
+        let lastDateToCount = new Date(this._getCalendarYear(), this._getCalendarMonth(), this._getCalendarDate());
+        if (this._getCountToday())
+        {
+            lastDateToCount.setDate(lastDateToCount.getDate() + 1);
+        }
         for (let day = 1; day <= monthLength; ++day)
         {
             if (!this._showDay(this._getCalendarYear(), this._getCalendarMonth(), day))
@@ -536,7 +541,7 @@ class FlexibleMonthCalendar extends BaseCalendar
                 this._colorErrorLine(dateKey);
             }
 
-            stopCountingMonthStats |= (this._getTodayDate() === day && this._getTodayMonth() === this._getCalendarMonth() && this._getTodayYear() === this._getCalendarYear());
+            stopCountingMonthStats |= (lastDateToCount.getDate() === day && lastDateToCount.getMonth() === this._getCalendarMonth() && lastDateToCount.getFullYear() === this._getCalendarYear());
             if (stopCountingMonthStats)
             {
                 continue;
