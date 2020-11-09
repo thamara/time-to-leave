@@ -21,7 +21,6 @@
 -   Fix: [#362] Fixed initial size of preferences window
 -   Fix: [#377] Fixed the layout which was broken when width < 768px
 -   Fix: [#395] Fixing uncaught exception in main.js on day refresh
--   Fix: [#510] Flexible calendar header mixing with table
 -   Translation: Time to Leave is now available in Brazilian Portuguese (pt-BR)!
 -   Translation: Time to Leave is now available in Catalan (ca-CA)!
 -   Translation: Time to Leave is now available in Dutch (nl)!
