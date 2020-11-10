@@ -104,7 +104,8 @@ class BaseCalendar
         }
 
         let balanceRowPosition = 0;
-        for (let day = 1; day < this._getTodayDate(); ++day)
+        const lastDay = this._getCountToday() ? this._getTodayDate() + 1 : this._getTodayDate();
+        for (let day = 1; day < lastDay; ++day)
         {
             if (this._showDay(this._getCalendarYear(), this._getCalendarMonth(), day))
             {
