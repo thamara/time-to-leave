@@ -91,15 +91,15 @@
         "export-db-to-file": "Esporta database su file",
         "failed-entries": "Record falliti",
         "failed-migrating": "Fallimento migrando",
-        "fresh-start": "Fresh Start",
-        "fresh-start-confirm": "Are you sure you want a fresh start?",
+        "fresh-start": "Nuovo inizio",
+        "fresh-start-confirm": "Sei sicuro che vuoi ripartire da un nuovo inizio?",
         "help": "Aiuto",
         "import": "Importa",
         "import-database": "Importa database",
         "import-db-from-file": "Importa database da file",
         "import-successful": "Yay! Importazione conclusa con successo!",
         "menu": "Menu",
-        "migrate": "Migrate",
+        "migrate": "Migra",
         "migrate-calendar-to-flexible": "Migra database con calendario fisso a flessibile",
         "migration-successful": "Yay! Migrazione conclusa con successo!",
         "no-thanks": "No, grazie",
@@ -113,7 +113,7 @@
         "report": "Report",
         "select-all": "Seleziona tutto",
         "send-feedback": "Manda feedback",
-        "should-migrate-to-flexible": "One of the new features of this Time to Leave release is a flexible number of entries for the calendar.\n\nThis new view uses a new database format.\nTo use it, you can either migrate your existing database to the new format or make a fresh start.",
+        "should-migrate-to-flexible": "Una delle nuove funzionalità di questa versione di Time to Leave è un numero flessibile di record per il calendario.\n\nQuesta nuova visuale usa un nuovo formato di database.\nPer usarlo puoi migrare il tuo database esistente al nuovo formato, oppure ripartire da un nuovo inizio.",
         "show-app": "Mostra App",
         "something-went-wrong": "Qualcosa è andato storto :(",
         "toggle-dev-tools": "Abilita Developer Tools",
@@ -123,8 +123,8 @@
         "yes-please": "Sì, per favore"
     },
     "$Notification": {
-        "punch-reminder": "Don't forget to punch in!",
-        "time-to-leave": "Hey there! I think it's time to leave."
+        "punch-reminder": "Non dimenticarti di registrare l'inizio!",
+        "time-to-leave": "Ehilà! Penso sia ora di staccare."
     },
     "$Preferences": {
         "allowRecurringNotifications": "Permetti notifiche ricorrenti",
@@ -163,12 +163,12 @@
         "workingDays": "Giorni feriali"
     },
     "$UpdateManager": {
-        "dismissBtn": "Dismiss",
-        "downloadBtn": "Download latest version",
-        "old-version-msg": "You are using an old version of TTL and missing out on a lot of new cool things!",
-        "remindBtn": "Remind me later",
-        "title": "TTL Check for updates",
-        "upto-date-msg": "Your TTL is up to date."
+        "dismissBtn": "Ignora",
+        "downloadBtn": "Scarica l'ultima versione",
+        "old-version-msg": "Stai usando una versione superata di TTL, ti stai perdendo un sacco di nuove funzionalità interessanti!",
+        "remindBtn": "Ricordami più tardi",
+        "title": "TTL Verifica gli aggiornamenti",
+        "upto-date-msg": "Il tuo TTL è aggiornato."
     },
     "$WorkdayWaiver": {
         "add-waiver": "Aggiungi esclusione",
