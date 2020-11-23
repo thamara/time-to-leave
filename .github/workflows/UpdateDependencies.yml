@@ -1,6 +1,7 @@
 on:
   schedule:
     - cron: '0 0 * * *'
+  workflow_dispatch: # Run workflow manually (without waiting for the cron to be called), through the Github Actions Workflow page directly
 name: Update package dependencies
 jobs:
   package-update:
@@ -26,4 +27,4 @@ jobs:
         GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
         LOG_LEVEL: debug
       with:
-        args: -u --packageFile package.json --loglevel verbose
+        args: -u --packageFile package.json --loglevel verbose -x fsevents
