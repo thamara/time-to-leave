@@ -275,6 +275,24 @@ class BaseCalendar
     }
 
     /**
+     * Returns if "enable prefill break time" was set in preferences
+     * @return {Boolean}
+     */
+    _getEnablePrefillBreakTime()
+    {
+        return this._preferences['enable-prefill-break-time'];
+    }
+
+    /**
+     * Returns "break time interval" set in preferences
+     * @return {string}
+     */
+    _getBreakTimeInterval()
+    {
+        return this._preferences['break-time-interval'];
+    }
+
+    /**
      * Returns if "count today" was set in preferences.
      * @return {Boolean}
      */
@@ -389,6 +407,19 @@ class BaseCalendar
     }
 
     /**
+     * Calculates time for break end based on break interval
+     * @param {string} breakBegin
+     */
+    _calculateBreakEnd(breakBegin)
+    {
+        let breakInterval = this._getBreakTimeInterval();
+        let breakEnd = sumTime(breakBegin, breakInterval);
+
+        breakEnd = validateTime(breakEnd) ? breakEnd : '23:59';
+        return breakEnd;
+    }
+
+    /**
      * Adds the next missing entry on the actual day and updates calendar.
      */
     punchDate()
@@ -410,14 +441,26 @@ class BaseCalendar
         const value = hourMinToHourFormatted(hour, min);
         const key = generateKey(year, month, day);
         const inputs = $('#' + key + ' input[type="time"]');
+        let i = 0;
         for (const element of inputs)
         {
             if ($(element).val().length === 0)
             {
                 $(element).val(value);
+
+                // Prefill break time
+                if ( this._getEnablePrefillBreakTime() &&
+                    i !== inputs.length - 1 &&
+                    i % 2 === 1
+                )
+                {
+                    const breakEnd = this._calculateBreakEnd(value);
+                    $(inputs[i+1]).val(breakEnd);
+                }
                 this._updateTimeDayCallback(key);
                 break;
             }
+            i++;
         }
     }
 

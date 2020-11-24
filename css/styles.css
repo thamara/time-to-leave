@@ -659,7 +659,7 @@ input:disabled + .slider {
   left: 25px;
 }
 
-#preferences-window #hours-per-day {
+#preferences-window #hours-per-day, #break-time-interval {
   text-align: right;
 }
 
