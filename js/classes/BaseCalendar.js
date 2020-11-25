@@ -50,6 +50,7 @@ class BaseCalendar
     /**
      * Returns a date object for which the all time balance will be calculated.
      * If current month, returns the actual day. If not, first day of following month.
+     * //  deepcode ignore valid-jsdoc: <not yet implemented>
      * @return {Date}
      */
     _getTargetDayForAllTimeBalance()
@@ -409,6 +410,7 @@ class BaseCalendar
     /**
      * Calculates time for break end based on break interval
      * @param {string} breakBegin
+     * @return {string}
      */
     _calculateBreakEnd(breakBegin)
     {

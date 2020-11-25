@@ -66,9 +66,6 @@ const timeInputs = [
 const isNotBoolean = (val) => typeof val !== 'boolean';
 const isNotificationInterval = (val) => !Number.isNaN(Number(val)) && isNotBoolean(val) && val >= 1 && val <= 30;
 
-//Don't use this. Use isNotificationInterval() and validateTime()
-const isValidPreferenceTime = (val) => validateTime(val) || Number.isNaN(Number(val)) || val < 1 || val > 30;
-
 /*
  * Returns the preference file path, considering the userData path
  */
@@ -302,7 +299,6 @@ module.exports = {
     switchCalendarView,
     isNotBoolean,
     isNotificationInterval,
-    isValidPreferenceTime,
     notificationIsEnabled,
     repetitionIsEnabled
 };
