@@ -443,27 +443,40 @@ class BaseCalendar
         const value = hourMinToHourFormatted(hour, min);
         const key = generateKey(year, month, day);
         const inputs = $('#' + key + ' input[type="time"]');
-        let i = 0;
-        for (const element of inputs)
-        {
-            if ($(element).val().length === 0)
-            {
-                $(element).val(value);
 
-                // Prefill break time
-                if ( this._getEnablePrefillBreakTime() &&
-                    i !== inputs.length - 1 &&
-                    i % 2 === 1
-                )
+        for (let i = 0; i < inputs.length; i++)
+        {
+            if ($(inputs[i]).val().length === 0)
+            {
+                $(inputs[i]).val(value);
+
+                //Prefill break time
+                if (this._prefillEntryIndex(i, inputs))
                 {
                     const breakEnd = this._calculateBreakEnd(value);
-                    $(inputs[i+1]).val(breakEnd);
+                    $(inputs[i + 1]).val(breakEnd);
                 }
                 this._updateTimeDayCallback(key);
                 break;
             }
-            i++;
         }
+    }
+
+    /**
+     * Returns true if next entry should be prefilled based on break interval
+     * @param {number} idx
+     * @param {array} inputs
+     * @return {Boolean}
+     */
+    _prefillEntryIndex(idx, inputs)
+    {
+        if (this._getEnablePrefillBreakTime() &&
+            idx !== inputs.length - 1 &&
+            idx % 2 === 1)
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
