@@ -171,6 +171,15 @@ function renderPreferencesWindow()
         }
     });
 
+    const prefillBreak = $('#enable-prefill-break-time');
+    const breakInterval = $('#break-time-interval');
+
+    breakInterval.prop('disabled', !prefillBreak.is(':checked'));
+    prefillBreak.on('change', function()
+    {
+        breakInterval.prop('disabled', !prefillBreak.is(':checked'));
+    });
+
     const notification = $('#notification');
     const repetition = $('#repetition');
     const notificationsInterval = $('#notifications-interval');
