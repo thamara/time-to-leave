@@ -142,7 +142,6 @@
         "hoursPerDay": "Hores per dia",
         "enablePrefillBreakTime": "Enable prefilling of break time",
         "breakTimeInterval": "Break time interval",
-        "break-time-interval": "HH:mm",
         "language": "Llenguatge",
         "light": "Clar",
         "minimizeToTray": "El botó de minimitzar hauria de minimitzar a la safata",

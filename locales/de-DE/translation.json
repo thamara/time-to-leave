@@ -142,7 +142,6 @@
         "hoursPerDay": "Stunden pro Tag",
         "enablePrefillBreakTime": "Enable prefilling of break time",
         "breakTimeInterval": "Break time interval",
-        "break-time-interval": "HH:mm",
         "language": "Sprache",
         "light": "Hell",
         "minimizeToTray": "Minimieren Button minimiert Fenster in den Tray",

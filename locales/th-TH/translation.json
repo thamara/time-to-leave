@@ -142,7 +142,6 @@
         "hoursPerDay": "จำนวนชั่วโมงทำงานต่อวัน",
         "enablePrefillBreakTime": "Enable prefilling of break time",
         "breakTimeInterval": "Break time interval",
-        "break-time-interval": "HH:mm",
         "language": "ภาษา",
         "light": "สว่าง",
         "minimizeToTray": "ปุ่มย่อจะย่อไปยังถาด",

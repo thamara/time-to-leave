@@ -142,7 +142,6 @@
         "hoursPerDay": "Heures par jour",
         "enablePrefillBreakTime": "Enable prefilling of break time",
         "breakTimeInterval": "Break time interval",
-        "break-time-interval": "HH:mm",
         "language": "Langue",
         "light": "Clair",
         "minimizeToTray": "Le bouton Réduire doit être réduit dans le bac",

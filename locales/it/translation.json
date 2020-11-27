@@ -142,7 +142,6 @@
         "hoursPerDay": "Ore al giorno",
         "enablePrefillBreakTime": "Enable prefilling of break time",
         "breakTimeInterval": "Break time interval",
-        "break-time-interval": "HH:mm",
         "language": "Linguaggio",
         "light": "Chiaro",
         "minimizeToTray": "Il pulsante di riduzione a icona deve ridurre a icona nella tray",

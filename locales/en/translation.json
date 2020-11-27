@@ -142,7 +142,6 @@
         "hoursPerDay": "Hours per day",
         "enablePrefillBreakTime": "Enable prefilling of break time",
         "breakTimeInterval": "Break time interval",
-        "break-time-interval": "HH:mm",
         "language": "Language",
         "light": "Light",
         "minimizeToTray": "Minimize button should minimize to tray",

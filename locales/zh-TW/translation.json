@@ -142,7 +142,6 @@
         "hoursPerDay": "小時每日",
         "enablePrefillBreakTime": "Enable prefilling of break time",
         "breakTimeInterval": "Break time interval",
-        "break-time-interval": "HH:mm",
         "language": "語言",
         "light": "淺色",
         "minimizeToTray": "當按下最小化按鈕時將程式最小化到任務欄",

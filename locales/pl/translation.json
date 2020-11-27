@@ -142,7 +142,6 @@
         "hoursPerDay": "Ilość godzin pracy dzienie",
         "enablePrefillBreakTime": "Enable prefilling of break time",
         "breakTimeInterval": "Break time interval",
-        "break-time-interval": "HH:mm",
         "language": "Język (Language)",
         "light": "Jasny",
         "minimizeToTray": "Prznieś do obszaru powiadomień przyciskiem minimalizacji",

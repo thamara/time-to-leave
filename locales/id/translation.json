@@ -142,7 +142,6 @@
         "hoursPerDay": "Jam per-hari",
         "enablePrefillBreakTime": "Enable prefilling of break time",
         "breakTimeInterval": "Break time interval",
-        "break-time-interval": "HH:mm",
         "language": "Bahasa",
         "light": "Terang",
         "minimizeToTray": "Tombol Minimalkan harus meminimalkan tray",

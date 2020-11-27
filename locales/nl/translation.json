@@ -142,7 +142,6 @@
         "hoursPerDay": "Aantal uur per dag",
         "enablePrefillBreakTime": "Enable prefilling of break time",
         "breakTimeInterval": "Break time interval",
-        "break-time-interval": "HH:mm",
         "language": "Taal",
         "light": "Licht",
         "minimizeToTray": "Minimaliseerknop moet minimaliseren",
