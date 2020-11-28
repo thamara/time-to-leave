@@ -3,6 +3,7 @@
 <!--- Begin changes - Do not remove -->
 
 -   Accessibility: [#447] Including focus ring/outline for inputs in the App
+-   Close: [#445] Move delete button to the leftmost column on workday waiver window
 -   Enhancement: [#328] Swap position for overall and month balance on day view
 -   Enhancement: [#333] Adding start date for overall balance on preferences
 -   Enhancement: [#357] Adding flexible table format for month calendar with variable number of entries per day
@@ -76,6 +77,7 @@ Who built 1.5.6:
 -   greyGroot
 -   ibamibrhm
 -   jcombs0929
+-   jrasmith0
 -   jswildcards
 -   ju-pinheiro
 -   kumaranshu72
