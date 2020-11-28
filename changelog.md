@@ -3,7 +3,6 @@
 <!--- Begin changes - Do not remove -->
 
 -   Accessibility: [#447] Including focus ring/outline for inputs in the App
--   Close: [#445] Move delete button to the leftmost column on workday waiver window
 -   Enhancement: [#328] Swap position for overall and month balance on day view
 -   Enhancement: [#333] Adding start date for overall balance on preferences
 -   Enhancement: [#357] Adding flexible table format for month calendar with variable number of entries per day
@@ -12,10 +11,11 @@
 -   Enhancement: [#394] Adding option to control the behavior of the Minimize button
 -   Enhancement: [#414] Right-align content of selection boxes from Preferences Window
 -   Enhancement: [#442] Modernizing scrollbar styling
+-   Enhancement: [#445] Move delete button to the leftmost column on workday waiver window
+-   Enhancement: [#448] Changed link color in Workday Waiver Manager to match themes
 -   Enhancement: [#455] Small adjustments on the Punch button
 -   Enhancement: [#455] Small adjustments on the alignment of the date on the Preferences Window
 -   Enhancement: [#563] Making the preferences window more organized and pretty
--   Enhancementnt: [#448] Changed link color in Workday Waiver Manager to match themes
 -   Fix: Fixed behavior of calendar when moving to next/previous month when current day is in the range of 29-31.
 -   Fix: [#214] Check that lunch has beginning and end, if there is lunch
 -   Fix: [#334] Improving performance of overall balance calculation and fixing balance target date after month change
