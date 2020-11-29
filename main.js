@@ -6,6 +6,7 @@ const { createWindow, createMenu, getMainWindow, triggerStartupDialogs } = requi
 const { notify } = require('./js/notification');
 const { getUserPreferences } = require('./js/user-preferences.js');
 const i18n = require('./src/configs/i18next.config');
+const { openWaiverManagerWindow } = require('./js/windows.js');
 
 i18n.on('loaded', () =>
 {
@@ -42,6 +43,8 @@ ipcMain.on('GET_INITIAL_TRANSLATIONS', (event, language) =>
 ipcMain.on('SET_WAIVER_DAY', (event, waiverDay) =>
 {
     global.waiverDay = waiverDay;
+    const mainWindow = getMainWindow();
+    openWaiverManagerWindow(mainWindow);
 });
 
 let launchDate = new Date();

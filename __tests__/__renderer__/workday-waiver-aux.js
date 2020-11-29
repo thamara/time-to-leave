@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const { formatDayId, sendWaiverDay } = require('../../js/workday-waiver-aux');
+const { formatDayId, displayWaiverWindow } = require('../../js/workday-waiver-aux');
 
 describe('Workday Waiver Aux', function()
 {
@@ -27,16 +27,16 @@ describe('Workday Waiver Aux', function()
         });
     });
 
-    describe('sendWaiverDay(dayId)', function()
+    describe('displayWaiverWindow(dayId)', function()
     {
         test('should do seamless call', async() =>
         {
-            await sendWaiverDay(validJSDay);
-            await sendWaiverDay(validJSDay2);
-            await sendWaiverDay(garbageString);
-            await sendWaiverDay(incompleteDate);
+            await displayWaiverWindow(validJSDay);
+            await displayWaiverWindow(validJSDay2);
+            await displayWaiverWindow(garbageString);
+            await displayWaiverWindow(incompleteDate);
         });
     });
 
-    // TODO: Come up with a way to test displayWaiverWindow
+    // TODO: Come up with a way to test displayWaiverWindow's opening of a window
 });
