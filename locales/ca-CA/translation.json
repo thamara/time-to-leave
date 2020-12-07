@@ -140,6 +140,8 @@
         "hideNonWorkingDay": "Ocultar els dies no laborables (Vista mensual)",
         "hours-per-day": "HH:mm",
         "hoursPerDay": "Hores per dia",
+        "enablePrefillBreakTime": "Enable prefilling of break time",
+        "breakTimeInterval": "Break time interval",
         "language": "Llenguatge",
         "light": "Clar",
         "minimizeToTray": "El botó de minimitzar hauria de minimitzar a la safata",

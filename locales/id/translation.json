@@ -140,6 +140,8 @@
         "hideNonWorkingDay": "Sembunyikan hari Bukan-kerja (Tampilan Bulan)",
         "hours-per-day": "HH:mm",
         "hoursPerDay": "Jam per-hari",
+        "enablePrefillBreakTime": "Enable prefilling of break time",
+        "breakTimeInterval": "Break time interval",
         "language": "Bahasa",
         "light": "Terang",
         "minimizeToTray": "Tombol Minimalkan harus meminimalkan tray",

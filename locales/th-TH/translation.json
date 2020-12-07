@@ -140,6 +140,8 @@
         "hideNonWorkingDay": "ซ่อนวันหยุด (มุมมองรายเดือน)",
         "hours-per-day": "ชช:นน",
         "hoursPerDay": "จำนวนชั่วโมงทำงานต่อวัน",
+        "enablePrefillBreakTime": "Enable prefilling of break time",
+        "breakTimeInterval": "Break time interval",
         "language": "ภาษา",
         "light": "สว่าง",
         "minimizeToTray": "ปุ่มย่อจะย่อไปยังถาด",

@@ -140,6 +140,8 @@
         "hideNonWorkingDay": "नॉन-कामकाजाचे दिवस लपवा (महिना दृश्य)",
         "hours-per-day": "HH:mm",
         "hoursPerDay": "दिवसाचे तास",
+        "enablePrefillBreakTime": "Enable prefilling of break time",
+        "breakTimeInterval": "Break time interval",
         "language": "भाषा",
         "light": "प्रकाश",
         "minimizeToTray": "ट्रेमध्ये मिनिमाइझ बटण कमीतकमी केले पाहिजे",

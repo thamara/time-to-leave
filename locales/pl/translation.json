@@ -140,6 +140,8 @@
         "hideNonWorkingDay": "Ukryj dni wolne (Widok Miesiąca)",
         "hours-per-day": "HH:mm",
         "hoursPerDay": "Ilość godzin pracy dzienie",
+        "enablePrefillBreakTime": "Enable prefilling of break time",
+        "breakTimeInterval": "Break time interval",
         "language": "Język (Language)",
         "light": "Jasny",
         "minimizeToTray": "Prznieś do obszaru powiadomień przyciskiem minimalizacji",

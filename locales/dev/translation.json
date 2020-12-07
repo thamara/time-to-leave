@@ -140,6 +140,8 @@
         "hideNonWorkingDay": "Ocultar dias não úteis (Visão de mês)",
         "hours-per-day": "HH:mm",
         "hoursPerDay": "Horas por dia",
+        "enablePrefillBreakTime": "Enable prefilling of break time",
+        "breakTimeInterval": "Break time interval",
         "language": "Idioma",
         "light": "Claro",
         "minimizeToTray": "Clicá no tracin isconde",

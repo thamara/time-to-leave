@@ -50,6 +50,7 @@ class BaseCalendar
     /**
      * Returns a date object for which the all time balance will be calculated.
      * If current month, returns the actual day. If not, first day of following month.
+     * //  deepcode ignore valid-jsdoc: <not yet implemented>
      * @return {Date}
      */
     _getTargetDayForAllTimeBalance()
@@ -275,6 +276,24 @@ class BaseCalendar
     }
 
     /**
+     * Returns if "enable prefill break time" was set in preferences
+     * @return {Boolean}
+     */
+    _getEnablePrefillBreakTime()
+    {
+        return this._preferences['enable-prefill-break-time'];
+    }
+
+    /**
+     * Returns "break time interval" set in preferences
+     * @return {string}
+     */
+    _getBreakTimeInterval()
+    {
+        return this._preferences['break-time-interval'];
+    }
+
+    /**
      * Returns if "count today" was set in preferences.
      * @return {Boolean}
      */
@@ -389,6 +408,20 @@ class BaseCalendar
     }
 
     /**
+     * Calculates time for break end based on break interval
+     * @param {string} breakBegin
+     * @return {string}
+     */
+    _calculateBreakEnd(breakBegin)
+    {
+        let breakInterval = this._getBreakTimeInterval();
+        let breakEnd = sumTime(breakBegin, breakInterval);
+
+        breakEnd = validateTime(breakEnd) ? breakEnd : '23:59';
+        return breakEnd;
+    }
+
+    /**
      * Adds the next missing entry on the actual day and updates calendar.
      */
     punchDate()
@@ -410,15 +443,40 @@ class BaseCalendar
         const value = hourMinToHourFormatted(hour, min);
         const key = generateKey(year, month, day);
         const inputs = $('#' + key + ' input[type="time"]');
-        for (const element of inputs)
+
+        for (let i = 0; i < inputs.length; i++)
         {
-            if ($(element).val().length === 0)
+            if ($(inputs[i]).val().length === 0)
             {
-                $(element).val(value);
+                $(inputs[i]).val(value);
+
+                //Prefill break time
+                if (this._prefillEntryIndex(i, inputs))
+                {
+                    const breakEnd = this._calculateBreakEnd(value);
+                    $(inputs[i + 1]).val(breakEnd);
+                }
                 this._updateTimeDayCallback(key);
                 break;
             }
         }
+    }
+
+    /**
+     * Returns true if next entry should be prefilled based on break interval
+     * @param {number} idx
+     * @param {array} inputs
+     * @return {Boolean}
+     */
+    _prefillEntryIndex(idx, inputs)
+    {
+        if (this._getEnablePrefillBreakTime() &&
+            idx !== inputs.length - 1 &&
+            idx % 2 === 1)
+        {
+            return true;
+        }
+        return false;
     }
 
     /**

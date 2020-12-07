@@ -119,7 +119,7 @@ function renderPreferencesWindow()
         changeValue(this.name, this.checked);
     });
 
-    $('#hours-per-day').on('change', function()
+    $('#hours-per-day, #break-time-interval').on('change', function()
     {
         /* istanbul ignore else */
         if (this.checkValidity() === true)
@@ -169,6 +169,15 @@ function renderPreferencesWindow()
             }
             preferences[name] = input.val();
         }
+    });
+
+    const prefillBreak = $('#enable-prefill-break-time');
+    const breakInterval = $('#break-time-interval');
+
+    breakInterval.prop('disabled', !prefillBreak.is(':checked'));
+    prefillBreak.on('change', function()
+    {
+        breakInterval.prop('disabled', !prefillBreak.is(':checked'));
     });
 
     const notification = $('#notification');

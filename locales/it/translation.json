@@ -140,6 +140,8 @@
         "hideNonWorkingDay": "Nascondi giorni festivi (visuale Mese)",
         "hours-per-day": "HH:mm",
         "hoursPerDay": "Ore al giorno",
+        "enablePrefillBreakTime": "Enable prefilling of break time",
+        "breakTimeInterval": "Break time interval",
         "language": "Linguaggio",
         "light": "Chiaro",
         "minimizeToTray": "Il pulsante di riduzione a icona deve ridurre a icona nella tray",
