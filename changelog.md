@@ -16,6 +16,7 @@
 -   Enhancement: [#455] Small adjustments on the Punch button
 -   Enhancement: [#455] Small adjustments on the alignment of the date on the Preferences Window
 -   Enhancement: [#563] Making the preferences window more organized and pretty
+-   Enhancement: [#591] You can now set up an automatic break time which will automatically add the next entry when you leave for a break punching the time.
 -   Fix: Fixed behavior of calendar when moving to next/previous month when current day is in the range of 29-31.
 -   Fix: [#214] Check that lunch has beginning and end, if there is lunch
 -   Fix: [#334] Improving performance of overall balance calculation and fixing balance target date after month change
@@ -49,6 +50,7 @@ Who built 1.5.6:
 -   BamButz
 -   DevDaveFrame
 -   Esot3riA
+-   Flodgar
 -   Gnoyoyo
 -   MichaelYogar
 -   RafaelDavisH
