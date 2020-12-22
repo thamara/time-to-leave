@@ -3,7 +3,6 @@
 <!--- Begin changes - Do not remove -->
 
 -   Accessibility: [#447] Including focus ring/outline for inputs in the App
--   Close: [#447] Make border and background on waiver manager tab the same color
 -   Enhancement: [#328] Swap position for overall and month balance on day view
 -   Enhancement: [#333] Adding start date for overall balance on preferences
 -   Enhancement: [#357] Adding flexible table format for month calendar with variable number of entries per day
@@ -24,6 +23,7 @@
 -   Fix: [#362] Fixed initial size of preferences window
 -   Fix: [#377] Fixed the layout which was broken when width < 768px
 -   Fix: [#395] Fixing uncaught exception in main.js on day refresh
+-   Fix: [#442] Make border and background on waiver manager tab the same color
 -   Fix: [#584] When counting today is enabled, move the balance row after the current day
 -   Translation: Time to Leave is now available in Brazilian Portuguese (pt-BR)!
 -   Translation: Time to Leave is now available in Catalan (ca-CA)!
