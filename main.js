@@ -6,6 +6,17 @@ const { createWindow, createMenu, getMainWindow, triggerStartupDialogs } = requi
 const { notify } = require('./js/notification');
 const { getUserPreferences } = require('./js/user-preferences.js');
 const i18n = require('./src/configs/i18next.config');
+const { handleSquirrelEvent } = require('./js/squirrel.js');
+const { appConfig } = require('./js/app-config');
+
+if (appConfig.win32)
+{
+    if (handleSquirrelEvent(app))
+    {
+        // squirrel event handled and app will exit in 1000ms, so don't do anything else
+        return;
+    }
+}
 
 i18n.on('loaded', () =>
 {
