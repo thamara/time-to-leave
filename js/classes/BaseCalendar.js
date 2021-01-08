@@ -11,7 +11,6 @@ const {
 } = require('../time-math.js');
 const {
     formatDayId,
-    sendWaiverDay,
     displayWaiverWindow
 } = require('../workday-waiver-aux.js');
 const { showDay, switchCalendarView } = require('../user-preferences.js');
@@ -170,8 +169,7 @@ class BaseCalendar
             //  deepcode ignore no-invalid-this: jQuery use
             const dayId = $(this).closest('tr').attr('id').substr(3);
             const waiverDay = formatDayId(dayId);
-            sendWaiverDay(waiverDay);
-            displayWaiverWindow();
+            displayWaiverWindow(waiverDay);
         });
 
         this._updateAllTimeBalance();
