@@ -19,7 +19,7 @@ jobs:
         git remote set-url --push origin https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
         npm ci
     - name: package-update
-      uses: taichi/actions-package-update@master
+      uses: thamara/actions-package-update@master
       env:
         AUTHOR_EMAIL: tkcandrade@gmail.com
         AUTHOR_NAME: Thamara Andrade
