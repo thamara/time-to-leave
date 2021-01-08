@@ -11,7 +11,6 @@ const { getMonthLength } = require('../date-aux.js');
 const { generateKey } = require('../date-db-formatter.js');
 const {
     formatDayId,
-    sendWaiverDay,
     displayWaiverWindow
 } = require('../workday-waiver-aux.js');
 const { showDialog } = require('../window-aux.js');
@@ -271,8 +270,7 @@ class FlexibleMonthCalendar extends BaseCalendar
         {
             const dayId = $(this).siblings().closest('.time-cells').attr('id');
             const waiverDay = formatDayId(dayId);
-            sendWaiverDay(waiverDay);
-            displayWaiverWindow();
+            displayWaiverWindow(waiverDay);
         });
     }
 

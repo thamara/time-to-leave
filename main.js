@@ -4,6 +4,7 @@
 const { app, ipcMain } = require('electron');
 const { createWindow, createMenu, getMainWindow, triggerStartupDialogs } = require('./js/main-window');
 const { notify } = require('./js/notification');
+const { openWaiverManagerWindow } = require('./js/windows.js');
 const { getUserPreferences } = require('./js/user-preferences.js');
 const i18n = require('./src/configs/i18next.config');
 const { handleSquirrelEvent } = require('./js/squirrel.js');
@@ -53,6 +54,8 @@ ipcMain.on('GET_INITIAL_TRANSLATIONS', (event, language) =>
 ipcMain.on('SET_WAIVER_DAY', (event, waiverDay) =>
 {
     global.waiverDay = waiverDay;
+    const mainWindow = getMainWindow();
+    openWaiverManagerWindow(mainWindow);
 });
 
 let launchDate = new Date();

@@ -1,7 +1,6 @@
 'use strict';
 
 const { ipcRenderer } = require('electron');
-const { Menu } = require('electron').remote;
 
 /**
  * @param {string} dayId - day in '<year>-<month - 1>-<day>' format
@@ -16,26 +15,16 @@ function formatDayId(dayId)
 }
 
 /**
- * Sends waiverDay value through SET_WAIVER_DAY event.
+ * Sends waiverDay value through SET_WAIVER_DAY event, which triggers open window event on main process.
  *
  * @param {string} waiverDay - day in 'YYYY-MM-DD' format
  */
-function sendWaiverDay(waiverDay)
+function displayWaiverWindow(waiverDay)
 {
     ipcRenderer.send('SET_WAIVER_DAY', waiverDay);
 }
 
-/**
- * Displays workday waiver manager window.
- */
-function displayWaiverWindow()
-{
-    const waiverMenu = Menu.getApplicationMenu().getMenuItemById('workday-waiver-manager');
-    waiverMenu.click();
-}
-
 module.exports = {
     formatDayId,
-    sendWaiverDay,
     displayWaiverWindow
 };
