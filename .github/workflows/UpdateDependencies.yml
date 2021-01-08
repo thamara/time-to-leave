@@ -27,4 +27,4 @@ jobs:
         GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
         LOG_LEVEL: debug
       with:
-        args: -u --packageFile package.json --loglevel verbose -x fsevents
+        args: -u --packageFile package.json --loglevel verbose
