@@ -26,6 +26,7 @@
 -   Fix: [#395] Fixing uncaught exception in main.js on day refresh
 -   Fix: [#442] Make border and background on waiver manager tab the same color
 -   Fix: [#584] When counting today is enabled, move the balance row after the current day
+-   Fix: [#598] Correct number of working days on flexible calendar
 -   Translation: Time to Leave is now available in Brazilian Portuguese (pt-BR)!
 -   Translation: Time to Leave is now available in Catalan (ca-CA)!
 -   Translation: Time to Leave is now available in Dutch (nl)!
