@@ -1,0 +1,15 @@
+.notification{
+    background-color: $pink;
+}
+
+.notification__illustration{
+    position: relative;
+    
+    img{
+        &:last-of-type{
+            position: absolute;
+            top: -100px;
+            right: 100px;
+        }
+    }
+}
