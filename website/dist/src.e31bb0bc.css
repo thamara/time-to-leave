@@ -87,6 +87,15 @@ p, a, li, small {
   font-family: "Open Sans", sans-serif;
 }
 
+/* Usage==========================================================================
+   .my-box {
+      padding: 10px;
+
+        @include for-desktop-up {
+            padding: 20px;
+         }
+    }
+   ========================================================================== */
 .marketing, .intro__illustration, .customization__illustration, .notification__illustration, .daysoff__illustration {
   width: 50%;
   display: inline-block;
