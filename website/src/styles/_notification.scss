@@ -1,5 +1,17 @@
 .notification{
-    background-color: $pink;
+    position: relative;
+    &:after {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background-color: $lightblue;
+        opacity: 0.5;
+        display: block;
+        content: '';
+        z-index: -1;
+    }
 }
 
 .notification__illustration{
