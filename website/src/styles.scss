@@ -1,6 +1,10 @@
-$primary-color: white;
-$bg: black;
-h1 {
-  color: $primary-color;
-  background-color: $bg;
-}
+@import 'styles/reset';
+@import 'styles/vars';
+@import 'styles/mixin-font-size';
+@import 'styles/fonts';
+@import 'styles/breakpoints';
+@import 'styles/buttons';
+@import 'styles/header';
+@import 'styles/intro';
+@import 'styles/marketing';
+@import 'styles/customization';

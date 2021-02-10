@@ -1,6 +1,412 @@
-h1 {
-  color: white;
-  background-color: black;
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 12px;
+}
+@media screen and (min-width: 320px) {
+  html {
+    font-size: calc(12px + 4 * ((100vw - 320px) / 880));
+  }
+}
+@media screen and (min-width: 1200px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+h1, h2, h3, h4, h5, h6, button {
+  font-family: "Roboto", sans-serif;
+}
+
+p, a, li, small {
+  font-family: "Open Sans", sans-serif;
+}
+
+button {
+  padding: 7px 50px;
+  border-radius: 4px;
+  border: 0px;
+  font-weight: 500;
+  cursor: pointer;
+}
+button {
+  font-size: 12px;
+}
+@media screen and (min-width: 320px) {
+  button {
+    font-size: calc(12px + 4 * ((100vw - 320px) / 880));
+  }
+}
+@media screen and (min-width: 1200px) {
+  button {
+    font-size: 16px;
+  }
+}
+
+.button--primary {
+  background-color: #111B47;
+  color: #fff;
+}
+
+.button--dropdown {
+  background: transparent;
+  border: 2px solid #111B47;
+  position: relative;
+}
+.button--dropdown:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 5px 0 5px;
+  border-color: #111B47 transparent transparent transparent;
+  right: 20px;
+  top: calc(50% - 2px);
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  height: 100px;
+  z-index: 3;
+}
+
+.header__nav a {
+  color: #000;
+  text-decoration: none;
+}
+.header__nav li {
+  padding: 15px 5px;
+  white-space: nowrap;
+}
+
+.header__nav {
+  padding: 5px 5%;
+}
+
+.header__nav__logo img {
+  width: 50px;
+}
+
+/* Mobile menu */
+.header__nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__nav__toggle {
+  order: 1;
+}
+
+.header__nav__item.header__nav__button {
+  order: 2;
+}
+
+.header__nav__item {
+  width: 100%;
+  text-align: center;
+  order: 3;
+  display: none;
+}
+
+.header__nav__item.active {
+  display: block;
+}
+
+/* Tablet menu */
+@media all and (min-width: 600px) {
+  .header__nav ul {
+    justify-content: center;
+  }
+
+  .header__nav__logo {
+    flex: 1;
+  }
+
+  .header__nav__toggle {
+    flex: 1;
+    text-align: right;
+  }
+
+  .header__nav__item.header__nav__button {
+    width: auto;
+    order: 1;
+    display: block;
+  }
+
+  .header__nav__toggle {
+    order: 2;
+  }
+}
+/* Desktop menu */
+@media all and (min-width: 900px) {
+  .header__nav__item {
+    display: block;
+    width: auto;
+  }
+
+  .header__nav__toggle {
+    display: none;
+  }
+
+  .header__nav__logo {
+    order: 0;
+  }
+
+  .header__nav__item {
+    order: 1;
+  }
+
+  .header__nav__item.header__nav__button {
+    order: 2;
+  }
+
+  .header__nav li {
+    padding: 15px 10px;
+  }
+
+  .header__nav li.header__nav__button {
+    padding-right: 0;
+    margin-left: 20px;
+  }
+}
+.intro {
+  font-size: 0;
+  position: relative;
+  background: url("/herobg.a069a824.svg") no-repeat center right;
+  background-size: contain;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.intro__illustration {
+  text-align: right;
+}
+.intro__illustration img {
+  max-height: 100vh;
+  width: auto;
+}
+
+.intro__title {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.intro__title {
+  font-size: 18px;
+}
+@media screen and (min-width: 320px) {
+  .intro__title {
+    font-size: calc(18px + 30 * ((100vw - 320px) / 880));
+  }
+}
+@media screen and (min-width: 1200px) {
+  .intro__title {
+    font-size: 48px;
+  }
+}
+.intro__title img {
+  width: 50px;
+  vertical-align: middle;
+  transform: translateY(-5px);
+}
+
+.marketing, .intro__illustration, .customization__illustration {
+  width: 50%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.marketing__container {
+  width: 70%;
+  margin: auto;
+}
+
+.marketing__desc {
+  margin-bottom: 50px;
+  line-height: 1.5;
+}
+.marketing__desc {
+  font-size: 12px;
+}
+@media screen and (min-width: 320px) {
+  .marketing__desc {
+    font-size: calc(12px + 4 * ((100vw - 320px) / 880));
+  }
+}
+@media screen and (min-width: 1200px) {
+  .marketing__desc {
+    font-size: 16px;
+  }
+}
+
+.intro__buttons {
+  text-align: center;
+}
+.intro__buttons button:first-of-type {
+  margin-right: 10px;
+}
+.intro__buttons button:last-of-type {
+  margin-left: 10px;
+}
+
+.marketing__title {
+  margin-bottom: 30px;
+}
+.marketing__title {
+  font-size: 16px;
+}
+@media screen and (min-width: 320px) {
+  .marketing__title {
+    font-size: calc(16px + 16 * ((100vw - 320px) / 880));
+  }
+}
+@media screen and (min-width: 1200px) {
+  .marketing__title {
+    font-size: 32px;
+  }
+}
+
+.marketing__features {
+  font-size: 0;
+}
+
+.marketing__feature {
+  display: inline-block;
+  width: 50%;
+  vertical-align: top;
+}
+.marketing__feature:first-of-type {
+  padding-right: 20px;
+}
+.marketing__feature:last-of-type {
+  padding-left: 20px;
+}
+
+.marketing__feature__title {
+  font-weight: 500;
+  margin: 20px 0;
+}
+.marketing__feature__title {
+  font-size: 12px;
+}
+@media screen and (min-width: 320px) {
+  .marketing__feature__title {
+    font-size: calc(12px + 4 * ((100vw - 320px) / 880));
+  }
+}
+@media screen and (min-width: 1200px) {
+  .marketing__feature__title {
+    font-size: 16px;
+  }
+}
+
+.marketing__feature__desc {
+  line-height: 1.5;
+}
+.marketing__feature__desc {
+  font-size: 10px;
+}
+@media screen and (min-width: 320px) {
+  .marketing__feature__desc {
+    font-size: calc(10px + 4 * ((100vw - 320px) / 880));
+  }
+}
+@media screen and (min-width: 1200px) {
+  .marketing__feature__desc {
+    font-size: 14px;
+  }
+}
+
+.customization {
+  font-size: 0;
+  position: relative;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.customization__illustration {
+  padding-top: 150px;
+  position: relative;
+}
+.customization__illustration img:not(:first-child) {
+  position: absolute;
+}
+.customization__illustration img:nth-child(2) {
+  left: 9%;
+  bottom: 75px;
+}
+.customization__illustration img:nth-child(3) {
+  left: 18%;
+  bottom: 250px;
 }
 
 /*# sourceMappingURL=/src.e31bb0bc.css.map */

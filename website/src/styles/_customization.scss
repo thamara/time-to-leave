@@ -1,0 +1,25 @@
+.customization{
+    font-size: 0;
+    position: relative;
+    padding-top: $padding-section;
+    padding-bottom: $padding-section;
+}
+
+.customization__illustration{
+    padding-top: 150px;
+    position: relative;
+    img:not(:first-child){
+        position: absolute;
+    }
+
+    img:nth-child(2){
+        left: 9%;
+        bottom: 75px;
+    }
+    img:nth-child(3){
+        left: 18%;
+        bottom: 250px;
+    }
+}
+
+
