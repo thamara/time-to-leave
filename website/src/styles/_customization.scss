@@ -1,17 +1,19 @@
 .customization__illustration{
-    padding-top: 150px;
+    margin-top: 150px;
     position: relative;
     img:not(:first-child){
         position: absolute;
     }
 
     img:nth-child(2){
-        left: 9%;
-        bottom: 75px;
+        left: 0;
+        top: 0;
+        transform: translate3d(50px, -50px, 0)
     }
     img:nth-child(3){
-        left: 18%;
-        bottom: 250px;
+        left: 0;
+        top: 0;
+        transform: translate3d(100px, -100px, 0)
     }
 }
 
