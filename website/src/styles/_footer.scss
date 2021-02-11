@@ -1,5 +1,6 @@
 footer{
-    padding-bottom: 40px;
+    padding-top: 20px;
+    padding-bottom: 0;
     position: relative;
     &:after {
         position: absolute;
@@ -18,11 +19,12 @@ footer{
         font-size: 14px;
         color: #6e7477;
         display: block;
-        padding: 0 5% 50px; 
+        padding: 0 5% 20px; 
     }
 }
 
 .footer__nav{
+    display: none;
     font-size: 14px;
     padding: 30px 5% 0;
     li{

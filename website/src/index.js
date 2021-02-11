@@ -1,15 +1,20 @@
 import "./styles.scss";
 import ScrollReveal from './js/scrollreveal.js';
+import imagesLoaded from 'imagesloaded';
+
+
 
 gsap.registerPlugin(ScrollTrigger);
 
-window.onload = function exampleFunction() {
-
-
-  const scrollReveal = new ScrollReveal();
-
+if (document.querySelectorAll('img')) {
+  imagesLoaded(document.querySelectorAll('img'), () => {
+      document.getElementById('loader').classList.add('closed');
+      setTimeout(function () {
+        
+        const scrollReveal = new ScrollReveal();        
+      }, 100);
+  });
 }
-
 
 
 // customization tl
@@ -51,7 +56,7 @@ nt.addLabel("start")
 let dt = gsap.timeline({
   scrollTrigger: {
     trigger: ".js-daysoff--trigger",
-    start: "top 80%", // when the top of the trigger hits the top of the viewport
+    start: "top bottom", // when the top of the trigger hits the top of the viewport
     end: "+=400", // end after scrolling 500px beyond the start
     scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
 
@@ -92,3 +97,15 @@ window.onscroll = function () {
   }
   prevScrollpos = currentScrollPos;
 }
+
+
+document.getElementById('js-dropdown').addEventListener('click', function(e){
+  e.preventDefault();
+  let dropdown = e.target.nextSibling.nextSibling;
+  if(dropdown.classList.contains('opened')){
+    dropdown.classList.remove('opened');
+  }else{
+    dropdown.classList.add('opened');
+  }
+  
+});

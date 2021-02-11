@@ -1,4 +1,4 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -31,6 +31,7 @@ footer, header, hgroup, menu, nav, section {
 
 body {
   line-height: 1;
+  position: relative;
 }
 
 ol, ul {
@@ -63,6 +64,10 @@ html {
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  overflow-x: hidden;
 }
 
 html {
@@ -101,6 +106,11 @@ p, a, li, small {
   display: inline-block;
   vertical-align: middle;
 }
+@media (max-width: 599px) {
+  .marketing, .intro__illustration, .customization__illustration, .notification__illustration, .daysoff__illustration {
+    width: 100%;
+  }
+}
 
 .customization, .notification, .daysoff, .cta, .intro, footer {
   font-size: 0;
@@ -119,36 +129,40 @@ p, a, li, small {
   transform: translateY(0);
 }
 
-button {
-  padding: 7px 50px;
+button, a.button--primary {
+  padding: 6px 50px;
   border-radius: 4px;
   border: 0px;
   font-weight: 500;
   cursor: pointer;
+  vertical-align: top;
+  text-decoration: none;
 }
-button {
+button, a.button--primary {
   font-size: 12px;
 }
 @media screen and (min-width: 320px) {
-  button {
+  button, a.button--primary {
     font-size: calc(12px + 4 * ((100vw - 320px) / 880));
   }
 }
 @media screen and (min-width: 1200px) {
-  button {
+  button, a.button--primary {
     font-size: 16px;
   }
 }
 
 .button--primary {
   background-color: #111B47;
-  color: #fff;
+  color: #fff !important;
+  border: 2px solid #111B47;
 }
 
 .button--dropdown {
   background: transparent;
   border: 2px solid #111B47;
   position: relative;
+  outline: none;
 }
 .button--dropdown:after {
   content: "";
@@ -161,6 +175,57 @@ button {
   border-color: #111B47 transparent transparent transparent;
   right: 20px;
   top: calc(50% - 2px);
+}
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+.dropdown ul {
+  opacity: 0;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border: 2px solid #111B47;
+  border-top: 0px solid transparent;
+  display: block;
+  width: 100%;
+  padding-top: 3px;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease-in, transform 0.3s ease-in;
+  pointer-events: none;
+}
+.dropdown ul.opened {
+  opacity: 0.7;
+  transform: translateY(-3px);
+  pointer-events: initial;
+}
+.dropdown ul li {
+  display: block;
+}
+.dropdown ul li a {
+  font-weight: 600;
+  text-decoration: none;
+  width: 100%;
+  padding: 10px 0;
+  display: block;
+  color: #37315c;
+  transition: all 0.1s ease-in;
+}
+.dropdown ul li a {
+  font-size: 10px;
+}
+@media screen and (min-width: 320px) {
+  .dropdown ul li a {
+    font-size: calc(10px + 4 * ((100vw - 320px) / 880));
+  }
+}
+@media screen and (min-width: 1200px) {
+  .dropdown ul li a {
+    font-size: 14px;
+  }
+}
+.dropdown ul li a:hover {
+  background: #9A93C6;
 }
 
 .header__nav {
@@ -177,6 +242,11 @@ button {
 .header__nav li {
   padding: 15px 5px;
   white-space: nowrap;
+}
+@media (max-width: 599px) {
+  .header__nav {
+    display: none;
+  }
 }
 
 .header__nav {
@@ -283,6 +353,11 @@ button {
   max-height: 100vh;
   width: auto;
 }
+@media (max-width: 599px) {
+  .intro__illustration img {
+    width: 100%;
+  }
+}
 
 .intro__title {
   margin-bottom: 30px;
@@ -311,6 +386,11 @@ button {
   width: 70%;
   margin: auto;
 }
+@media (max-width: 599px) {
+  .marketing__container {
+    width: 90%;
+  }
+}
 
 .marketing__desc {
   margin-bottom: 50px;
@@ -329,15 +409,43 @@ button {
     font-size: 16px;
   }
 }
+@media (max-width: 599px) {
+  .marketing__desc {
+    text-align: justify;
+  }
+}
 
 .intro__buttons {
   text-align: center;
 }
-.intro__buttons button:first-of-type {
+.intro__buttons .button--primary {
   margin-right: 10px;
 }
-.intro__buttons button:last-of-type {
+@media (max-width: 599px) {
+  .intro__buttons .button--primary {
+    margin-bottom: 1em;
+    margin-right: 0px;
+    height: 4em;
+    width: 20em;
+  }
+}
+.intro__buttons .dropdown {
   margin-left: 10px;
+}
+@media (max-width: 599px) {
+  .intro__buttons .dropdown {
+    margin-left: 0px;
+    height: 4em;
+    width: 20em;
+  }
+}
+@media (max-width: 599px) {
+  .intro__buttons {
+    display: flex;
+    vertical-align: center;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .marketing__title {
@@ -451,6 +559,21 @@ button {
   right: 0;
   transform: translate3d(100px, -100px, 0);
 }
+@media (max-width: 599px) {
+  .notification__illustration img {
+    width: 100%;
+  }
+}
+
+.daysoff__image {
+  width: 100%;
+}
+
+@media (max-width: 599px) {
+  .daysoff > .marketing {
+    margin-top: 30px;
+  }
+}
 
 .daysoff__illustration {
   transform: translateX(-100px);
@@ -497,11 +620,22 @@ button {
     font-size: 16px;
   }
 }
+@media (max-width: 599px) {
+  .cta__desc {
+    max-width: 90%;
+    text-align: justify;
+  }
+}
 
 .cta__free {
   max-width: 40%;
   margin: 0 auto;
   text-align: center;
+}
+@media (max-width: 599px) {
+  .cta__free {
+    max-width: 70%;
+  }
 }
 
 .cta__free__desc, .cta__free__money {
@@ -558,8 +692,16 @@ button {
   }
 }
 
+@media (max-width: 599px) {
+  .button--primary {
+    height: 4em;
+    width: 20em;
+  }
+}
+
 footer {
-  padding-bottom: 40px;
+  padding-top: 20px;
+  padding-bottom: 0;
   position: relative;
 }
 footer:after {
@@ -578,10 +720,11 @@ footer small {
   font-size: 14px;
   color: #6e7477;
   display: block;
-  padding: 0 5% 50px;
+  padding: 0 5% 20px;
 }
 
 .footer__nav {
+  display: none;
   font-size: 14px;
   padding: 30px 5% 0;
 }
@@ -601,6 +744,23 @@ footer small {
   transform: translateY(-20px);
   display: block;
   opacity: 0.4;
+}
+
+.loader {
+  display: block;
+  content: "";
+  position: fixed;
+  background: #fff;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 999;
+  transition: opacity 0.3s ease-in-out;
+}
+.loader.closed {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /*# sourceMappingURL=/src.e31bb0bc.css.map */

@@ -1,4 +1,4 @@
-.marketing__container{
+.marketing__container {
     width: 70%;
     margin: auto;
 
@@ -7,7 +7,7 @@
     }
 }
 
-.marketing__desc{
+.marketing__desc {
     @include fluid-type($min_width, $max_width, $min_font, $max_font);
     margin-bottom: 50px;
     line-height: 1.5;
@@ -17,11 +17,10 @@
     }
 }
 
-.intro__buttons{
+.intro__buttons {
     text-align: center;
 
-    button{
-        &:first-of-type{
+    .button--primary{
             margin-right: 10px;
 
             @include for-phone-only {
@@ -31,14 +30,14 @@
                 width: 20em;
             }
         }
-        &:last-of-type{
-            margin-left: 10px;
 
-            @include for-phone-only {
-                margin-left: 0px;
-                height: 4em;
-                width: 20em;
-            }
+    .dropdown {
+        margin-left: 10px;
+
+        @include for-phone-only {
+            margin-left: 0px;
+            height: 4em;
+            width: 20em;
         }
     }
 
@@ -50,35 +49,34 @@
     }
 }
 
-.marketing__title{
+.marketing__title {
     @include fluid-type($min_width, $max_width, $min_subtitle, $max_subtitle);
     margin-bottom: 30px;
 }
 
-.marketing__features{
+.marketing__features {
     font-size: 0;
 }
 
-.marketing__feature{
+.marketing__feature {
     display: inline-block;
     width: 50%;
     vertical-align: top;
-    &:first-of-type{
+    &:first-of-type {
         padding-right: 20px;
     }
-    &:last-of-type{
+    &:last-of-type {
         padding-left: 20px;
     }
 }
 
-.marketing__feature__title{
+.marketing__feature__title {
     @include fluid-type($min_width, $max_width, $min_font, $max_font);
     font-weight: 500;
     margin: 20px 0;
-
 }
 
-.marketing__feature__desc{
+.marketing__feature__desc {
     @include fluid-type($min_width, $max_width, $min_sfont, $max_sfont);
     line-height: 1.5;
 }

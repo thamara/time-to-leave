@@ -1,21 +1,26 @@
-button{
-    padding: 7px 50px;
+button, a.button--primary{
+    padding: 6px 50px;
     @include fluid-type($min_width, $max_width, $min_font, $max_font);
     border-radius: 4px;
     border: 0px;
     font-weight: 500;
     cursor: pointer;
+    vertical-align: top;
+    text-decoration: none;
 }
+
 
 .button--primary{
     background-color: $blue;
-    color: #fff;
+    color: #fff!important;
+    border: 2px solid $blue;
 }
 
 .button--dropdown{
     background: transparent;
     border: 2px solid $blue;
     position: relative;
+    outline: none;
     &:after{
         content: '';
         display: block;
@@ -27,5 +32,50 @@ button{
         border-color: $blue transparent transparent transparent;
         right: 20px;
         top: calc(50% - 2px);
+    }
+}
+
+.dropdown{
+    display: inline-block;
+    position: relative;
+    
+    ul{
+        opacity: 0;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border: 2px solid $blue;
+        border-top: 0px solid transparent;
+        
+        display: block;
+        width: 100%;
+        padding-top: 3px; 
+        
+        transform: translateY(-10px);
+	    transition: opacity .2s ease-in, transform .3s ease-in;
+
+        pointer-events: none;
+
+        &.opened{
+            opacity: 0.7;
+            transform: translateY(-3px);
+            pointer-events: initial;
+        }
+        li{
+            display: block;
+
+            a{
+                @include fluid-type($min_width, $max_width, $min_sfont, $max_sfont);
+                font-weight: 600; 
+                text-decoration: none;
+                width: 100%;
+                padding: 10px 0;
+                display: block;
+                color: darken($lightblue, 40%);
+                transition: all 0.1s ease-in;
+                &:hover{
+                    background: $lightblue;
+                }
+            }
+        }
     }
 }
