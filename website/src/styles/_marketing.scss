@@ -1,12 +1,20 @@
 .marketing__container{
     width: 70%;
     margin: auto;
+
+    @include for-phone-only {
+        width: 90%;
+    }
 }
 
 .marketing__desc{
     @include fluid-type($min_width, $max_width, $min_font, $max_font);
     margin-bottom: 50px;
     line-height: 1.5;
+
+    @include for-phone-only {
+        text-align: justify;
+    }
 }
 
 .intro__buttons{
@@ -15,10 +23,30 @@
     button{
         &:first-of-type{
             margin-right: 10px;
+
+            @include for-phone-only {
+                margin-bottom: 1em;
+                margin-right: 0px;
+                height: 4em;
+                width: 20em;
+            }
         }
         &:last-of-type{
             margin-left: 10px;
+
+            @include for-phone-only {
+                margin-left: 0px;
+                height: 4em;
+                width: 20em;
+            }
         }
+    }
+
+    @include for-phone-only {
+        display: flex;
+        vertical-align: center;
+        flex-direction: column;
+        align-items: center;
     }
 }
 
@@ -45,7 +73,7 @@
 
 .marketing__feature__title{
     @include fluid-type($min_width, $max_width, $min_font, $max_font);
-    font-weight: 500;   
+    font-weight: 500;
     margin: 20px 0;
 
 }

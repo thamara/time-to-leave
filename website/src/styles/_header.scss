@@ -15,12 +15,16 @@ header{
         padding: 15px 5px;
         white-space: nowrap;
     }
+
+    @include for-phone-only {
+        display: none;
+    }
 }
 
 
 .header__nav{
     padding: 5px 5%;
-}   
+}
 .header__nav__logo img{
     width: 50px;
 }
