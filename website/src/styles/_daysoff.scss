@@ -9,3 +9,12 @@
     }
 
 }
+
+.daysoff__illustration{
+    transform: translateX(-100px);
+    .daysoff__animation{
+        position: absolute;
+        left:0;
+        top:0;
+    }
+}

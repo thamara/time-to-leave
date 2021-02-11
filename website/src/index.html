@@ -25,7 +25,7 @@
 
 <body>
     <header>
-        <nav class="header__nav">
+        <nav id="navbar" class="header__nav">
             <ul>
                 <li class=" header__nav__logo">
                     <a href="#">
@@ -59,7 +59,7 @@
 
         <section class="intro">
             <div class="marketing">
-                <div class="marketing__container">
+                <div class="marketing__container js-reveal">
                     <h1 class="intro__title">
                         Time to Leave
                         <img src="images/resources/timer.svg" alt="Time To Leave Logo">
@@ -90,8 +90,8 @@
         <section class="customization">
             <div class="marketing js-customization--trigger">
                 <div class="marketing__container">
-                    <h2 class="marketing__title">Fully customizable</h2>
-                    <p class="marketing__desc">
+                    <h2 class="marketing__title js-reveal">Fully customizable</h2>
+                    <p class="marketing__desc js-reveal">
                         It is highly customizable, not only on the look and feel (with different month and day visions,
                         different themes, and more), but also offers lots of functionalities such as defining how many
                         hours
@@ -100,7 +100,7 @@
                         (Country, State, and City), and much more.
                     </p>
 
-                    <div class="marketing__features">
+                    <div class="marketing__features js-reveal">
                         <div class="marketing__feature">
                             <img class="marketing__feature__img" src="images/theme.svg" alt="Time To Leave Logo">
                             <h3 class="marketing__feature__title">Themes</h3>
@@ -133,7 +133,7 @@
             </div>
 
             <div class="marketing">
-                <div class="marketing__container">
+                <div class="marketing__container js-reveal">
                     <h2 class="marketing__title">Get Notify When It's Time</h2>
                     <p class="marketing__desc">Log the time you started working today, and the program will compute what
                         time you should leave the
@@ -145,11 +145,25 @@
 
         <section class="daysoff">
             <div class="daysoff__illustration">
-                <img class="daysoff__image" src="./images/cpo8ugdl.png" alt="workday off">
+                <img src="./images/daysoff/1.png" alt="" data-daysoff="1">
+                <img src="./images/daysoff/2.png" alt="" class="daysoff__animation" data-daysoff="2">
+                <img src="./images/daysoff/3.png" alt="" class="daysoff__animation" data-daysoff="3">
+                <img src="./images/daysoff/4.png" alt="" class="daysoff__animation" data-daysoff="4">
+                <img src="./images/daysoff/5.png" alt="" class="daysoff__animation" data-daysoff="5">
+                <img src="./images/daysoff/6.png" alt="" class="daysoff__animation" data-daysoff="6">
+                <img src="./images/daysoff/7.png" alt="" class="daysoff__animation" data-daysoff="7">
+                <img src="./images/daysoff/8.png" alt="" class="daysoff__animation" data-daysoff="8">
+                <img src="./images/daysoff/9.png" alt="" class="daysoff__animation" data-daysoff="9">
+                <img src="./images/daysoff/10.png" alt="" class="daysoff__animation" data-daysoff="10">
+                <img src="./images/daysoff/11.png" alt="" class="daysoff__animation" data-daysoff="11">
+                <img src="./images/daysoff/12.png" alt="" class="daysoff__animation" data-daysoff="12">
+                <img src="./images/daysoff/13.png" alt="" class="daysoff__animation" data-daysoff="13">
+                <img src="./images/daysoff/14.png" alt="" class="daysoff__animation" data-daysoff="14">
+                <img src="./images/daysoff/15.png" alt="" class="daysoff__animation" data-daysoff="15">
             </div>
 
-            <div class="marketing">
-                <div class="marketing__container">
+            <div class="marketing js-daysoff--trigger">
+                <div class="marketing__container js-reveal">
                     <h2 class="marketing__title">Add a Waiver for days off</h2>
                     <p class="marketing__desc">You can also add waivers on the days you did not work.</p>
                 </div>
@@ -158,18 +172,18 @@
 
 
         <section class="cta">
-
-            <h1 class="intro__title">
+           
+            <h1 class="intro__title js-reveal">
                 Time to Leave
                 <img src="images/resources/timer.svg" alt="Time To Leave Logo">
             </h1>
-            <p class="cta__desc">
+            <p class="cta__desc js-reveal"> 
                 It is highly customizable, not only on the look and feel (with different month and day visions,
                 different themes, and more), but also offers lots of functionalities such as defining how many hours you
                 usually work per day, which week days, allow you to quickly source holidays based on your region
                 (Country, State, and City), and much more.
             </p>
-            <div class="cta__free">
+            <div class="cta__free js-reveal">
                 <h3 class="cta__free__money">FREE!</h3>
                 <p class="cta__free__desc">Personal Time Management</p>
 
