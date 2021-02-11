@@ -16,13 +16,17 @@
 
 .notification__illustration{
     position: relative;
-    
+
     img{
         &:last-of-type{
             position: absolute;
             top: 0;
             right: 0;
             transform: translate3d(100px, -100px, 0);
+        }
+
+        @include for-phone-only {
+            width: 100%;
         }
     }
 }

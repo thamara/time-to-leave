@@ -10,6 +10,12 @@
         max-height: 100vh;
         width: auto;
     }
+
+    @include for-phone-only {
+        img{
+            width: 100%;
+        }
+    }
 }
 
 

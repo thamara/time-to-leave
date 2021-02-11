@@ -21,12 +21,21 @@
     max-width: 40%;
     margin: 0 auto 50px;
     text-align: center;
+
+    @include for-phone-only {
+        max-width: 90%;
+        text-align: justify;
+    }
 }
 
 .cta__free{
     max-width: 40%;
     margin: 0 auto;
     text-align: center;
+
+    @include for-phone-only {
+        max-width: 70%;
+    }
 }
 
 .cta__free__desc, .cta__free__money{
@@ -48,4 +57,11 @@
     color: #5D6970;
     @include fluid-type($min_width, $max_width, $min_sfont, $max_sfont);
     margin: 50px 0 20px;
+}
+
+.button--primary {
+    @include for-phone-only {
+        height: 4em;
+        width: 20em;
+    }
 }
