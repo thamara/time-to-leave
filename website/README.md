@@ -6,7 +6,7 @@ Check [issue #583](https://github.com/thamara/time-to-leave/issues/583) for figm
 
 ## Building and running on localhost
 
-Bundler Parcel.js has been used for the compilation (https://parceljs.org/).
+Bundler [Parcel.js](https://parceljs.org/) has been used for the compilation.
 
 First install dependencies:
 
@@ -20,14 +20,19 @@ To run in hot module reloading mode:
 npm start
 ```
 
+## Running
+
+```sh
+node dist/bundle.js
+```
+
+## Deploy
+
 To create a production build:
 
 ```sh
 npm run build-prod
 ```
 
-## Running
+This disables watch mode and hot module replacement so it will only build once. It also enables the minifier for all output bundles to reduce file size. The minifiers used by Parcel are terser for JavaScript, cssnano for CSS, and htmlnano for HTML.
 
-```sh
-node dist/bundle.js
-```
