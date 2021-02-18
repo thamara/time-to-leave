@@ -1,4 +1,4 @@
-# Website TimeToLeave 
+# Website Time to Leave 
  
 Check [issue #468](https://github.com/thamara/time-to-leave/issues/468) for information. 
 Check [issue #583](https://github.com/thamara/time-to-leave/issues/583) for figma design. 
