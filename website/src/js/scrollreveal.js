@@ -1,7 +1,6 @@
 import { gsap } from "gsap";
 class ScrollReveal {
   constructor() {
-      console.log('loaded');
     gsap.registerPlugin(ScrollTrigger);
     const reveal = gsap.utils.toArray('.js-reveal');
     
