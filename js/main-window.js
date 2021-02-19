@@ -93,6 +93,7 @@ function createWindow()
         let contextMenuTemplate = getContextMenuTemplate(mainWindow);
         contextMenuTemplate[0].enabled = arg;
         contextMenu = Menu.buildFromTemplate(contextMenuTemplate);
+        tray.setContextMenu(contextMenu);
     });
 
     ipcMain.on('RESIZE_MAIN_WINDOW', (event, width, height) =>
