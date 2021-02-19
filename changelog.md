@@ -27,6 +27,7 @@
 -   Fix: [#442] Make border and background on waiver manager tab the same color
 -   Fix: [#584] When counting today is enabled, move the balance row after the current day
 -   Fix: [#598] Correct number of working days on flexible calendar
+-   Fix: [#612] Fix Linux tray menu to have options: Punch time, Show App and Quit
 -   Translation: Time to Leave is now available in Brazilian Portuguese (pt-BR)!
 -   Translation: Time to Leave is now available in Catalan (ca-CA)!
 -   Translation: Time to Leave is now available in Dutch (nl)!
@@ -95,6 +96,7 @@ Who built 1.5.6:
 -   nilold
 -   parikhdhruv24791
 -   parnus01
+-   radiohazard-dev
 -   sajeevan16
 -   samin-batra
 -   sano2019
