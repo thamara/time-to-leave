@@ -28,6 +28,7 @@
 -   Fix: [#584] When counting today is enabled, move the balance row after the current day
 -   Fix: [#598] Correct number of working days on flexible calendar
 -   Fix: [#612] Fix Linux tray menu to have options: Punch time, Show App and Quit
+-   New and beautiful site for the app! Available in timetoleave.app
 -   Translation: Time to Leave is now available in Brazilian Portuguese (pt-BR)!
 -   Translation: Time to Leave is now available in Catalan (ca-CA)!
 -   Translation: Time to Leave is now available in Dutch (nl)!
@@ -52,6 +53,7 @@ Who built 1.5.6:
 -   06b
 -   1-byte-man
 -   BamButz
+-   BenjaminRochez
 -   DevDaveFrame
 -   Esot3riA
 -   Flodgar
