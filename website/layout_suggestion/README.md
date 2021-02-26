@@ -1,1 +1,0 @@
-Check [issue #468](https://github.com/thamara/time-to-leave/issues/468) for information.
