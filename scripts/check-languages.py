@@ -58,7 +58,7 @@ def get_locales() -> list:
 
 # Reurns the dict of translations for a language
 def get_language(language : str) -> dict:
-    with open('{}/{}/translation.json'.format(LOCALES_PATH, language)) as f:
+    with open('{}/{}/translation.json'.format(LOCALES_PATH, language), encoding="utf8") as f:
         return json.load(f)
 
 # Count number of strings for translation from locale
