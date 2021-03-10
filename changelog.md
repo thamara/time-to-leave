@@ -41,6 +41,7 @@
 -   Translation: Time to Leave is now available in Marathi (mr)!
 -   Translation: Time to Leave is now available in Polish (pl)!
 -   Translation: Time to Leave is now available in Spanish (es)!
+-   Translation: Time to Leave is now available in Tamil (ta)!
 -   Translation: Time to Leave is now available in Thai (th-TH)!
 -   Translation: Time to Leave is now available in Traditional Chinese (zh-TW)!
 
@@ -78,6 +79,7 @@ Who built 1.5.6:
 -   bobsany16
 -   cbanupama
 -   ccsCoder
+-   code-reaper08
 -   damirJa
 -   daretobedifferent18
 -   dofbi
