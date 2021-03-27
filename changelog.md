@@ -37,6 +37,7 @@
 -   Translation: Time to Leave is now available in Hindi (hi)!
 -   Translation: Time to Leave is now available in Indonesian (id)!
 -   Translation: Time to Leave is now available in Italian (it)!
+-   Translation: Time to Leave is now available in Japanese (ja)!
 -   Translation: Time to Leave is now available in Korean (ko)!
 -   Translation: Time to Leave is now available in Marathi (mr)!
 -   Translation: Time to Leave is now available in Polish (pl)!
@@ -107,6 +108,7 @@ Who built 1.5.6:
 -   servatj
 -   skevprog
 -   sooster910
+-   suke6mix
 -   susheelg1197
 -   taismassaro
 -   thamara
