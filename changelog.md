@@ -64,6 +64,7 @@ Who built 1.5.6:
 -   MichaelYogar
 -   RafaelDavisH
 -   RuteshRathod
+-   SJellen
 -   SaviPrograms
 -   Semvrij
 -   SolKuczala
