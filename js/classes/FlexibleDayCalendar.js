@@ -321,10 +321,6 @@ class FlexibleDayCalendar extends BaseCalendar
                     }
 
                     calendar._updateTimeDay(dateKey);
-                    setTimeout(() =>
-                    {
-                        calendar._checkTodayPunchButton();
-                    }, 0);
                 });
             }
         }
@@ -340,14 +336,18 @@ class FlexibleDayCalendar extends BaseCalendar
             {
                 calendar._updateTimeDayCallback($(this).attr('data-date'));
             });
-            setTimeout(() =>
-            {
-                calendar._checkTodayPunchButton();
-            }, 0);
         }
 
         $('.sign-cell:has(span.plus-sign)').off('click').on('click', addEntries);
         $('.sign-cell:has(span.minus-sign)').off('click').on('click', removeEntries);
+    }
+
+    /**
+     * Responsible for adding new entries to the calendar view.
+     */
+    _addTodayEntries()
+    {
+        $('.sign-cell:has(span.plus-sign)').trigger('click');
     }
 
     /**
@@ -473,8 +473,6 @@ class FlexibleDayCalendar extends BaseCalendar
 
         const leaveBy = this._calculateLeaveBy();
         $('#leave-by').val(leaveBy <= '23:59' ? leaveBy : '--:--');
-
-        this._checkTodayPunchButton();
 
         const dayTotal = $('.day-total span').html();
         if (dayTotal !== undefined && dayTotal.length > 0)
