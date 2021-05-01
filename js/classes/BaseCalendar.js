@@ -151,9 +151,10 @@ class BaseCalendar
         this._updateTableBody();
         this._updateBasedOnDB();
 
-        let waivedInfo = this._getWaiverStore(this._getTodayYear(), this._getTodayMonth(), this._getTodayDate());
-        let showCurrentDay = this._showDay(this._getTodayYear(), this._getTodayMonth(), this._getTodayDate());
-        this._togglePunchButton(showCurrentDay && waivedInfo === undefined);
+        const isCurrentMonth = this._getTodayMonth() === this._getCalendarMonth() && this._getTodayYear() === this._getCalendarYear();
+        const waivedInfo = this._getWaiverStore(this._getTodayYear(), this._getTodayMonth(), this._getTodayDate());
+        const showCurrentDay = this._showDay(this._getTodayYear(), this._getTodayMonth(), this._getTodayDate());
+        this._togglePunchButton(isCurrentMonth && showCurrentDay && waivedInfo === undefined);
 
         this._updateLeaveBy();
 
@@ -181,6 +182,14 @@ class BaseCalendar
     redraw()
     {
         this._draw();
+    }
+
+    /**
+     * Responsible for adding new entries to the calendar view.
+     */
+    _addTodayEntries()
+    {
+        throw Error('Please implement this.');
     }
 
     /**
@@ -383,26 +392,23 @@ class BaseCalendar
         return showDay(year, month, day, this._preferences);
     }
 
-    /*
-     * Will check if the inputs for today are all filled and then enable the button, if not.
+    /**
+     * Returns whether the inputs for the day are all filled.
+     * @param {number} year
+     * @param {number} month
+     * @param {number} day
+     * @return {Boolean}
      */
-    _checkTodayPunchButton()
+    _areAllInputsFilled(year, month, day)
     {
-        const today = new Date();
-        const isCurrentMonth = (today.getMonth() === this._calendarDate.getMonth() && today.getFullYear() === this._calendarDate.getFullYear());
-        let enableButton = false;
-        if (isCurrentMonth)
+        const dateKey = generateKey(year, month, day);
+        const inputs = $('#' + dateKey + ' input[type="time"]');
+        let allInputsFilled = true;
+        for (let input of inputs)
         {
-            const dateKey = generateKey(today.getFullYear(), today.getMonth(), today.getDate());
-            const inputs = $('#' + dateKey + ' input[type="time"]');
-            let allInputsFilled = true;
-            for (let input of inputs)
-            {
-                allInputsFilled &= $(input).val().length !== 0;
-            }
-            enableButton = !allInputsFilled;
+            allInputsFilled &= $(input).val().length !== 0;
         }
-        this._togglePunchButton(enableButton);
+        return allInputsFilled;
     }
 
     /**
@@ -436,6 +442,11 @@ class BaseCalendar
             !this._showDay(year, month, day))
         {
             return;
+        }
+        
+        if (this._areAllInputsFilled(year, month, day))
+        {
+            this._addTodayEntries();   
         }
 
         const value = hourMinToHourFormatted(hour, min);
