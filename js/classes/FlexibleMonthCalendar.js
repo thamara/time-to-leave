@@ -706,12 +706,15 @@ class FlexibleMonthCalendar extends BaseCalendar
             return index % 3 !== 2;
         }
 
-        function lessThanTwoEntries(index)
+        function lessThanThreeEntries(index)
         {
-            return index < 2;
+            return index < 3;
         }
 
-        while (lessThanTwoEntries(i) || inputGroupFullyPrinted(i))
+        // One pair of entries is a special case in which no more entries are added
+        const onlyOnePair = values.length == 2;
+
+        while (!onlyOnePair && (lessThanThreeEntries(i) || inputGroupFullyPrinted(i)))
         {
             ++i;
             if (indexIsInterval(i))
