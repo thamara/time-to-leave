@@ -1,5 +1,6 @@
 name: 'Prepare Release'
 on:
+  workflow_dispatch:
   push:
     tags:
       - latest/v*
@@ -17,7 +18,9 @@ jobs:
         npm ci
         npm run package:mac
     - name: set env
-      run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+      run: |
+        echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+        echo ${{ env.APP_VERSION }}
     - name: 'Packing DMG...'
       if: success()
       run: npx electron-installer-dmg 'release-builds/Time to Leave-darwin-x64/Time to Leave.app' time-to-leave --out 'packages/' --icon=assets/icon-mac.icns
@@ -45,7 +48,9 @@ jobs:
         npm ci
         npm run package:deb
     - name: set env
-      run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+      run: |
+        echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+        echo ${{ env.APP_VERSION }}
     - name: 'Packing DEB...'
       if: success()
       run: npx electron-installer-debian --src 'release-builds/time-to-leave-linux-x64/' --dest 'packages/' --arch amd64 --verbose
@@ -82,45 +87,47 @@ jobs:
         omitBodyDuringUpdate: true
 
   'Windows':
-      runs-on: windows-latest
-      steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-      - name: 'Building...'
-        run: |
-          npm ci
-          npm run package:win
-      - name: set env
-        run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-      - name: 'Packing MSI, EXE, etc'
-        if: success()
-        run: npx electron-installer-windows --src 'release-builds\time-to-leave-win32-ia32\' --dest 'packages\' --verbose
-      - name: 'Release MSI to GH'
-        if: success()
-        uses: ncipollo/release-action@v1
-        with:
-          allowUpdates: true
-          artifacts: 'packages/**.msi'
-          artifactContentType: application/x-msi
-          draft: true
-          tag: ${{ env.APP_VERSION }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # Only update body on Release Notes Action
-          omitBody: true
-          omitBodyDuringUpdate: true
-      - name: 'Release EXE to GH'
-        if: success()
-        uses: ncipollo/release-action@v1
-        with:
-          allowUpdates: true
-          artifacts: 'packages/**.exe'
-          artifactContentType: application/x-executable
-          draft: true
-          tag: ${{ env.APP_VERSION }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # Only update body on Release Notes Action
-          omitBody: true
-          omitBodyDuringUpdate: true
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+    - name: 'Building...'
+      run: |
+        npm ci
+        npm run package:win
+    - name: set env
+      run: |
+        echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+        echo ${{ env.APP_VERSION }}
+    - name: 'Packing MSI, EXE, etc'
+      if: success()
+      run: npx electron-installer-windows --src 'release-builds\time-to-leave-win32-ia32\' --dest 'packages\' --verbose
+    - name: 'Release MSI to GH'
+      if: success()
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        artifacts: 'packages/**.msi'
+        artifactContentType: application/x-msi
+        draft: true
+        tag: ${{ env.APP_VERSION }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        # Only update body on Release Notes Action
+        omitBody: true
+        omitBodyDuringUpdate: true
+    - name: 'Release EXE to GH'
+      if: success()
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        artifacts: 'packages/**.exe'
+        artifactContentType: application/x-executable
+        draft: true
+        tag: ${{ env.APP_VERSION }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        # Only update body on Release Notes Action
+        omitBody: true
+        omitBodyDuringUpdate: true
 
 
   'ReleaseNotes':
@@ -131,8 +138,9 @@ jobs:
     - name: ' Building...'
       run: |
         npm ci
-    - name: set env
-      run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+      run: |
+        echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+        echo ${{ env.APP_VERSION }}
     - name: Setup python
       uses: actions/setup-python@v2
       with:
