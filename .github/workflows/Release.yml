@@ -17,7 +17,7 @@ jobs:
         npm ci
         npm run package:mac
     - name: set env
-      run: echo "::set-env name=APP_VERSION::$(node -p "require('./package.json').version")"
+      run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
     - name: 'Packing DMG...'
       if: success()
       run: npx electron-installer-dmg 'release-builds/Time to Leave-darwin-x64/Time to Leave.app' time-to-leave --out 'packages/' --icon=assets/icon-mac.icns
@@ -45,7 +45,7 @@ jobs:
         npm ci
         npm run package:deb
     - name: set env
-      run: echo "::set-env name=APP_VERSION::$(node -p "require('./package.json').version")"
+      run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
     - name: 'Packing DEB...'
       if: success()
       run: npx electron-installer-debian --src 'release-builds/time-to-leave-linux-x64/' --dest 'packages/' --arch amd64 --verbose
@@ -91,7 +91,7 @@ jobs:
           npm ci
           npm run package:win
       - name: set env
-        run: echo "::set-env name=APP_VERSION::$(node -p "require('./package.json').version")"
+        run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
       - name: 'Packing MSI, EXE, etc'
         if: success()
         run: npx electron-installer-windows --src 'release-builds\time-to-leave-win32-ia32\' --dest 'packages\' --verbose
@@ -132,7 +132,7 @@ jobs:
       run: |
         npm ci
     - name: set env
-      run: echo "::set-env name=APP_VERSION::$(node -p "require('./package.json').version")"
+      run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
     - name: Setup python
       uses: actions/setup-python@v2
       with:
