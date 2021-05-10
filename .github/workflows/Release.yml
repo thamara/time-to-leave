@@ -98,7 +98,6 @@ jobs:
     - name: set env
       run: |
         echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $env:GITHUB_ENV
-        echo ${{ env.APP_VERSION }}
     - name: 'Packing MSI, EXE, etc'
       if: success()
       run: npx electron-installer-windows --src 'release-builds\time-to-leave-win32-ia32\' --dest 'packages\' --verbose
