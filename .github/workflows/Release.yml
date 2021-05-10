@@ -134,9 +134,9 @@ jobs:
     - name: set env
       run: echo "::set-env name=APP_VERSION::$(node -p "require('./package.json').version")"
     - name: Setup python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
     - name: Parse release information
       run: |
         python scripts/update_release.py -changelog-file changelog.md -version ${{ env.APP_VERSION }} -output-file release_notes.md
