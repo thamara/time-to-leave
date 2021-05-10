@@ -133,18 +133,13 @@ jobs:
         npm ci
     - name: set env
       run: echo "::set-env name=APP_VERSION::$(node -p "require('./package.json').version")"
+    - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
     - name: Parse release information
       run: |
-        sed '/^[[:space:]]*$/d' changelog.md > changelog.plain
-        csplit changelog.plain '/^[0-9]+*/' '{*}' -z -n 4 -f version
-        csplit version0000  '/^Who built*/' '{*}' -z -n 4 -f block
-        echo "::set-env name=UPDATES::$(tail -n +3 block0000)"
-        echo "::set-env name=PEOPLE::$(tail -n +2 block0001)"
-    - name: Create Release Notes file
-      uses: cuchi/jinja2-action@v.1.2.0
-      with:
-        template: release_template.md
-        output_file: release_notes.md
+        python scripts/update_release.py -changelog-file changelog.md -version ${{ env.APP_VERSION }} -output-file release_notes.md
     - name: 'Release to GH'
       if: success()
       uses: ncipollo/release-action@v1
