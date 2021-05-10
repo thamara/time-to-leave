@@ -71,8 +71,7 @@ class ChangeLogParser:
 
     def parse(self):
         with open(self._file_path, "r") as self._file:
-            if not self.version:
-                self._parse_version()
+            self._parse_version()
             self._parse_changes()
             self._parse_users()
 
@@ -80,8 +79,9 @@ class ChangeLogParser:
         version_regex = re.compile(r"#* *(\d+.\d+.\d+)")
         for line in self._file:
             if match := version_regex.match(line):
-                self.version = match.group(1)
-                return
+                if not self.version or (match.group(1) == self.version):
+                    self.version = match.group(1)
+                    return
 
     def _parse_changes(self):
         self.changes = self._get_list_between(
