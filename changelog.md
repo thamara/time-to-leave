@@ -1,4 +1,4 @@
-## 2.0.1 (in development)
+## 2.0.2 (in development)
 
 <!--- Begin changes - Do not remove -->
 
