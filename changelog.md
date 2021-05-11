@@ -1,4 +1,4 @@
-## 1.5.6 (in development)
+## 2.0.0
 
 <!--- Begin changes - Do not remove -->
 
