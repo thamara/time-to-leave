@@ -23,6 +23,6 @@ Who built X.Y.Z:
 <!--- End users - Do not remove -->
 ```
 2. Bump `package.json` to developer version (version + 1)-dev
-3. 
+3. Bump the links in website/src/index.html (search for the old version tag)
 4. `git commit -am "Bump to version vX.Y.Z-dev"`
 5. `git push`
