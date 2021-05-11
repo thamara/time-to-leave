@@ -76,7 +76,7 @@
     "popper.js": "^1.16.1"
   },
   "resolutions": {
-    "fsevents": "^2.3.1"
+    "fsevents": "^2.3.2"
   },
   "engines": {
     "node": "^10.12.6",
