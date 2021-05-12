@@ -26,3 +26,4 @@ Who built X.Y.Z:
 3. Bump the links in website/src/index.html (search for the old version tag)
 4. `git commit -am "Bump to version vX.Y.Z-dev"`
 5. `git push`
+6. Create PR in HomeBrew cask updating version. See [example](https://github.com/Homebrew/homebrew-cask/pull/105569/files).
