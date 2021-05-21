@@ -378,6 +378,16 @@ class FlexibleMonthCalendar extends BaseCalendar
             toggleMinusSign(element);
         });
 
+        function removeLastEntryPair(element)
+        {
+            const row = $(element).find('.row-time');
+            const sliceNum = row.length === 6 ? -1 : (row.length === 7 ? -2 : -3);
+            row.slice(sliceNum).remove();
+            calendar._updateTimeDay($(element).attr('id'));
+            toggleArrowColor(element);
+            toggleMinusSign(element);
+        }
+
         function removeEntries(element)
         {
             const row = $(element).find('.row-time');
@@ -390,19 +400,24 @@ class FlexibleMonthCalendar extends BaseCalendar
                     type: 'info',
                     buttons: [i18n.t('$FlexibleMonthCalendar.yes'), i18n.t('$FlexibleMonthCalendar.no')]
                 };
-                showDialog(removeEntriesDialogOptions, (result) =>
+                const getInputs = $(element).find('input');
+                const len = getInputs.length;
+                if (getInputs.get(len-1).value !== '' || getInputs.get(len-2).value !== '')
                 {
-                    const buttonId = result.response;
-                    if (buttonId === 1)
+                    showDialog(removeEntriesDialogOptions, (result) =>
                     {
-                        return;
-                    }
-                    const sliceNum = row.length === 6 ? -1 : (row.length === 7 ? -2 : -3);
-                    row.slice(sliceNum).remove();
-                    calendar._updateTimeDay($(element).attr('id'));
-                    toggleArrowColor(element);
-                    toggleMinusSign(element);
-                });
+                        const buttonId = result.response;
+                        if (buttonId === 1)
+                        {
+                            return;
+                        }
+                        removeLastEntryPair(element);
+                    });
+                }
+                else
+                {
+                    removeLastEntryPair(element);
+                }
             }
         }
 
@@ -717,7 +732,7 @@ class FlexibleMonthCalendar extends BaseCalendar
         }
 
         // One pair of entries is a special case in which no more entries are added
-        const onlyOnePair = values.length == 2;
+        const onlyOnePair = values.length === 2;
 
         while (!onlyOnePair && (lessThanThreeEntries(i) || inputGroupFullyPrinted(i)))
         {
