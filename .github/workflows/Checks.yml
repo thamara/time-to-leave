@@ -31,18 +31,12 @@ jobs:
         run: |
           npm ci
           npm run test:jest
-      - name: '        Tests - Mocha'
-        run: npm run test:mocha
-        shell: bash
       - name: '        Create COV_REPORT'
         run: |
           mkdir COV_REPORT
       - name: '        Copy jest results'
         run: |
           cp coverage_jest/coverage-final.json COV_REPORT/coverage-final-jest.json
-      - name: '        Copy mocha results'
-        run: |
-          cp coverage/coverage-final.json COV_REPORT/coverage-final-mocha.json
       - name: '     Coverage'
         if: success()
         uses: actions/upload-artifact@v1.0.0
