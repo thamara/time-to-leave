@@ -46,6 +46,8 @@ def get_updated_file_content(current_changelog_lines: str, new_change: any, new_
             new_file_content.extend(get_sorted_unique_entries(users))
             # adds an extra item to avoid issues with the linter
             new_file_content.append('')
+            # stop processing changelog. We only want to update the first release (in dev)
+            break
 
         if not is_sourcing_changes and not is_sourcing_users:
             new_file_content.append(line)
