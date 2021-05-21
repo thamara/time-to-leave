@@ -2,11 +2,15 @@
 
 <!--- Begin changes - Do not remove -->
 
+-   Enhancement [#645]: No confirmation popup when removing entry pair
+
 <!--- End changes - Do not remove -->
 
 Who built X.Y.Z:
 
 <!--- Begin users - Do not remove -->
+
+-   mayankmohak
 
 <!--- End users - Do not remove -->
 
@@ -15,6 +19,7 @@ Who built X.Y.Z:
 <!--- Begin changes - Do not remove -->
 
 -   Accessibility: [#447] Including focus ring/outline for inputs in the App
+-   Enhancement [#645]: No confirmation popup when removing entry pair
 -   Enhancement: [#226] Make app appear on Windows searchbar
 -   Enhancement: [#328] Swap position for overall and month balance on day view
 -   Enhancement: [#333] Adding start date for overall balance on preferences
@@ -107,6 +112,7 @@ Who built 1.5.6:
 -   ju-pinheiro
 -   kumaranshu72
 -   loiscodes
+-   mayankmohak
 -   mecm1993
 -   mfayaq
 -   michaelknowles
