@@ -32,6 +32,7 @@ def get_updated_file_content(current_changelog_lines: str, new_change: any, new_
     is_sourcing_users = False
     changes = [new_change] if new_change else []
     users = [new_user] if new_user else []
+    processed_info = False
 
     for line in current_changelog_lines:
         line = remove_prefix(line.strip(), g_prefix_line)
@@ -46,10 +47,10 @@ def get_updated_file_content(current_changelog_lines: str, new_change: any, new_
             new_file_content.extend(get_sorted_unique_entries(users))
             # adds an extra item to avoid issues with the linter
             new_file_content.append('')
-            # stop processing changelog. We only want to update the first release (in dev)
-            break
+            # stop processing changelog, but needs to read the remaining of the code anyway
+            processed_info = True
 
-        if not is_sourcing_changes and not is_sourcing_users:
+        if processed_info or (not is_sourcing_changes and not is_sourcing_users):
             new_file_content.append(line)
 
         if is_sourcing_changes:
