@@ -509,8 +509,7 @@ class FlexibleMonthCalendar extends BaseCalendar
                 continue;
             }
 
-            const dateKey = generateKey(this._getCalendarYear(), this._getCalendarMonth(), day);
-            let dayTotal = $('#' + dateKey).parent().find('.day-total span').html();
+            const dayTotal = this._getDayTotal(this._getCalendarYear(), this._getCalendarMonth(), day);
             if (dayTotal !== undefined && dayTotal.length !== 0)
             {
                 countDays = true;
