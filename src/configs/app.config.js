@@ -16,7 +16,8 @@ const languages = {
     'dev' : 'Português - Minerês',
     'th-TH': 'ไทย',
     'zh-TW': '繁體中文',
-    'ta': 'தமிழ்'
+    'ta': 'தமிழ்',
+    'tr-TR':'Türkçe'
 };
 
 /**
@@ -39,7 +40,7 @@ function getLanguageName(code)
 }
 
 module.exports = {
-    languages: ['en', 'pt-BR', 'es', 'it', 'zh-TW', 'de-DE', 'hi', 'mr', 'pl', 'nl', 'th-TH', 'dev', 'ta'],
+    languages: ['en', 'pt-BR', 'es', 'it', 'zh-TW', 'de-DE', 'hi', 'mr', 'pl', 'nl', 'th-TH', 'dev', 'ta','tr-TR'],
     fallbackLng: 'en',
     namespace: 'translation',
     getLanguagesCodes,

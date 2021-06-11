@@ -21,8 +21,9 @@
 <a href="docs/README-nl.md"><img src="https://img.shields.io/badge/nl-Nederlands-purple" alt="Dit document is ook beschikbaar in het Nederlands"></a>
 <a href="docs/README-ca-CA.md"><img src="https://img.shields.io/badge/ca--CA-Catal&agrave-purple" alt="Aquest Document també esta disponible en Català"></a>
 <a href="docs/README-ta.md"><img src="https://img.shields.io/badge/ta-Tamil-purple" alt="Tamil மொழியிலும் இந்த ஆவணம் கிடைக்கும்"></a>
+<a href="docs/README-tr-TR.md"><img src="https://img.shields.io/badge/tr-T%C3%BCrk%C3%A7e-purple" alt="Bu belge Türkçe olarak da mevcuttur"></a>
 
-  <br/>
+ <br/>
 
 <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20MacOS%20%7C%20Linux-green" alt="Platform">
 <img src="https://img.shields.io/github/downloads/thamara/time-to-leave/total" alt="Downloads in Total">
