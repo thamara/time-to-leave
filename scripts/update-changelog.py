@@ -35,7 +35,7 @@ def get_updated_file_content(current_changelog_lines: str, new_change: any, new_
     processed_info = False
 
     for line in current_changelog_lines:
-        line = remove_prefix(line.strip(), g_prefix_line)
+        line = line.strip()
         if line == g_end_changes:
             is_sourcing_changes = False
             new_file_content.extend(get_sorted_unique_entries(changes))
@@ -54,10 +54,10 @@ def get_updated_file_content(current_changelog_lines: str, new_change: any, new_
             new_file_content.append(line)
 
         if is_sourcing_changes:
-            changes.append(line)
+            changes.append(remove_prefix(line, g_prefix_line))
 
         if is_sourcing_users:
-            users.append(line)
+            users.append(remove_prefix(line, g_prefix_line))
 
         if line == g_begin_changes:
             is_sourcing_changes = True
