@@ -37,11 +37,10 @@ Who built 2.0.2:
 -   Enhancement: [#442] Modernizing scrollbar styling
 -   Enhancement: [#445] Move delete button to the leftmost column on workday waiver window
 -   Enhancement: [#448] Changed link color in Workday Waiver Manager to match themes
--   Enhancement: [#455] Small adjustments on the Punch button
 -   Enhancement: [#455] Small adjustments on the alignment of the date on the Preferences Window
+-   Enhancement: [#455] Small adjustments on the Punch button
 -   Enhancement: [#563] Making the preferences window more organized and pretty
 -   Enhancement: [#591] You can now set up an automatic break time which will automatically add the next entry when you leave for a break punching the time.
--   Fix: Fixed behavior of calendar when moving to next/previous month when current day is in the range of 29-31.
 -   Fix: [#214] Check that lunch has beginning and end, if there is lunch
 -   Fix: [#334] Improving performance of overall balance calculation and fixing balance target date after month change
 -   Fix: [#362] Fixed initial size of preferences window
@@ -51,6 +50,7 @@ Who built 2.0.2:
 -   Fix: [#584] When counting today is enabled, move the balance row after the current day
 -   Fix: [#598] Correct number of working days on flexible calendar
 -   Fix: [#612] Fix Linux tray menu to have options: Punch time, Show App and Quit
+-   Fix: Fixed behavior of calendar when moving to next/previous month when current day is in the range of 29-31.
 -   New and beautiful site for the app! Available in timetoleave.app
 -   Translation: Time to Leave is now available in Brazilian Portuguese (pt-BR)!
 -   Translation: Time to Leave is now available in Catalan (ca-CA)!
@@ -146,9 +146,9 @@ Who built 2.0.1:
 
 Who built 1.5.5:
 
+-   araujoarthur0
 -   thamara
 -   tupaschoal
--   araujoarthur0
 
 ## 1.5.4
 
@@ -162,6 +162,11 @@ Who built 1.5.3:
 
 ## 1.5.2
 
+-   Enhancement: [#152] Adding a "Copy" option in the "About message", making it easier to copy information when opening an issue
+-   Enhancement: [#228] Improved performance of TTL - Now moving through the calendar is much faster
+-   Enhancement: [#241] Changing input format for notification interval and hours per day on preferences
+-   Enhancement: [#245] DevTools shortcut (Ctrl+Shift+I) on Preferences and Waiver windows
+-   Enhancement: [#247] Day View - new minimalist view that shows the calendar day by day
 -   Fix: [#27] Adding day balance on when to leave bar after day is done
 -   Fix: [#209] Punch time button to only fill one entry (not the entire row)
 -   Fix: [#210] Count today preference is respected
@@ -179,8 +184,3 @@ Who built 1.5.3:
 -   Fix: [#252] Prevent multiple preferences and workday waiver windows to be opened
 -   Fix: [#255] Avoiding issue when closing preferences window without changing anything
 -   Fix: [#258] Fixing crash when changing network while opening TTL
--   Enhancement: [#152] Adding a "Copy" option in the "About message", making it easier to copy information when opening an issue
--   Enhancement: [#228] Improved performance of TTL - Now moving through the calendar is much faster
--   Enhancement: [#241] Changing input format for notification interval and hours per day on preferences
--   Enhancement: [#245] DevTools shortcut (Ctrl+Shift+I) on Preferences and Waiver windows
--   Enhancement: [#247] Day View - new minimalist view that shows the calendar day by day
