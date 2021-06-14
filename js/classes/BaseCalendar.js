@@ -183,49 +183,49 @@ class BaseCalendar
      * @param {number} day
      * @return {string|undefined}
      */
-     _getDayTotal(year, month, day)
-     {
-         const dateKey = generateKey(year, month, day);
-         const values = this._getStore(dateKey);
-         if (values !== undefined)
-         {
-             const validatedTimes = this._validateTimes(values);
-             const inputsHaveExpectedSize = values.length >= 2 && values.length % 2 === 0;
-             const validatedTimesOk = validatedTimes.length > 0 && validatedTimes.every(time => time !== '--:--');
-             const hasDayEnded = inputsHaveExpectedSize && validatedTimesOk;
- 
-             let dayTotal = undefined;
-             if (hasDayEnded)
-             {
-                 dayTotal = '00:00';
-                 let timesAreProgressing = true;
-                 if (validatedTimes.length >= 2 && validatedTimes.length % 2 === 0)
-                 {
-                     for (let i = 0; i < validatedTimes.length; i += 2)
-                     {
-                         const difference = subtractTime(validatedTimes[i], validatedTimes[i + 1]);
-                         dayTotal = sumTime(dayTotal, difference);
-                         if (validatedTimes[i] >= validatedTimes[i + 1])
-                         {
-                             timesAreProgressing = false;
-                         }
-                     }
-                 }
-                 if (!timesAreProgressing)
-                 {
-                     return undefined;
-                 }
-             }
-             return dayTotal;
-         }
- 
-         const waiverTotal = this._getWaiverStore(year, month, day);
-         if (waiverTotal !== undefined)
-         {
-             return waiverTotal['hours'];
-         }
-         return undefined;
-     }
+    _getDayTotal(year, month, day)
+    {
+        const dateKey = generateKey(year, month, day);
+        const values = this._getStore(dateKey);
+        if (values !== undefined)
+        {
+            const validatedTimes = this._validateTimes(values);
+            const inputsHaveExpectedSize = values.length >= 2 && values.length % 2 === 0;
+            const validatedTimesOk = validatedTimes.length > 0 && validatedTimes.every(time => time !== '--:--');
+            const hasDayEnded = inputsHaveExpectedSize && validatedTimesOk;
+
+            let dayTotal = undefined;
+            if (hasDayEnded)
+            {
+                dayTotal = '00:00';
+                let timesAreProgressing = true;
+                if (validatedTimes.length >= 2 && validatedTimes.length % 2 === 0)
+                {
+                    for (let i = 0; i < validatedTimes.length; i += 2)
+                    {
+                        const difference = subtractTime(validatedTimes[i], validatedTimes[i + 1]);
+                        dayTotal = sumTime(dayTotal, difference);
+                        if (validatedTimes[i] >= validatedTimes[i + 1])
+                        {
+                            timesAreProgressing = false;
+                        }
+                    }
+                }
+                if (!timesAreProgressing)
+                {
+                    return undefined;
+                }
+            }
+            return dayTotal;
+        }
+
+        const waiverTotal = this._getWaiverStore(year, month, day);
+        if (waiverTotal !== undefined)
+        {
+            return waiverTotal['hours'];
+        }
+        return undefined;
+    }
 
     /**
      * Alias to Calendar::draw()

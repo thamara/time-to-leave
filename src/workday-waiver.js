@@ -416,9 +416,9 @@ $(() =>
 
     populateList();
 
-    $('#reason').on('keyup', () =>
+    $('#reason, #hours').on('input blur', () =>
     {
-        toggleAddButton('waive-button', $('#reason').val());
+        toggleAddButton('waive-button', $('#reason').val() && $('#hours')[0].checkValidity());
     });
 
     $('#waive-button').on('click', () =>
