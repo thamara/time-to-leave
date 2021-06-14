@@ -20,6 +20,7 @@ Who built 2.0.2:
 -   mayankmohak
 -   omerisildak
 -   thamara
+-   tupaschoal
 
 <!--- End users - Do not remove -->
 
