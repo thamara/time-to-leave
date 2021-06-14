@@ -6,6 +6,7 @@
 -   Enhancement [#661]: Add missing translations to Dutch
 -   Enhancement [#665]: Update export datebase name format to include a timestamp
 -   Fix [#650]: Month balance is incorrect
+-   Fix [#660]: Hours field on waiver manager is not validated
 -   Translation: Time to Leave is now available in Turkish (tr-TR)
 
 <!--- End changes - Do not remove -->
@@ -17,6 +18,7 @@ Who built 2.0.2:
 -   LauraToddCodes
 -   Semvrij
 -   adarshnanwani
+-   anujjoshi63
 -   mayankmohak
 -   omerisildak
 -   thamara
