@@ -104,6 +104,8 @@ scripts/release_*.md
 
 .idea
 
+appx/
+
 # Website
 website/node_modules
 website/.cache
