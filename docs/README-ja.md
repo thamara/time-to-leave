@@ -10,7 +10,6 @@
 <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20MacOS%20%7C%20Linux-green" alt="プラットフォーム">
 <img src="https://img.shields.io/github/downloads/thamara/time-to-leave/total" alt="ダウンロード数">
 <a href="https://github.com/thamara/time-to-leave/releases/latest"><img src="https://img.shields.io/github/v/release/thamara/time-to-leave" alt="最新版"></a>
-<img src="https://img.shields.io/github/workflow/status/thamara/time-to-leave/Code%20Coverage" alt="ビルド">
 <a href="http://makeapullrequest.com/"><img src="https://img.shields.io/badge/PRs-welcome-purple" alt="プルリクエスト歓迎"></a>
 
    <br/>

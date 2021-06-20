@@ -10,7 +10,6 @@
 <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20MacOS%20%7C%20Linux-green" alt="Platformen">
 <img src="https://img.shields.io/github/downloads/thamara/time-to-leave/total" alt="Totaal aantal downloads">
 <a href="https://github.com/thamara/time-to-leave/releases/latest"><img src="https://img.shields.io/github/v/release/thamara/time-to-leave" alt="Laatste versie"></a>
-<img src="https://img.shields.io/github/workflow/status/thamara/time-to-leave/Code%20Coverage" alt="Opbouw">
 <a href="http://makeapullrequest.com/"><img src="https://img.shields.io/badge/PRs-welcome-purple" alt="Laatste versie"></a>
 
    <br/>
