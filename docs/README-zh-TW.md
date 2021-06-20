@@ -3,6 +3,8 @@
 
   <p>讓它來幫助你紀錄工作時數，和提醒你是時候該走去開始享受真正的生活</p>
 
+  [timetoleave.app](https://timetoleave.app/)
+
   <br/>
 
 <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20MacOS%20%7C%20Linux-green" alt="Platform">

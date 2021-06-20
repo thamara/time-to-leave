@@ -2,7 +2,9 @@
   <img src="../assets/timetoleave.png" alt="Time to Leave Logo">
 
   <p>Catat jam kerja dan dapatkan notifikasi saat jam pulang kantor tiba. Lalu mulailah hidup!</p>
-
+  
+  [timetoleave.app](https://timetoleave.app/)
+  
   <br/>
 
 <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20MacOS%20%7C%20Linux-green" alt="Platform">

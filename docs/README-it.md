@@ -2,6 +2,8 @@
   <img src="../assets/timetoleave.png" alt="Time to Leave Logo">
 
   <p>Registra le ore di lavoro e ricevi una notifica quando è ora di lasciare l'ufficio e iniziare a vivere</p>
+  
+  [timetoleave.app](https://timetoleave.app/)
 
   <br/>
 

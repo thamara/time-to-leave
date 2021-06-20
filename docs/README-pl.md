@@ -3,6 +3,10 @@
 
   <p>Kontroluj czas pracy. <i>Time to Leave</i> przypomni Ci, aby zakończyć pracę, oraz przedstawi ci bilans czasu. </p>
 
+  [timetoleave.app](https://timetoleave.app/)
+
+  <br>
+
 <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20MacOS%20%7C%20Linux-green" alt="Platform">
 <img src="https://img.shields.io/github/downloads/thamara/time-to-leave/total" alt="Downloads in Total">
 <a href="https://github.com/thamara/time-to-leave/releases/latest"><img src="https://img.shields.io/github/v/release/thamara/time-to-leave" alt="Latest Release"></a>

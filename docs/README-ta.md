@@ -3,6 +3,8 @@
 
   <p>வேலை நேரத்தை பதிவு செய்து,அலுவலகத்தை விட்டு வெளியேறி வாழத் தொடங்க உதவியான அறிவிப்புகளை பெறுங்கள்</p>
 
+  [timetoleave.app](https://timetoleave.app/)
+
 <br/>
 
 <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20MacOS%20%7C%20Linux-green" alt="இயங்கு தளம்">

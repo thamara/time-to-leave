@@ -3,6 +3,8 @@
 
   <p>आपले कामकाजाचे तास रेकॉर्ड करा आणि ऑफिसमधून बाहेर पडण्याची आणि जगण्याची वेळ आली तेव्हा सूचित व्हा</p>
 
+  [timetoleave.app](https://timetoleave.app/)
+
   <br/>
 
 <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20MacOS%20%7C%20Linux-green" alt="Piattaforma">
