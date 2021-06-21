@@ -29,7 +29,6 @@
 <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20MacOS%20%7C%20Linux-green" alt="Platform">
 <img src="https://img.shields.io/github/downloads/thamara/time-to-leave/total" alt="Downloads in Total">
 <a href="https://github.com/thamara/time-to-leave/releases/latest"><img src="https://img.shields.io/github/v/release/thamara/time-to-leave" alt="Latest Release"></a>
-<img src="https://img.shields.io/github/workflow/status/thamara/time-to-leave/Code%20Coverage" alt="Build">
 <a href="http://makeapullrequest.com/"><img src="https://img.shields.io/badge/PRs-welcome-purple" alt="Latest Release"></a>
 
    <br/>
@@ -47,7 +46,7 @@ Log the time you started working today, and the program will compute what time y
 
 ![time-to-leave-notification](https://user-images.githubusercontent.com/3754225/94519526-4dbc0280-0248-11eb-9738-ffae936cfa4a.jpg)
 
-You can control the preferences, stating your working days, how many hours you work a day and if you want notification or not.
+You can control the preferences, stating your working days, how many hours you work a day and if you want to receive a notification or not.
 
 ![time-to-leave-settings](https://user-images.githubusercontent.com/3754225/94519531-4eed2f80-0248-11eb-9303-78f9abe69201.jpg)
 

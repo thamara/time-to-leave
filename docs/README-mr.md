@@ -3,12 +3,13 @@
 
   <p>आपले कामकाजाचे तास रेकॉर्ड करा आणि ऑफिसमधून बाहेर पडण्याची आणि जगण्याची वेळ आली तेव्हा सूचित व्हा</p>
 
+[timetoleave.app](https://timetoleave.app/)
+
   <br/>
 
 <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20MacOS%20%7C%20Linux-green" alt="Piattaforma">
 <img src="https://img.shields.io/github/downloads/thamara/time-to-leave/total" alt="Downloads in Total">
 <a href="https://github.com/thamara/time-to-leave/releases/latest"><img src="https://img.shields.io/github/v/release/thamara/time-to-leave" alt="Ultima Release"></a>
-<img src="https://img.shields.io/github/workflow/status/thamara/time-to-leave/Code%20Coverage" alt="Build">
 <a href="http://makeapullrequest.com/"><img src="https://img.shields.io/badge/PRs-welcome-purple" alt="Ultima Release"></a>
 
    <br/>
