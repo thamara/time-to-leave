@@ -5,6 +5,7 @@ const languages = {
     'es': 'Español',
     'fr-FR': 'Français - France',
     'hi': 'हिंदी',
+    'gu': 'ગુજરાતી',
     'id': 'Bahasa Indonesia',
     'ko': '한국어',
     'it': 'Italiano',
