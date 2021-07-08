@@ -210,5 +210,8 @@
         "waiver-reason": "勤務免除理由",
         "year": "年",
         "yes": "はい"
-    }
+    },
+    "$Generic": {
+        "hours-on-invalid": "this.setCustomValidity(\"00:00から23:59までの有効な24時間形式で時刻を入力してください\")"
+      }
 }

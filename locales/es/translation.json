@@ -210,5 +210,8 @@
         "waiver-reason": "Razon de día libre",
         "year": "Año",
         "yes": "Sí"
-    }
+    },
+    "$Generic": {
+        "hours-on-invalid": "this.setCustomValidity(\"Introduzca la hora en un formato válido de 24 horas de 00:00 a 23:59\")"
+      }
 }

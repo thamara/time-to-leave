@@ -210,5 +210,8 @@
         "waiver-reason": "Alasan pengecualian",
         "year": "Tahun",
         "yes": "Ya"
-    }
+    },
+    "$Generic": {
+        "hours-on-invalid": "this.setCustomValidity(\"Harap masukkan waktu dalam format 24 jam yang valid dari pukul 00:00 hingga 23:59\")"
+      }
 }

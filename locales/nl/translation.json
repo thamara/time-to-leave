@@ -210,5 +210,8 @@
         "waiver-reason": "Reden voor vrijstelling",
         "year": "Jaar",
         "yes": "Ja"
-    }
+    },
+    "$Generic": {
+        "hours-on-invalid": "this.setCustomValidity(\"Voer de tijd in een geldig 24-uurs formaat in van 00:00 tot 23:59\")"
+      }
 }

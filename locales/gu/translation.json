@@ -210,5 +210,8 @@
         "waiver-reason": "માફી કારણ",
         "year": "વર્ષ",
         "yes": "હા"
-    }
+    },
+    "$Generic": {
+        "hours-on-invalid": "this.setCustomValidity(\"કૃપા કરી સમય 00:00 થી 23:59 સુધી માન્ય 24-કલાકના બંધારણમાં દાખલ કરો\")"
+      }      
 }

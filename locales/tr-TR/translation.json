@@ -210,5 +210,8 @@
         "waiver-reason": "İzin Nedeni",
         "year": "Yıl",
         "yes": "Evet"
-    }
+    },
+    "$Generic": {
+        "hours-on-invalid": "this.setCustomValidity(\"Lütfen saati 00:00 ile 23:59 arasında geçerli 24 saatlik biçimde girin\")"
+      }
 }

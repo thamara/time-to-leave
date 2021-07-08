@@ -210,5 +210,8 @@
         "waiver-reason": "เหตุผล",
         "year": "ปี",
         "yes": "ใช่"
-    }
+    },
+    "$Generic": {
+        "hours-on-invalid": "this.setCustomValidity(\"โปรดป้อนเวลาในรูปแบบ 24 ชั่วโมงที่ถูกต้องตั้งแต่ 00:00 ถึง 23:59\")"
+      }
 }

@@ -210,5 +210,8 @@
         "waiver-reason": "छूट का कारण",
         "year": "साल",
         "yes": "हाँ"
-    }
+    },
+    "$Generic": {
+        "hours-on-invalid": "this.setCustomValidity(\"कृपया 24 घंटे के मान्य प्रारूप में 00:00 से 23:59 तक का समय दर्ज करें\")"
+      }      
 }

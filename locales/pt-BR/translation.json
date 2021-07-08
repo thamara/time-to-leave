@@ -210,5 +210,8 @@
         "waiver-reason": "Razão da folga",
         "year": "Ano",
         "yes": "Sim"
-    }
+    },
+    "$Generic": {
+        "hours-on-invalid": "this.setCustomValidity(\"Insira a hora no formato válido de 24 horas das 00:00 às 23:59\")"
+      }
 }

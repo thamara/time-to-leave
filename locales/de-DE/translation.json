@@ -210,5 +210,8 @@
         "waiver-reason": "Ausschlussgrund",
         "year": "Jahr",
         "yes": "Ja"
-    }
+    },
+    "$Generic": {
+        "hours-on-invalid": "this.setCustomValidity(\"Bitte geben Sie die Uhrzeit im gültigen 24-Stunden-Format von 00:00 bis 23:59 Uhr ein\")"
+      }      
 }

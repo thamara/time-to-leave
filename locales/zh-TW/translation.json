@@ -210,5 +210,8 @@
         "waiver-reason": "豁免原因",
         "year": "年",
         "yes": "是"
-    }
+    },
+    "$Generic": {
+        "hours-on-invalid": "this.setCustomValidity(\"請以有效的 24 小時格式輸入時間，從 00:00 到 23:59\")"
+      }
 }
