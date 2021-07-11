@@ -9,6 +9,7 @@
 -   Fix [#650]: Month balance is incorrect
 -   Fix [#660]: Hours field on waiver manager is not validated
 -   Translation: Time to Leave is now available in Gujarati (gu)!
+-   Translation: Time to Leave is now available in Russian (ru-RU)!
 -   Translation: Time to Leave is now available in Turkish (tr-TR)
 
 <!--- End changes - Do not remove -->
@@ -25,6 +26,7 @@ Who built 2.0.2:
 -   mayankmohak
 -   nikkhil31
 -   omerisildak
+-   panicswtch
 -   thamara
 -   thefyrewire
 -   tupaschoal
