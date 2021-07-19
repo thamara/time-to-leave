@@ -213,5 +213,5 @@
     },
     "$Generic": {
         "hours-on-invalid": "this.setCustomValidity(\"Veuillez entrer l'heure au format valide 24 heures de 00h00 à 23h59\")"
-      }
+    }
 }

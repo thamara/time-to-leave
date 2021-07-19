@@ -213,5 +213,5 @@
     },
     "$Generic": {
         "hours-on-invalid": "this.setCustomValidity(\"00:00부터 23:59까지 유효한 24 시간 형식으로 시간을 입력하세요.\")"
-      }
+    }
 }
