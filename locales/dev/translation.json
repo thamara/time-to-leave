@@ -125,7 +125,7 @@
     "$Notification": {
         "punch-reminder": "Num isquece de bater ponto!",
         "time-to-leave": "Oia só! Vaipácasa.",
-        "dismiss-for-today": "Dismiss for today"
+        "dismiss-for-today": "Tá bão de notificação pro hoje"
     },
     "$Preferences": {
         "allowRecurringNotifications": "Pó incomodá traveiz",
