@@ -5,6 +5,7 @@
 -   Enhancement [#645]: No confirmation popup when removing entry pair
 -   Enhancement [#661]: Add missing translations to Dutch
 -   Enhancement [#665]: Update export datebase name format to include a timestamp
+-   Enhancement [#690]: Provide helpful tip on hours fields with validation
 -   Enhancement [#691]: Adding a dismiss button on the notification, so you won't be bothered again on a current day
 -   Fix [#650]: Month balance is incorrect
 -   Fix [#660]: Hours field on waiver manager is not validated
@@ -23,6 +24,7 @@ Who built 2.0.2:
 -   Semvrij
 -   adarshnanwani
 -   anujjoshi63
+-   manisai216
 -   mayankmohak
 -   nikkhil31
 -   omerisildak
