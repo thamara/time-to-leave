@@ -9,6 +9,7 @@
 -   Enhancement [#691]: Adding a dismiss button on the notification, so you won't be bothered again on a current day
 -   Fix [#650]: Month balance is incorrect
 -   Fix [#660]: Hours field on waiver manager is not validated
+-   Fix [#702]: Fixed day view not counting the waived value when looking at a waived day. Balance is now correct too.
 -   Translation: Time to Leave is now available in Gujarati (gu)!
 -   Translation: Time to Leave is now available in Russian (ru-RU)!
 -   Translation: Time to Leave is now available in Turkish (tr-TR)
@@ -24,6 +25,7 @@ Who built 2.0.2:
 -   Semvrij
 -   adarshnanwani
 -   anujjoshi63
+-   araujoarthur0
 -   manisai216
 -   mayankmohak
 -   nikkhil31
