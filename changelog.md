@@ -24,6 +24,7 @@ Who built 2.0.2:
 -   JulienZD
 -   LauraToddCodes
 -   Semvrij
+-   SubhamChoudhury
 -   aakashpothepalli
 -   adarshnanwani
 -   anujjoshi63
