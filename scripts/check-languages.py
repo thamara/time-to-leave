@@ -193,7 +193,7 @@ def get_report_from_error(total_strings_for_translation : int, errors : dict) ->
     for language in errors:
         missing_keys = errors[language]
         number_missing_keys = count_total_string(missing_keys)
-        result += '## {} ({}/{} - {:.2f}% missing):\n'.format(language,
+        result += '## {}\n{}/{} - {:.2f}% missing:\n'.format(language,
                                                  number_missing_keys,
                                                  total_strings_for_translation,
                                                  percentage_not_translated(total_strings_for_translation, missing_keys))
@@ -203,6 +203,13 @@ def get_report_from_error(total_strings_for_translation : int, errors : dict) ->
             result += '\n```\n{}\n```\n\n'.format(missing_keys)
 
     return result
+
+def get_count_total_string_with_link(locale : str, missing_translations) -> str:
+    if not missing_translations:
+        return '0'
+    missing_translations_count = count_total_string(missing_translations)
+    locale = locale.lower()
+    return f'{missing_translations_count} [(See missing)](#{locale})'
 
 def get_progress_bar(total_strings_for_translation : int, missing_strings : dict) -> str:
     percentage = percentage_translated(total_strings_for_translation, missing_strings)
@@ -225,7 +232,7 @@ def get_summary_report(total_strings_for_translation : int, missing_translations
     output += '|--------|----------------------|-----------------|\n'
     output += '\n'.join('| {} | {} | {} {} |'.format(k,
                         get_progress_bar(total_strings_for_translation, v),
-                        count_total_string(v),
+                        get_count_total_string_with_link(k, v),
                         get_new_issue_url(k, v)) for k, v in missing_translations.items())
     return output + '\n\n'
 
