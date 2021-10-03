@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+from math import floor
 
 LOCALES_PATH = 'locales/'
 BASELINE_LANGUAGE = 'en'
@@ -133,9 +134,17 @@ def get_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-locale", action='store', type=str, nargs='+', default=get_locales(), help="Locale to analyze")
     parser.add_argument("-output", help="Output markdown report file")
+    parser.add_argument("-report_summary", help="Include a summary of the translations", action='store_true')
     parser.add_argument("-report_key_mismatch", help="Include missing/extra keys", action='store_true')
     parser.add_argument("-report_missing_translations", help="Prints missing string translations", action='store_true')
     return parser.parse_args()
+
+def percentage_not_translated(total_strings_for_translation : int, missing_keys : dict) -> float:
+    number_missing_keys = count_total_string(missing_keys)
+    return (100 * number_missing_keys)/total_strings_for_translation
+
+def percentage_translated(total_strings_for_translation : int, missing_keys : dict) -> float:
+    return 100 - percentage_not_translated(total_strings_for_translation, missing_keys)
 
 # Returns a string for the error report
 def get_report_from_error(total_strings_for_translation : int, errors : dict) -> str:
@@ -146,7 +155,7 @@ def get_report_from_error(total_strings_for_translation : int, errors : dict) ->
         result += '## {} ({}/{} - {:.2f}% missing):\n'.format(language,
                                                  number_missing_keys,
                                                  total_strings_for_translation,
-                                                 (100 * number_missing_keys)/total_strings_for_translation)
+                                                 percentage_not_translated(total_strings_for_translation, missing_keys))
         try:
             result += '\n```\n{}\n```\n\n'.format(json.dumps(missing_keys, indent=2))
         except:
@@ -154,15 +163,36 @@ def get_report_from_error(total_strings_for_translation : int, errors : dict) ->
 
     return result
 
+def get_progress_bar(total_strings_for_translation : int, missing_strings : dict) -> str:
+    percentage = percentage_translated(total_strings_for_translation, missing_strings)
+    return f'![Progress](https://progress-bar.dev/{floor(percentage)}/?width=200)'
+
+def get_summary_report(total_strings_for_translation : int, missing_translations : dict) -> str:
+    output = '| Locale | Translation progress | Missing strings |\n'
+    output += '|--------|----------------------|-----------------|\n'
+    output += '\n'.join('| {} | {} | {} |'.format(k,
+                        get_progress_bar(total_strings_for_translation, v),
+                        count_total_string(v)) for k, v in missing_translations.items())
+    return output + '\n\n'
+
 class Report:
-    def __init__(self, report_key_mismatch: bool, report_missing_translations: bool, output: str):
+    def __init__(self, report_summary: bool, report_key_mismatch: bool, report_missing_translations: bool, output: str):
+        self.report_summary = report_summary
         self.report_key_mismatch = report_key_mismatch
         self.report_missing_translations = report_missing_translations
         self.output = output
 
     # Report in stdout and on the output file (if passed) the errors found
-    def print(self, errors_missing_keys : dict, errors_extra_keys : dict, errors : dict):
+    def print(self, errors_missing_keys : dict, errors_extra_keys : dict, missing_translations : dict):
         total_strings_for_translation = get_total_strings_for_translation(BASELINE_LANGUAGE)
+        
+        if self.report_summary:
+            # +1 for the baseline language (en)
+            print(f'Summary - {len(missing_translations) + 1} languages supported ({total_strings_for_translation} strings)')
+            print("\n".join("- {}: {:.2f}".format(k,
+                percentage_translated(total_strings_for_translation, v)) 
+                    for k, v in missing_translations.items()))
+
         if self.report_key_mismatch and errors_missing_keys:
             print('Missing Keys/Scopes:')
             print(errors_missing_keys)
@@ -171,21 +201,26 @@ class Report:
             print('Extra Keys/Scopes:')
             print(errors_extra_keys)
 
-        if self.report_missing_translations and errors:
+        languages_with_missing_keys = dict((k, v) for k, v in missing_translations.items() if v)
+        if self.report_missing_translations and languages_with_missing_keys:
             print('Missing Translations')
-            print(json.dumps(errors, indent=2))
+            print(json.dumps(languages_with_missing_keys, indent=2))
 
         if self.output:
             with open(self.output, 'w') as f:
+                if self.report_summary:
+                    # +1 for the baseline language (en)
+                    f.write(f'# Summary - {len(missing_translations) + 1} languages supported ({total_strings_for_translation} strings)\n')
+                    f.write(get_summary_report(total_strings_for_translation, missing_translations))
                 if self.report_key_mismatch and errors_missing_keys:
                     f.write('# Missing Keys/Scopes:\n')
                     f.write(get_report_from_error(total_strings_for_translation, errors_missing_keys))
                 if self.report_key_mismatch and errors_extra_keys:
                     f.write('# Extra Keys/Scopes:\n')
                     f.write(get_report_from_error(total_strings_for_translation, errors_extra_keys))
-                if self.report_missing_translations and errors:
+                if self.report_missing_translations and languages_with_missing_keys:
                     f.write('# Missing Translations:\n')
-                    f.write(get_report_from_error(total_strings_for_translation, errors))
+                    f.write(get_report_from_error(total_strings_for_translation, languages_with_missing_keys))
 
 def main():
     args = get_arguments()
@@ -205,15 +240,14 @@ def main():
         if extra_keys:
             errors_extra_keys[locale] = extra_keys
 
-    errors = dict()
+    missing_translations = dict()
     for locale in locales:
         language = get_language(locale)
         language_error = compare_language(locale, baseline_language, language)
-        if language_error:
-            errors[locale] = language_error
+        missing_translations[locale] = language_error
 
-    report = Report(args.report_key_mismatch, args.report_missing_translations, output)
-    report.print(errors_missing_keys, errors_extra_keys, errors)
+    report = Report(args.report_summary, args.report_key_mismatch, args.report_missing_translations, output)
+    report.print(errors_missing_keys, errors_extra_keys, missing_translations)
 
 if __name__ == "__main__":
     main()
