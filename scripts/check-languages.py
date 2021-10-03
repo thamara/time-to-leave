@@ -178,6 +178,7 @@ def get_arguments():
     parser.add_argument("-report_summary", help="Include a summary of the translations", action='store_true')
     parser.add_argument("-report_key_mismatch", help="Include missing/extra keys", action='store_true')
     parser.add_argument("-report_missing_translations", help="Prints missing string translations", action='store_true')
+    parser.add_argument("-link_to_missing", help="Includes a link to the missing translations", action='store_true')
     return parser.parse_args()
 
 def percentage_not_translated(total_strings_for_translation : int, missing_keys : dict) -> float:
@@ -204,9 +205,9 @@ def get_report_from_error(total_strings_for_translation : int, errors : dict) ->
 
     return result
 
-def get_count_total_string_with_link(locale : str, missing_translations) -> str:
-    if not missing_translations:
-        return '0'
+def get_count_total_string_with_link(locale : str, missing_translations, link_to_missing : bool) -> str:
+    if not missing_translations or not link_to_missing:
+        return f'{count_total_string(missing_translations)}'
     missing_translations_count = count_total_string(missing_translations)
     locale = locale.lower()
     return f'{missing_translations_count} [(See missing)](#{locale})'
@@ -227,18 +228,19 @@ def get_new_issue_url(locale : str, missing_translations : dict) -> str:
     opts = { 'body': body , 'title': f'Add missing translations for locale {locale}'}
     return f'[(Open issue)]({add_url_params(base_url, opts)})'
 
-def get_summary_report(total_strings_for_translation : int, missing_translations : dict) -> str:
+def get_summary_report(total_strings_for_translation : int, link_to_missing : bool, missing_translations : dict) -> str:
     output = '| Locale | Translation progress | Missing strings |\n'
     output += '|--------|----------------------|-----------------|\n'
     output += '\n'.join('| {} | {} | {} {} |'.format(k,
                         get_progress_bar(total_strings_for_translation, v),
-                        get_count_total_string_with_link(k, v),
+                        get_count_total_string_with_link(k, v, link_to_missing),
                         get_new_issue_url(k, v)) for k, v in missing_translations.items())
     return output + '\n\n'
 
 class Report:
-    def __init__(self, report_summary: bool, report_key_mismatch: bool, report_missing_translations: bool, output: str):
+    def __init__(self, report_summary: bool, link_to_missing: bool, report_key_mismatch: bool, report_missing_translations: bool, output: str):
         self.report_summary = report_summary
+        self.link_to_missing = link_to_missing
         self.report_key_mismatch = report_key_mismatch
         self.report_missing_translations = report_missing_translations
         self.output = output
@@ -272,7 +274,7 @@ class Report:
                 if self.report_summary:
                     # +1 for the baseline language (en)
                     f.write(f'# Summary - {len(missing_translations) + 1} languages supported ({total_strings_for_translation} strings)\n')
-                    f.write(get_summary_report(total_strings_for_translation, missing_translations))
+                    f.write(get_summary_report(total_strings_for_translation, self.link_to_missing, missing_translations))
                 if self.report_key_mismatch and errors_missing_keys:
                     f.write('# Missing Keys/Scopes:\n')
                     f.write(get_report_from_error(total_strings_for_translation, errors_missing_keys))
@@ -307,7 +309,7 @@ def main():
         language_error = compare_language(locale, baseline_language, language)
         missing_translations[locale] = language_error
 
-    report = Report(args.report_summary, args.report_key_mismatch, args.report_missing_translations, output)
+    report = Report(args.report_summary, args.link_to_missing, args.report_key_mismatch, args.report_missing_translations, output)
     report.print(errors_missing_keys, errors_extra_keys, missing_translations)
 
 if __name__ == "__main__":
