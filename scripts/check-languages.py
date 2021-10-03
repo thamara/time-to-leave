@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 from math import floor
+from urllib.parse import urlencode, unquote, urlparse, parse_qsl, ParseResult
 
 LOCALES_PATH = 'locales/'
 BASELINE_LANGUAGE = 'en'
@@ -53,6 +54,46 @@ LANG_SCOPE_KEY_TO_IGNORE = {'de-DE': {'$Preferences' : ['themes', 'hours-per-day
                              'dev': {'$Preferences' : ['hours-per-day'],
                                      '$Menu' : ['menu', 'ok'],
                                      '$FlexibleMonthCalendar' : ['total']}}
+
+# Source: https://stackoverflow.com/a/25580545/3821823
+def add_url_params(url, params):
+    """ Add GET params to provided URL being aware of existing.
+    :param url: string of target URL
+    :param params: dict containing requested params to be added
+    :return: string with updated URL
+    >> url = 'http://stackoverflow.com/test?answers=true'
+    >> new_params = {'answers': False, 'data': ['some','values']}
+    >> add_url_params(url, new_params)
+    'http://stackoverflow.com/test?data=some&data=values&answers=false'
+    """
+    # Unquoting URL first so we don't loose existing args
+    url = unquote(url)
+    # Extracting url info
+    parsed_url = urlparse(url)
+    # Extracting URL arguments from parsed URL
+    get_args = parsed_url.query
+    # Converting URL arguments to dict
+    parsed_get_args = dict(parse_qsl(get_args))
+    # Merging URL arguments dict with new params
+    parsed_get_args.update(params)
+
+    # Bool and Dict values should be converted to json-friendly values
+    # you may throw this part away if you don't like it :)
+    parsed_get_args.update(
+        {k: json.dumps(v) for k, v in parsed_get_args.items()
+            if isinstance(v, (bool, dict))}
+    )
+
+    # Converting URL argument to proper query string
+    encoded_get_args = urlencode(parsed_get_args, doseq=True)
+    # Creating new parsed result object based on provided with new
+    # URL arguments. Same thing happens inside of urlparse.
+    new_url = ParseResult(
+        parsed_url.scheme, parsed_url.netloc, parsed_url.path,
+        parsed_url.params, encoded_get_args, parsed_url.fragment
+    ).geturl()
+
+    return new_url
 
 # Return all supported locales
 def get_locales() -> list:
@@ -167,12 +208,25 @@ def get_progress_bar(total_strings_for_translation : int, missing_strings : dict
     percentage = percentage_translated(total_strings_for_translation, missing_strings)
     return f'![Progress](https://progress-bar.dev/{floor(percentage)}/?width=200)'
 
+def get_new_issue_url(locale : str, missing_translations : dict) -> str:
+    if not missing_translations:
+        return ''
+    body = f'Add translations for locale {locale}\nRelevant file: `locales\\{locale}\\translation.json`\n\n'
+    try:
+        body += '\n```\n{}\n```\n\n'.format(json.dumps(missing_translations, indent=2))
+    except:
+        body += '\n```\n{}\n```\n\n'.format(missing_translations)
+    base_url = f'https://github.com/thamara/time-to-leave/issues/new?labels=localization,good+first+issue,Hacktoberfest'
+    opts = { 'body': body , 'title': f'Add missing translations for locale {locale}'}
+    return f'[(Open issue)]({add_url_params(base_url, opts)})'
+
 def get_summary_report(total_strings_for_translation : int, missing_translations : dict) -> str:
     output = '| Locale | Translation progress | Missing strings |\n'
     output += '|--------|----------------------|-----------------|\n'
-    output += '\n'.join('| {} | {} | {} |'.format(k,
+    output += '\n'.join('| {} | {} | {} {} |'.format(k,
                         get_progress_bar(total_strings_for_translation, v),
-                        count_total_string(v)) for k, v in missing_translations.items())
+                        count_total_string(v),
+                        get_new_issue_url(k, v)) for k, v in missing_translations.items())
     return output + '\n\n'
 
 class Report:
