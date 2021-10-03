@@ -133,6 +133,8 @@ def get_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-locale", action='store', type=str, nargs='+', default=get_locales(), help="Locale to analyze")
     parser.add_argument("-output", help="Output markdown report file")
+    parser.add_argument("-report_key_mismatch", help="Include missing/extra keys", action='store_true')
+    parser.add_argument("-report_missing_translations", help="Prints missing string translations", action='store_true')
     return parser.parse_args()
 
 # Returns a string for the error report
@@ -152,32 +154,38 @@ def get_report_from_error(total_strings_for_translation : int, errors : dict) ->
 
     return result
 
-# Report in stdout and on the output file (if passed) the errors found
-def report(output : str, errors_missing_keys : dict, errors_extra_keys : dict, errors : dict):
-    total_strings_for_translation = get_total_strings_for_translation(BASELINE_LANGUAGE)
-    if errors_missing_keys:
-        print('Missing Keys/Scopes:')
-        print(errors_missing_keys)
+class Report:
+    def __init__(self, report_key_mismatch: bool, report_missing_translations: bool, output: str):
+        self.report_key_mismatch = report_key_mismatch
+        self.report_missing_translations = report_missing_translations
+        self.output = output
 
-    if errors_extra_keys:
-        print('Extra Keys/Scopes:')
-        print(errors_extra_keys)
+    # Report in stdout and on the output file (if passed) the errors found
+    def print(self, errors_missing_keys : dict, errors_extra_keys : dict, errors : dict):
+        total_strings_for_translation = get_total_strings_for_translation(BASELINE_LANGUAGE)
+        if self.report_key_mismatch and errors_missing_keys:
+            print('Missing Keys/Scopes:')
+            print(errors_missing_keys)
 
-    if errors:
-        print('Missing Translations')
-        print(json.dumps(errors, indent=2))
+        if self.report_key_mismatch and errors_extra_keys:
+            print('Extra Keys/Scopes:')
+            print(errors_extra_keys)
 
-    if output:
-        with open(output, 'w') as f:
-            if errors_missing_keys:
-                f.write('# Missing Keys/Scopes:\n')
-                f.write(get_report_from_error(total_strings_for_translation, errors_missing_keys))
-            if errors_extra_keys:
-                f.write('# Extra Keys/Scopes:\n')
-                f.write(get_report_from_error(total_strings_for_translation, errors_extra_keys))
-            if errors:
-                f.write('# Missing Translations:\n')
-                f.write(get_report_from_error(total_strings_for_translation, errors))
+        if self.report_missing_translations and errors:
+            print('Missing Translations')
+            print(json.dumps(errors, indent=2))
+
+        if self.output:
+            with open(self.output, 'w') as f:
+                if self.report_key_mismatch and errors_missing_keys:
+                    f.write('# Missing Keys/Scopes:\n')
+                    f.write(get_report_from_error(total_strings_for_translation, errors_missing_keys))
+                if self.report_key_mismatch and errors_extra_keys:
+                    f.write('# Extra Keys/Scopes:\n')
+                    f.write(get_report_from_error(total_strings_for_translation, errors_extra_keys))
+                if self.report_missing_translations and errors:
+                    f.write('# Missing Translations:\n')
+                    f.write(get_report_from_error(total_strings_for_translation, errors))
 
 def main():
     args = get_arguments()
@@ -188,6 +196,7 @@ def main():
 
     errors_missing_keys = dict()
     errors_extra_keys = dict()
+
     for locale in locales:
         mising_keys = get_missing_keys(baseline_language, get_language(locale))
         extra_keys = get_missing_keys(get_language(locale), baseline_language)
@@ -203,7 +212,8 @@ def main():
         if language_error:
             errors[locale] = language_error
 
-    report(output, errors_missing_keys, errors_extra_keys, errors)
+    report = Report(args.report_key_mismatch, args.report_missing_translations, output)
+    report.print(errors_missing_keys, errors_extra_keys, errors)
 
 if __name__ == "__main__":
     main()
