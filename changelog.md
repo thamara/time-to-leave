@@ -37,6 +37,7 @@ Who built 2.0.2:
 -   nikkhil31
 -   omerisildak
 -   panicswtch
+-   sgronlund
 -   thamara
 -   thefyrewire
 -   tupaschoal
