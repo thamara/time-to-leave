@@ -125,7 +125,7 @@
     "$Notification": {
         "punch-reminder": "시간 기록하는 것 잊지 마세요!",
         "time-to-leave": "저기요! 이제 퇴근할 시간인 것 같은데요.",
-        "dismiss-for-today": "Dismiss for today"
+        "dismiss-for-today": "오늘은 여기까지 입니다!"
     },
     "$Preferences": {
         "allowRecurringNotifications": "반복 알림 허용",
@@ -141,8 +141,8 @@
         "hideNonWorkingDay": "휴일 숨기기 (월별 보기에 적용)",
         "hours-per-day": "HH:mm",
         "hoursPerDay": "하루 작업 목표 시간",
-        "enablePrefillBreakTime": "Enable prefilling of break time",
-        "breakTimeInterval": "Break time interval",
+        "enablePrefillBreakTime": "휴식 시간 미리 채우기 기능 사용",
+        "breakTimeInterval": "휴식 시간 간격",
         "language": "언어",
         "light": "밝음",
         "minimizeToTray": "최소화 시 시스템 트레이로 이동",
