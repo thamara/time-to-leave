@@ -104,8 +104,8 @@ def get_change_and_user(changes_file: str) -> list:
     if message:
         message_parts = message.split(": ")
         if number:
-            message_parts[1] = f"{number} {message_parts[1]}"
-        message = " ".join(message_parts)
+            message_parts[0] = f"{message_parts[0]} {number}"
+        message = ": ".join(message_parts)
     return [message, user]
 
 def main():
