@@ -22,6 +22,7 @@ Who built 2.0.2:
 
 <!--- Begin users - Do not remove -->
 
+-   Dudu-CNU
 -   JulienZD
 -   LauraToddCodes
 -   Pizzo15
