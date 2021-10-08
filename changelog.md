@@ -8,6 +8,7 @@
 -   Enhancement [#690]: Provide helpful tip on hours fields with validation
 -   Enhancement [#691]: Adding a dismiss button on the notification, so you won't be bothered again on a current day
 -   Enhancement [#698]: Sorting waivers by date
+-   Fix Correctly applying theme in Preferences window when the setting is "system default"
 -   Fix [#650]: Month balance is incorrect
 -   Fix [#660]: Hours field on waiver manager is not validated
 -   Fix [#702]: Fixed day view not counting the waived value when looking at a waived day. Balance is now correct too.
