@@ -32,6 +32,7 @@ Who built 2.0.2:
 -   adarshnanwani
 -   anujjoshi63
 -   araujoarthur0
+-   chopinballadeno4
 -   fikimaul
 -   hy38
 -   manisai216
