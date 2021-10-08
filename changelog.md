@@ -35,6 +35,7 @@ Who built 2.0.2:
 -   araujoarthur0
 -   chopinballadeno4
 -   fikimaul
+-   haeramkeem
 -   hy38
 -   manisai216
 -   mayankmohak
