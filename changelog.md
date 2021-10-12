@@ -46,6 +46,7 @@ Who built 2.0.2:
 -   thamara
 -   thefyrewire
 -   tupaschoal
+-   giovannipessiva
 
 <!--- End users - Do not remove -->
 
