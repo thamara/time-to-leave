@@ -16,6 +16,23 @@ jobs:
           prefix_only: 'true'
         env:
           GITHUB_TOKEN: '${{secrets.GITHUB_TOKEN}}'
+      - name: Debug
+        if: steps
+        if: (github.event.issue.author_association == 'OWNER' || github.event.issue.author_association == 'COLLABORATOR') && steps.check.outputs.triggered == 'true'
+        env:
+          COMMENT_BODY: ${{github.event.comment.body}}
+          COMMENT_USER: ${{github.event.comment.user.login}}
+          ISSUE_USER: ${{github.event.issue.user.login}}
+          PR_NUM:  ${{github.event.issue.number}}
+          ISSUE_AUTHOR_ASSOCIATION: ${{github.event.issue.author_association}}
+          COMMENT_AUTHOR_ASSOCIATION: ${{github.event.comment.author_association}}
+        run: |
+          echo "COMMENT_BODY: $COMMENT_BODY"
+          echo "COMMENT_USER: $COMMENT_USER"
+          echo "ISSUE_USER: $ISSUE_USER"
+          echo "PR_NUM: $PR_NUM"
+          echo "ISSUE_AUTHOR_ASSOCIATION: $ISSUE_AUTHOR_ASSOCIATION"
+          echo "COMMENT_AUTHOR_ASSOCIATION: $COMMENT_AUTHOR_ASSOCIATION"
       - name: Clone git repo
         if: steps.check.outputs.triggered == 'true'
         uses: actions/checkout@v2
