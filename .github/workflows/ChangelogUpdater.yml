@@ -46,7 +46,7 @@ jobs:
           git config --global user.name 'Changelog Bot'
           git config --global user.email 'changelog-bot@users.noreply.github.com'
       - name: Update Changelog
-        if: (github.event.issue.author_association == 'OWNER' || github.event.issue.author_association == 'COLLABORATOR') && steps.check.outputs.triggered == 'true'
+        if: (github.event.comment.author_association == 'OWNER' || github.event.comment.author_association == 'COLLABORATOR') && steps.check.outputs.triggered == 'true'
         env:
           COMMENT_BODY: ${{github.event.comment.body}}
           USER: ${{github.event.comment.user.login}}
