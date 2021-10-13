@@ -60,6 +60,8 @@ jobs:
           python3 scripts/update-changelog.py -changelog-file changelog.md -changes-file comment_body.file
       - name: Commit changelog
         if: steps.check.outputs.triggered == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add changelog.md
           git commit -nm "Updated changelog.md"
