@@ -32,13 +32,18 @@ jobs:
           echo "PR_NUM: $PR_NUM"
           echo "ISSUE_AUTHOR_ASSOCIATION: $ISSUE_AUTHOR_ASSOCIATION"
           echo "COMMENT_AUTHOR_ASSOCIATION: $COMMENT_AUTHOR_ASSOCIATION"
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: Clone git repo
         if: steps.check.outputs.triggered == 'true'
         uses: actions/checkout@v2
       - name: Checkout pull request
         if: steps.check.outputs.triggered == 'true'
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: hub pr checkout ${{github.event.issue.number}}
       - name: Configure Git Agent
         if: steps.check.outputs.triggered == 'true'
