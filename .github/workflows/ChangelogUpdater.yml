@@ -50,9 +50,6 @@ jobs:
         run: |
           git config --global user.name 'Changelog Bot'
           git config --global user.email 'changelog-bot@users.noreply.github.com'
-      - name: set remote url
-        run: |
-          git remote set-url --push origin https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
       - name: Update Changelog
         if: (github.event.comment.author_association == 'OWNER' || github.event.comment.author_association == 'COLLABORATOR') && steps.check.outputs.triggered == 'true'
         env:
