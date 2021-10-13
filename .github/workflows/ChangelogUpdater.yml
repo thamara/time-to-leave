@@ -66,7 +66,7 @@ jobs:
       - name: Commit changelog
         if: steps.check.outputs.triggered == 'true'
         env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GITHUB_TOKEN: ${{ secrets.THAMARA_TOKEN }}
         run: |
           git add changelog.md
           git commit -nm "Updated changelog.md"
