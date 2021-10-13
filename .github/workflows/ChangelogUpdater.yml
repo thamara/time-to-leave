@@ -63,4 +63,4 @@ jobs:
         run: |
           git add changelog.md
           git commit -nm "Updated changelog.md"
-          git push
+          git push --force
