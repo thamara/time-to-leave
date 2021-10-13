@@ -98,7 +98,7 @@ def add_url_params(url : str , params : dict) -> str:
 def get_locales() -> list:
     languages = os.listdir(LOCALES_PATH)
     languages.remove(BASELINE_LANGUAGE)
-    return languages
+    return sorted(languages)
 
 # Reurns the dict of translations for a language
 def get_language(language : str) -> dict:
