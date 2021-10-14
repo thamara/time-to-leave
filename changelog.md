@@ -46,6 +46,7 @@ Who built 2.0.2:
 -   hy38
 -   id-konstantin-stepanov
 -   jdkramhoft
+-   kimvcp
 -   manisai216
 -   mayankmohak
 -   nikkhil31
