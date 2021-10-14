@@ -29,6 +29,7 @@ Who built 2.0.2:
 -   MohitSinghChauhan
 -   Pizzo15
 -   QuentinPhilipp
+-   Sahana-YS
 -   Semvrij
 -   SubhamChoudhury
 -   aakashpothepalli
