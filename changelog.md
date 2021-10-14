@@ -35,8 +35,10 @@ Who built 2.0.2:
 -   araujoarthur0
 -   chopinballadeno4
 -   fikimaul
+-   giovannipessiva
 -   haeramkeem
 -   hy38
+-   id-konstantin-stepanov
 -   manisai216
 -   mayankmohak
 -   nikkhil31
@@ -46,7 +48,6 @@ Who built 2.0.2:
 -   thamara
 -   thefyrewire
 -   tupaschoal
--   giovannipessiva
 
 <!--- End users - Do not remove -->
 
