@@ -1,11 +1,13 @@
 import argparse
 import json
 import os
+import re
 from math import floor
 from urllib.parse import urlencode, unquote, urlparse, parse_qsl, ParseResult
 
 LOCALES_PATH = 'locales/'
 BASELINE_LANGUAGE = 'en'
+LANG_CONFIG_FILE = 'src/configs/app.config.js'
 SCOPE_KEY_TO_IGNORE = {'$Menu' : ['ttl-github']}
 
 LANG_SCOPE_KEY_TO_IGNORE = {'de-DE': {'$Preferences' : ['themes', 'hours-per-day'],
@@ -52,6 +54,24 @@ LANG_SCOPE_KEY_TO_IGNORE = {'de-DE': {'$Preferences' : ['themes', 'hours-per-day
                              'dev': {'$Preferences' : ['hours-per-day'],
                                      '$Menu' : ['menu', 'ok'],
                                      '$FlexibleMonthCalendar' : ['total']}}
+
+def get_locales_information_from_config():
+    # Parses the language configuration file to retrieve the locale code
+    # and language name. As the file is JS, we are parsing it with regex.
+    with open(LANG_CONFIG_FILE, encoding="utf8") as f:
+        lines = f.readlines()
+        locales_info = {}
+        # We want only the lines that contain the locales
+        regexp = re.compile(".*'([a-zA-Z-]+)': '(.*)'.*")
+        for line in lines:
+            match = regexp.match(line)
+            if match:
+                locales_info[match.group(1)] = match.group(2)
+        return locales_info
+
+def get_locale_name(locale):
+    locales_map = get_locales_information_from_config()
+    return f'{locales_map[locale]} ({locale})' if locale in locales_map else locale
 
 # Source: https://stackoverflow.com/a/25580545/3821823
 def add_url_params(url : str , params : dict) -> str:
@@ -214,15 +234,16 @@ def get_progress_bar(total_strings_for_translation : int, missing_strings : dict
     return f'![Progress](https://progress-bar.dev/{floor(percentage)}/?width=200)'
 
 def get_new_issue_url(locale : str, missing_translations : dict) -> str:
+    language = get_locale_name(locale)
     if not missing_translations:
         return ''
-    body = f'Add translations for locale {locale}\nRelevant file: `locales\\{locale}\\translation.json`\n\n'
+    body = f'Add translations for locale {language}\nRelevant file: `locales\\{locale}\\translation.json`\n\n'
     try:
         body += '\n```\n{}\n```\n\n'.format(json.dumps(missing_translations, indent=2))
     except:
         body += '\n```\n{}\n```\n\n'.format(missing_translations)
     base_url = f'https://github.com/thamara/time-to-leave/issues/new?labels=localization,good+first+issue,Hacktoberfest'
-    opts = { 'body': body , 'title': f'Add missing translations for locale {locale}'}
+    opts = { 'body': body , 'title': f'Add missing translations for {language}'}
     return f'[(Open issue)]({add_url_params(base_url, opts)})'
 
 def get_summary_report(total_strings_for_translation : int, link_to_missing : bool, missing_translations : dict) -> str:
