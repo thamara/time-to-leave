@@ -36,6 +36,7 @@ Who built 2.0.2:
 -   Semvrij
 -   SubhamChoudhury
 -   aakashpothepalli
+-   adarivamsi
 -   adarshnanwani
 -   anujjoshi63
 -   araujoarthur0
