@@ -40,11 +40,6 @@ jobs:
       - name: Clone git repo
         if: steps.check.outputs.triggered == 'true'
         uses: actions/checkout@v2
-      - name: Checkout pull request
-        if: steps.check.outputs.triggered == 'true'
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: hub pr checkout ${{github.event.issue.number}}
       - name: Configure Git Agent
         if: steps.check.outputs.triggered == 'true'
         run: |
