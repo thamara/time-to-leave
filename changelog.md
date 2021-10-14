@@ -13,6 +13,7 @@
 -   Fix [#702]: Fixed day view not counting the waived value when looking at a waived day. Balance is now correct too.
 -   Fix [#724]: Correctly applying theme in Preferences window when the setting is "system default"
 -   Translation: Time to Leave is now available in Gujarati (gu)!
+-   Translation: Time to Leave is now available in Persian (fa-IR)
 -   Translation: Time to Leave is now available in Russian (ru-RU)!
 -   Translation: Time to Leave is now available in Turkish (tr-TR)
 
@@ -30,6 +31,7 @@ Who built 2.0.2:
 -   Pizzo15
 -   PrateekBing
 -   QuentinPhilipp
+-   R3z4Pr0gramm3r
 -   Sahana-YS
 -   Semvrij
 -   SubhamChoudhury
