@@ -17,3 +17,9 @@ Closes #<!--Related issue-->
 <!--
 - How will you verify whether your changes worked as expected once merged?
 -->
+
+----
+<!--
+- If this PR is for translation, please mark the box below
+-->
+- [ ] I confirm I'm a native or fluent speaker of the language I'm translating to.
