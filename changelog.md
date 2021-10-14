@@ -24,6 +24,7 @@ Who built 2.0.2:
 
 -   Dudu-CNU
 -   JulienZD
+-   L8Y
 -   LauraToddCodes
 -   Pizzo15
 -   QuentinPhilipp
