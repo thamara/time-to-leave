@@ -125,7 +125,7 @@
     "$Notification": {
         "punch-reminder": "Не забудьте добавить время работы!",
         "time-to-leave": "Эй! Похоже, время вышло.",
-        "dismiss-for-today": "Dismiss for today"
+        "dismiss-for-today": "Закрыть на сегодня"
     },
     "$Preferences": {
         "allowRecurringNotifications": "Разрешить повторяющиеся уведомления",
@@ -212,6 +212,6 @@
         "yes": "Да"
     },
     "$Generic": {
-        "hours-on-invalid": "this.setCustomValidity(\"Please enter the time in valid 24-hour format from 00:00 to 23:59\")"
+        "hours-on-invalid": "this.setCustomValidity(\"Пожалуйста введите время в допустимом 24-часовом формате с 00:00 до 23:59\")"
     }
 }
