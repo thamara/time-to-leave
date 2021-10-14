@@ -238,6 +238,7 @@ def get_new_issue_url(locale : str, missing_translations : dict) -> str:
     if not missing_translations:
         return ''
     body = f'Add translations for locale {language}\nRelevant file: `locales\\{locale}\\translation.json`\n\n'
+    body += 'Please only translate into languages you are fluent on. :)\n\n'
     try:
         body += '\n```\n{}\n```\n\n'.format(json.dumps(missing_translations, indent=2))
     except:
