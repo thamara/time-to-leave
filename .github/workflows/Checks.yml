@@ -37,17 +37,10 @@ jobs:
       - name: '        Copy jest results'
         run: |
           cp coverage_jest/coverage-final.json COV_REPORT/coverage-final-jest.json
-      - name: '     Coverage'
-        if: success()
-        uses: actions/upload-artifact@v1.0.0
+      - name: '        CodeCov'
+        uses: codecov/codecov-action@v2
         with:
-          name: 'COV_REPORT-${{ matrix.os }}'
-          path: 'COV_REPORT/'
-      - name: '      CodeCov'
-        if: success()
-        uses: codecov/codecov-action@v2.1.0
-        with:
-          file: 'COV_REPORT*'
           token: ${{ secrets.CODECOV_TOKEN }}
+          files: COV_REPORT/coverage-final-jest.json
           name: codecov-${{ matrix.os }}
-          fail_ci_if_error: false
+          verbose: true
