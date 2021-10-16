@@ -18,7 +18,13 @@
 }
 
 .intro__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
     text-align: center;
+    margin: 0 auto;
 
     .dropdown,
     .button--primary {
@@ -32,11 +38,9 @@
         height: 2.5rem;
     }
 
-    @include for-phone-only {
-        display: flex;
-        vertical-align: center;
-        flex-direction: column;
-        align-items: center;
+    @include for-tablet-landscape-up {
+        flex-direction: row;
+        align-items: flex-start;
     }
 }
 
