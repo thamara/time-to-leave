@@ -45,6 +45,7 @@ Who built 2.0.2:
 -   anujjoshi63
 -   araujoarthur0
 -   chopinballadeno4
+-   fcoiuri
 -   fikimaul
 -   giovannipessiva
 -   haeramkeem
