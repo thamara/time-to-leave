@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const { getDateStr } = require('../../js/date-aux');
+const { getDateStr, getCurrentDateTimeStr } = require('../../js/date-aux');
 
 describe('Date Functions', () =>
 {
@@ -20,8 +20,15 @@ describe('Date Functions', () =>
         {
             expect(getDateStr(badDate)).not.toBe(expectedDate);
         });
+    });
 
+    describe('getCurrentDateTimeStr()', () =>
+    {
+        const regFullDate = /[0-9]{4}_(0[1-9]|1[0-2])_(0[1-9]|[1-2][0-9]|3[0-1])_(2[0-3]|[01][0-9])_[0-5][0-9]_[0-5][0-9]/g;
+        const testFormatNoSpace = regFullDate.test(getCurrentDateTimeStr());
+        test('Test the format of the output using regular expression and there are no spaces or unexpected characters', () =>
+        {
+            expect(testFormatNoSpace).toBeTruthy();
+        });
     });
 });
-
-
