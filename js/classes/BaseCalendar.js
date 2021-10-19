@@ -18,6 +18,7 @@ const { getDateStr, getMonthLength } = require('../date-aux.js');
 const { getMonthName } = require('../date-to-string-util.js');
 const { computeAllTimeBalanceUntilAsync } = require('../time-balance.js');
 const { generateKey } = require('../date-db-formatter.js');
+const i18n = require('../../src/configs/i18next.config.js');
 
 // Global values for calendar
 const flexibleStore = new Store({name: 'flexible-store'});
@@ -133,6 +134,26 @@ class BaseCalendar
     }
 
     /**
+     * Returns the code of the table footer of the calendar.
+     * @return {string}
+     */
+    _generateTableFooter()
+    {
+        return '<button class="punch-button" id="punch-button" disabled>' +
+                   '<img src="assets/fingerprint.svg" height="36" width="36"></img>' +
+                   `<label for="punch-button" id="punch-button-label">${i18n.t('$Menu.punch-time')}</label>` +
+               '</button>\n';
+    }
+
+    /**
+     * Updates the code of the table footer of the calendar, to be called on demand.
+     */
+    _updateTableFooter()
+    {
+        $('#footer').html(this._generateTableFooter());
+    }
+
+    /**
      * Reloads internal DBs based on external DBs and then redraws the calendar.
      */
     reload()
@@ -149,6 +170,7 @@ class BaseCalendar
     {
         this._updateTableHeader();
         this._updateTableBody();
+        this._updateTableFooter();
         this._updateBasedOnDB();
 
         const isCurrentMonth = this._getTodayMonth() === this._getCalendarMonth() && this._getTodayYear() === this._getCalendarYear();
@@ -159,6 +181,9 @@ class BaseCalendar
         this._updateLeaveBy();
 
         const calendar = this;
+
+        $('#punch-button').on('click', () => { calendar.punchDate(); });
+
         $('input[type=\'time\']').off('input propertychange').on('input propertychange', function()
         {
             //  deepcode ignore no-invalid-this: jQuery use

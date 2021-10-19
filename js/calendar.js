@@ -122,8 +122,6 @@ $(() =>
             calendar = CalendarFactory.getInstance(preferences);
             setInterval(notifyTimeToLeave, 60000);
             applyTheme(preferences.theme);
-
-            $('#punch-button').on('click', () => { calendar.punchDate(); });
         })
         .catch(err =>
         {
