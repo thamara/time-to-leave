@@ -24,11 +24,17 @@ describe('Date Functions', () =>
 
     describe('getCurrentDateTimeStr()', () =>
     {
-        const regFullDate = /[0-9]{4}_(0[1-9]|1[0-2])_(0[1-9]|[1-2][0-9]|3[0-1])_(2[0-3]|[01][0-9])_[0-5][0-9]_[0-5][0-9]/g;
-        const testFormatNoSpace = regFullDate.test(getCurrentDateTimeStr());
-        test('Test the format of the output using regular expression and there are no spaces or unexpected characters', () =>
+        const looseRegexCurrentDateTime = /(\d{4}_\d{2}_\d{2}_\d{2}_\d{2}_\d{2})/g;
+        const regexCurrentDateTime = /(\d{4}_(0[1-9]|1[0-2])_(0[1-9]|[12]\d|3[01])_(0\d|1\d|2[0-3])_([0-5]\d)_([0-5]\d))/g;
+
+        test('Should return Current Date Time string in YYYY_MM_DD_HH_MM_SS format with no spaces or unexpected characters making sure it accepts digits', () =>
         {
-            expect(testFormatNoSpace).toBeTruthy();
+            expect(looseRegexCurrentDateTime.test(getCurrentDateTimeStr())).toBe(true);
+        });
+
+        test('Should return Current Date Time string in YYYY_MM_DD_HH_MM_SS format with no spaces or unexpected characters', () =>
+        {
+            expect(regexCurrentDateTime.test(getCurrentDateTimeStr())).toBe(true);
         });
     });
 });
