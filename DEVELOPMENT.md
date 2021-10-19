@@ -1,5 +1,7 @@
 # Development Guide
 
+<a href="https://app.codesee.io/maps/public/798d8e40-19c3-11ec-b873-35f335ec68d2"><img src="https://codesee-docs.s3.amazonaws.com/badge.svg"></a>
+
 We are so glad you are interested in building Time to Leave! In this file you'll find all the information to be able to build and change the source code, from setting up the environment, up to creating a package.
 
 Working on your first Pull Request? You can learn how from this _free_ series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github), or you can contact us on our [Discord server](https://discord.gg/P3KkEF5) and we will be excited to help you in this journey!
@@ -169,3 +171,7 @@ If you want to work on a specific issue, just shout out to us and we'll assign t
 Once you are done, just submit a PR with a relevant description of the change, and provide screenshots, if applicable.
 Issues without activity for 7 days will be deemed stale and unassigned, unless justified.
 Tip: Before pushing the PR, make sure the [tests](#Tests) are passing, and that no [lint](#Linting--formatting) issue is present. :)
+
+# Feeling kind of lost?
+
+Check out the [architecture diagram on CodeSee](https://app.codesee.io/maps/public/798d8e40-19c3-11ec-b873-35f335ec68d2).
