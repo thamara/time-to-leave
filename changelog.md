@@ -15,6 +15,7 @@
 -   Fix [#724]: Correctly applying theme in Preferences window when the setting is "system default"
 -   Fix [#728]: Alignment and positioning of buttons on smaller screens for timetoleave.app
 -   Fix [#793]: Punch button now gets correctly translated when changing languages
+-   Translation: Time to Leave is now available in Bengali (bn)!
 -   Translation: Time to Leave is now available in Gujarati (gu)!
 -   Translation: Time to Leave is now available in Persian (fa-IR)
 -   Translation: Time to Leave is now available in Russian (ru-RU)!
@@ -46,6 +47,7 @@ Who built 2.0.2:
 -   anujjoshi63
 -   araujoarthur0
 -   chopinballadeno4
+-   dark-coder155
 -   fcoiuri
 -   fikimaul
 -   giovannipessiva
