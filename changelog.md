@@ -29,6 +29,7 @@ Who built 2.0.2:
 
 -   AayushSaini101
 -   BamButz
+-   BhumikaSaini
 -   Dudu-CNU
 -   JulienZD
 -   L8Y
