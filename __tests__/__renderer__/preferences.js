@@ -18,7 +18,7 @@ window.$ = require('jquery');
 // APIs from the preload script of the preferences window
 window.mainApi = preferencesApi;
 // Mocking with the actual access that main would have
-window.mainApi.getUserPreferencesPromise = () => { return new Promise((resolve) => resolve(getUserPreferences()));}
+window.mainApi.getUserPreferencesPromise = () => { return new Promise((resolve) => resolve(getUserPreferences())); };
 
 const {
     refreshContent,
@@ -94,7 +94,7 @@ describe('Test Preferences Window', () =>
 
     describe('Changing values of items in window', () =>
     {
-        beforeEach((async (done) =>
+        beforeEach((async(done) =>
         {
             prepareMockup();
             await refreshContent();
