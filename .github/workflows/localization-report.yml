@@ -28,10 +28,10 @@ jobs:
           cd main
           python scripts/check_languages.py -raw_report ../baseline.json -report_key_mismatch -report_missing_translations
           cd -
-      - name: Compare reports
+      - name: Compare reports using main
         id: report
         run: |
-          python scripts/compare_language_reports.py -output comparison.md -baseline baseline.json -target target.json
+          python main/scripts/compare_language_reports.py -output comparison.md -baseline baseline.json -target target.json
           body=$(cat comparison.md)
           body="${body//'%'/'%25'}"
           body="${body//$'\n'/'%0A'}"
