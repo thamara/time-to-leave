@@ -10,6 +10,7 @@
 -   Enhancement [#691]: Adding a dismiss button on the notification, so you won't be bothered again on a current day
 -   Enhancement [#698]: Sorting waivers by date
 -   Enhancement [#718]: Use purple clock icon on tray and menus to enhance contrast on light/dark themes
+-   Fix #792: Broken holiday tab on Workday Waiver Window
 -   Fix [#650]: Month balance is incorrect
 -   Fix [#660]: Hours field on waiver manager is not validated
 -   Fix [#702]: Fixed day view not counting the waived value when looking at a waived day. Balance is now correct too.
@@ -61,6 +62,7 @@ Who built 2.0.2:
 -   kimvcp
 -   kishorliv
 -   manisai216
+-   mayanhavoc
 -   mayankmohak
 -   nikkhil31
 -   omerisildak
