@@ -43,6 +43,7 @@ Who built 2.0.2:
 -   PrateekBing
 -   QuentinPhilipp
 -   R3z4Pr0gramm3r
+-   SSK-14
 -   Sahana-YS
 -   Semvrij
 -   SubhamChoudhury
