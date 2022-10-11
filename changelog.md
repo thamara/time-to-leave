@@ -10,7 +10,6 @@
 -   Enhancement [#691]: Adding a dismiss button on the notification, so you won't be bothered again on a current day
 -   Enhancement [#698]: Sorting waivers by date
 -   Enhancement [#718]: Use purple clock icon on tray and menus to enhance contrast on light/dark themes
--   Fix #828: Show balance even though month ends on non-working day
 -   Fix [#650]: Month balance is incorrect
 -   Fix [#660]: Hours field on waiver manager is not validated
 -   Fix [#702]: Fixed day view not counting the waived value when looking at a waived day. Balance is now correct too.
@@ -18,6 +17,7 @@
 -   Fix [#728]: Alignment and positioning of buttons on smaller screens for timetoleave.app
 -   Fix [#792]: Broken holiday tab on Workday Waiver Window
 -   Fix [#793]: Punch button now gets correctly translated when changing languages
+-   Fix [#828]: Show balance even though month ends on non-working day
 -   Translation: Time to Leave is now available in Bengali (bn)!
 -   Translation: Time to Leave is now available in Gujarati (gu)!
 -   Translation: Time to Leave is now available in Persian (fa-IR)
