@@ -18,6 +18,7 @@
 -   Fix [#792]: Broken holiday tab on Workday Waiver Window
 -   Fix [#793]: Punch button now gets correctly translated when changing languages
 -   Fix [#828]: Show balance even though month ends on non-working day
+-   Fix [#854]: Entry removal button actually removes stuff
 -   Translation: Time to Leave is now available in Bengali (bn)!
 -   Translation: Time to Leave is now available in Gujarati (gu)!
 -   Translation: Time to Leave is now available in Persian (fa-IR)
@@ -33,6 +34,7 @@ Who built 2.0.2:
 -   AayushSaini101
 -   BamButz
 -   BhumikaSaini
+-   DanMargera
 -   Dudu-CNU
 -   JulienZD
 -   L8Y
