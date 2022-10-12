@@ -22,6 +22,7 @@
 -   Fix [#854]: Entry removal button actually removes stuff
 -   Translation: Time to Leave is now available in Bengali (bn)!
 -   Translation: Time to Leave is now available in Gujarati (gu)!
+-   Translation: Time to Leave is now available in Hebrew (he)!
 -   Translation: Time to Leave is now available in Persian (fa-IR)
 -   Translation: Time to Leave is now available in Russian (ru-RU)!
 -   Translation: Time to Leave is now available in Turkish (tr-TR)
@@ -51,6 +52,7 @@ Who built 2.0.2:
 -   Sahana-YS
 -   Semvrij
 -   SubhamChoudhury
+-   TomerPacific
 -   aakashpothepalli
 -   adarivamsi
 -   adarshnanwani
