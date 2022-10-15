@@ -25,6 +25,7 @@
 -   Translation: Time to Leave is now available in Hebrew (he)!
 -   Translation: Time to Leave is now available in Persian (fa-IR)!
 -   Translation: Time to Leave is now available in Russian (ru-RU)!
+-   Translation: Time to Leave is now available in Swedish (sv-SE)!
 -   Translation: Time to Leave is now available in Turkish (tr-TR)!
 
 <!--- End changes - Do not remove -->
@@ -84,6 +85,7 @@ Who built 2.0.2:
 -   thamara
 -   thefyrewire
 -   tupaschoal
+-   wonkyung
 
 <!--- End users - Do not remove -->
 
