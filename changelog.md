@@ -20,6 +20,7 @@
 -   Fix [#793]: Punch button not translated when changing languages
 -   Fix [#828]: Balance not shown when month ends on non-working day
 -   Fix [#854]: Entry removal button not removing anything
+-   Fix [#860]: Avoid cursor pointer in disabled punch button
 -   Fix [#869]: Preserving modified 'minutes between notifications' setting
 -   Translation: Time to Leave is now available in Bengali (bn)!
 -   Translation: Time to Leave is now available in Gujarati (gu)!
