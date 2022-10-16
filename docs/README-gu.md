@@ -52,6 +52,4 @@
 
 [lucy-g](https://icon-icons.com/icon/timer/121243) મૂળ ટાઈમર આયકન, રંગીનતા ભિન્નતા અને ફોર્મેટ્સમાંથી સંશોધિત.
 
-[SVG Repo](https://www.svgrepo.com/svg/271898/sick) દ્વારા સંતપ્ત આયકન.
-
 [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) માંથી [www.flaticon.com](https://www.flaticon.com) દ્વારા બનાવેલ આયકન જુઓ.

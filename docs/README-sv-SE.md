@@ -54,6 +54,4 @@ Ikoner är gjorda av [freepik](https://www.flaticon.com/authors/freepik) från [
 
 Original Timer ikon av [lucy-g](https://icon-icons.com/icon/timer/121243), färglagda varianter och format modifierade från detsamma.
 
-Sick ikon av [SVG Repo](https://www.svgrepo.com/svg/271898/sick).
-
 Vyväxlare ikon gjord av [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) från [www.flaticon.com](https://www.flaticon.com).

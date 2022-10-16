@@ -53,6 +53,4 @@ Icone create da [freepik](https://www.flaticon.com/authors/freepik) su [www.flat
 
 Icona originale Timer di [lucy-g](https://icon-icons.com/icon/timer/121243), variazioni di colori e formato create a partire da questa.
 
-Icona Sick di [SVG Repo](https://www.svgrepo.com/svg/271898/sick).
-
 Icona View Switch di [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) su [www.flaticon.com](https://www.flaticon.com).

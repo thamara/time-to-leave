@@ -54,6 +54,4 @@ Icons von [freepik](https://www.flaticon.com/authors/freepik) von [www.flaticonc
 
 Originales Timer Icon von [lucy-g](https://icon-icons.com/icon/timer/121243), farbvarianten und davon modifizierte versionen.
 
-Kranken-Icon von [SVG Repo](https://www.svgrepo.com/svg/271898/sick).
-
 "View Switch" Icon von [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) von [www.flaticon.com](https://www.flaticon.com).

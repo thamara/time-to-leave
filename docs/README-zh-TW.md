@@ -53,6 +53,4 @@ Icons 由[freepik](https://www.flaticon.com/authors/freepik)製作，來源自[w
 
 Original Timer Icon 由[lucy-g](https://icon-icons.com/icon/timer/121243)，從它改變了配色及格式。
 
-Sick Icon 由[SVG Repo](https://www.svgrepo.com/svg/271898/sick)。
-
 View Switch Icon 由[Pixel perfect](https://www.flaticon.com/authors/pixel-perfect)製作，來源自[www.flaticon.com](https://www.flaticon.com)。

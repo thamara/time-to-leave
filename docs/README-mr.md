@@ -52,6 +52,4 @@ Unisciti al nostro [चॅनेल डिसकॉर्ड करा](https://
 
 मूळ टाइमर चिन्ह [ल्युसी-जी](https://icon-icons.com/icon/timer/121243), यातून तयार केलेले रंग आणि स्वरुपात बदल.
 
-चे आजारी आयकॉन [SVG Repo](https://www.svgrepo.com/svg/271898/sick).
-
 स्विच चिन्ह पहा[Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) su [www.flaticon.com](https://www.flaticon.com).

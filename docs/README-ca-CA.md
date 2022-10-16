@@ -53,6 +53,4 @@ Icones fetes per [freepik](https://www.flaticon.com/authors/freepik) de [www.fla
 
 Icona de temporitzador original de [lucy-g](https://icon-icons.com/icon/timer/121243), variacions de colors i formats modificats a partir d’ella.
 
-Icona Sick de [SVG Repo](https://www.svgrepo.com/svg/271898/sick).
-
 Icona de commutador de visualització creada per [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) de [www.flaticon.com](https://www.flaticon.com).

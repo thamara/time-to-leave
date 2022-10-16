@@ -53,6 +53,4 @@ Iconos hechos por [freepik](https://www.flaticon.com/authors/freepik) de [www.fl
 
 Icono del reloj hecho por [lucy-g](https://icon-icons.com/icon/timer/121243), variaciones de color y formatos modificados a partir de ella.
 
-Icono del paciente por [SVG Repo](https://www.svgrepo.com/svg/271898/sick).
-
 Icono del intercambio de visualización realizado por [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) de [www.flaticon.com](https://www.flaticon.com).

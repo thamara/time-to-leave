@@ -53,6 +53,4 @@ Icons โดย [freepik](https://www.flaticon.com/authors/freepik) จาก [w
 
 Original Timer icon โดย [lucy-g](https://icon-icons.com/icon/timer/121243), (มีการตกแต่งเพิ่มเติม).
 
-Sick icon โดย [SVG Repo](https://www.svgrepo.com/svg/271898/sick).
-
 View Switch icon โดย [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) จาก [www.flaticon.com](https://www.flaticon.com).
