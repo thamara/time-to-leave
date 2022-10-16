@@ -24,6 +24,7 @@
 -   Fix [#854]: Entry removal button not removing anything
 -   Fix [#860]: Avoid cursor pointer in disabled punch button
 -   Fix [#869]: Preserving modified 'minutes between notifications' setting
+-   Fix [#872]: Long Hindi translation of Tue on preference window
 -   Translation: Time to Leave is now available in Bengali (bn)!
 -   Translation: Time to Leave is now available in Gujarati (gu)!
 -   Translation: Time to Leave is now available in Hebrew (he)!
