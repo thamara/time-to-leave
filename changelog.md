@@ -11,6 +11,7 @@
 -   Enhancement [#698]: Sort waivers by date
 -   Enhancement [#718]: Use purple clock icon on tray and menus to enhance contrast on light/dark themes
 -   Enhancement [#856]: Don't bother user asking if empty entries can be removed
+-   Enhancement [#871]: Change waiver icon to be more consistent with app UI
 -   Fix [#650]: Month balance is incorrect
 -   Fix [#660]: Hours field on waiver manager is not validated
 -   Fix [#702]: Day view and balance not counting the waived value when looking at a waived day
