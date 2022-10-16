@@ -312,6 +312,10 @@ body {
   filter: invert(var(--svg-invert));
 }
 
+.waiver-img {
+  filter: invert(var(--svg-invert));
+}
+
 #calendar input[type="time"]::-webkit-clear-button {
   display: none;
 }
