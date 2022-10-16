@@ -213,7 +213,7 @@ class FlexibleMonthCalendar extends BaseCalendar
                 `<div class="weekday waiver-trigger" title="${this._getTranslation('$FlexibleMonthCalendar.add-waiver-day')}">` + getDayAbbr(this._languageData.data, weekDay) + '</div>' +
                 '<div class="day">' +
                     '<span class="day-number"> ' + day + ' </span>' +
-                    '<img src="assets/waiver.svg" height="15" class="waiver-img">' +
+                    '<img src="assets/waiver.svg" height="16" class="waiver-img">' +
                 '</div>' +
                 '<div class="sign-cell minus-sign">' +
                     '<span>-</span>' +

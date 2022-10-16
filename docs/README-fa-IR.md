@@ -54,6 +54,4 @@
 
 <p dir="rtl">آیکن اصلی تایمر از <a href="https://icon-icons.com/icon/timer/121243">lucy-g</a> هست که ما رنگ آن را تغییر دادیم و قالب آن تغییر یافته است.</p>
 
-<p dir="rtl">آیکن بیمار از <a href="https://www.svgrepo.com/svg/271898/sick">SVG Repo</a> است.</p>
-
 <p dir="rtl">آیکن تغییر نما توسط <a href="https://www.flaticon.com/authors/pixel-perfect">Pixel perfect</a> از <a href="https://www.flaticon.com">www.flaticon.com</a> ساخته شده است.</p>

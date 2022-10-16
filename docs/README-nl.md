@@ -53,6 +53,4 @@ Pictogrammen gemaakt door [freepik](https://www.flaticon.com/authors/freepik) va
 
 Origineel timerpictogram gemaakt door [lucy-g](https://icon-icons.com/icon/timer/121243), aangepast met gekleurde variaties en andere formaten.
 
-Zieke emoticon gemaakt door [SVG Repo](https://www.svgrepo.com/svg/271898/sick).
-
 Weergave veranderen-pictogram gemaakt door [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) van [www.flaticon.com](https://www.flaticon.com).

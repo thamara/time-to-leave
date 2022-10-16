@@ -52,6 +52,4 @@
 
 [लुसी-जी](https://icon-icons.com/icon/timer/121243) द्वारा मूल टाइमर आइकन, रंगीन रूपांतर और उससे संशोधित प्रारूप।
 
-[SVG Repo](https://www.svgrepo.com/svg/271898/sick) द्वारा बीमार आइकन।
-
 [Www.flaticon.com](https://www.flaticon.com) से [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) द्वारा बनाया गया आइकन देखें।

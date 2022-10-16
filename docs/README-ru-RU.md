@@ -53,6 +53,4 @@ _Time to Leave_ работает on MacOS, Windows и Linux. Вы можете �
 
 Иконка таймера сделана [lucy-g](https://icon-icons.com/icon/timer/121243), цветные версии и другие форматы являются модификацией оригинала.
 
-Иконка болезни взята с [SVG Repo](https://www.svgrepo.com/svg/271898/sick).
-
 Иконка изменения вида создана [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) на [www.flaticon.com](https://www.flaticon.com).

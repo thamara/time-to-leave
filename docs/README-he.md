@@ -54,7 +54,5 @@ Time to Leave רץ על MacOS, Windows ו-Linux, וגם אפשר להוריד ג
 
 הצלמית המקורית של שעות העצר נעשה על-ידי [lucy.g](https://icon-icons.com/icon/timer/121243), גווני הצבעים ופורמטים שונים שונו ממנו.
 
-צלמית יום מחלה נוצרה על-ידי [SVG Repo](https://www.svgrepo.com/svg/271898/sick).
-
 צלמית של החלפת תצוגה נוצרה על-ידי [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) מ-[www.flaticon.com](https://www.flaticon.com).
 </div>

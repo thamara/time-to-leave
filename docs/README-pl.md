@@ -52,6 +52,4 @@ Ikony stworzone przez [freepik](https://www.flaticon.com/authors/freepik) z [www
 
 Orginalna ikona zegarka stworzona przez [lucy-g](https://icon-icons.com/icon/timer/121243), kolorowe wersje i inne formaty to modifikacje oryginału.
 
-Ikona choroby pochodzi z [SVG Repo](https://www.svgrepo.com/svg/271898/sick).
-
 Ikona zmiany widoku stworzona przez [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) z [www.flaticon.com](https://www.flaticon.com).

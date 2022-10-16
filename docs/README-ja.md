@@ -53,6 +53,4 @@ Time to Leave は MacOS、Windows、Linux で動作し、[最新リリース](ht
 
 タイマーアイコンは[lucy-g](https://icon-icons.com/icon/timer/121243)のものを元に, カラーバリエーションやフォーマットを変更しています。
 
-病欠アイコン作成：[SVG Repo](https://www.svgrepo.com/svg/271898/sick)
-
 表示切替アイコン作成：[Pixel perfect](https://www.flaticon.com/authors/pixel-perfect)（[www.flaticon.com](https://www.flaticon.com)より）
