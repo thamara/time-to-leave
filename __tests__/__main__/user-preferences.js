@@ -1,8 +1,31 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const { defaultPreferences, getDefaultWidthHeight, getPreferencesFilePath, getUserPreferences, savePreferences, showDay, switchCalendarView } = require('../../js/user-preferences');
+const { booleanInputs, defaultPreferences, getDefaultWidthHeight, getPreferencesFilePath, getUserPreferences, savePreferences, showDay, switchCalendarView, notificationIsEnabled, getUserLanguage, getNotificationsInterval, repetitionIsEnabled, getUserPreferencesPromise, resetPreferences } = require('../../js/user-preferences');
 const fs = require('fs');
+const { themeOptions } = require('../../renderer/themes');
+
+function setNewPreference(preference, value)
+{
+    const preferences = getUserPreferences();
+    preferences[preference] = value;
+    savePreferences(preferences);
+}
+
+// Mocking electron needs to be defined here and not in __mocks__
+// because it's not directly required from this file as it is *fs*.
+jest.mock('electron', () =>
+{
+    const originalModule = jest.requireActual('electron');
+    return {
+        __esModule: true,
+        ...originalModule,
+        ipcRenderer: {
+            ...originalModule.ipcRenderer,
+            invoke: jest.fn().mockResolvedValueOnce('./').mockResolvedValue('./dummy_file.txt'),
+        }
+    };
+});
 
 describe('Preferences Main', () =>
 {
@@ -24,6 +47,7 @@ describe('Preferences Main', () =>
         expect(showDay(2020, 1, 5)).toBe(days['working-days-wednesday']);
         expect(showDay(2020, 1, 6)).toBe(days['working-days-thursday']);
         expect(showDay(2020, 1, 7)).toBe(days['working-days-friday']);
+        expect(showDay(2020, 1, 7, defaultPreferences)).toBe(days['working-days-friday']);
     });
 
     describe('getDefaultWidthHeight()', () =>
@@ -80,37 +104,349 @@ describe('Preferences Main', () =>
 
     describe('Notification interval', () =>
     {
-        function saveNewInterval(val)
+        beforeEach(() =>
         {
-            const preferences = getUserPreferences();
-            preferences['notifications-interval'] = val;
-            savePreferences(preferences);
-        }
-
-        beforeEach(() => {
             expect(defaultPreferences['notifications-interval']).toBe('5');
             savePreferences(defaultPreferences);
 
             expect(getUserPreferences()['notifications-interval']).toBe('5');
+            expect(getNotificationsInterval()).toBe('5');
         });
 
-        test('Saving valid number', () =>
+        test('Saving valid number as notifications-interval', () =>
         {
-            saveNewInterval('6');
+            setNewPreference('notifications-interval', '6');
             expect(getUserPreferences()['notifications-interval']).toBe('6');
+            expect(getNotificationsInterval()).toBe('6');
         });
 
-        test('Saving invalid number', () =>
+        test('Saving invalid number as notifications-interval', () =>
         {
-            saveNewInterval('0');
+            setNewPreference('notifications-interval', '0');
             expect(getUserPreferences()['notifications-interval']).toBe('5');
+            expect(getNotificationsInterval()).toBe('5');
         });
 
-        test('Saving invalid text', () =>
+        test('Saving invalid text as notifications-interval', () =>
         {
-            saveNewInterval('ab');
+            setNewPreference('notifications-interval', 'ab');
             expect(getUserPreferences()['notifications-interval']).toBe('5');
+            expect(getNotificationsInterval()).toBe('5');
         });
+    });
+
+    describe('getUserLanguage()', () =>
+    {
+        test('Saving valid language', () =>
+        {
+            setNewPreference('language', 'es');
+            expect(getUserPreferences()['language']).toBe('es');
+            expect(getUserLanguage()).toBe('es');
+        });
+
+        test('Saving invalid number as language', () =>
+        {
+            setNewPreference('language', 5);
+            expect(getUserPreferences()['language']).toBe('en');
+            expect(getUserLanguage()).toBe('en');
+        });
+
+        test('Saving invalid string language', () =>
+        {
+            setNewPreference('language', 'es-AR');
+            expect(getUserPreferences()['language']).toBe('en');
+            expect(getUserLanguage()).toBe('en');
+        });
+
+    });
+
+    describe('notificationIsEnabled()', () =>
+    {
+        test('Saving invalid string as notification preference', () =>
+        {
+            setNewPreference('notification', 'true');
+            expect(notificationIsEnabled()).toBe(true);
+        });
+
+        test('Saving invalid number as notification preference', () =>
+        {
+            setNewPreference('notification', 8);
+            expect(notificationIsEnabled()).toBe(true);
+        });
+
+        test('Saving valid boolean as notification preference', () =>
+        {
+            setNewPreference('notification', false);
+            expect(notificationIsEnabled()).toBe(false);
+        });
+    });
+
+    describe('repetitionIsEnabled()', () =>
+    {
+        test('Saving invalid string as repetition preference', () =>
+        {
+            setNewPreference('repetition', 'true');
+            expect(repetitionIsEnabled()).toBe(true);
+        });
+
+        test('Saving invalid number as repetition preference', () =>
+        {
+            setNewPreference('repetition', 15);
+            expect(repetitionIsEnabled()).toBe(true);
+        });
+
+        test('Saving valid boolean as repetition preference', () =>
+        {
+            setNewPreference('repetition', false);
+            expect(repetitionIsEnabled()).toBe(false);
+        });
+    });
+
+    describe('Remaining boolean preferences', () =>
+    {
+        beforeEach(() =>
+        {
+            savePreferences(defaultPreferences);
+        });
+
+        for (const pref of booleanInputs)
+        {
+            test(`Saving invalid string as ${pref} preference`, () =>
+            {
+                setNewPreference(pref, 'true');
+                expect(getUserPreferences()[pref]).toBe(defaultPreferences[pref]);
+            });
+
+            test(`Saving invalid number as ${pref} preference`, () =>
+            {
+                setNewPreference(pref, 20);
+                expect(getUserPreferences()[pref]).toBe(defaultPreferences[pref]);
+            });
+
+            test(`Saving valid boolean as ${pref} preference`, () =>
+            {
+                setNewPreference(pref, false);
+                expect(getUserPreferences()[pref]).toBe(false);
+            });
+
+            test(`Saving valid boolean as ${pref} preference`, () =>
+            {
+                setNewPreference(pref, true);
+                expect(getUserPreferences()[pref]).toBe(true);
+            });
+        }
+    });
+
+    describe('Theme preference', () =>
+    {
+        for (const theme of themeOptions)
+        {
+            test(`Saving valid theme ${theme}`, () =>
+            {
+                setNewPreference('theme', theme);
+                expect(getUserPreferences()['theme']).toBe(theme);
+            });
+        }
+
+        test('Saving invalid string as theme', () =>
+        {
+            setNewPreference('theme', 'DARKKKK');
+            expect(getUserPreferences()['theme']).toBe(defaultPreferences.theme);
+        });
+
+        test('Saving invalid number as theme', () =>
+        {
+            setNewPreference('theme', 5);
+            expect(getUserPreferences()['theme']).toBe(defaultPreferences.theme);
+        });
+    });
+    describe('Hours Per Day', () =>
+    {
+        test('Saving invalid number as hours per day', () =>
+        {
+            setNewPreference('hours-per-day', 1223);
+            expect(getUserPreferences()['hours-per-day']).toBe(defaultPreferences['hours-per-day']);
+        });
+
+        test('Saving invalid amount of hours per day', () =>
+        {
+            setNewPreference('hours-per-day', '30:00');
+            expect(getUserPreferences()['hours-per-day']).toBe(defaultPreferences['hours-per-day']);
+        });
+
+        test('Saving invalid minutes in hours per day', () =>
+        {
+            setNewPreference('hours-per-day', '20:99');
+            expect(getUserPreferences()['hours-per-day']).toBe(defaultPreferences['hours-per-day']);
+        });
+
+        test('Saving invalid boolean as hours per day', () =>
+        {
+            setNewPreference('hours-per-day', true);
+            expect(getUserPreferences()['hours-per-day']).toBe(defaultPreferences['hours-per-day']);
+        });
+
+        test('Saving valid hours per day', () =>
+        {
+            setNewPreference('hours-per-day', '06:00');
+            expect(getUserPreferences()['hours-per-day']).toBe('06:00');
+        });
+
+        test('Saving valid hours per day', () =>
+        {
+            setNewPreference('hours-per-day', '01:30');
+            expect(getUserPreferences()['hours-per-day']).toBe('01:30');
+        });
+    });
+    describe('Break Time Interval', () =>
+    {
+        test('Saving invalid number as break-time-interval', () =>
+        {
+            setNewPreference('break-time-interval', 1223);
+            expect(getUserPreferences()['break-time-interval']).toBe(defaultPreferences['break-time-interval']);
+        });
+
+        test('Saving invalid hours in break-time-interval', () =>
+        {
+            setNewPreference('break-time-interval', '30:00');
+            expect(getUserPreferences()['break-time-interval']).toBe(defaultPreferences['break-time-interval']);
+        });
+
+        test('Saving invalid mintes in break-time-interval', () =>
+        {
+            setNewPreference('break-time-interval', '20:99');
+            expect(getUserPreferences()['break-time-interval']).toBe(defaultPreferences['break-time-interval']);
+        });
+
+        test('Saving invalid boolean as break-time-interval', () =>
+        {
+            setNewPreference('break-time-interval', true);
+            expect(getUserPreferences()['break-time-interval']).toBe(defaultPreferences['break-time-interval']);
+        });
+
+        test('Saving valid break-time-interval', () =>
+        {
+            setNewPreference('break-time-interval', '00:30');
+            expect(getUserPreferences()['break-time-interval']).toBe('00:30');
+        });
+
+        test('Saving valid break-time-interval', () =>
+        {
+            setNewPreference('break-time-interval', '00:15');
+            expect(getUserPreferences()['break-time-interval']).toBe('00:15');
+        });
+    });
+    describe('Overall balance start date', () =>
+    {
+        test('Saving invalid month in overall-balance-start-date', () =>
+        {
+            setNewPreference( 'overall-balance-start-date', '2022-13-01');
+            expect(getUserPreferences()['overall-balance-start-date']).toBe(defaultPreferences['overall-balance-start-date']);
+        });
+
+        test('Saving invalid day in overall-balance-start-date', () =>
+        {
+            setNewPreference( 'overall-balance-start-date', '2022-10-32');
+            expect(getUserPreferences()['overall-balance-start-date']).toBe(defaultPreferences['overall-balance-start-date']);
+        });
+
+        test('Saving valid date', () =>
+        {
+            setNewPreference( 'overall-balance-start-date', '2022-10-02');
+            expect(getUserPreferences()['overall-balance-start-date']).toBe('2022-10-02');
+        });
+    });
+    describe('Update remind me after', () =>
+    {
+        test('Saving invalid numner as update-remind-me-after', () =>
+        {
+            setNewPreference( 'update-remind-me-after', new Date('2022-13-01').getTime());
+            expect(getUserPreferences()['update-remind-me-after']).toBe(defaultPreferences['update-remind-me-after']);
+        });
+
+        test('Saving invalid month in update-remind-me-after', () =>
+        {
+            setNewPreference( 'update-remind-me-after', '2022-13-01');
+            expect(getUserPreferences()['update-remind-me-after']).toBe(defaultPreferences['update-remind-me-after']);
+        });
+
+        test('Saving invalid date in update-remind-me-after', () =>
+        {
+            setNewPreference( 'update-remind-me-after', '2022-10-32');
+            expect(getUserPreferences()['update-remind-me-after']).toBe(defaultPreferences['update-remind-me-after']);
+        });
+
+        test('Saving valid date', () =>
+        {
+            setNewPreference( 'update-remind-me-after', '2022-10-02');
+            expect(getUserPreferences()['update-remind-me-after']).toBe('2022-10-02');
+        });
+    });
+    describe('savePreferences()', () =>
+    {
+        test('Save to wrong path', () =>
+        {
+            expect(savePreferences(defaultPreferences, './not/existing/folder')).toBeInstanceOf(Error);
+        });
+
+        test('Save to default path', () =>
+        {
+            expect(savePreferences(defaultPreferences)).toBe(true);
+        });
+    });
+    describe('resetPreferences()', () =>
+    {
+        afterEach(() =>
+        {
+            resetPreferences();
+            expect(getUserPreferences()).toStrictEqual(defaultPreferences);
+        });
+        {
+            for (const key in defaultPreferences)
+            {
+                const value = defaultPreferences[key];
+                test('Should reset all preferences', () =>
+                {
+                    if (typeof value === 'boolean')
+                    {
+                        setNewPreference(key, !value);
+                    }
+                    if (typeof value === 'string')
+                    {
+                        setNewPreference(key, 'NOT A VALID VALUE');
+                    }
+                    if (typeof value === 'number')
+                    {
+                        setNewPreference(key, -1);
+                    }
+                });
+            }
+        }
+    });
+    describe('getUserPreferencesPromise()', () =>
+    {
+        beforeAll(() =>
+        {
+            fs.writeFileSync('./dummy_file.txt', 'This should be tried to be parsed and fail');
+        });
+
+        test('Should return a promise', () =>
+        {
+            expect(getUserPreferencesPromise()).toBeInstanceOf(Promise);
+        });
+
+        test('Should resolve promise', async() =>
+        {
+            await expect(getUserPreferencesPromise()).resolves.toStrictEqual({});
+        });
+        afterAll(() =>
+        {
+            fs.unlinkSync('./dummy_file.txt', () => {});
+        });
+    });
+    afterAll(() =>
+    {
+        jest.resetAllMocks();
     });
 });
 

@@ -4,6 +4,7 @@ const { ipcRenderer } = require('electron');
 
 import { isValidTheme } from '../renderer/themes.js';
 import { getLanguagesCodes } from '../src/configs/app.config.js';
+import { validateDate, validateTime } from './time-math.js';
 
 // Lazy loaded modules
 let fs = null;
@@ -19,6 +20,11 @@ function getFs()
 function isValidLocale(locale)
 {
     return getLanguagesCodes().indexOf(locale) !== -1;
+}
+
+function isValidView(view)
+{
+    return view === 'month' || view === 'day';
 }
 
 const defaultPreferences = {
@@ -180,8 +186,12 @@ function initPreferencesFileIfNotExistsOrInvalid(filePath = getPreferencesFilePa
 
         if (timeInputs.includes(key))
         {
-            // Set default preference value if notification or time interval is not valid
-            if (key === 'notifications-interval' && !isNotificationInterval(value))
+            const timeValidationEnum = {
+                'notifications-interval' : () => isNotificationInterval(value),
+                'hours-per-day' : () =>  validateTime(value),
+                'break-time-interval' : () =>  validateTime(value),
+            };
+            if (!timeValidationEnum[key]())
             {
                 derivedPrefs[key] = defaultPreferences[key];
                 shouldSaveDerivedPrefs = true;
@@ -189,11 +199,20 @@ function initPreferencesFileIfNotExistsOrInvalid(filePath = getPreferencesFilePa
         }
 
         const inputEnum = {
-            'theme': () => shouldSaveDerivedPrefs |= !isValidTheme,
-            'view': () => shouldSaveDerivedPrefs |= !(value === 'month' || value === 'day'),
-            'language': () => shouldSaveDerivedPrefs |= isValidLocale
+            'theme': () => isValidTheme(value),
+            'view': () => isValidView(value),
+            'language': () => isValidLocale(value),
+            'overall-balance-start-date': () => validateDate(value),
+            'update-remind-me-after': () => validateDate(value),
         };
-        if (key in inputEnum) inputEnum[key]();
+        if (key in inputEnum)
+        {
+            if (!inputEnum[key]())
+            {
+                derivedPrefs[key] = defaultPreferences[key];
+                shouldSaveDerivedPrefs = true;
+            }
+        }
     }
 
     if (shouldSaveDerivedPrefs)
@@ -331,6 +350,7 @@ function resetPreferences()
 }
 
 export {
+    booleanInputs,
     defaultPreferences,
     getDefaultWidthHeight,
     getLoadedOrDerivedUserPreferences as getUserPreferences,
