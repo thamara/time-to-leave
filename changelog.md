@@ -12,6 +12,7 @@
 -   Enhancement [#718]: Use purple clock icon on tray and menus to enhance contrast on light/dark themes
 -   Enhancement [#856]: Don't bother user asking if empty entries can be removed
 -   Enhancement [#857]: Improve Polish translation
+-   Enhancement [#868]: Improve User Preferences tests
 -   Enhancement [#871]: Change waiver icon to be more consistent with app UI
 -   Enhancement [#881]: Time to Leave has a new look! TTL icon was changed.
 -   Fix [#650]: Month balance is incorrect
@@ -85,6 +86,7 @@ Who built 2.0.2:
 -   mayanhavoc
 -   mayankmohak
 -   nikkhil31
+-   ochan12
 -   omerisildak
 -   panicswtch
 -   ramonh
