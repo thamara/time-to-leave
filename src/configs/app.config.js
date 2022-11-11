@@ -1,28 +1,28 @@
 const languages = {
+    'bn':'বাংলা',
     'ca-CA': 'Catalàn',
     'de-DE': 'Deutsch',
     'en': 'English',
     'es': 'Español',
     'fr-FR': 'Français - France',
-    'hi': 'हिंदी',
     'gu': 'ગુજરાતી',
+    'he':'עברית',
+    'hi': 'हिंदी',
     'id': 'Bahasa Indonesia',
-    'ko': '한국어',
     'it': 'Italiano',
     'ja': '日本語',
+    'ko': '한국어',
     'mr': 'मराठी',
     'nl': 'Nederlands',
     'pl': 'Polski',
     'pt-BR': 'Português - Brasil',
+    'pt-MI': 'Português - Minerês',
     'ru-RU': 'Русский',
-    'dev' : 'Português - Minerês',
-    'th-TH': 'ไทย',
-    'zh-TW': '繁體中文',
+    'sv-SE': 'Svenska',
     'ta': 'தமிழ்',
+    'th-TH': 'ไทย',
     'tr-TR':'Türkçe',
-    'bn':'বাংলা',
-    'he':'עברית',
-    'sv-SE': 'Svenska'
+    'zh-TW': '繁體中文'
 };
 
 /**

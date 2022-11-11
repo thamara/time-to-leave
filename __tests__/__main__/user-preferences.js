@@ -4,6 +4,7 @@
 const { booleanInputs, defaultPreferences, getDefaultWidthHeight, getPreferencesFilePath, getUserPreferences, savePreferences, showDay, switchCalendarView, notificationIsEnabled, getUserLanguage, getNotificationsInterval, repetitionIsEnabled, getUserPreferencesPromise, resetPreferences } = require('../../js/user-preferences');
 const fs = require('fs');
 const { themeOptions } = require('../../renderer/themes');
+const { getLanguageMap, getLanguagesCodes, getLanguageName } = require('../../src/configs/app.config');
 
 function setNewPreference(preference, value)
 {
@@ -439,11 +440,70 @@ describe('Preferences Main', () =>
         {
             await expect(getUserPreferencesPromise()).resolves.toStrictEqual({});
         });
+
         afterAll(() =>
         {
             fs.unlinkSync('./dummy_file.txt', () => {});
         });
     });
+
+    describe('App config languages', () =>
+    {
+        test('getLanguageMap() should have language code keys', () =>
+        {
+            expect(Object.keys(getLanguageMap()).length).toBeGreaterThan(0);
+        });
+
+        test('getLanguageMap() keys should be sorted', () =>
+        {
+            let lastLanguage = '';
+            Object.keys(getLanguageMap()).forEach(language =>
+            {
+                if (lastLanguage === '') lastLanguage = language;
+                else
+                {
+                    expect(language.localeCompare(lastLanguage)).toBeGreaterThan(0);
+                    lastLanguage = language;
+                }
+            });
+            expect(lastLanguage).not.toBe('');
+
+        });
+
+        test('getLanguagesCodes() should be keys of getLanguageMap()', () =>
+        {
+            expect(Object.keys(getLanguageMap())).toEqual(getLanguagesCodes());
+        });
+
+        test('getLanguageName() should return correct language', () =>
+        {
+            expect(getLanguageName('bn')).toBe('বাংলা');
+            expect(getLanguageName('ca-CA')).toBe('Catalàn');
+            expect(getLanguageName('de-DE')).toBe('Deutsch');
+            expect(getLanguageName('en')).toBe('English');
+            expect(getLanguageName('es')).toBe('Español');
+            expect(getLanguageName('fr-FR')).toBe('Français - France');
+            expect(getLanguageName('gu')).toBe('ગુજરાતી');
+            expect(getLanguageName('he')).toBe('עברית');
+            expect(getLanguageName('hi')).toBe('हिंदी');
+            expect(getLanguageName('id')).toBe('Bahasa Indonesia');
+            expect(getLanguageName('it')).toBe('Italiano');
+            expect(getLanguageName('ja')).toBe('日本語');
+            expect(getLanguageName('ko')).toBe('한국어');
+            expect(getLanguageName('mr')).toBe('मराठी');
+            expect(getLanguageName('nl')).toBe('Nederlands');
+            expect(getLanguageName('pl')).toBe('Polski');
+            expect(getLanguageName('pt-BR')).toBe('Português - Brasil');
+            expect(getLanguageName('pt-MI')).toBe('Português - Minerês');
+            expect(getLanguageName('ru-RU')).toBe('Русский');
+            expect(getLanguageName('sv-SE')).toBe('Svenska');
+            expect(getLanguageName('ta')).toBe('தமிழ்');
+            expect(getLanguageName('th-TH')).toBe('ไทย');
+            expect(getLanguageName('tr-TR')).toBe('Türkçe');
+            expect(getLanguageName('zh-TW')).toBe('繁體中文');
+        });
+    });
+
     afterAll(() =>
     {
         jest.resetAllMocks();
