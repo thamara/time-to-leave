@@ -12,6 +12,7 @@
 -   Enhancement [#718]: Use purple clock icon on tray and menus to enhance contrast on light/dark themes
 -   Enhancement [#856]: Don't bother user asking if empty entries can be removed
 -   Enhancement [#857]: Improve Polish translation
+-   Enhancement [#863]: Sort languages on preference drop-down by their ISO key
 -   Enhancement [#868]: Improve User Preferences tests
 -   Enhancement [#871]: Change waiver icon to be more consistent with app UI
 -   Enhancement [#881]: Time to Leave has a new look! TTL icon was changed.
@@ -25,6 +26,7 @@
 -   Fix [#828]: Balance not shown when month ends on non-working day
 -   Fix [#854]: Entry removal button not removing anything
 -   Fix [#860]: Avoid cursor pointer in disabled punch button
+-   Fix [#861]: App title should not be translated as it was on Hindi and Gujarati
 -   Fix [#869]: Preserving modified 'minutes between notifications' setting
 -   Fix [#872]: Long Hindi translation of Tue on preference window
 -   Fix [#884]: Slightly moving the date picker icon margin in Day view
