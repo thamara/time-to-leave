@@ -95,6 +95,7 @@ Who built 2.0.2:
 -   ramonh
 -   ri-tae-ka
 -   sgronlund
+-   show981111
 -   stark255
 -   thamara
 -   thefyrewire
