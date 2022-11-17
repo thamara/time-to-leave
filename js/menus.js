@@ -9,7 +9,7 @@ const { getSavedPreferences } = require('./saved-preferences.js');
 const { importDatabaseFromFile, exportDatabaseToFile } = require('./import-export.js');
 const { notify } = require('./notification');
 const { getCurrentTranslation } = require('../src/configs/i18next.config');
-let { openWaiverManagerWindow, prefWindow } = require('./windows');
+let { openWaiverManagerWindow, prefWindow, getDialogCoordinates } = require('./windows');
 
 import { appConfig, getDetails } from './app-config.js';
 import { savePreferences } from './user-preferences.js';
@@ -118,8 +118,11 @@ function getEditMenuTemplate(mainWindow)
                 }
 
                 const htmlPath = path.join('file://', __dirname, '../src/preferences.html');
+                const dialogCoordinates = getDialogCoordinates(500, 620, mainWindow);
                 prefWindow = new BrowserWindow({ width: 500,
                     height: 620,
+                    x: dialogCoordinates.x,
+                    y: dialogCoordinates.y,
                     parent: mainWindow,
                     resizable: true,
                     icon: appConfig.iconpath,
