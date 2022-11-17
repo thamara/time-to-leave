@@ -29,6 +29,7 @@
 -   Fix [#861]: App title should not be translated as it was on Hindi and Gujarati
 -   Fix [#869]: Preserving modified 'minutes between notifications' setting
 -   Fix [#872]: Long Hindi translation of Tue on preference window
+-   Fix [#877]: Dialogs open in wrong monitor in multi-monitor configuration
 -   Fix [#884]: Slightly moving the date picker icon margin in Day view
 -   Fix [#890]: Leave by field to be updated with removal of entries
 -   Translation: Time to Leave is now available in Bengali (bn)!
