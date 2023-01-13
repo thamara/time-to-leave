@@ -16,6 +16,7 @@
 -   Enhancement [#868]: Improve User Preferences tests
 -   Enhancement [#871]: Change waiver icon to be more consistent with app UI
 -   Enhancement [#881]: Time to Leave has a new look! TTL icon was changed.
+-   Enhancement [#883]: Click on the notification should open TTL.
 -   Fix #865: Unhandled promise rejection in terminal
 -   Fix [#650]: Month balance is incorrect
 -   Fix [#660]: Hours field on waiver manager is not validated
