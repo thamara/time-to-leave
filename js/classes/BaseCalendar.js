@@ -410,7 +410,7 @@ class BaseCalendar
      */
     loadInternalStore()
     {
-        this._internalStore = [];
+        this._internalStore = {};
 
         for (const entry of flexibleStore)
         {

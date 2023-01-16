@@ -12,45 +12,25 @@ class CalendarFactory
     {
         const view = preferences['view'];
         const widthHeight = getDefaultWidthHeight();
-        if (view === 'day')
+        if (view !== 'day' && view !== 'month')
+            throw new Error(`Could not instantiate ${view}`);
+
+        const constructorName = view === 'day' ? 'FlexibleDayCalendar': 'FlexibleMonthCalendar';
+        const CalendarClass = view === 'day' ? FlexibleDayCalendar: FlexibleMonthCalendar;
+        if (calendar === undefined || calendar.constructor.name !== constructorName)
         {
-            if (calendar === undefined || calendar.constructor.name !== 'FlexibleDayCalendar')
+            if (calendar !== undefined && calendar.constructor.name !== constructorName)
             {
-                if (calendar !== undefined && calendar.constructor.name !== 'FlexibleDayCalendar')
-                {
-                    ipcRenderer.send('RESIZE_MAIN_WINDOW', widthHeight.width, widthHeight.height);
-                }
-                return new FlexibleDayCalendar(preferences, languageData);
+                ipcRenderer.send('RESIZE_MAIN_WINDOW', widthHeight.width, widthHeight.height);
             }
-            else
-            {
-                calendar.updateLanguageData(languageData);
-                calendar.updatePreferences(preferences);
-                calendar.redraw();
-                return calendar;
-            }
-        }
-        else if (view === 'month')
-        {
-            if (calendar === undefined || calendar.constructor.name !== 'FlexibleMonthCalendar')
-            {
-                if (calendar !== undefined && calendar.constructor.name !== 'FlexibleMonthCalendar')
-                {
-                    ipcRenderer.send('RESIZE_MAIN_WINDOW', widthHeight.width, widthHeight.height);
-                }
-                return new FlexibleMonthCalendar(preferences, languageData);
-            }
-            else
-            {
-                calendar.updateLanguageData(languageData);
-                calendar.updatePreferences(preferences);
-                calendar.redraw();
-                return calendar;
-            }
+            return new CalendarClass(preferences, languageData);
         }
         else
         {
-            throw new Error(`Could not instantiate ${view}`);
+            calendar.updateLanguageData(languageData);
+            calendar.updatePreferences(preferences);
+            calendar.redraw();
+            return calendar;
         }
     }
 }
