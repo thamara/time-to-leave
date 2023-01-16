@@ -2,8 +2,8 @@
 'use strict';
 
 const Store = require('electron-store');
-const { defaultPreferences } = require('../../../js/user-preferences');
-const { CalendarFactory } = require('../../../js/classes/CalendarFactory');
+import { defaultPreferences } from '../../../js/user-preferences.js';
+import { CalendarFactory } from '../../../js/classes/CalendarFactory.js';
 
 window.$ = window.jQuery = require('jquery');
 

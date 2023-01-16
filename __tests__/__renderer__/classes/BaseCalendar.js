@@ -1,7 +1,8 @@
 import ElectronStore from 'electron-store';
-import { BaseCalendar } from '../../../js/classes/BaseCalendar';
-import { getUserPreferences, resetPreferences, savePreferences } from '../../../js/user-preferences';
+import { BaseCalendar } from '../../../js/classes/BaseCalendar.js';
+import { getUserPreferences, resetPreferences, savePreferences } from '../../../js/user-preferences.js';
 const timeBalance = require('../../../js/time-balance');
+
 jest.mock('../../../js/time-math', () =>
 {
     const originalModule = jest.requireActual('../../../js/time-math');

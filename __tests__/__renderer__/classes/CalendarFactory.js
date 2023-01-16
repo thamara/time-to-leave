@@ -1,6 +1,6 @@
-import { CalendarFactory } from '../../../js/classes/CalendarFactory';
-import { FlexibleDayCalendar } from '../../../js/classes/FlexibleDayCalendar';
-import { FlexibleMonthCalendar } from '../../../js/classes/FlexibleMonthCalendar';
+import { CalendarFactory } from '../../../js/classes/CalendarFactory.js';
+import { FlexibleDayCalendar } from '../../../js/classes/FlexibleDayCalendar.js';
+import { FlexibleMonthCalendar } from '../../../js/classes/FlexibleMonthCalendar.js';
 
 jest.mock('../../../js/classes/BaseCalendar.js', () =>
 {
