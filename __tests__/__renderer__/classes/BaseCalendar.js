@@ -1,5 +1,6 @@
 import ElectronStore from 'electron-store';
 import { BaseCalendar } from '../../../js/classes/BaseCalendar.js';
+import { generateKey } from '../../../js/date-db-formatter.js';
 import { getUserPreferences, resetPreferences, savePreferences } from '../../../js/user-preferences.js';
 const timeBalance = require('../../../js/time-balance');
 
@@ -222,7 +223,7 @@ describe('BaseCalendar.js', () =>
         });
     });
 
-    describe('_validateTimes', () =>
+    describe('_validateTimes()', () =>
     {
         test('Shold return empty array', () =>
         {
@@ -252,17 +253,107 @@ describe('BaseCalendar.js', () =>
         });
     });
 
-    describe('_switchView', () =>
+    describe('_switchView()', () =>
     {
-        test('Should change calendar view', () =>
+        const tests = [
+            {view: 'day', result: 'month'},
+            {view: 'month', result: 'day'}
+        ];
+        for (const t of tests)
         {
-            savePreferences({...getUserPreferences(), view: 'day'});
-            const languageData = {hello: 'hola'};
-            const calendar = new ExtendedClass(getUserPreferences(), languageData);
-            calendar._switchView();
-            const updatedPreferences = getUserPreferences();
-            expect(updatedPreferences.view).toEqual('month');
-        });
+            test(`Should change calendar view: ${t.view}`, () =>
+            {
+                savePreferences({...getUserPreferences(), view: t.view});
+                const languageData = {hello: 'hola'};
+                const calendar = new ExtendedClass(getUserPreferences(), languageData);
+                calendar._switchView();
+                const updatedPreferences = getUserPreferences();
+                expect(updatedPreferences.view).toEqual(t.result);
+            });
+        }
+    });
+
+    describe('punchDate()', () =>
+    {
+        const today = new Date();
+        const nextYear = new Date();
+        nextYear.setFullYear(today.getFullYear() + 1);
+        const nextMonth = new Date();
+        nextMonth.setMonth(today.getMonth() + 1);
+        const nextDay = new Date();
+        nextDay.setDate(today.getDate() + 1);
+        const languageData = {hello: 'hola'};
+        const tests = [
+            {   it: 'Should fail on checking year',
+                date: nextYear,
+                setup: () =>
+                {
+                    mocks._areAllInputsFilled = jest.spyOn(ExtendedClass.prototype, '_areAllInputsFilled');
+                },
+                getCalendar: () => new ExtendedClass(getUserPreferences(), languageData),
+                expect: () =>
+                {
+                    expect(mocks._areAllInputsFilled).toHaveBeenCalledTimes(0);
+                }
+            },
+            {   it: 'Should fail on checking  month',
+                date: nextMonth,
+                setup: () =>
+                {
+                    mocks._areAllInputsFilled = jest.spyOn(ExtendedClass.prototype, '_areAllInputsFilled');
+                },
+                getCalendar: () => new ExtendedClass(getUserPreferences(), languageData),
+                expect: () =>
+                {
+                    expect(mocks._areAllInputsFilled).toHaveBeenCalledTimes(0);
+                }
+            },
+            {   it: 'Should fail on checking day',
+                date: nextMonth,
+                setup: () =>
+                {
+                    mocks._areAllInputsFilled = jest.spyOn(ExtendedClass.prototype, '_areAllInputsFilled');
+                },
+                getCalendar: () => new ExtendedClass(getUserPreferences(), languageData),
+                expect: () =>
+                {
+                    expect(mocks._areAllInputsFilled).toHaveBeenCalledTimes(0);
+                }
+            },
+            {   it: 'Should fail on checking day',
+                setup: () =>
+                {
+                    mocks._areAllInputsFilled = jest.spyOn(ExtendedClass.prototype, '_areAllInputsFilled');
+                    mocks._updateTimeDayCallback = jest.spyOn(ExtendedClass.prototype, '_updateTimeDayCallback');
+                    mocks._addTodayEntries = jest.spyOn(ExtendedClass.prototype, '_addTodayEntries').mockImplementation(() => {});
+                    const dateKey = generateKey(today.getFullYear(), today.getMonth(), today.getDate());
+                    $('#' + dateKey + ' input[type="time"]').val('08:00');
+                },
+                date: new Date(),
+                getCalendar: () =>
+                {
+                    const calendar = new ExtendedClass(getUserPreferences(), languageData);
+                    return calendar;
+                },
+                expect: () =>
+                {
+                    expect(mocks._areAllInputsFilled).toHaveBeenCalledTimes(1);
+                    expect(mocks._addTodayEntries).toHaveBeenCalledTimes(1);
+                    expect(mocks._updateTimeDayCallback).toHaveBeenCalledTimes(0);
+                }
+            }
+        ];
+        for (const t of tests)
+        {
+            test(t.it, () =>
+            {
+                t.setup();
+                const calendar = t.getCalendar();
+                calendar._calendarDate = t.date;
+                calendar.punchDate();
+                t.expect();
+            });
+        }
     });
 
     afterEach(() =>
