@@ -1,6 +1,5 @@
 import ElectronStore from 'electron-store';
 import { BaseCalendar } from '../../../js/classes/BaseCalendar.js';
-import { generateKey } from '../../../js/date-db-formatter.js';
 import { getUserPreferences, resetPreferences, savePreferences } from '../../../js/user-preferences.js';
 const timeBalance = require('../../../js/time-balance');
 
@@ -320,14 +319,12 @@ describe('BaseCalendar.js', () =>
                     expect(mocks._areAllInputsFilled).toHaveBeenCalledTimes(0);
                 }
             },
-            {   it: 'Should fail on checking day',
+            {   it: 'Should not punch date',
                 setup: () =>
                 {
                     mocks._areAllInputsFilled = jest.spyOn(ExtendedClass.prototype, '_areAllInputsFilled');
                     mocks._updateTimeDayCallback = jest.spyOn(ExtendedClass.prototype, '_updateTimeDayCallback');
                     mocks._addTodayEntries = jest.spyOn(ExtendedClass.prototype, '_addTodayEntries').mockImplementation(() => {});
-                    const dateKey = generateKey(today.getFullYear(), today.getMonth(), today.getDate());
-                    $('#' + dateKey + ' input[type="time"]').val('08:00');
                 },
                 date: new Date(),
                 getCalendar: () =>
