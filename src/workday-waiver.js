@@ -464,7 +464,7 @@ $(() =>
         });
 
         bindDevToolsShortcut(window);
-        translatePage(languageData.language, languageData.data);
+        translatePage(languageData.language, languageData.data, 'WorkdayWaiver');
     });
 });
 

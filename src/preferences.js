@@ -34,7 +34,7 @@ function listenerLanguage()
         preferences['language'] = this.value;
         window.mainApi.changeLanguagePromise(this.value).then((languageData) =>
         {
-            translatePage(this.value, languageData);
+            translatePage(this.value, languageData, 'Preferences');
             window.mainApi.notifyNewPreferences(preferences);
         });
     });
@@ -46,7 +46,7 @@ function setupLanguages()
     listenerLanguage();
     window.mainApi.getLanguageDataPromise().then(languageData =>
     {
-        translatePage(usersStyles['language'], languageData.data);
+        translatePage(usersStyles['language'], languageData.data, 'Preferences');
     });
 }
 
