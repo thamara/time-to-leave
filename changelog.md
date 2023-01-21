@@ -17,6 +17,7 @@
 -   Enhancement [#871]: Change waiver icon to be more consistent with app UI
 -   Enhancement [#881]: Time to Leave has a new look! TTL icon was changed
 -   Enhancement [#883]: Click on the notification should open TTL
+-   Fix #912: Hard code time to leave string in window title
 -   Fix [#650]: Month balance is incorrect
 -   Fix [#660]: Hours field on waiver manager is not validated
 -   Fix [#702]: Day view and balance not counting the waived value when looking at a waived day
