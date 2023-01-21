@@ -17,7 +17,6 @@
 -   Enhancement [#871]: Change waiver icon to be more consistent with app UI
 -   Enhancement [#881]: Time to Leave has a new look! TTL icon was changed
 -   Enhancement [#883]: Click on the notification should open TTL
--   Fix #912: Hard code time to leave string in window title
 -   Fix [#650]: Month balance is incorrect
 -   Fix [#660]: Hours field on waiver manager is not validated
 -   Fix [#702]: Day view and balance not counting the waived value when looking at a waived day
@@ -36,6 +35,7 @@
 -   Fix [#884]: Slightly moving the date picker icon margin in Day view
 -   Fix [#890]: Leave by field to be updated with removal of entries
 -   Fix [#892]: start menu entry title on Windows is hyphenated
+-   Fix [#912]: Hard code time to leave string in window title
 -   Fix [#925]: Punch from tray and reload after changing database do not work
 -   Translation: Time to Leave is now available in Bengali (bn)!
 -   Translation: Time to Leave is now available in Gujarati (gu)!
