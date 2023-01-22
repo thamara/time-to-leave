@@ -4,8 +4,10 @@
 const {
     exportDatabaseToFile,
     importDatabaseFromFile,
+    importDatabaseFromBuffer,
     migrateFixedDbToFlexible,
-    validEntry
+    validEntry,
+    getDatabaseAsJSON
 } = require('../../js/import-export');
 
 const fs = require('fs');
@@ -153,6 +155,41 @@ describe('Import export', function()
             expect(flexibleStore.size).toBe(2);
             expect(flexibleStore.get('2020-2-1')).toStrictEqual(expectedMixedEntries['2020-2-1']);
             expect(flexibleStore.get('2020-5-3')).toStrictEqual(expectedMixedEntries['2020-5-3']);
+        });
+    });
+
+    const regularEntriesJSON =
+        `[{"type": "flexible","date": "2020-4-1","values": ["08:00","12:00","13:00","17:00"]},
+          {"type": "flexible","date": "2020-4-2","values": ["07:00","11:00","14:00","18:00"]},
+          {"type": "waived","date": "2019-12-31","data": "New Year's eve","hours": "08:00"},
+          {"type": "waived","date": "2020-01-01","data": "New Year's Day","hours": "08:00"},
+          {"type": "waived","date": "2020-04-10","data": "Good Friday","hours": "08:00"}]`;
+
+    const notValidJSON =
+        '[{"type": "flexible","date": "2022-11-6","values": "08:44","08:45"]}]';
+
+    describe('importDatabaseFromBuffer', function()
+    {
+        test('Check that import fom buffer works', () =>
+        {
+            expect(importDatabaseFromBuffer(regularEntriesJSON)['result']).toBeTruthy();
+            expect(importDatabaseFromBuffer(notValidJSON)['result']).not.toBeTruthy();
+            expect(importDatabaseFromBuffer(notValidJSON)['failed']).toBe(0);
+            expect(importDatabaseFromBuffer(invalidEntriesContent)['result']).not.toBeTruthy();
+            expect(importDatabaseFromBuffer(invalidEntriesContent)['failed']).toBe(5);
+        });
+    });
+
+    store.clear();
+    store.set(regularEntries);
+
+    describe('getDatabaseAsJSON', function()
+    {
+        const databaseJSONObject = JSON.parse(getDatabaseAsJSON());
+        const regularEntriesJSONObject = JSON.parse(regularEntriesJSON);
+        test('Check that returning database as JSON works', () =>
+        {
+            expect(databaseJSONObject).toMatchObject(regularEntriesJSONObject);
         });
     });
 

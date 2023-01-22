@@ -58,7 +58,7 @@ function openWaiverManagerWindow(mainWindow, event)
  */
 function getDialogCoordinates(dialogWidth, dialogHeight, mainWindow)
 {
-    return{
+    return {
         x : Math.round(mainWindow.getBounds().x + mainWindow.getBounds().width/2 - dialogWidth/2),
         y : Math.round(mainWindow.getBounds().y + mainWindow.getBounds().height/2 - dialogHeight/2),
     };

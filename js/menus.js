@@ -9,6 +9,7 @@ const { getSavedPreferences } = require('./saved-preferences.js');
 const { importDatabaseFromFile, exportDatabaseToFile } = require('./import-export.js');
 const { notify } = require('./notification');
 const { getCurrentTranslation } = require('../src/configs/i18next.config');
+const { exportDatabaseToGoogleDrive, importDatabaseFromGoogleDrive } = require('./import-export-online.js');
 let { openWaiverManagerWindow, prefWindow, getDialogCoordinates } = require('./windows');
 
 import { appConfig, getDetails } from './app-config.js';
@@ -28,7 +29,7 @@ function getMainMenuTemplate(mainWindow)
         },
         {type: 'separator'},
         {
-            label:getCurrentTranslation('$Menu.exit'),
+            label: getCurrentTranslation('$Menu.exit'),
             accelerator: appConfig.macOS ? 'CommandOrControl+Q' : 'Control+Q',
             click()
             {
@@ -46,9 +47,9 @@ function getContextMenuTemplate(mainWindow)
             {
                 const now = new Date();
 
-                mainWindow.webContents.executeJavaScript('calendar.punchDate()');
+                mainWindow.webContents.send('PUNCH_DATE');
                 // Slice keeps "HH:MM" part of "HH:MM:SS GMT+HHMM (GMT+HH:MM)" time string
-                notify(`${getCurrentTranslation('$Menu.punched-time')} ${now.toTimeString().slice(0,5)}`);
+                notify(`${getCurrentTranslation('$Menu.punched-time')} ${now.toTimeString().slice(0, 5)}`);
             }
         },
         {
@@ -74,9 +75,9 @@ function getDockMenuTemplate(mainWindow)
             {
                 const now = new Date();
 
-                mainWindow.webContents.executeJavaScript('calendar.punchDate()');
+                mainWindow.webContents.send('PUNCH_DATE');
                 // Slice keeps "HH:MM" part of "HH:MM:SS GMT+HHMM (GMT+HH:MM)" time string
-                notify(`${getCurrentTranslation('$Menu.punched-time')} ${now.toTimeString().slice(0,5)}`);
+                notify(`${getCurrentTranslation('$Menu.punched-time')} ${now.toTimeString().slice(0, 5)}`);
             }
         }
     ];
@@ -105,7 +106,7 @@ function getEditMenuTemplate(mainWindow)
             accelerator: 'Command+A',
             selector: 'selectAll:'
         },
-        {type: 'separator'},
+        { type: 'separator' },
         {
             label: getCurrentTranslation('$Menu.preferences'),
             accelerator: appConfig.macOS ? 'Command+,' : 'Control+,',
@@ -119,7 +120,8 @@ function getEditMenuTemplate(mainWindow)
 
                 const htmlPath = path.join('file://', __dirname, '../src/preferences.html');
                 const dialogCoordinates = getDialogCoordinates(500, 620, mainWindow);
-                prefWindow = new BrowserWindow({ width: 500,
+                prefWindow = new BrowserWindow({
+                    width: 500,
                     height: 620,
                     x: dialogCoordinates.x,
                     y: dialogCoordinates.y,
@@ -130,7 +132,8 @@ function getEditMenuTemplate(mainWindow)
                         nodeIntegration: true,
                         preload: path.join(__dirname, '../renderer/preload-scripts/preferences-bridge.js'),
                         contextIsolation: true
-                    } });
+                    }
+                });
                 prefWindow.setMenu(null);
                 prefWindow.loadURL(htmlPath);
                 prefWindow.show();
@@ -153,17 +156,17 @@ function getEditMenuTemplate(mainWindow)
                 });
             },
         },
-        {type: 'separator'},
+        { type: 'separator' },
         {
             label: getCurrentTranslation('$Menu.export-database'),
             click()
             {
                 const options = {
                     title: getCurrentTranslation('$Menu.export-db-to-file'),
-                    defaultPath : `time_to_leave_${getCurrentDateTimeStr()}`,
-                    buttonLabel : getCurrentTranslation('$Menu.export'),
+                    defaultPath: `time_to_leave_${getCurrentDateTimeStr()}`,
+                    buttonLabel: getCurrentTranslation('$Menu.export'),
 
-                    filters : [
+                    filters: [
                         { name: '.ttldb', extensions: ['ttldb',] },
                         { name: getCurrentTranslation('$Menu.all-files'), extensions: ['*'] }
                     ]
@@ -189,11 +192,11 @@ function getEditMenuTemplate(mainWindow)
             {
                 const options = {
                     title: getCurrentTranslation('$Menu.import-db-from-file'),
-                    buttonLabel : getCurrentTranslation('$Menu.import'),
+                    buttonLabel: getCurrentTranslation('$Menu.import'),
 
-                    filters : [
-                        {name: '.ttldb', extensions: ['ttldb',]},
-                        {name: getCurrentTranslation('$Menu.all-files'), extensions: ['*']}
+                    filters: [
+                        { name: '.ttldb', extensions: ['ttldb',] },
+                        { name: getCurrentTranslation('$Menu.all-files'), extensions: ['*'] }
                     ]
                 };
                 const response = dialog.showOpenDialogSync(options);
@@ -212,7 +215,7 @@ function getEditMenuTemplate(mainWindow)
                     {
                         const importResult = importDatabaseFromFile(response);
                         // Reload only the calendar itself to avoid a flash
-                        mainWindow.webContents.executeJavaScript('calendar.reload()');
+                        mainWindow.webContents.send('RELOAD_CALENDAR');
                         if (importResult['result'])
                         {
                             dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
@@ -266,14 +269,14 @@ function getEditMenuTemplate(mainWindow)
                 if (response === 1)
                 {
                     const store = new Store();
-                    const waivedWorkdays = new Store({name: 'waived-workdays'});
-                    const flexibleStore = new Store({name: 'flexible-store'});
+                    const waivedWorkdays = new Store({ name: 'waived-workdays' });
+                    const flexibleStore = new Store({ name: 'flexible-store' });
 
                     store.clear();
                     waivedWorkdays.clear();
                     flexibleStore.clear();
                     // Reload only the calendar itself to avoid a flash
-                    mainWindow.webContents.executeJavaScript('calendar.reload()');
+                    mainWindow.webContents.send('RELOAD_CALENDAR');
                     dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
                         {
                             title: 'Time to Leave',
@@ -284,6 +287,115 @@ function getEditMenuTemplate(mainWindow)
                         });
                 }
             }
+        },
+        { type: 'separator' },
+        // TODO: add Translation
+        {
+            label: 'Export data to Google Drive',
+            click()
+            {
+                const options = {
+                    type: 'question',
+                    buttons: [getCurrentTranslation('$Menu.yes-please'), getCurrentTranslation('$Menu.no-thanks')],
+                    defaultId: 2,
+                    title: 'Export database to Google Drive',
+                    message: 'Do you want to export your database to Google Drive?',
+                };
+
+                const confirmation = dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), options);
+                if (confirmation === /*Yes*/0)
+                {
+                    const path = 'time_to_leave_export';
+                    exportDatabaseToGoogleDrive(path).then(function()
+                    {
+                        dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
+                            {
+                                title: 'Time to Leave',
+                                message: getCurrentTranslation('$Menu.database-export'),
+                                type: 'info',
+                                icon: appConfig.iconpath,
+                                detail: getCurrentTranslation('$Menu.database-was-exported')
+                            });
+                    }).catch(function(err)
+                    {
+                        dialog.showMessageBoxSync({
+                            icon: appConfig.iconpath,
+                            type: 'warning',
+                            title: 'Failed to export database to Google Drive',
+                            message: err.message,
+                        });
+
+                    });
+                }
+            },
+        },
+        {
+            label: 'Import data from Google Drive',
+            click()
+            {
+                // TODO: get filename from user input
+                const options = {
+                    type: 'question',
+                    buttons: [getCurrentTranslation('$Menu.yes-please'), getCurrentTranslation('$Menu.no-thanks')],
+                    defaultId: 2,
+                    title: 'Import database to Google Drive',
+                    message: 'Do you want to import your data from Google Drive to your database?',
+                };
+
+                const confirmation = dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), options);
+                if (confirmation === /*Yes*/0)
+                {
+                    importDatabaseFromGoogleDrive().then(importResult =>
+                    {
+                        if (importResult['result'])
+                        {
+                            mainWindow.webContents.send('RELOAD_CALENDAR');
+                            dialog.showMessageBox(BrowserWindow.getFocusedWindow(),
+                                {
+                                    title: 'Time to Leave',
+                                    message: getCurrentTranslation('$Menu.database-imported'),
+                                    type: 'info',
+                                    icon: appConfig.iconpath,
+                                    detail: getCurrentTranslation('$Menu.import-successful')
+                                });
+
+                        }
+                        else if (importResult['failed'] !== 0)
+                        {
+                            if (importResult['failed'] !== 0)
+                            {
+                                const message = `${importResult['failed']}/${importResult['total']} ${getCurrentTranslation('$Menu.could-not-be-loaded')}`;
+                                dialog.showMessageBoxSync({
+                                    icon: appConfig.iconpath,
+                                    type: 'warning',
+                                    title: getCurrentTranslation('$Menu.failed-entries'),
+                                    message: message
+                                });
+                            }
+                        }
+                        else
+                        {
+                            dialog.showMessageBoxSync({
+                                icon: appConfig.iconpath,
+                                type: 'warning',
+                                title: getCurrentTranslation('$Menu.failed-entries'),
+                                message: getCurrentTranslation('$Menu.something-went-wrong')
+                            });
+                        }
+                    }).catch(function(err)
+                    {
+                        dialog.showMessageBoxSync({
+                            icon: appConfig.iconpath,
+                            type: 'warning',
+                            title: 'Failed to import database from Google Drive',
+                            message: err.message,
+                        });
+
+                    });
+                }
+
+            },
+
         },
     ];
 }
