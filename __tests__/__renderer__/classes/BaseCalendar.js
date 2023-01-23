@@ -1,6 +1,8 @@
 import ElectronStore from 'electron-store';
 import { BaseCalendar } from '../../../js/classes/BaseCalendar.js';
+import { generateKey } from '../../../js/date-db-formatter.js';
 import { getUserPreferences, resetPreferences, savePreferences } from '../../../js/user-preferences.js';
+const Store = require('electron-store');
 const timeBalance = require('../../../js/time-balance');
 
 jest.mock('../../../js/time-math', () =>
@@ -338,6 +340,42 @@ describe('BaseCalendar.js', () =>
                     expect(mocks._addTodayEntries).toHaveBeenCalledTimes(1);
                     expect(mocks._updateTimeDayCallback).toHaveBeenCalledTimes(0);
                 }
+            },
+            {   it: 'Should punch date',
+                setup: () =>
+                {
+                    ExtendedClass.prototype._updateTimeDay = () => {};
+                    ExtendedClass.prototype._updateLeaveBy = () => {};
+                    ExtendedClass.prototype._updateBalance = () => {};
+                    const newDate = new Date();
+                    const key = generateKey(newDate.getFullYear(),newDate.getMonth(), newDate.getDate());
+                    mocks._areAllInputsFilled = jest.spyOn(ExtendedClass.prototype, '_areAllInputsFilled');
+                    mocks._updateTimeDayCallback = jest.spyOn(ExtendedClass.prototype, '_updateTimeDayCallback');
+                    mocks._updateTimeDay = jest.spyOn(ExtendedClass.prototype, '_updateTimeDay');
+                    mocks._updateLeaveBy = jest.spyOn(ExtendedClass.prototype, '_updateLeaveBy');
+                    mocks._updateBalance = jest.spyOn(ExtendedClass.prototype, '_updateBalance');
+                    mocks._addTodayEntries = jest.spyOn(ExtendedClass.prototype, '_addTodayEntries').mockImplementation(() => {});
+                    $('body').append(`<div id="${key}" ></div>`);
+                    $(`#${key}`).append('<input type="time" value="" />');
+                },
+                date: new Date(),
+                getCalendar: () =>
+                {
+                    const calendar = new ExtendedClass(getUserPreferences(), languageData);
+                    return calendar;
+                },
+                expect: () =>
+                {
+                    expect(mocks._areAllInputsFilled).toHaveBeenCalledTimes(1);
+                    expect(mocks._addTodayEntries).toHaveBeenCalledTimes(0);
+                    expect(mocks._updateTimeDayCallback).toHaveBeenCalledTimes(1);
+                    expect(mocks._updateTimeDay).toHaveBeenCalledTimes(1);
+                    expect(mocks._updateLeaveBy).toHaveBeenCalledTimes(1);
+                    expect(mocks._updateBalance).toHaveBeenCalledTimes(1);
+                    const newDate = new Date();
+                    const key = generateKey(newDate.getFullYear(),newDate.getMonth(), newDate.getDate());
+                    $(`#${key}`).remove();
+                }
             }
         ];
         for (const t of tests)
@@ -351,6 +389,41 @@ describe('BaseCalendar.js', () =>
                 t.expect();
             });
         }
+    });
+
+    describe('_updateDayTotal()', () =>
+    {
+        test('Should not update when day has not ended', () =>
+        {
+            const newDate = new Date();
+            const key = generateKey(newDate.getFullYear(),newDate.getMonth(), newDate.getDate());
+            $('body').append(`<div id="${key}" ></div>`);
+            $(`#${key}`).append('<input type="time" value="--:--" />');
+            const calendar = new ExtendedClass(getUserPreferences(), {});
+            calendar._updateDayTotal(key);
+            const dayTotalSpan = $('#' + key).parent().find('.day-total-cell span');
+            $(`#${key}`).remove();
+            expect(dayTotalSpan.text()).toBe('');
+        });
+        test('Should update when day has ended', () =>
+        {
+            const flexibleStore = new Store({name: 'flexible-store'});
+            const newDate = new Date();
+            const key = generateKey(newDate.getFullYear(),newDate.getMonth(), newDate.getDate());
+            flexibleStore.set(key, '08:00');
+            flexibleStore.set(key, '16:00');
+            $('body').append(`<div id="${key}" ></div>`);
+            $('body').append('<div class="day-total-cell" ><span>--:--</span></div>');
+            $(`#${key}`).append('<input type="time" value="08:00" />');
+            $(`#${key}`).append('<input type="time" value="16:00" />');
+            const calendar = new ExtendedClass(getUserPreferences(), {});
+            calendar._setStore(key, ['08:00', '16:30']);
+            calendar._updateDayTotal(key);
+            const dayTotalSpan = $('#' + key).parent().find('.day-total-cell span');
+            $(`#${key}`).remove();
+            expect(dayTotalSpan.html()).toBe('08:30');
+
+        });
     });
 
     afterEach(() =>
@@ -371,10 +444,6 @@ describe('BaseCalendar.js', () =>
         }
         $('#overall-balance').remove();
         resetPreferences();
-    });
-
-    afterAll(() =>
-    {
         const flexibleStore = new ElectronStore({name: 'flexible-store'});
         flexibleStore.clear();
         const waivedWorkdays = new ElectronStore({name: 'waived-workdays'});

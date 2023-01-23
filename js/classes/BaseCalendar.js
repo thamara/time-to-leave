@@ -619,7 +619,7 @@ class BaseCalendar
         const validatedTimes = this._validateTimes(values);
 
         const storeHasExpectedSize = values.length === inputs.length;
-        const inputsHaveExpectedSize = values.length >= 2 && values.length % 2 === 0;
+        const inputsHaveExpectedSize = inputs.length >= 2 && inputs.length % 2 === 0;
         const validatedTimesOk = validatedTimes.length > 0 && validatedTimes.every(time => time !== '--:--');
         const hasDayEnded = storeHasExpectedSize && inputsHaveExpectedSize && validatedTimesOk;
 
