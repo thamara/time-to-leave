@@ -25,7 +25,7 @@ jest.mock('electron', () =>
     };
 });
 
-const {ipcRenderer} = require('electron');
+const { ipcRenderer } = require('electron');
 
 describe('CalendarFactory', () =>
 {

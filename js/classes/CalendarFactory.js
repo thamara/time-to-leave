@@ -13,7 +13,9 @@ class CalendarFactory
         const view = preferences['view'];
         const widthHeight = getDefaultWidthHeight();
         if (view !== 'day' && view !== 'month')
+        {
             throw new Error(`Could not instantiate ${view}`);
+        }
 
         const constructorName = view === 'day' ? 'FlexibleDayCalendar': 'FlexibleMonthCalendar';
         const CalendarClass = view === 'day' ? FlexibleDayCalendar: FlexibleMonthCalendar;
