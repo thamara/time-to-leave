@@ -106,7 +106,7 @@ describe('BaseCalendar.js', () =>
 
     describe('_updateAllTimeBalance', () =>
     {
-        test('Should not update value because of no implementation', (done) =>
+        test('Should not update value because of no implementation', () =>
         {
             delete ExtendedClass.prototype._getTargetDayForAllTimeBalance;
             mocks.compute = jest.spyOn(timeBalance, 'computeAllTimeBalanceUntilAsync').mockImplementation(() => Promise.resolve());
@@ -115,7 +115,6 @@ describe('BaseCalendar.js', () =>
             const calendar = new ExtendedClass(preferences, languageData);
             expect(() => calendar._updateAllTimeBalance()).toThrow('Please implement this.');
             expect(mocks.compute).toHaveBeenCalledTimes(0);
-            done();
         });
 
         test('Should not update value because of rejection', (done) =>
