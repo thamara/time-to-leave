@@ -31,7 +31,6 @@ describe('BaseCalendar.js', () =>
      * @type {{[key: string]: jest.Mock}}
      */
     const mocks = {};
-
     beforeEach(() =>
     {
         const flexibleStore = new ElectronStore({name: 'flexible-store'});
@@ -127,7 +126,7 @@ describe('BaseCalendar.js', () =>
             expect(mocks.compute).toHaveBeenCalledTimes(1);
         });
 
-        test('Should not update value because no overall-balance element', (done) =>
+        test('Should not update value because no overall-balance element', () =>
         {
             window.$ = () => false;
             mocks.compute = jest.spyOn(timeBalance, 'computeAllTimeBalanceUntilAsync').mockResolvedValue('2022-02-31');
@@ -136,13 +135,8 @@ describe('BaseCalendar.js', () =>
             const languageData = {hello: 'hola'};
             const calendar = new ExtendedClass(preferences, languageData);
             calendar._updateAllTimeBalance();
-            setTimeout(() =>
-            {
-                expect(mocks.isNegative).toHaveBeenCalledTimes(0);
-                expect(mocks.compute).toHaveBeenCalledTimes(1);
-                window.$ = require('jquery');
-                done();
-            }, 500);
+            expect(mocks.isNegative).toHaveBeenCalledTimes(0);
+            expect(mocks.compute).toHaveBeenCalledTimes(1);
         });
 
         test('Should update value with text-danger class', (done) =>
@@ -160,6 +154,7 @@ describe('BaseCalendar.js', () =>
                 expect(mocks.compute).toHaveBeenCalledTimes(1);
                 expect($('#overall-balance').val()).toBe('2022-02-31');
                 expect($('#overall-balance').hasClass('text-danger')).toBe(true);
+                expect($('#overall-balance').hasClass('text-success')).toBe(false);
                 done();
             }, 500);
         });
@@ -178,6 +173,7 @@ describe('BaseCalendar.js', () =>
             {
                 expect(mocks.compute).toHaveBeenCalledTimes(1);
                 expect($('#overall-balance').val()).toBe('2022-02-31');
+                expect($('#overall-balance').hasClass('text-danger')).toBe(false);
                 expect($('#overall-balance').hasClass('text-success')).toBe(true);
                 done();
             }, 500);
@@ -427,6 +423,7 @@ describe('BaseCalendar.js', () =>
         {
             mock.mockRestore();
         }
+        window.$ = require('jquery');
         $('#overall-balance').remove();
         resetPreferences();
     });
