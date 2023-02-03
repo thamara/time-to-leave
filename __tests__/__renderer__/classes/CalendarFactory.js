@@ -38,7 +38,6 @@ describe('CalendarFactory', () =>
 
     describe('FlexibleDayCalendar', () =>
     {
-
         test('Should fail wrong view', () =>
         {
             let calls = 0;
@@ -110,7 +109,6 @@ describe('CalendarFactory', () =>
             expect(calendar).toBeInstanceOf(FlexibleDayCalendar);
             expect(calls).toBe(1);
         });
-
     });
 
     describe('FlexibleMonthCalendar', () =>

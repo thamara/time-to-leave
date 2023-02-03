@@ -428,25 +428,11 @@ describe('BaseCalendar.js', () =>
 
     afterEach(() =>
     {
-        ExtendedClass.prototype._initCalendar = () =>
-        {
-            throw Error('Please implement this.');
-        };
-
-        ExtendedClass.prototype._getTargetDayForAllTimeBalance = () =>
-        {
-            throw Error('Please implement this.');
-        };
-
         for (const mock of Object.values(mocks))
         {
             mock.mockRestore();
         }
         $('#overall-balance').remove();
         resetPreferences();
-        const flexibleStore = new ElectronStore({name: 'flexible-store'});
-        flexibleStore.clear();
-        const waivedWorkdays = new ElectronStore({name: 'waived-workdays'});
-        waivedWorkdays.clear();
     });
 });
