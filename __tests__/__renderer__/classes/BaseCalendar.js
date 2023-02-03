@@ -150,7 +150,7 @@ describe('BaseCalendar.js', () =>
             }, 500);
         });
 
-        test('Should update value with negative class', (done) =>
+        test('Should update value with text-danger class', (done) =>
         {
             $('body').append('<span id="overall-balance" value="12:12">12:12</span>');
             $('#overall-balance').val('12:12');
@@ -169,7 +169,7 @@ describe('BaseCalendar.js', () =>
             }, 500);
         });
 
-        test('Should update value with positive class', (done) =>
+        test('Should update value with text-success class', (done) =>
         {
             $('body').append('<span class="text-success text-danger" id="overall-balance" value="12:12">12:12</span>');
             $('#overall-balance').val('12:12');
@@ -348,7 +348,7 @@ describe('BaseCalendar.js', () =>
                     ExtendedClass.prototype._updateLeaveBy = () => {};
                     ExtendedClass.prototype._updateBalance = () => {};
                     const newDate = new Date();
-                    const key = generateKey(newDate.getFullYear(),newDate.getMonth(), newDate.getDate());
+                    const key = generateKey(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
                     mocks._areAllInputsFilled = jest.spyOn(ExtendedClass.prototype, '_areAllInputsFilled');
                     mocks._updateTimeDayCallback = jest.spyOn(ExtendedClass.prototype, '_updateTimeDayCallback');
                     mocks._updateTimeDay = jest.spyOn(ExtendedClass.prototype, '_updateTimeDay');
@@ -373,7 +373,7 @@ describe('BaseCalendar.js', () =>
                     expect(mocks._updateLeaveBy).toHaveBeenCalledTimes(1);
                     expect(mocks._updateBalance).toHaveBeenCalledTimes(1);
                     const newDate = new Date();
-                    const key = generateKey(newDate.getFullYear(),newDate.getMonth(), newDate.getDate());
+                    const key = generateKey(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
                     $(`#${key}`).remove();
                 }
             }
@@ -396,7 +396,7 @@ describe('BaseCalendar.js', () =>
         test('Should not update when day has not ended', () =>
         {
             const newDate = new Date();
-            const key = generateKey(newDate.getFullYear(),newDate.getMonth(), newDate.getDate());
+            const key = generateKey(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
             $('body').append(`<div id="${key}" ></div>`);
             $(`#${key}`).append('<input type="time" value="--:--" />');
             const calendar = new ExtendedClass(getUserPreferences(), {});
@@ -409,7 +409,7 @@ describe('BaseCalendar.js', () =>
         {
             const flexibleStore = new Store({name: 'flexible-store'});
             const newDate = new Date();
-            const key = generateKey(newDate.getFullYear(),newDate.getMonth(), newDate.getDate());
+            const key = generateKey(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
             flexibleStore.set(key, '08:00');
             flexibleStore.set(key, '16:00');
             $('body').append(`<div id="${key}" ></div>`);
