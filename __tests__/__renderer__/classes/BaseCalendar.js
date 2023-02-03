@@ -117,18 +117,14 @@ describe('BaseCalendar.js', () =>
             expect(mocks.compute).toHaveBeenCalledTimes(0);
         });
 
-        test('Should not update value because of rejection', (done) =>
+        test('Should not update value because of rejection', () =>
         {
             mocks.compute = jest.spyOn(timeBalance, 'computeAllTimeBalanceUntilAsync').mockImplementation(() => Promise.reject());
             const preferences = {view: 'day'};
             const languageData = {hello: 'hola'};
             const calendar = new ExtendedClass(preferences, languageData);
             calendar._updateAllTimeBalance();
-            setTimeout(() =>
-            {
-                expect(mocks.compute).toHaveBeenCalledTimes(1);
-                done();
-            }, 500);
+            expect(mocks.compute).toHaveBeenCalledTimes(1);
         });
 
         test('Should not update value because no overall-balance element', (done) =>
