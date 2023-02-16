@@ -414,7 +414,6 @@ describe('BaseCalendar.js', () =>
             const dayTotalSpan = $('#' + key).parent().find('.day-total-cell span');
             $(`#${key}`).remove();
             expect(dayTotalSpan.html()).toBe('08:30');
-
         });
     });
 
