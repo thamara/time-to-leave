@@ -396,6 +396,7 @@ describe('BaseCalendar.js', () =>
             $(`#${key}`).remove();
             expect(dayTotalSpan.text()).toBe('');
         });
+
         test('Should update when day has ended', () =>
         {
             const flexibleStore = new Store({name: 'flexible-store'});
