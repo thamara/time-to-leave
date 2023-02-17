@@ -39,6 +39,7 @@
 -   Fix [#925]: Punch from tray and reload after changing database do not work
 -   Fix [#941]: Pop-up confirmation to remove entry shows wrong month
 -   Translation: Time to Leave is now available in Bengali (bn)!
+-   Translation: Time to Leave is now available in Greek (el)!
 -   Translation: Time to Leave is now available in Gujarati (gu)!
 -   Translation: Time to Leave is now available in Hebrew (he)!
 -   Translation: Time to Leave is now available in Persian (fa-IR)!
@@ -59,6 +60,7 @@ Who built 2.0.2:
 -   DanMargera
 -   Dudu-CNU
 -   JulienZD
+-   Kostioan
 -   L8Y
 -   LauraToddCodes
 -   LouisHLAV
