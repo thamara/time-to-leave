@@ -47,6 +47,7 @@
 -   Translation: Time to Leave is now available in Russian (ru-RU)!
 -   Translation: Time to Leave is now available in Swedish (sv-SE)!
 -   Translation: Time to Leave is now available in Turkish (tr-TR)!
+-   Translation: Time to Leave is now available in Ukrainian (uk-UA)!
 
 <!--- End changes - Do not remove -->
 
