@@ -39,6 +39,7 @@
 -   Fix [#912]: Hard code time to leave string in window title
 -   Fix [#925]: Punch from tray and reload after changing database do not work
 -   Fix [#941]: Pop-up confirmation to remove entry shows wrong month
+-   Fix [#972]: Preference window doesn't have minimum width
 -   Translation: Time to Leave is now available in Bengali (bn)!
 -   Translation: Time to Leave is now available in Greek (el)!
 -   Translation: Time to Leave is now available in Gujarati (gu)!
@@ -112,6 +113,7 @@ Who built 2.0.2:
 -   sgronlund
 -   show981111
 -   stark255
+-   sung01299
 -   thamara
 -   thefyrewire
 -   timagixe
