@@ -38,6 +38,7 @@
 -   Fix [#892]: start menu entry title on Windows is hyphenated
 -   Fix [#912]: Hard code time to leave string in window title
 -   Fix [#925]: Punch from tray and reload after changing database do not work
+-   Fix [#929]: Improved code coverage and fixed some bugs along the way.
 -   Fix [#941]: Pop-up confirmation to remove entry shows wrong month
 -   Fix [#972]: Preference window doesn't have minimum width
 -   Translation: Time to Leave is now available in Bengali (bn)!
