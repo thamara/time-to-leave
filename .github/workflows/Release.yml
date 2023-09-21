@@ -115,12 +115,12 @@ jobs:
     - name: 'Packing EXE, etc'
       if: success()
       run: npm run setup:win
-    - name: 'Renaming MSI & EXE...'
+    - name: 'Renaming EXE...'
       shell: pwsh
       if: success()
       # Usual format is 'TimeToLeaveInstaller.exe'. Consistent expected name is 'time-to-leave-2.0.1-installer.exe'
       run: |
-        $newFileName = "packages/time-to-leave-${{ env.APP_VERSION }}-installer.exe"
+        $newFileName = "time-to-leave-${{ env.APP_VERSION }}-installer.exe"
         Rename-Item -Path "packages/TimeToLeaveInstaller.exe" -NewName $newFileName
     - name: 'Release EXE to GH'
       if: success()
