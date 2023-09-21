@@ -97,6 +97,7 @@ typings/
 
 # Release builds
 release-builds
+packages
 *.ttldb
 .vscode/settings.json
 *.pyc
