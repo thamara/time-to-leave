@@ -15,7 +15,7 @@ jobs:
     - name: set remote url
       run: |
         git remote set-url --push origin https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-        npm ci
+        npm install
     - name: package-update
       uses: thamara/actions-package-update@master
       env:
