@@ -1,5 +1,4 @@
 const createWindowsInstaller = require('electron-winstaller').createWindowsInstaller
-const path = require('path')
 
 getInstallerConfig()
   .then(createWindowsInstaller)
@@ -10,8 +9,6 @@ getInstallerConfig()
 
 function getInstallerConfig () {
   console.log('creating windows installer')
-  const rootPath = path.join('./')
-  const outPath = path.join(rootPath, 'release-builds')
 
   return Promise.resolve({
     appDirectory: 'release-builds/Time to Leave-win32-ia32',
