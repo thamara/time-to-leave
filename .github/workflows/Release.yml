@@ -17,7 +17,7 @@ jobs:
         node-version: 18
     - name: ' Building...'
       run: |
-        npm ci
+        npm install
         npm run package:mac
     - name: set env
       run: |
@@ -49,7 +49,7 @@ jobs:
         node-version: 18
     - name: ' Building...'
       run: |
-        npm ci
+        npm install
         npm run package:deb
     - name: set env
       run: |
@@ -99,27 +99,14 @@ jobs:
         node-version: 18
     - name: 'Building...'
       run: |
-        npm ci
+        npm install
         npm run package:win
     - name: set env
       run: |
         echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $env:GITHUB_ENV
-    - name: 'Packing MSI, EXE, etc'
+    - name: 'Packing EXE, etc'
       if: success()
       run: npm run setup:win
-    - name: 'Release MSI to GH'
-      if: success()
-      uses: ncipollo/release-action@v1
-      with:
-        allowUpdates: true
-        artifacts: 'packages/**.msi'
-        artifactContentType: application/x-msi
-        draft: true
-        tag: ${{ env.APP_VERSION }}
-        token: ${{ secrets.GITHUB_TOKEN }}
-        # Only update body on Release Notes Action
-        omitBody: true
-        omitBodyDuringUpdate: true
     - name: 'Release EXE to GH'
       if: success()
       uses: ncipollo/release-action@v1
@@ -144,7 +131,7 @@ jobs:
         node-version: 18
     - name: ' Building...'
       run: |
-        npm ci
+        npm install
     - name: set env
       run: |
         echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
