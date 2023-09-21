@@ -1,6 +1,16 @@
-## 3.0.0 (in development)
+## 3.0.1 (in development)
 
 <!--- Begin changes - Do not remove -->
+
+<!--- End changes - Do not remove -->
+
+Who built 3.0.1:
+
+<!--- Begin users - Do not remove -->
+
+<!--- End users - Do not remove -->
+
+## 3.0.0
 
 -   Enhancement [#645]: No confirmation popup when removing entry pair
 -   Enhancement [#649]: Improve time taken to import a database into TTL
@@ -52,11 +62,7 @@
 -   Translation: Time to Leave is now available in Turkish (tr-TR)!
 -   Translation: Time to Leave is now available in Ukrainian (uk-UA)!
 
-<!--- End changes - Do not remove -->
-
-Who built 2.0.2:
-
-<!--- Begin users - Do not remove -->
+Who built 3.0.0:
 
 -   AayushSaini101
 -   BamButz
@@ -120,8 +126,6 @@ Who built 2.0.2:
 -   timagixe
 -   tupaschoal
 -   wonkyung
-
-<!--- End users - Do not remove -->
 
 ## 2.0.1
 
