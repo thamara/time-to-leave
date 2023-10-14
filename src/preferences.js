@@ -101,7 +101,48 @@ function renderPreferencesWindow()
         /* istanbul ignore else */
         if (this.checkValidity() === true)
         {
-            changeValue(this.name, this.value);
+            // new
+            let entry = this.value;
+
+            const colonIdx = entry.indexOf(':');
+            const periodIdx = entry.indexOf('.');
+            if (colonIdx !== -1)
+            {
+                // contains :
+                /* istanbul ignore else */
+                if (colonIdx <= 1)
+                {
+                    // only 1 digit before :
+                    entry = '0'.concat(entry);
+                }
+            }
+            else if (periodIdx !== -1)
+            {
+                // contains .
+                let n = parseInt(entry.substring(periodIdx));
+                n /= 100;
+                n *= 60;
+                this.value = n.toString;
+                n = Math.floor(n).toString;
+                entry = entry.substring(0, periodIdx).concat(':').concat(n);
+                /* istanbul ignore else */
+                if (periodIdx <= 1)
+                {
+                    // only 1 digit before .
+                    entry = '0'.concat(entry);
+                }
+            }
+            else
+            {
+                // no . or :
+                if (entry.length < 2)
+                {
+                    entry = '0'.concat(entry);
+                }
+                entry = entry.concat(':00');
+            }
+
+            changeValue(this.name, entry);
         }
     });
 
