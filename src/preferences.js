@@ -119,11 +119,17 @@ function renderPreferencesWindow()
             else if (periodIdx !== -1)
             {
                 // contains .
-                let n = parseInt(entry.substring(periodIdx));
-                n /= 100;
+                let n = parseFloat('0'.concat(entry.substring(periodIdx)));
                 n *= 60;
-                this.value = n.toString;
-                n = Math.floor(n).toString;
+                n = Math.floor(n).toString();
+                if (n.length < 2)
+                {
+                    n = '0'.concat(n);
+                }
+                else
+                {
+                    n = n.substring(0, 2);
+                }
                 entry = entry.substring(0, periodIdx).concat(':').concat(n);
                 /* istanbul ignore else */
                 if (periodIdx <= 1)
