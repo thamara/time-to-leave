@@ -101,9 +101,7 @@ function renderPreferencesWindow()
         /* istanbul ignore else */
         if (this.checkValidity() === true)
         {
-            // new
             let entry = this.value;
-
             const colonIdx = entry.indexOf(':');
             const periodIdx = entry.indexOf('.');
             if (colonIdx !== -1)
@@ -122,14 +120,7 @@ function renderPreferencesWindow()
                 let n = parseFloat('0'.concat(entry.substring(periodIdx)));
                 n *= 60;
                 n = Math.floor(n).toString();
-                if (n.length < 2)
-                {
-                    n = '0'.concat(n);
-                }
-                else
-                {
-                    n = n.substring(0, 2);
-                }
+                n = n.length < 2 ? '0'.concat(n) : n.substring(0, 2);
                 entry = entry.substring(0, periodIdx).concat(':').concat(n);
                 /* istanbul ignore else */
                 if (periodIdx <= 1)
@@ -141,6 +132,7 @@ function renderPreferencesWindow()
             else
             {
                 // no . or :
+                /* istanbul ignore else */
                 if (entry.length < 2)
                 {
                     entry = '0'.concat(entry);
