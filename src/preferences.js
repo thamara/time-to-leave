@@ -139,7 +139,7 @@ function renderPreferencesWindow()
                 }
                 entry = entry.concat(':00');
             }
-
+            this.value = entry;
             changeValue(this.name, entry);
         }
     });
