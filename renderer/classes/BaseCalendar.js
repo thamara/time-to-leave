@@ -1,28 +1,15 @@
 'use strict';
 
-const Store = require('electron-store');
-const { ipcRenderer } = require('electron');
-
 import {
     hourMinToHourFormatted,
     isNegative,
     subtractTime,
     sumTime,
     validateTime
-} from '../time-math.js';
-import {
-    formatDayId,
-    displayWaiverWindow
-} from '../../renderer/workday-waiver-aux.js';
-import { showDay, switchCalendarView } from '../user-preferences.js';
-import { getDateStr, getMonthLength } from '../date-aux.js';
-import { computeAllTimeBalanceUntilAsync } from '../time-balance.js';
-import { generateKey } from '../date-db-formatter.js';
-import { getTranslationInLanguageData } from '../../renderer/i18n-translator.js';
-
-// Global values for calendar
-const flexibleStore = new Store({name: 'flexible-store'});
-const waivedWorkdays = new Store({name: 'waived-workdays'});
+} from '../../js/time-math.js';
+import { getDateStr, getMonthLength } from '../../js/date-aux.js';
+import { generateKey } from '../../js/date-db-formatter.js';
+import { getTranslationInLanguageData } from '../i18n-translator.js';
 
 // Holds the calendar information and manipulation functions
 class BaseCalendar
@@ -34,8 +21,6 @@ class BaseCalendar
     {
         this._calendarDate = new Date();
         this.updateLanguageData(languageData);
-        this.loadInternalStore();
-        this.loadInternalWaiveStore();
         this.updatePreferences(preferences);
         this._initCalendar();
     }
@@ -46,6 +31,15 @@ class BaseCalendar
     _initCalendar()
     {
         throw Error('Please implement this.');
+    }
+
+    /**
+     * Loads internal stores. Required to start and used by the factory.
+     */
+    async initializeStores()
+    {
+        await this.loadInternalStore();
+        await this.loadInternalWaiveStore();
     }
 
     /**
@@ -74,7 +68,7 @@ class BaseCalendar
     _updateAllTimeBalance()
     {
         const targetDate = this._getTargetDayForAllTimeBalance();
-        computeAllTimeBalanceUntilAsync(targetDate)
+        window.mainApi.computeAllTimeBalanceUntilPromise(targetDate)
             .then(balance =>
             {
                 const balanceElement = $('#overall-balance');
@@ -142,7 +136,7 @@ class BaseCalendar
     _generateTableFooter()
     {
         return '<button class="punch-button" id="punch-button" disabled>' +
-                   '<img src="assets/fingerprint.svg" height="36" width="36"></img>' +
+                   '<img src="../assets/fingerprint.svg" height="36" width="36"></img>' +
                    `<label for="punch-button" id="punch-button-label">${this._getTranslation('$Menu.punch-time')}</label>` +
                '</button>\n';
     }
@@ -158,10 +152,9 @@ class BaseCalendar
     /**
      * Reloads internal DBs based on external DBs and then redraws the calendar.
      */
-    reload()
+    async reload()
     {
-        this.loadInternalStore();
-        this.loadInternalWaiveStore();
+        await this.initializeStores();
         this.redraw();
     }
 
@@ -190,14 +183,6 @@ class BaseCalendar
         {
             //  deepcode ignore no-invalid-this: jQuery use
             calendar._updateTimeDayCallback($(this).attr('data-date'));
-        });
-
-        $('.waiver-trigger').off('click').on('click', function()
-        {
-            //  deepcode ignore no-invalid-this: jQuery use
-            const dayId = $(this).closest('tr').attr('id').substr(3);
-            const waiverDay = formatDayId(dayId);
-            displayWaiverWindow(waiverDay);
         });
 
         this._updateAllTimeBalance();
@@ -408,11 +393,12 @@ class BaseCalendar
     /**
      * Stores year data in memory to make operations faster
      */
-    loadInternalStore()
+    async loadInternalStore()
     {
         this._internalStore = {};
 
-        for (const entry of flexibleStore)
+        const flexibleStore = await window.mainApi.getFlexibleStoreContents();
+        for (const entry of Object.entries(flexibleStore))
         {
             const key = entry[0];
             const value = entry[1];
@@ -424,11 +410,12 @@ class BaseCalendar
     /**
      * Stores waiver data in memory to make operations faster
      */
-    loadInternalWaiveStore()
+    async loadInternalWaiveStore()
     {
         this._internalWaiverStore = {};
 
-        for (const entry of waivedWorkdays)
+        const waivedWorkdays = await window.mainApi.getWaiverStoreContents();
+        for (const entry of Object.entries(waivedWorkdays))
         {
             const date = entry[0];
             const reason = entry[1]['reason'];
@@ -455,7 +442,7 @@ class BaseCalendar
     _setStore(key, newValues)
     {
         this._internalStore[key] = { values: newValues };
-        flexibleStore.set(key, this._internalStore[key]);
+        window.mainApi.setFlexibleStoreData(key, this._internalStore[key]);
     }
 
     /*
@@ -464,11 +451,11 @@ class BaseCalendar
     _removeStore(key)
     {
         this._internalStore[key] = undefined;
-        flexibleStore.delete(key);
+        window.mainApi.deleteFlexibleStoreData(key);
     }
 
     /**
-     * Calls showDay from user-preferences.js passing the last preferences set.
+     * Checks based on last set preferences if the day can be shown.
      * @param {number} year
      * @param {number} month
      * @param {number} day
@@ -476,7 +463,7 @@ class BaseCalendar
      */
     _showDay(year, month, day)
     {
-        return showDay(year, month, day, this._preferences);
+        return window.mainApi.showDay(year, month, day, this._preferences);
     }
 
     /**
@@ -722,7 +709,7 @@ class BaseCalendar
     _togglePunchButton(enable)
     {
         $('#punch-button').prop('disabled', !enable);
-        ipcRenderer.send('TOGGLE_TRAY_PUNCH_TIME', enable);
+        window.mainApi.toggleTrayPunchTime(enable);
     }
 
     /**
@@ -730,8 +717,7 @@ class BaseCalendar
      */
     _switchView()
     {
-        const preferences = switchCalendarView();
-        ipcRenderer.send('VIEW_CHANGED', preferences);
+        window.mainApi.switchView();
     }
 }
 

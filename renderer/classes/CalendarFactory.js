@@ -1,20 +1,16 @@
 'use strict';
 
-const { ipcRenderer } = require('electron');
-
-import { getDefaultWidthHeight} from '../user-preferences.js';
 import { FlexibleMonthCalendar } from './FlexibleMonthCalendar.js';
 import { FlexibleDayCalendar } from './FlexibleDayCalendar.js';
 
 class CalendarFactory
 {
-    static getInstance(preferences, languageData, calendar = undefined)
+    static async getInstance(preferences, languageData, calendar = undefined)
     {
         const view = preferences['view'];
-        const widthHeight = getDefaultWidthHeight();
         if (view !== 'day' && view !== 'month')
         {
-            throw new Error(`Could not instantiate ${view}`);
+            return Promise.reject(`Could not instantiate ${view}`);
         }
 
         const constructorName = view === 'day' ? 'FlexibleDayCalendar': 'FlexibleMonthCalendar';
@@ -23,9 +19,11 @@ class CalendarFactory
         {
             if (calendar !== undefined && calendar.constructor.name !== constructorName)
             {
-                ipcRenderer.send('RESIZE_MAIN_WINDOW', widthHeight.width, widthHeight.height);
+                window.mainApi.resizeMainWindow();
             }
-            return new CalendarClass(preferences, languageData);
+            calendar = new CalendarClass(preferences, languageData);
+            await calendar.reload();
+            return calendar;
         }
         else
         {

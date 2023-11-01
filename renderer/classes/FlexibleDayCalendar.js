@@ -6,31 +6,10 @@ import {
     subtractTime,
     sumTime,
     validateTime
-} from '../time-math.js';
-import { getDateStr, getMonthLength } from '../date-aux.js';
-import { generateKey } from '../date-db-formatter.js';
+} from '../../js/time-math.js';
+import { getDateStr, getMonthLength } from '../../js/date-aux.js';
+import { generateKey } from '../../js/date-db-formatter.js';
 import { BaseCalendar } from './BaseCalendar.js';
-
-/// Compatiblity block - to be removed in the migration of calendar to non-remote electron
-const { remote } = require('electron');
-const { BrowserWindow, dialog } = remote;
-
-/**
- * Opens an electron dialog, based on the options, and performs the successCallback after promise is resolved.
- * @param {Object.<string, any>} options
- * @param {function} successCallback
- */
-function showDialog(options, successCallback)
-{
-    options['title'] = options['title'] || 'Time to Leave';
-    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), options)
-        .then(successCallback)
-        .catch(err =>
-        {
-            console.log(err);
-        });
-}
-////
 
 class FlexibleDayCalendar extends BaseCalendar
 {
@@ -59,8 +38,6 @@ class FlexibleDayCalendar extends BaseCalendar
             const [year, month, day] = $(event.target).val().split('-');
             this._goToDate(new Date(year, month-1, day));
         });
-
-        this._draw();
     }
 
     /**
@@ -79,13 +56,13 @@ class FlexibleDayCalendar extends BaseCalendar
      */
     _getPageHeader()
     {
-        const switchView = `<input id="switch-view" type="image" src="assets/switch.svg" alt="${this._getTranslation('$BaseCalendar.switch-view')}" title="${this._getTranslation('$BaseCalendar.switch-view')}" height="24" width="24"></input>`;
-        const todayBut = `<input id="current-day" type="image" src="assets/calendar.svg" alt="${this._getTranslation('$FlexibleDayCalendar.current-day')}" title="${this._getTranslation('$FlexibleDayCalendar.current-day')}" height="24" width="24"></input>`;
-        const leftBut = `<input id="prev-day" type="image" src="assets/left-arrow.svg" alt="${this._getTranslation('$FlexibleDayCalendar.previous-day')}" height="24" width="24"></input>`;
-        const rightBut = `<input id="next-day" type="image" src="assets/right-arrow.svg" alt="${this._getTranslation('$FlexibleDayCalendar.next-day')}" height="24" width="24"></input>`;
+        const switchView = `<input id="switch-view" type="image" src="../assets/switch.svg" alt="${this._getTranslation('$BaseCalendar.switch-view')}" title="${this._getTranslation('$BaseCalendar.switch-view')}" height="24" width="24"></input>`;
+        const todayBut = `<input id="current-day" type="image" src="../assets/calendar.svg" alt="${this._getTranslation('$FlexibleDayCalendar.current-day')}" title="${this._getTranslation('$FlexibleDayCalendar.current-day')}" height="24" width="24"></input>`;
+        const leftBut = `<input id="prev-day" type="image" src="../assets/left-arrow.svg" alt="${this._getTranslation('$FlexibleDayCalendar.previous-day')}" height="24" width="24"></input>`;
+        const rightBut = `<input id="next-day" type="image" src="../assets/right-arrow.svg" alt="${this._getTranslation('$FlexibleDayCalendar.next-day')}" height="24" width="24"></input>`;
         const title = 'Time to Leave';
         return '<div class="title-header">'+
-                    '<div class="title-header-img"><img src="assets/ttl.svg" height="64" width="64"></div>' +
+                    '<div class="title-header-img"><img src="../assets/ttl.svg" height="64" width="64"></div>' +
                     `<div class="title-header-text">${title}</div>` +
                     '<div class="title-header-msg"></div>' +
                '</div>' +
@@ -341,7 +318,7 @@ class FlexibleDayCalendar extends BaseCalendar
                 const len = getInputs.length;
                 if (getInputs.get(len-1).value !== '' || getInputs.get(len-2).value !== '')
                 {
-                    showDialog(removeEntriesDialogOptions, (result) =>
+                    window.mainApi.showDialogSync(removeEntriesDialogOptions).then((result) =>
                     {
                         const buttonId = result.response;
                         if (buttonId === 1)
