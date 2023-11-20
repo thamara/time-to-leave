@@ -3,6 +3,7 @@
 <!--- Begin changes - Do not remove -->
 
 -   Enhancement [#1009]: Adding an animation to the workday waiver holidays table when the contents switch
+-   Enhancement [#646]: Title bar color now follows Windows mode (dark or light)
 -   Fix [#1008]: Sourced conflicting holidays being imported by default
 
 <!--- End changes - Do not remove -->
