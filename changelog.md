@@ -4,6 +4,7 @@
 
 -   Enhancement [#1009]: Adding an animation to the workday waiver holidays table when the contents switch
 -   Enhancement [#646]: Title bar color now follows Windows mode (dark or light)
+-   Fix #1039: Use toast notification syntax to support actions on Win32
 -   Fix [#1008]: Sourced conflicting holidays being imported by default
 -   Fix [#1040]: Date overlapping icon on preference window after electron 27.
 -   Fix [#1042]: Removing extra space at bottom of workday waiver window.
