@@ -25,8 +25,17 @@ describe('Notifications', function()
         {
             process.env.NODE_ENV = 'test';
             const notification = createNotification('test');
-            expect(notification.body).toBe('test');
-            expect(notification.title).toBe('Time to Leave');
+            // On Win32 the notification uses a different specification, with toastXml
+            if (process.platform === 'win32')
+            {
+                expect(notification.toastXml).toMatch('<text>test</text>');
+                expect(notification.toastXml).toMatch('<text>Time to Leave</text>');
+            }
+            else
+            {
+                expect(notification.body).toBe('test');
+                expect(notification.title).toBe('Time to Leave');
+            }
             notification.on('show', (event) =>
             {
                 expect(event).toBeTruthy();
@@ -56,8 +65,17 @@ describe('Notifications', function()
         {
             process.env.NODE_ENV = 'production';
             const notification = createNotification('production');
-            expect(notification.body).toBe('production');
-            expect(notification.title).toBe('Time to Leave');
+            // On Win32 the notification uses a different specification, with toastXml
+            if (process.platform === 'win32')
+            {
+                expect(notification.toastXml).toMatch('<text>production</text>');
+                expect(notification.toastXml).toMatch('<text>Time to Leave</text>');
+            }
+            else
+            {
+                expect(notification.body).toBe('production');
+                expect(notification.title).toBe('Time to Leave');
+            }
             notification.on('show', (event) =>
             {
                 expect(event).toBeTruthy();

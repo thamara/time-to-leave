@@ -27,33 +27,21 @@ function createNotification(msg, actions = [])
     let notification;
     if (process.platform === 'win32')
     {
-        // TODO Change to the toastXml to allow buttons when Electron version is at least 12.0.0
-        // https://github.com/electron/electron/pull/25401 was released on
-        // https://github.com/electron/electron/releases/tag/v12.0.0
-        // Actions are not supported on electron windows notifications in current version
-        // XML specification: https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/adaptive-interactive-toasts?tabs=xml
-        /*
         notification = new ElectronNotification({ toastXml: `
-            <toast  launch="time-to-leave" activationType="protocol">
+            <toast launch="time-to-leave" activationType="protocol">
             <visual>
             <binding template="ToastGeneric">
-            <image placement="AppLogoOverride" hint-crop="circle"  src="http://timetoleave.app/ttl.36a76c7b.svg"/>
-            <text>This is the first text</text>
-            <text>this is the second text</text>
+            <image placement="AppLogoOverride" src="${path.join(appPath, 'assets/ttl.png')}"/>
+            <text>Time to Leave</text>
+            <text>${msg}</text>
             </binding>
             </visual>
             <actions>
-                ${actions.map(action => `<action content="${action.title}" arguments="${action.action}" activationType="background" />`)}
-             </actions>
-                </toast>`
+                ${actions.map(action => `<action content="${action.text}" arguments="action=${action.action}" activationType="background" />`)}
+            </actions>
+            </toast>`
         });
-        */
-        notification = new ElectronNotification({
-            title: 'Time to Leave',
-            body: msg,
-            icon: path.join(appPath, 'assets/ttl.png'),
-            sound: true
-        });
+
     }
     else
     {
@@ -101,8 +89,8 @@ function createLeaveNotification(timeToLeave)
         const isRepeatingInterval = curTime > timeToLeave && (minutesDiff % notificationInterval === 0);
         if (curTime === timeToLeave || (isRepeatingInterval && repetitionIsEnabled()))
         {
-
-            const dismissBtn = {type: 'button', text: getCurrentTranslation('$Notification.dismiss-for-today'), action: 'dismiss', title: 'dismiss'};
+            const dismissForTodayText = getCurrentTranslation('$Notification.dismiss-for-today');
+            const dismissBtn = {type: 'button', text: dismissForTodayText, action: 'dismiss', title: 'dismiss'};
             return createNotification(getCurrentTranslation('$Notification.time-to-leave'), [dismissBtn])
                 .addListener('action', (response) =>
                 {
