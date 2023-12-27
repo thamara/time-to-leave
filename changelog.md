@@ -6,6 +6,7 @@
 -   Enhancement [#646]: Title bar color now follows Windows mode (dark or light)
 -   Fix [#1008]: Sourced conflicting holidays being imported by default
 -   Fix [#1028]: Make images and icons not draggable
+-   Fix [#1034]: Preserving TTL font when offline
 -   Fix [#1039]: Use toast notification syntax to support actions on Win32
 -   Fix [#1040]: Date overlapping icon on preference window after electron 27
 -   Fix [#1042]: Removing extra space at bottom of workday waiver window
@@ -19,6 +20,7 @@ Who built 3.0.1:
 -   BamButz
 -   Karroteu
 -   araujoarthur0
+-   chase-west
 -   gsriram24
 -   ochan12
 -   pallasite99
