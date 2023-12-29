@@ -45,7 +45,7 @@
     "@electron/remote": "2.0.12",
     "@jest-runner/electron": "3.0.0",
     "c8": "9.1.0",
-    "electron": "27.0.3",
+    "electron": "28.1.0",
     "electron-mocha": "12.2.0",
     "electron-packager": "15.5.1",
     "electron-reloader": "1.2.1",
