@@ -1,25 +1,28 @@
 'use strict';
 
 import { app, BrowserWindow, dialog, ipcMain, Menu, shell, Tray } from 'electron';
-import path from 'path';
 import Store from 'electron-store';
+import path from 'path';
 
-const { checkForUpdates, shouldCheckForUpdates } = require('./update-manager');
-const { migrateFixedDbToFlexible } = require('./import-export.js');
-const {
+import { migrateFixedDbToFlexible } from './import-export.mjs';
+import {
     getContextMenuTemplate,
     getDockMenuTemplate,
     getEditMenuTemplate,
     getHelpMenuTemplate,
     getMainMenuTemplate,
     getViewMenuTemplate
-} = require('./menus');
-const { getCurrentTranslation } = require('../src/configs/i18next.config');
-let { contextMenu, tray } = require('./windows.js');
+} from './menus.mjs';
+import { createLeaveNotification } from './notification.mjs';
+import { checkForUpdates, shouldCheckForUpdates } from './update-manager.mjs';
+import { getDefaultWidthHeight, getUserPreferences, switchCalendarView } from './user-preferences.mjs';
+import { getCurrentTranslation } from '../src/configs/i18next.config.mjs';
 
-import { getDefaultWidthHeight, getUserPreferences, switchCalendarView } from './user-preferences.js';
-import { appConfig, getDetails } from './app-config.cjs';
-import { createLeaveNotification } from './notification.js';
+// Allow require()
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+const { appConfig, getDetails, rootDir } = require('./app-config.cjs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -80,7 +83,7 @@ function createWindow()
         show: false,
         webPreferences: {
             nodeIntegration: true,
-            preload: path.join(__dirname, '../renderer/preload-scripts/calendar-bridge.js'),
+            preload: path.join(rootDir, '/renderer/preload-scripts/calendar-bridge.mjs'),
             contextIsolation: true
         }
     });
@@ -91,14 +94,14 @@ function createWindow()
     mainWindow.show();
 
     // and load the main html of the app as the default window
-    mainWindow.loadFile(path.join(__dirname, '../src/calendar.html'));
+    mainWindow.loadFile(path.join(rootDir, 'src/calendar.html'));
 
     ipcMain.on('TOGGLE_TRAY_PUNCH_TIME', (_event, arg) =>
     {
         const contextMenuTemplate = getContextMenuTemplate(mainWindow);
         contextMenuTemplate[0].enabled = arg;
-        contextMenu = Menu.buildFromTemplate(contextMenuTemplate);
-        tray.setContextMenu(contextMenu);
+        global.contextMenu = Menu.buildFromTemplate(contextMenuTemplate);
+        global.tray.setContextMenu(global.contextMenu);
     });
 
     ipcMain.on('RESIZE_MAIN_WINDOW', () =>
@@ -124,15 +127,15 @@ function createWindow()
         mainWindow.webContents.send('GET_LEAVE_BY');
     }, 60 * 1000);
 
-    tray = new Tray(appConfig.trayIcon);
-    tray.on('click', () =>
+    global.tray = new Tray(appConfig.trayIcon);
+    global.tray.on('click', () =>
     {
         mainWindow.show();
     });
 
-    tray.on('right-click', () =>
+    global.tray.on('right-click', () =>
     {
-        tray.popUpContextMenu(contextMenu);
+        global.tray.popUpContextMenu(global.contextMenu);
     });
 
     mainWindow.on('minimize', (event) =>
@@ -277,21 +280,20 @@ function resetMainWindow()
         mainWindow.removeAllListeners();
         mainWindow = null;
     }
-    if (tray)
+    if (global.tray)
     {
-        tray.removeAllListeners();
+        global.tray.removeAllListeners();
     }
     clearInterval(leaveByInterval);
     leaveByInterval = null;
-    tray = null;
+    global.tray = null;
 }
 
-module.exports = {
+export {
     createMenu,
     createWindow,
-    getLeaveByInterval: () => leaveByInterval,
+    leaveByInterval as getLeaveByInterval,
     getMainWindow,
-    getWindowTray: () => tray,
     proposeFlexibleDbMigration,
     resetMainWindow,
     shouldProposeFlexibleDbMigration,

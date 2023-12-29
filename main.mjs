@@ -1,16 +1,23 @@
 /*eslint-disable no-useless-escape*/
+/*eslint-disable no-global-assign*/
 'use strict';
 
 import { app, ipcMain } from 'electron';
-const { createWindow, createMenu, getMainWindow, triggerStartupDialogs } = require('./js/main-window');
-const { createNotification } = require('./js/notification');
-const { openWaiverManagerWindow } = require('./js/windows.js');
-const { setupI18n, getCurrentTranslation, setLanguageChangedCallback } = require('./src/configs/i18next.config.js');
-const { handleSquirrelEvent } = require('./js/squirrel.js');
-const { showAlert, showDialogSync } = require('./js/window-aux.cjs');
 
-import { appConfig } from './js/app-config.cjs';
-import { setupCalendarStore } from './main/calendar-aux.js';
+import { createWindow, createMenu, getMainWindow, triggerStartupDialogs } from './js/main-window.mjs';
+import { createNotification } from './js/notification.mjs';
+import { handleSquirrelEvent } from './js/squirrel.mjs';
+import { openWaiverManagerWindow } from './js/windows.mjs';
+import { setupCalendarStore } from './main/calendar-aux.mjs';
+import { setupWorkdayWaiverHandlers } from './main/workday-waiver-aux.mjs';
+import { setupI18n, getCurrentTranslation, setLanguageChangedCallback } from './src/configs/i18next.config.mjs';
+
+// Allow require()
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+const { appConfig } = require('./js/app-config.cjs');
+const { showAlert, showDialogSync } = require('./js/window-aux.cjs');
 
 if (appConfig.win32)
 {
@@ -20,6 +27,8 @@ if (appConfig.win32)
         app.quit();
     }
 }
+
+setupWorkdayWaiverHandlers();
 
 ipcMain.on('SET_WAIVER_DAY', (event, waiverDay) =>
 {

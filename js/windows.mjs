@@ -1,22 +1,28 @@
 'use strict';
 
 import { BrowserWindow } from 'electron';
-import { appConfig } from './app-config.cjs';
 import path from 'path';
-import { getDateStr } from './date-aux.js';
+
+import { getDateStr } from './date-aux.mjs';
+
+// Allow require()
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+const { appConfig, rootDir } = require('./app-config.cjs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let waiverWindow = null;
-let prefWindow = null;
-let tray = null;
-let contextMenu = null;
+global.waiverWindow = null;
+global.prefWindow = null;
+global.tray = null;
+global.contextMenu = null;
 
 function openWaiverManagerWindow(mainWindow, event)
 {
-    if (waiverWindow !== null)
+    if (global.waiverWindow !== null)
     {
-        waiverWindow.show();
+        global.waiverWindow.show();
         return;
     }
 
@@ -25,9 +31,9 @@ function openWaiverManagerWindow(mainWindow, event)
         const today = new Date();
         global.waiverDay = getDateStr(today);
     }
-    const htmlPath = path.join('file://', __dirname, '../src/workday-waiver.html');
+    const htmlPath = path.join('file://', rootDir, '/src/workday-waiver.html');
     const dialogCoordinates = getDialogCoordinates(600, 500, mainWindow);
-    waiverWindow = new BrowserWindow({ width: 600,
+    global.waiverWindow = new BrowserWindow({ width: 600,
         height: 500,
         x: dialogCoordinates.x,
         y: dialogCoordinates.y,
@@ -36,18 +42,18 @@ function openWaiverManagerWindow(mainWindow, event)
         icon: appConfig.iconpath,
         webPreferences: {
             nodeIntegration: true,
-            preload: path.join(__dirname, '../renderer/preload-scripts/workday-waiver-bridge.js'),
+            preload: path.join(rootDir, '/renderer/preload-scripts/workday-waiver-bridge.mjs'),
             contextIsolation: true
         } });
-    waiverWindow.setMenu(null);
-    waiverWindow.loadURL(htmlPath);
-    waiverWindow.show();
-    waiverWindow.on('close', function()
+    global.waiverWindow.setMenu(null);
+    global.waiverWindow.loadURL(htmlPath);
+    global.waiverWindow.show();
+    global.waiverWindow.on('close', function()
     {
-        waiverWindow = null;
+        global.waiverWindow = null;
         mainWindow.webContents.send('WAIVER_SAVED');
     });
-    waiverWindow.webContents.on('before-input-event', (event, input) =>
+    global.waiverWindow.webContents.on('before-input-event', (event, input) =>
     {
         if (input.control && input.shift && input.key.toLowerCase() === 'i')
         {
@@ -74,23 +80,20 @@ function getDialogCoordinates(dialogWidth, dialogHeight, mainWindow)
 
 function resetWindowsElements()
 {
-    waiverWindow = null;
-    prefWindow = null;
-    tray = null;
-    contextMenu = null;
+    global.waiverWindow = null;
+    global.prefWindow = null;
+    global.tray = null;
+    global.contextMenu = null;
 }
 
 function getWaiverWindow()
 {
-    return waiverWindow;
+    return global.waiverWindow;
 }
 
-module.exports = {
-    contextMenu,
+export {
     getDialogCoordinates,
     getWaiverWindow,
     openWaiverManagerWindow,
-    prefWindow,
     resetWindowsElements,
-    tray,
 };

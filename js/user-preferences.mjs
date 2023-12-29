@@ -1,10 +1,13 @@
 'use strict';
 
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
 const { ipcRenderer } = require('electron');
 
+import { validateDate, validateTime } from './time-math.mjs';
 import { isValidTheme } from '../renderer/themes.js';
-import { getLanguagesCodes } from '../src/configs/app.config.js';
-import { validateDate, validateTime } from './time-math.js';
+import { getLanguagesCodes } from '../src/configs/app.config.mjs';
 
 // Lazy loaded modules
 let fs = null;

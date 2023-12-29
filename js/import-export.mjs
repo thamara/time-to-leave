@@ -4,8 +4,8 @@
 import Store from 'electron-store';
 import fs from 'fs';
 
-import { validateTime } from './time-math.js';
-import { generateKey } from './date-db-formatter.js';
+import { generateKey } from './date-db-formatter.mjs';
+import { validateTime } from './time-math.mjs';
 
 /**
  * Returns the database (only flexible calendar entries) as an array of:
@@ -220,7 +220,7 @@ function migrateFixedDbToFlexible()
     return {'result': true, 'err': ''};
 }
 
-module.exports = {
+export {
     exportDatabaseToFile,
     importDatabaseFromFile,
     migrateFixedDbToFlexible,

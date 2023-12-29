@@ -1,8 +1,8 @@
 'use strict';
 
-const { changeLanguage } = require('../src/configs/i18next.config');
-
 import { app, ipcMain } from 'electron';
+
+import { changeLanguage } from '../src/configs/i18next.config.mjs';
 
 let savedPreferences = null;
 
@@ -23,6 +23,6 @@ ipcMain.on('PREFERENCE_SAVE_DATA_NEEDED', (event, preferences) =>
     });
 });
 
-module.exports = {
+export {
     getSavedPreferences
 };

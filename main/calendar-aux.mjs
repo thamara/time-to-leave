@@ -1,10 +1,9 @@
 'use strict';
 
 import { ipcMain } from 'electron';
-
-import { computeAllTimeBalanceUntilAsync } from '../js/time-balance.js';
-
 import Store from 'electron-store';
+
+import { computeAllTimeBalanceUntilAsync } from '../js/time-balance.mjs';
 
 const flexibleStore = new Store({name: 'flexible-store'});
 

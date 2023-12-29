@@ -32,4 +32,5 @@ function getDetails()
 module.exports = {
     appConfig,
     getDetails,
+    rootDir: path.join(__dirname, '..'),
 };
