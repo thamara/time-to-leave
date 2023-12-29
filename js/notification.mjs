@@ -3,18 +3,16 @@
 import path from 'path';
 import { app, Notification as ElectronNotification } from 'electron';
 
-const {
-    subtractTime,
-    validateTime,
-    hourToMinutes
-} = require('./time-math.js');
-const {
-    getNotificationsInterval,
-    notificationIsEnabled,
-    repetitionIsEnabled
-} = require('./user-preferences.js');
-const { getDateStr } = require('./date-aux.js');
-const { getCurrentTranslation } = require('../src/configs/i18next.config.js');
+import { getDateStr } from './date-aux.mjs';
+import { hourToMinutes, subtractTime, validateTime } from './time-math.mjs';
+import { getNotificationsInterval, notificationIsEnabled, repetitionIsEnabled } from './user-preferences.mjs';
+import { getCurrentTranslation } from '../src/configs/i18next.config.mjs';
+
+// Allow require()
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+const { rootDir } = require('./app-config.cjs');
 
 let dismissToday = null;
 
@@ -22,7 +20,7 @@ function createNotification(msg, actions = [])
 {
     const appPath = process.env.NODE_ENV === 'production'
         ? `${process.resourcesPath}/app`
-        : path.join(__dirname, '..');
+        : rootDir;
     let notification;
     if (process.platform === 'win32')
     {

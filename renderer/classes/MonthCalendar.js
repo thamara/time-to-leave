@@ -6,14 +6,14 @@ import {
     subtractTime,
     sumTime,
     validateTime
-} from '../../js/time-math.js';
-import { getMonthLength } from '../../js/date-aux.js';
-import { generateKey } from '../../js/date-db-formatter.js';
+} from '../../js/time-math.mjs';
+import { getMonthLength } from '../../js/date-aux.mjs';
+import { generateKey } from '../../js/date-db-formatter.mjs';
 import {
     formatDayId,
     displayWaiverWindow
 } from '../workday-waiver-aux.js';
-import { getMonthName, getDayAbbr } from '../../js/date-to-string-util.js';
+import { getMonthName, getDayAbbr } from '../../js/date-to-string-util.mjs';
 import { BaseCalendar } from './BaseCalendar.js';
 
 class MonthCalendar extends BaseCalendar

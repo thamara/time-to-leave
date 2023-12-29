@@ -9,7 +9,8 @@
     "type": "git",
     "url": "github:thamara/time-to-leave.git"
   },
-  "main": "main.js",
+  "type": "module",
+  "main": "main.mjs",
   "scripts": {
     "clean": "rimraf coverage release-builds __tests__/__main__/__database.ttldb__ ",
     "debug:main": "electron --inspect=5858 .",

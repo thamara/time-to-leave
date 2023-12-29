@@ -5,8 +5,8 @@ import { assert } from 'console';
 import Store from 'electron-store';
 import fs from 'fs';
 
-import { validateTime } from './time-math.js';
-import { generateKey } from './date-db-formatter.js';
+import { generateKey } from './date-db-formatter.mjs';
+import { validateTime } from './time-math.mjs';
 
 /**
  * Returns the database as an array of:
@@ -154,7 +154,7 @@ function importDatabaseFromFile(filename)
     return {'result': true};
 }
 
-module.exports = {
+export {
     exportDatabaseToFile,
     importDatabaseFromFile,
     validEntry,

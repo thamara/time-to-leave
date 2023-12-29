@@ -1,12 +1,21 @@
 'use strict';
 
-const i18n = require('i18next');
-const i18nextBackend = require('i18next-node-fs-backend');
-import path from 'path';
 import { ipcMain } from 'electron';
+import i18nextBackend from 'i18next-node-fs-backend';
+import path from 'path';
 
-const config = require('../configs/app.config');
+import { fallbackLng, getLanguagesCodes } from './app.config.mjs';
+
+// Allow require()
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+const i18n = require('i18next');
+
 const { appConfig } = require('../../js/app-config.cjs');
+
+// TODO: make async below again
+import { getUserLanguage } from '../../js/user-preferences.mjs';
 
 const i18nextOptions = {
     backend:{
@@ -21,9 +30,9 @@ const i18nextOptions = {
         escapeValue: false
     },
     saveMissing: true,
-    fallbackLng: config.fallbackLng,
-    supportedLngs: config.getLanguagesCodes(),
-    locales: config.getLanguagesCodes(),
+    fallbackLng: fallbackLng,
+    supportedLngs: getLanguagesCodes(),
+    locales: getLanguagesCodes(),
     react: {
         wait: false
     }
@@ -31,7 +40,6 @@ const i18nextOptions = {
 
 function setupI18n()
 {
-    const { getUserLanguage } = require('../../js/user-preferences.js');
     const userLanguage = getUserLanguage();
 
     return new Promise((resolve) =>
@@ -94,8 +102,7 @@ function getCurrentTranslation(code)
     return i18n.t(code);
 }
 
-module.exports =
-{
+export {
     changeLanguage,
     getCurrentTranslation,
     setLanguageChangedCallback,

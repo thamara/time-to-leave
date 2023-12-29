@@ -1,13 +1,14 @@
 'use strict';
 
-// This file intentionally uses 'require' and is used without esm
-// because 'date-holidays' doesn't play nice with esm
+// Allow require()
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 
-const { ipcMain } = require('electron');
-
-const Store = require('electron-store');
+import { ipcMain } from 'electron';
+import Store from 'electron-store';
 const waiverStore = new Store({name: 'waived-workdays'});
 
+// 'date-holidays' must be required and not imported
 const Holidays = require('date-holidays');
 const hd = new Holidays();
 
@@ -113,7 +114,7 @@ function setupWorkdayWaiverHandlers()
     setupWorkdayHolidaysHandlers();
 }
 
-module.exports = {
+export {
     getAllHolidays,
     getCountries,
     getRegions,

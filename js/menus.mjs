@@ -1,26 +1,23 @@
 'use strict';
 
 import { app, BrowserWindow, clipboard, dialog, shell } from 'electron';
-import path from 'path';
 import Store from 'electron-store';
+import path from 'path';
 
-const { checkForUpdates } = require('./update-manager');
-const { getSavedPreferences } = require('./saved-preferences.js');
-const {
-    importDatabaseFromFile,
-    exportDatabaseToFile
-} = require('./import-export.js');
-const { createNotification } = require('./notification');
-const { getCurrentTranslation } = require('../src/configs/i18next.config');
-let {
-    openWaiverManagerWindow,
-    prefWindow,
-    getDialogCoordinates
-} = require('./windows');
+import { getCurrentDateTimeStr } from './date-aux.mjs';
+import { importDatabaseFromFile, exportDatabaseToFile } from './import-export.mjs';
+import { createNotification } from './notification.mjs';
+import { getSavedPreferences } from './saved-preferences.mjs';
+import { checkForUpdates } from './update-manager.mjs';
+import { savePreferences } from './user-preferences.mjs';
+import { openWaiverManagerWindow, getDialogCoordinates } from './windows.mjs';
+import { getCurrentTranslation } from '../src/configs/i18next.config.mjs';
 
-import { appConfig, getDetails } from './app-config.cjs';
-import { savePreferences } from './user-preferences.js';
-import { getCurrentDateTimeStr } from './date-aux.js';
+// Allow require()
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+const { appConfig, getDetails, rootDir } = require('./app-config.cjs');
 
 function getMainMenuTemplate(mainWindow)
 {
@@ -130,20 +127,15 @@ function getEditMenuTemplate(mainWindow)
             accelerator: appConfig.macOS ? 'Command+,' : 'Control+,',
             click()
             {
-                if (prefWindow !== null)
+                if (global.prefWindow !== null)
                 {
-                    prefWindow.show();
+                    global.prefWindow.show();
                     return;
                 }
 
-                const htmlPath = path.join(
-                    'file://',
-                    __dirname,
-                    '../src/preferences.html'
-                );
-                const dialogCoordinates = getDialogCoordinates(500, 620, mainWindow);
-                prefWindow = new BrowserWindow({
-                    width: 550,
+                const htmlPath = path.join('file://', rootDir, 'src/preferences.html');
+                const dialogCoordinates = getDialogCoordinates(550, 620, mainWindow);
+                global.prefWindow = new BrowserWindow({ width: 550,
                     height: 620,
                     minWidth: 480,
                     x: dialogCoordinates.x,
@@ -153,19 +145,15 @@ function getEditMenuTemplate(mainWindow)
                     icon: appConfig.iconpath,
                     webPreferences: {
                         nodeIntegration: true,
-                        preload: path.join(
-                            __dirname,
-                            '../renderer/preload-scripts/preferences-bridge.js'
-                        ),
+                        preload: path.join(rootDir, '/renderer/preload-scripts/preferences-bridge.mjs'),
                         contextIsolation: true
-                    }
-                });
-                prefWindow.setMenu(null);
-                prefWindow.loadURL(htmlPath);
-                prefWindow.show();
-                prefWindow.on('close', function()
+                    } });
+                global.prefWindow.setMenu(null);
+                global.prefWindow.loadURL(htmlPath);
+                global.prefWindow.show();
+                global.prefWindow.on('close', function()
                 {
-                    prefWindow = null;
+                    global.prefWindow = null;
                     const savedPreferences = getSavedPreferences();
                     if (savedPreferences !== null)
                     {
@@ -173,7 +161,7 @@ function getEditMenuTemplate(mainWindow)
                         mainWindow.webContents.send('PREFERENCES_SAVED', savedPreferences);
                     }
                 });
-                prefWindow.webContents.on('before-input-event', (event, input) =>
+                global.prefWindow.webContents.on('before-input-event', (event, input) =>
                 {
                     if (input.control && input.shift && input.key.toLowerCase() === 'i')
                     {
@@ -418,7 +406,7 @@ function getHelpMenuTemplate()
     ];
 }
 
-module.exports = {
+export {
     getContextMenuTemplate,
     getDockMenuTemplate,
     getEditMenuTemplate,

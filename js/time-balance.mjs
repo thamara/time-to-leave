@@ -2,12 +2,9 @@
 
 import Store from 'electron-store';
 
-import {
-    subtractTime,
-    sumTime
-} from './time-math.js';
-import { getDateStr } from './date-aux.js';
-import { getUserPreferences, showDay } from './user-preferences.js';
+import { getDateStr } from './date-aux.mjs';
+import { subtractTime, sumTime } from './time-math.mjs';
+import { getUserPreferences, showDay } from './user-preferences.mjs';
 
 // Global values for calendar
 const calendarStore = new Store({ name: 'flexible-store' });

@@ -1,8 +1,9 @@
 'use strict';
 
-const { hourMinToHourFormatted, sumTime } = require('./time-math.js');
-const { generateKey } = require('./date-db-formatter.js');
 import Store from 'electron-store';
+
+import { generateKey } from './date-db-formatter.js';
+import { hourMinToHourFormatted, sumTime } from './time-math.mjs';
 
 /**
  * Returns a random integer between min (inclusive) and max (inclusive), rounding up to closest multiple of 5
@@ -66,6 +67,6 @@ function generateDemoInformation(dateFromStr, dateToStr, workingDays, usualTimes
     calendarStore.set(valuesToStore);
 }
 
-module.exports = {
+export {
     generateDemoInformation
 };

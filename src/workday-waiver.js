@@ -2,8 +2,8 @@
 
 import { applyTheme } from '../renderer/themes.js';
 import { getTranslationInLanguageData, translatePage } from '../renderer/i18n-translator.js';
-import { validateTime, diffDays } from '../js/time-math.js';
-import { getDateStr } from '../js/date-aux.js';
+import { validateTime, diffDays } from '../js/time-math.mjs';
+import { getDateStr } from '../js/date-aux.mjs';
 
 let languageData;
 let userPreferences;

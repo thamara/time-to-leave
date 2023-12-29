@@ -1,14 +1,13 @@
 'use strict';
 
 import { ipcMain } from 'electron';
-
-import { computeAllTimeBalanceUntilAsync } from '../js/time-balance.js';
-
 import Store from 'electron-store';
+
+import { computeAllTimeBalanceUntilAsync } from '../js/time-balance.mjs';
 
 const calendarStore = new Store({name: 'flexible-store'});
 
-function getcalendarStore()
+function getCalendarStore()
 {
     return calendarStore.store;
 }
@@ -17,7 +16,7 @@ function setupCalendarStore()
 {
     ipcMain.handle('GET_STORE_CONTENTS', () =>
     {
-        return getcalendarStore();
+        return getCalendarStore();
     });
 
     ipcMain.handle('SET_STORE_DATA', (event, key, contents) =>

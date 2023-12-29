@@ -1,5 +1,6 @@
 'use strict';
 
+import ChildProcess from 'child_process';
 import path from 'path';
 
 function handleSquirrelEvent(application)
@@ -8,8 +9,6 @@ function handleSquirrelEvent(application)
     {
         return false;
     }
-
-    const ChildProcess = require('child_process');
 
     const appFolder = path.resolve(process.execPath, '..');
     const rootAtomFolder = path.resolve(appFolder, '..');
@@ -71,6 +70,6 @@ function handleSquirrelEvent(application)
     }
 }
 
-module.exports = {
+export {
     handleSquirrelEvent
 };
