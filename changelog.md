@@ -4,6 +4,7 @@
 
 -   Enhancement [#1009]: Adding an animation to the workday waiver holidays table when the contents switch
 -   Enhancement [#646]: Title bar color now follows Windows mode (dark or light)
+-   Enhancement [#946]: Included formal json scheme validator
 -   Fix [#1008]: Sourced conflicting holidays being imported by default
 -   Fix [#1028]: Make images and icons not draggable
 -   Fix [#1034]: Preserving TTL font when offline
@@ -21,6 +22,7 @@ Who built 3.0.1:
 
 -   BamButz
 -   Karroteu
+-   SarahRemus
 -   araujoarthur0
 -   chase-west
 -   gsriram24
