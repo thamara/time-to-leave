@@ -11,6 +11,7 @@
 -   Fix [#1040]: Date overlapping icon on preference window after electron 27
 -   Fix [#1042]: Removing extra space at bottom of workday waiver window
 -   Fix [#1044]: Introduce Content Security Policies to app's pages
+-   Fix [#1047]: Fixing test issues in CI
 
 <!--- End changes - Do not remove -->
 
