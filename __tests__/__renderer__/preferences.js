@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 const {
     defaultPreferences,
     getPreferencesFilePath,

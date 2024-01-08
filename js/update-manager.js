@@ -1,9 +1,9 @@
 'use strict';
 
-const { app, net, shell, dialog, BrowserWindow } = require('electron');
+import { app, net, shell, dialog, BrowserWindow } from 'electron';
 
 const isOnline = require('is-online');
-const Store = require('electron-store');
+import Store from 'electron-store';
 const { getCurrentTranslation } = require('../src/configs/i18next.config');
 import { getDateStr } from './date-aux.js';
 
@@ -81,5 +81,5 @@ async function checkForUpdates(showUpToDateDialog)
 
 module.exports = {
     checkForUpdates,
-    shouldCheckForUpdates
+    shouldCheckForUpdates,
 };

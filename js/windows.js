@@ -1,8 +1,8 @@
 'use strict';
 
-const { BrowserWindow } = require('electron');
-import { appConfig } from './app-config.js';
-const path = require('path');
+import { BrowserWindow } from 'electron';
+import { appConfig } from './app-config.cjs';
+import path from 'path';
 import { getDateStr } from './date-aux.js';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -86,11 +86,11 @@ function getWaiverWindow()
 }
 
 module.exports = {
-    prefWindow,
-    tray,
     contextMenu,
-    openWaiverManagerWindow,
     getDialogCoordinates,
     getWaiverWindow,
-    resetWindowsElements
+    openWaiverManagerWindow,
+    prefWindow,
+    resetWindowsElements,
+    tray,
 };

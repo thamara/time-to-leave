@@ -1,10 +1,10 @@
 'use strict';
 
-const { ipcMain } = require('electron');
+import { ipcMain } from 'electron';
 
 import { computeAllTimeBalanceUntilAsync } from '../js/time-balance.js';
 
-const Store = require('electron-store');
+import Store from 'electron-store';
 
 const flexibleStore = new Store({name: 'flexible-store'});
 

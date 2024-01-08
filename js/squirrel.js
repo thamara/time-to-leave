@@ -1,3 +1,7 @@
+'use strict';
+
+import path from 'path';
+
 function handleSquirrelEvent(application)
 {
     if (process.argv.length === 1)
@@ -6,7 +10,6 @@ function handleSquirrelEvent(application)
     }
 
     const ChildProcess = require('child_process');
-    const path = require('path');
 
     const appFolder = path.resolve(process.execPath, '..');
     const rootAtomFolder = path.resolve(appFolder, '..');

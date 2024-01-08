@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const Store = require('electron-store');
-const fs = require('fs');
-const path = require('path');
+import Store from 'electron-store';
+import fs from 'fs';
+import path from 'path';
 const Holidays = require('date-holidays');
 /* eslint-disable-next-line no-global-assign */
 window.$ = require('jquery');
@@ -150,7 +150,7 @@ async function testWaiverCount(expected)
     expect($('#waiver-list-table tbody')[0].rows.length).toBe(expected);
 }
 
-jest.mock('../../js/window-aux.js');
+jest.mock('../../js/window-aux.cjs');
 
 describe('Test Workday Waiver Window', function()
 {

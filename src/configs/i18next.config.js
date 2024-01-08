@@ -1,10 +1,12 @@
+'use strict';
+
 const i18n = require('i18next');
 const i18nextBackend = require('i18next-node-fs-backend');
-const path = require('path');
-const { ipcMain } = require('electron');
+import path from 'path';
+import { ipcMain } from 'electron';
 
 const config = require('../configs/app.config');
-const { appConfig } = require('../../js/app-config');
+const { appConfig } = require('../../js/app-config.cjs');
 
 const i18nextOptions = {
     backend:{
@@ -97,5 +99,5 @@ module.exports =
     changeLanguage,
     getCurrentTranslation,
     setLanguageChangedCallback,
-    setupI18n
+    setupI18n,
 };

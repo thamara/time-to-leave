@@ -1,3 +1,5 @@
+'use strict';
+
 const languages = {
     'bn':'বাংলা',
     'ca': 'Catalàn',
@@ -61,8 +63,8 @@ const namespace = 'translation';
 
 export {
     fallbackLng,
-    namespace,
     getLanguageMap,
+    getLanguageName,
     getLanguagesCodes,
-    getLanguageName
+    namespace,
 };

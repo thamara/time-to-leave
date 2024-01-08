@@ -1,4 +1,6 @@
-const { BrowserWindow } = require('electron');
+'use strict';
+
+import { BrowserWindow } from 'electron';
 const { getDateStr } = require('../../js/date-aux.js');
 const windows = require('../../js/windows.js');
 const {getWaiverWindow, tray, contextMenu, prefWindow, resetWindowsElements, openWaiverManagerWindow, getDialogCoordinates} = require('../../js/windows.js');

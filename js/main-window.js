@@ -1,8 +1,8 @@
 'use strict';
 
-const { app, BrowserWindow, dialog, ipcMain, Menu, shell, Tray } = require('electron');
-const path = require('path');
-const Store = require('electron-store');
+import { app, BrowserWindow, dialog, ipcMain, Menu, shell, Tray } from 'electron';
+import path from 'path';
+import Store from 'electron-store';
 
 const { checkForUpdates, shouldCheckForUpdates } = require('./update-manager');
 const { migrateFixedDbToFlexible } = require('./import-export.js');
@@ -18,7 +18,7 @@ const { getCurrentTranslation } = require('../src/configs/i18next.config');
 let { contextMenu, tray } = require('./windows.js');
 
 import { getDefaultWidthHeight, getUserPreferences, switchCalendarView } from './user-preferences.js';
-import { appConfig, getDetails } from './app-config.js';
+import { appConfig, getDetails } from './app-config.cjs';
 import { createLeaveNotification } from './notification.js';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -287,13 +287,13 @@ function resetMainWindow()
 }
 
 module.exports = {
-    createWindow,
     createMenu,
+    createWindow,
+    getLeaveByInterval: () => leaveByInterval,
     getMainWindow,
-    triggerStartupDialogs,
-    shouldProposeFlexibleDbMigration,
+    getWindowTray: () => tray,
     proposeFlexibleDbMigration,
     resetMainWindow,
-    getLeaveByInterval: () => leaveByInterval,
-    getWindowTray: () => tray
+    shouldProposeFlexibleDbMigration,
+    triggerStartupDialogs,
 };

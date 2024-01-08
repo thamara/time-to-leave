@@ -8,9 +8,9 @@ const {
     validEntry
 } = require('../../js/import-export');
 
-const fs = require('fs');
-const Store = require('electron-store');
-const path = require('path');
+import fs from 'fs';
+import Store from 'electron-store';
+import path from 'path';
 
 describe('Import export', function()
 {

@@ -1,8 +1,8 @@
 /*eslint-disable no-prototype-builtins*/
 'use strict';
 
-const Store = require('electron-store');
-const fs = require('fs');
+import Store from 'electron-store';
+import fs from 'fs';
 
 import { validateTime } from './time-math.js';
 import { generateKey } from './date-db-formatter.js';
@@ -221,8 +221,8 @@ function migrateFixedDbToFlexible()
 }
 
 module.exports = {
-    importDatabaseFromFile,
     exportDatabaseToFile,
+    importDatabaseFromFile,
     migrateFixedDbToFlexible,
-    validEntry
+    validEntry,
 };

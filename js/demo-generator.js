@@ -1,6 +1,8 @@
+'use strict';
+
 const { hourMinToHourFormatted, sumTime } = require('./time-math.js');
 const { generateKey } = require('./date-db-formatter.js');
-const Store = require('electron-store');
+import Store from 'electron-store';
 
 /**
  * Returns a random integer between min (inclusive) and max (inclusive), rounding up to closest multiple of 5

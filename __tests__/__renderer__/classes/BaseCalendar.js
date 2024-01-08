@@ -1,8 +1,9 @@
-import ElectronStore from 'electron-store';
+'use strict';
+
+import Store from 'electron-store';
 import { BaseCalendar } from '../../../renderer/classes/BaseCalendar.js';
 import { generateKey } from '../../../js/date-db-formatter.js';
 import { getUserPreferences, resetPreferences, savePreferences, switchCalendarView } from '../../../js/user-preferences.js';
-const Store = require('electron-store');
 const timeBalance = require('../../../js/time-balance');
 import { calendarApi } from '../../../renderer/preload-scripts/calendar-api.js';
 
@@ -47,9 +48,9 @@ describe('BaseCalendar.js', () =>
     const mocks = {};
     beforeEach(() =>
     {
-        const flexibleStore = new ElectronStore({name: 'flexible-store'});
+        const flexibleStore = new Store({name: 'flexible-store'});
         flexibleStore.clear();
-        const waivedWorkdays = new ElectronStore({name: 'waived-workdays'});
+        const waivedWorkdays = new Store({name: 'waived-workdays'});
         waivedWorkdays.clear();
         ExtendedClass.prototype._initCalendar = () => {};
         ExtendedClass.prototype._getTargetDayForAllTimeBalance = () => {};
@@ -120,10 +121,10 @@ describe('BaseCalendar.js', () =>
         test('Should build with default internal store values', async(done) =>
         {
             ExtendedClass.prototype._initCalendar = () => { done(); };
-            const flexibleStore = new ElectronStore({name: 'flexible-store'});
+            const flexibleStore = new Store({name: 'flexible-store'});
             flexibleStore.set('flexible', 'store');
 
-            const waivedWorkdays = new ElectronStore({name: 'waived-workdays'});
+            const waivedWorkdays = new Store({name: 'waived-workdays'});
             waivedWorkdays.set('2022-01-01', {
                 reason: 'dismiss',
                 hours: '10:00'

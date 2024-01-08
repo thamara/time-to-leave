@@ -1,8 +1,7 @@
 'use strict';
 
-const path = require('path');
-const { app } = require('electron');
-const ElectronNotification = require('electron').Notification;
+import path from 'path';
+import { app, Notification as ElectronNotification } from 'electron';
 
 const {
     subtractTime,
@@ -127,9 +126,9 @@ function getDismiss()
     return dismissToday;
 }
 
-module.exports = {
+export {
+    createLeaveNotification,
     createNotification,
     getDismiss,
-    createLeaveNotification,
     updateDismiss,
 };

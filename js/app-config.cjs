@@ -1,8 +1,8 @@
 'use strict';
 
 const { app } = require('electron');
-const path = require('path');
 const os = require('os');
+const path = require('path');
 
 const macOS = process.platform === 'darwin';
 const win32 = process.platform === 'win32';
@@ -29,7 +29,7 @@ function getDetails()
     return `Version: ${version}\nElectron: ${electronVersion}\nChrome: ${chromeVersion}\nNode.js: ${nodeVersion}\nOS: ${OSInfo}`;
 }
 
-export {
+module.exports = {
     appConfig,
-    getDetails
+    getDetails,
 };

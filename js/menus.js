@@ -1,8 +1,8 @@
 'use strict';
 
-const { app, BrowserWindow, clipboard, dialog, shell } = require('electron');
-const path = require('path');
-const Store = require('electron-store');
+import { app, BrowserWindow, clipboard, dialog, shell } from 'electron';
+import path from 'path';
+import Store from 'electron-store';
 
 const { checkForUpdates } = require('./update-manager');
 const { getSavedPreferences } = require('./saved-preferences.js');
@@ -11,7 +11,7 @@ const { createNotification } = require('./notification');
 const { getCurrentTranslation } = require('../src/configs/i18next.config');
 let { openWaiverManagerWindow, prefWindow, getDialogCoordinates } = require('./windows');
 
-import { appConfig, getDetails } from './app-config.js';
+import { appConfig, getDetails } from './app-config.cjs';
 import { savePreferences } from './user-preferences.js';
 import { getCurrentDateTimeStr } from './date-aux.js';
 
@@ -375,5 +375,5 @@ module.exports = {
     getEditMenuTemplate,
     getHelpMenuTemplate,
     getMainMenuTemplate,
-    getViewMenuTemplate
+    getViewMenuTemplate,
 };

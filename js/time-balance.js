@@ -1,6 +1,6 @@
 'use strict';
 
-const Store = require('electron-store');
+import Store from 'electron-store';
 
 import {
     subtractTime,
@@ -205,7 +205,7 @@ async function computeAllTimeBalanceUntilAsync(limitDate)
 }
 
 export {
-    computeAllTimeBalanceUntilAsync,
     computeAllTimeBalanceUntil,
-    getFirstInputInDb
+    computeAllTimeBalanceUntilAsync,
+    getFirstInputInDb,
 };

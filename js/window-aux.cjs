@@ -5,7 +5,7 @@ const BrowserWindow = (electron || require('@electron/remote')).BrowserWindow;
 const dialog = (electron || require('@electron/remote')).dialog;
 
 /**
- * Opens an electron dialog, based on the options, and returns the promise.
+ * Opens an electron dialog based on the options, and returns a promise that resolves with the response.
  * @param {Object.<string, any>} options
  * @return {Promise}
  */
@@ -28,7 +28,7 @@ function showAlert(message)
     dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), options);
 }
 
-export {
+module.exports = {
     showAlert,
-    showDialogSync
+    showDialogSync,
 };

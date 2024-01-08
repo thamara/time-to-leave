@@ -1,4 +1,6 @@
-const ElectronStore = require('electron-store');
+'use strict';
+
+import Store from 'electron-store';
 const { getDateStr } = require('../../js/date-aux');
 const {shouldCheckForUpdates, checkForUpdates} = require('../../js/update-manager');
 
@@ -26,7 +28,7 @@ describe('js/update-manager.js', () =>
     {
         test('Should return true when was never checked', () =>
         {
-            const store = new ElectronStore();
+            const store = new Store();
             store.set('update-remind-me-after', false);
             expect(shouldCheckForUpdates()).toBe(true);
         });
@@ -35,7 +37,7 @@ describe('js/update-manager.js', () =>
         {
             const now = new Date();
             now.setDate(now.getDate() - 1);
-            const store = new ElectronStore();
+            const store = new Store();
             store.set('update-remind-me-after', getDateStr(now));
             expect(shouldCheckForUpdates()).toBe(true);
         });
@@ -43,7 +45,7 @@ describe('js/update-manager.js', () =>
         test('Should return false when was checked today', () =>
         {
             const now = new Date();
-            const store = new ElectronStore();
+            const store = new Store();
             store.set('update-remind-me-after', getDateStr(now));
             expect(shouldCheckForUpdates()).toBe(false);
         });
