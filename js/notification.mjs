@@ -7,6 +7,7 @@ import { getDateStr } from './date-aux.mjs';
 import { hourToMinutes, subtractTime, validateTime } from './time-math.mjs';
 import { getNotificationsInterval, notificationIsEnabled, repetitionIsEnabled } from './user-preferences.mjs';
 import { getCurrentTranslation } from '../src/configs/i18next.config.mjs';
+import { MockClass } from '../__mocks__/Mock.mjs';
 
 // Allow require()
 import { createRequire } from 'module';
@@ -61,7 +62,7 @@ function createNotification(msg, actions = [])
 /*
  * Notify user if it's time to leave
  */
-function createLeaveNotification(timeToLeave)
+function _createLeaveNotification(timeToLeave)
 {
     const now = new Date();
     const dateToday = getDateStr(now);
@@ -124,9 +125,13 @@ function getDismiss()
     return dismissToday;
 }
 
+// Enable mocking for some methods, export the mocked versions
+const mocks = {'createLeaveNotification': _createLeaveNotification};
+export const createLeaveNotification = (timeToLeave) => mocks['createLeaveNotification'](timeToLeave);
+export const notificationMock = new MockClass(mocks);
+
 export {
-    createLeaveNotification,
     createNotification,
     getDismiss,
-    updateDismiss,
+    updateDismiss
 };

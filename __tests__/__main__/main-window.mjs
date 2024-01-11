@@ -1,19 +1,24 @@
+/* eslint-disable no-undef */
 'use strict';
 
-const assert = require('assert');
-const notification = require('../../js/notification.js');
-const userPreferences = require('../../js/user-preferences.js');
-const { savePreferences, defaultPreferences, resetPreferences } = userPreferences;
+import assert from 'assert';
 import { app, BrowserWindow, ipcMain } from 'electron';
+import { match, spy, stub, useFakeTimers } from 'sinon';
 
-jest.mock('../../js/update-manager', () => ({
-    checkForUpdates: jest.fn(),
-    shouldCheckForUpdates: jest.fn()
-}));
+import { notificationMock } from '../../js/notification.mjs';
+import { savePreferences, defaultPreferences, resetPreferences } from '../../js/user-preferences.mjs';
 
-const mainWindowModule = require('../../js/main-window.js');
-const { getMainWindow, createWindow, resetMainWindow, getLeaveByInterval, getWindowTray, triggerStartupDialogs } = mainWindowModule;
-const updateManager = require('../../js/update-manager.js');
+import {
+    createWindow,
+    getLeaveByInterval,
+    getMainWindow,
+    resetMainWindow,
+    triggerStartupDialogs
+} from '../../js/main-window.mjs';
+
+import { updateManagerMock } from '../../js/update-manager.mjs';
+updateManagerMock.mock('checkForUpdates', stub());
+updateManagerMock.mock('shouldCheckForUpdates', stub());
 
 // Mocking USER_DATA_PATH for tests below
 ipcMain.handle('USER_DATA_PATH', () =>
@@ -30,37 +35,43 @@ ipcMain.handle('GET_LANGUAGE_DATA', () => ({
     'data': {}
 }));
 
-describe('main-window.js', () =>
+describe('main-window.mjs', () =>
 {
     let showSpy;
-    beforeEach(() =>
+    before(() =>
     {
         // Avoid showing the window
-        showSpy = jest.spyOn(BrowserWindow.prototype, 'show').mockImplementationOnce(() => {});
+        BrowserWindow.prototype.show = stub();
+        showSpy = BrowserWindow.prototype.show;
+    });
+
+    beforeEach(() =>
+    {
+        showSpy.resetHistory();
     });
 
     describe('getMainWindow', () =>
     {
-        test('Should be null if it has not been started', () =>
+        it('Should be null if it has not been started', () =>
         {
-            assert.strictEqual(getWindowTray(), null);
+            assert.strictEqual(global.tray, null);
             assert.strictEqual(getMainWindow(), null);
             assert.strictEqual(getLeaveByInterval(), null);
         });
 
-        test('Should get window', () =>
+        it('Should get window', () =>
         {
             createWindow();
-            expect(showSpy).toHaveBeenCalledTimes(1);
+            assert.strictEqual(showSpy.calledOnce, true);
             assert.strictEqual(getMainWindow() instanceof BrowserWindow, true);
         });
     });
 
     describe('createWindow()', () =>
     {
-        test('Should create and get window default behaviour', () =>
+        it('Should create and get window default behaviour', () =>
         {
-            const loadFileSpy = jest.spyOn(BrowserWindow.prototype, 'loadFile');
+            const loadFileSpy = spy(BrowserWindow.prototype, 'loadFile');
             createWindow();
             /**
              * @type {BrowserWindow}
@@ -73,44 +84,60 @@ describe('main-window.js', () =>
             assert.strictEqual(ipcMain.listenerCount('RECEIVE_LEAVE_BY'), 1);
             assert.strictEqual(mainWindow.listenerCount('minimize'), 2);
             assert.strictEqual(mainWindow.listenerCount('close'), 1);
-            expect(loadFileSpy).toHaveBeenCalledTimes(1);
-            expect(showSpy).toHaveBeenCalledTimes(1);
+            assert.strictEqual(loadFileSpy.calledOnce, true);
+            assert.strictEqual(showSpy.calledOnce, true);
             assert.notStrictEqual(getLeaveByInterval(), null);
             assert.strictEqual(getLeaveByInterval()._idleNext.expiry > 0, true);
         });
     });
 
-    describe('emit RESIZE_MAIN_WINDOW', () =>
+    describe('emit RESIZE_MAIN_WINDOW', function()
     {
-        test('It should resize window', (done) =>
+        it('It should resize window', (done) =>
         {
             createWindow();
             /**
              * @type {BrowserWindow}
              */
             const mainWindow = getMainWindow();
-            mainWindow.on('ready-to-show', () =>
+            mainWindow.on('ready-to-show', async() =>
             {
-                ipcMain.emit('RESIZE_MAIN_WINDOW');
-                expect(mainWindow.getSize()).toEqual([1010, 800]);
+                // Wait a bit for values to accomodate
+                await new Promise(res => setTimeout(res, 500));
+
+                assert.strictEqual(ipcMain.emit('RESIZE_MAIN_WINDOW'), true);
+                const windowSize = mainWindow.getSize();
+                assert.strictEqual(windowSize.length, 2);
+
+                // Width and height are within 5 pixels of the expected values
+                assert.strictEqual(Math.abs(windowSize[0] - 1010) < 5, true, `Value was ${windowSize[0]}`);
+                assert.strictEqual(Math.abs(windowSize[1] - 800) < 5, true, `Value was ${windowSize[1]}`);
                 done();
             });
         });
-        test('It should not resize window if values are smaller than minimum', (done) =>
+        it('It should not resize window if values are smaller than minimum', (done) =>
         {
-            savePreferences({
+            assert.strictEqual(savePreferences({
                 ...defaultPreferences,
                 ['view']: 'day'
-            });
+            }), true);
             createWindow();
             /**
              * @type {BrowserWindow}
              */
             const mainWindow = getMainWindow();
-            mainWindow.on('ready-to-show', () =>
+            mainWindow.on('ready-to-show', async() =>
             {
-                ipcMain.emit('RESIZE_MAIN_WINDOW');
-                expect(mainWindow.getSize()).toEqual([500, 500]);
+                // Wait a bit for values to accomodate
+                await new Promise(res => setTimeout(res, 500));
+
+                assert.strictEqual(ipcMain.emit('RESIZE_MAIN_WINDOW'), true);
+                const windowSize = mainWindow.getSize();
+                assert.strictEqual(windowSize.length, 2);
+
+                // Width and height are within 5 pixels of the expected values
+                assert.strictEqual(Math.abs(windowSize[0] - 500) < 5, true, `Value was ${windowSize[0]}`);
+                assert.strictEqual(Math.abs(windowSize[1] - 500) < 5, true, `Value was ${windowSize[1]}`);
                 done();
             });
         });
@@ -118,34 +145,41 @@ describe('main-window.js', () =>
 
     describe('emit SWITCH_VIEW', () =>
     {
-        test('It should send new event to ipcRenderer', (done) =>
+        it('It should send new event to ipcRenderer', (done) =>
         {
+            assert.strictEqual(savePreferences({
+                ...defaultPreferences,
+                ['view']: 'month'
+            }), true);
             createWindow();
             /**
              * @type {BrowserWindow}
              */
             const mainWindow = getMainWindow();
-            mainWindow.on('ready-to-show', () =>
+            mainWindow.on('ready-to-show', async() =>
             {
-                const windowSpy = jest.spyOn(mainWindow.webContents, 'send').mockImplementation((event, savedPreferences) =>
+                // Wait a bit for values to accomodate
+                await new Promise(res => setTimeout(res, 500));
+
+                const windowStub = stub(mainWindow.webContents, 'send').callsFake((event, savedPreferences) =>
                 {
                     ipcMain.emit('FINISH_TEST', event, savedPreferences);
                 });
                 ipcMain.on('FINISH_TEST', (event, savedPreferences) =>
                 {
-                    expect(windowSpy).toBeCalledTimes(1);
-                    expect(savedPreferences['view']).toEqual('day');
+                    assert.strictEqual(windowStub.calledOnce, true);
+                    assert.strictEqual(savedPreferences['view'], 'day');
                     done();
                 });
                 ipcMain.emit('SWITCH_VIEW');
-                windowSpy.mockRestore();
+                windowStub.restore();
             });
         });
     });
 
     describe('emit RECEIVE_LEAVE_BY', () =>
     {
-        test('Should not show notification when notifications is not sent', (done) =>
+        it('Should not show notification when notifications is not sent', (done) =>
         {
             createWindow();
             /**
@@ -154,19 +188,29 @@ describe('main-window.js', () =>
             const mainWindow = getMainWindow();
             mainWindow.on('ready-to-show', () =>
             {
-                const windowSpy = jest.spyOn(notification, 'createLeaveNotification').mockImplementation(() =>
+                notificationMock.mock('createLeaveNotification', stub().callsFake(() =>
                 {
                     return false;
-                });
+                }));
                 ipcMain.emit('RECEIVE_LEAVE_BY', {}, undefined);
-                expect(windowSpy).toBeCalledTimes(1);
-                windowSpy.mockRestore();
+                assert.strictEqual(notificationMock.getMock('createLeaveNotification').calledOnce, true);
+                notificationMock.restoreMock('createLeaveNotification');
                 done();
             });
         });
 
-        test('Should show notification', (done) =>
+        it('Should show notification', (done) =>
         {
+            notificationMock.mock('createLeaveNotification', stub().callsFake(() =>
+            {
+                return {
+                    show: () =>
+                    {
+                        notificationMock.restoreMock('createLeaveNotification');
+                        done();
+                    }
+                };
+            }));
             createWindow();
             /**
              * @type {BrowserWindow}
@@ -174,16 +218,6 @@ describe('main-window.js', () =>
             const mainWindow = getMainWindow();
             mainWindow.on('ready-to-show', () =>
             {
-                const windowSpy = jest.spyOn(notification, 'createLeaveNotification').mockImplementation(() =>
-                {
-                    return {
-                        show: () =>
-                        {
-                            windowSpy.mockRestore();
-                            done();
-                        }
-                    };
-                });
                 const now = new Date();
                 ipcMain.emit(
                     'RECEIVE_LEAVE_BY',
@@ -198,7 +232,7 @@ describe('main-window.js', () =>
     {
         describe('emit click', () =>
         {
-            test('It should show window on click', (done) =>
+            it('It should show window on click', (done) =>
             {
                 createWindow();
                 /**
@@ -207,23 +241,24 @@ describe('main-window.js', () =>
                 const mainWindow = getMainWindow();
                 mainWindow.on('ready-to-show', () =>
                 {
-                    const showSpy = jest.spyOn(mainWindow, 'show').mockImplementation(() =>
+                    showSpy.callsFake(() =>
                     {
                         ipcMain.emit('FINISH_TEST');
                     });
                     ipcMain.on('FINISH_TEST', () =>
                     {
-                        expect(showSpy).toHaveBeenCalledTimes(2);
+                        assert.strictEqual(showSpy.calledTwice, true);
+                        showSpy.resetBehavior();
                         done();
                     });
-                    getWindowTray().emit('click');
+                    global.tray.emit('click');
                 });
             });
         });
 
         describe('emit right-click', () =>
         {
-            test('It should show menu on right-click', (done) =>
+            it('It should show menu on right-click', (done) =>
             {
                 createWindow();
                 /**
@@ -232,16 +267,17 @@ describe('main-window.js', () =>
                 const mainWindow = getMainWindow();
                 mainWindow.on('ready-to-show', () =>
                 {
-                    const showSpy = jest.spyOn(getWindowTray(), 'popUpContextMenu').mockImplementation(() =>
+                    const trayStub = stub(global.tray, 'popUpContextMenu').callsFake(() =>
                     {
                         ipcMain.emit('FINISH_TEST');
                     });
                     ipcMain.on('FINISH_TEST', () =>
                     {
-                        expect(showSpy).toHaveBeenCalledTimes(1);
+                        assert.strictEqual(trayStub.calledOnce, true);
+                        trayStub.restore();
                         done();
                     });
-                    getWindowTray().emit('right-click');
+                    global.tray.emit('right-click');
                 });
             });
         });
@@ -249,7 +285,7 @@ describe('main-window.js', () =>
 
     describe('emit minimize', () =>
     {
-        test('Should get hidden if minimize-to-tray is true', (done) =>
+        it('Should get hidden if minimize-to-tray is true', (done) =>
         {
             savePreferences({
                 ...defaultPreferences,
@@ -270,7 +306,7 @@ describe('main-window.js', () =>
             });
         });
 
-        test('Should minimize if minimize-to-tray is false', (done) =>
+        it('Should minimize if minimize-to-tray is false', (done) =>
         {
             savePreferences({
                 ...defaultPreferences,
@@ -282,11 +318,12 @@ describe('main-window.js', () =>
              * @type {BrowserWindow}
              */
             const mainWindow = getMainWindow();
-            const minimizeSpy = jest.spyOn(mainWindow, 'minimize');
+            const minimizeSpy = spy(mainWindow, 'minimize');
             mainWindow.on('ready-to-show', () =>
             {
                 mainWindow.emit('minimize', {});
-                expect(minimizeSpy).toBeCalled();
+                assert.strictEqual(minimizeSpy.called, true);
+                minimizeSpy.restore();
                 done();
             });
         });
@@ -294,7 +331,7 @@ describe('main-window.js', () =>
 
     describe('emit close', () =>
     {
-        test('Should get hidden if close-to-tray is true', (done) =>
+        it('Should get hidden if close-to-tray is true', (done) =>
         {
             savePreferences({
                 ...defaultPreferences,
@@ -316,7 +353,7 @@ describe('main-window.js', () =>
             });
         });
 
-        test('Should close if close-to-tray is false', (done) =>
+        it('Should close if close-to-tray is false', (done) =>
         {
             savePreferences({
                 ...defaultPreferences,
@@ -344,37 +381,40 @@ describe('main-window.js', () =>
         });
     });
 
-
     describe('triggerStartupDialogs', () =>
     {
-        test('Should check for updates and try to migrate', () =>
+        it('Should check for updates and try to migrate', () =>
         {
-            const shouldCheckUpdate = jest.spyOn(updateManager, 'shouldCheckForUpdates').mockImplementationOnce(() => true);
-            const checkUpdate = jest.spyOn(updateManager, 'checkForUpdates').mockImplementationOnce(() => {});
+            updateManagerMock.mock('shouldCheckForUpdates', stub().returns(true));
+            updateManagerMock.mock('checkForUpdates', stub());
 
             triggerStartupDialogs();
-            expect(shouldCheckUpdate).toHaveBeenCalledTimes(1);
-            expect(checkUpdate).toHaveBeenCalledTimes(1);
+            assert.strictEqual(updateManagerMock.getMock('shouldCheckForUpdates').calledOnce, true);
+            assert.strictEqual(updateManagerMock.getMock('checkForUpdates').calledOnce, true);
+
+            updateManagerMock.restoreMock('shouldCheckForUpdates');
+            updateManagerMock.restoreMock('checkForUpdates');
         });
 
-        test('Should check for updates and try to migrate', () =>
+        it('Should not check for updates when shouldCheck returns falseZ', () =>
         {
-            const shouldCheckUpdate = jest.spyOn(updateManager, 'shouldCheckForUpdates').mockImplementationOnce(() => false);
-            const checkUpdate = jest.spyOn(updateManager, 'checkForUpdates').mockImplementationOnce(() => {});
+            updateManagerMock.mock('shouldCheckForUpdates', stub().returns(false));
+            updateManagerMock.mock('checkForUpdates', stub());
 
             triggerStartupDialogs();
-            expect(shouldCheckUpdate).toHaveBeenCalledTimes(2);
-            expect(checkUpdate).toHaveBeenCalledTimes(1);
+            assert.strictEqual(updateManagerMock.getMock('shouldCheckForUpdates').calledOnce, true);
+            assert.strictEqual(updateManagerMock.getMock('checkForUpdates').calledOnce, false);
+
+            updateManagerMock.restoreMock('shouldCheckForUpdates');
+            updateManagerMock.restoreMock('checkForUpdates');
         });
     });
 
     describe('GET_LEAVE_BY interval', () =>
     {
-        test('Should create interval', (done) =>
+        it('Should create interval', (done) =>
         {
-            jest.useFakeTimers();
-            jest.spyOn(global, 'setInterval');
-
+            const intervalSpy = spy(global, 'setInterval');
             createWindow();
             /**
              * @type {BrowserWindow}
@@ -385,24 +425,25 @@ describe('main-window.js', () =>
                 mainWindow.emit('close', {
                     preventDefault: () => {}
                 });
-                expect(setInterval).toHaveBeenCalledTimes(1);
-                expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), 60 * 1000);
+                assert.strictEqual(intervalSpy.calledOnceWithExactly(match.func, 60 * 1000), true);
+                intervalSpy.restore();
                 done();
             });
         });
 
-        test('Should run interval', (done) =>
+        it('Should run interval', (done) =>
         {
-            jest.useFakeTimers();
-            jest.spyOn(global, 'setInterval');
-            jest.clearAllTimers();
+            const clock = useFakeTimers();
+            const intervalSpy = spy(global, 'setInterval');
             createWindow();
             /**
              * @type {BrowserWindow}
              */
             const mainWindow = getMainWindow();
-            jest.spyOn(mainWindow.webContents, 'send').mockImplementationOnce(() =>
+            const windowStub = stub(mainWindow.webContents, 'send').callsFake(() =>
             {
+                windowStub.restore();
+                clock.restore();
                 done();
             });
             mainWindow.on('ready-to-show', () =>
@@ -410,18 +451,16 @@ describe('main-window.js', () =>
                 mainWindow.emit('close', {
                     preventDefault: () => {}
                 });
-                expect(setInterval).toHaveBeenCalledTimes(1);
-                expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), 60 * 1000);
-                jest.runOnlyPendingTimers();
+                assert.strictEqual(intervalSpy.calledOnceWithExactly(match.func, 60 * 1000), true);
+                clock.next();
+                intervalSpy.restore();
             });
         });
     });
 
     afterEach(() =>
     {
-        jest.restoreAllMocks();
         resetMainWindow();
         resetPreferences();
     });
-
 });

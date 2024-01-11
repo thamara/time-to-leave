@@ -32,6 +32,10 @@ function getMainWindow()
 {
     return mainWindow;
 }
+function getLeaveByInterval()
+{
+    return leaveByInterval;
+}
 
 function createMenu()
 {
@@ -292,7 +296,7 @@ function resetMainWindow()
 export {
     createMenu,
     createWindow,
-    leaveByInterval as getLeaveByInterval,
+    getLeaveByInterval,
     getMainWindow,
     proposeFlexibleDbMigration,
     resetMainWindow,
