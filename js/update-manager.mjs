@@ -6,8 +6,9 @@ import isOnline from 'is-online';
 
 import { getDateStr } from './date-aux.mjs';
 import { getCurrentTranslation } from '../src/configs/i18next.config.mjs';
+import { MockClass } from '../__mocks__/Mock.mjs';
 
-function shouldCheckForUpdates()
+function _shouldCheckForUpdates()
 {
     const store = new Store();
     const lastChecked = store.get('update-remind-me-after');
@@ -16,7 +17,7 @@ function shouldCheckForUpdates()
     return !lastChecked || todayDate > lastChecked;
 }
 
-async function checkForUpdates(showUpToDateDialog)
+async function _checkForUpdates(showUpToDateDialog)
 {
     const online = await isOnline();
     if (!online)
@@ -79,7 +80,8 @@ async function checkForUpdates(showUpToDateDialog)
     request.end();
 }
 
-export {
-    checkForUpdates,
-    shouldCheckForUpdates,
-};
+// Enable mocking for some methods, export the mocked versions
+const mocks = {'checkForUpdates': _checkForUpdates, 'shouldCheckForUpdates': _shouldCheckForUpdates};
+export const checkForUpdates = async(showUpToDateDialog) => mocks['checkForUpdates'](showUpToDateDialog);
+export const shouldCheckForUpdates = () => mocks['shouldCheckForUpdates']();
+export const updateManagerMock = new MockClass(mocks);
