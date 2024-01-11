@@ -1,5 +1,5 @@
 const data = require('./mocha-base.config.cjs');
 
-data.spec = ['__tests__/__main__/{date-aux,import-export,time-math,validate-json}.js'];
+data.spec = ['__tests__/__main__/*.mjs'];
 
 module.exports = data;

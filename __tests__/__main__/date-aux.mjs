@@ -3,7 +3,7 @@
 
 import assert from 'assert';
 
-import { getDateStr, getCurrentDateTimeStr, getMonthLength } from '../../js/date-aux.js';
+import { getDateStr, getCurrentDateTimeStr, getMonthLength } from '../../js/date-aux.mjs';
 
 describe('Date Functions', () =>
 {
