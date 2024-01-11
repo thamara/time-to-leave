@@ -10,12 +10,10 @@ import {
     exportDatabaseToFile,
     importDatabaseFromFile,
     validEntry,
-} from '../../js/import-export.js';
+} from '../../js/import-export.mjs';
 
 describe('Import export', function()
 {
-    process.env.NODE_ENV = 'test';
-
     describe('validEntry(entry)', function()
     {
         const goodEntry = {'type': 'flexible', 'date': '2020-06-03', 'values': ['08:00', '12:00', '13:00', '14:00']};
