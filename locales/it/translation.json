@@ -124,6 +124,7 @@
         "appBehavior": "Comportamento App",
         "cadentStar": "Stella cadente",
         "closeMinimizeToTray": "Il pulsante di chiusura a icona deve ridurre a icona nella tray",
+        "confirm-reset-preferences": "Are you sure you want to reset all preferences?",
         "countTodayOnTotals": "Considera oggi nei totali",
         "dark": "Scuro",
         "day": "Giorno",
@@ -142,8 +143,11 @@
         "mon": "Lun",
         "month": "Mese",
         "notification": "Notifiche",
+        "no-thanks": "No, grazie",
         "numberOfEntries": "Numero di record",
         "overallBalanceStart": "Data di inizio bilanciamento complessivo",
+        "reset": "Reset",
+        "reset-preferences": "Reset to default preferences",
         "sat": "Sab",
         "startOnLogin": "Avvia al login",
         "sun": "Dom",
@@ -155,7 +159,8 @@
         "userPreferences": "Preferenze utente",
         "view": "Visuale",
         "wed": "Mer",
-        "workingDays": "Giorni feriali"
+        "workingDays": "Giorni feriali",
+        "yes-please": "Sì, per favore"
     },
     "$UpdateManager": {
         "dismissBtn": "Ignora",

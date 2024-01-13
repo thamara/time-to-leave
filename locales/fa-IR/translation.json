@@ -124,6 +124,7 @@
         "appBehavior": "تنظیمات برنامه",
         "cadentStar": "ستاره دنباله دار",
         "closeMinimizeToTray": "هنگام کلیک روی دکمه خروج در قسمت آیکن ها قرار بگیرد",
+        "confirm-reset-preferences": "Are you sure you want to reset all preferences?",
         "countTodayOnTotals": "شمارش امروز در قسمت مجموع",
         "dark": "تاریک",
         "day": "روزانه",
@@ -142,8 +143,11 @@
         "mon": "دوشنبه",
         "month": "ماهانه",
         "notification": "اعلان ها",
+        "no-thanks": "خیر",
         "numberOfEntries": "تعداد موارد",
         "overallBalanceStart": "تاریخ شروع محاسبه اختلاف ساعت های کاری",
+        "reset": "Reset",
+        "reset-preferences": "Reset to default preferences",
         "sat": "شنبه",
         "startOnLogin": "بازکردن هنگام ورود به سیستم",
         "sun": "یکشنبه",
@@ -155,7 +159,8 @@
         "userPreferences": "تنظیمات کاربری",
         "view": "شیوه نمایش",
         "wed": "چهارشنبه",
-        "workingDays": "روزهای کاری"
+        "workingDays": "روزهای کاری",
+        "yes-please": "بله"
     },
     "$UpdateManager": {
         "dismissBtn": "رد کردن",

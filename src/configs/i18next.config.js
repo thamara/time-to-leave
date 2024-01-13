@@ -3,7 +3,7 @@
 const i18n = require('i18next');
 const i18nextBackend = require('i18next-node-fs-backend');
 import path from 'path';
-import { ipcMain } from 'electron';
+import { BrowserWindow, dialog, ipcMain } from 'electron';
 
 const config = require('../configs/app.config');
 const { appConfig } = require('../../js/app-config.cjs');
@@ -87,6 +87,26 @@ ipcMain.handle('GET_LANGUAGE_DATA', () =>
         'language': i18n.language,
         'data': getCurrentLanguageData()
     };
+});
+
+ipcMain.handle('SHOULD_RESET_PREFERENCES', () =>
+{
+    const options = {
+        type: 'question',
+        buttons: [getCurrentTranslation('$Preferences.yes-please'), getCurrentTranslation('$Preferences.no-thanks')],
+        defaultId: 2,
+        title: getCurrentTranslation('$Preferences.reset-preferences'),
+        message: getCurrentTranslation('$Preferences.confirm-reset-preferences'),
+    };
+    const confirmation = dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), options);
+    if (confirmation === /*Yes*/0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 });
 
 function getCurrentTranslation(code)

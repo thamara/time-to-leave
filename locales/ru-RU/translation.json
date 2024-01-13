@@ -124,6 +124,7 @@
         "appBehavior": "Поведение приложения",
         "cadentStar": "Падающая звезда",
         "closeMinimizeToTray": "Кнопка «Закрыть» должна быть свернута",
+        "confirm-reset-preferences": "Are you sure you want to reset all preferences?",
         "countTodayOnTotals": "Итоги дня",
         "dark": "Темный",
         "day": "День",
@@ -142,8 +143,11 @@
         "mon": "Пн",
         "month": "Месяц",
         "notification": "Уведомление",
+        "no-thanks": "Нет, спасибо",
         "numberOfEntries": "Количество записей",
         "overallBalanceStart": "Дата начала общей статистики",
+        "reset": "Reset",
+        "reset-preferences": "Reset to default preferences",
         "sat": "Сб",
         "startOnLogin": "Войти",
         "sun": "Вс",
@@ -155,7 +159,8 @@
         "userPreferences": "Настройки пользователя",
         "view": "Вид",
         "wed": "Ср",
-        "workingDays": "Рабочие дни"
+        "workingDays": "Рабочие дни",
+        "yes-please": "Да, пожалуйста"
     },
     "$UpdateManager": {
         "dismissBtn": "Отклонить",

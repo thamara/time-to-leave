@@ -19,12 +19,18 @@ function getLanguageDataPromise()
     return ipcRenderer.invoke('GET_LANGUAGE_DATA');
 }
 
+function shouldResetPreferences()
+{
+    return ipcRenderer.invoke('SHOULD_RESET_PREFERENCES');
+}
+
 const preferencesApi = {
     notifyNewPreferences: (preferences) => notifyNewPreferences(preferences),
     getLanguageMap: () => config.getLanguageMap(),
     getUserPreferencesPromise: () => getUserPreferencesPromise(),
     changeLanguagePromise: (language) => changeLanguagePromise(language),
-    getLanguageDataPromise: () => getLanguageDataPromise()
+    getLanguageDataPromise: () => getLanguageDataPromise(),
+    shouldResetPreferences: () => shouldResetPreferences()
 };
 
 export {

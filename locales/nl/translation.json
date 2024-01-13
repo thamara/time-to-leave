@@ -124,6 +124,7 @@
         "appBehavior": "App-gedrag",
         "cadentStar": "Regenboogkleuren",
         "closeMinimizeToTray": "Sluitknop moet minimaliseren",
+        "confirm-reset-preferences": "Are you sure you want to reset all preferences?",
         "countTodayOnTotals": "Vandaag in totalen tellen",
         "dark": "Donker",
         "day": "Dag",
@@ -142,8 +143,11 @@
         "mon": "Ma",
         "month": "Maand",
         "notification": "Melding",
+        "no-thanks": "Nee, bedankt",
         "numberOfEntries": "Aantal invoergegevens",
         "overallBalanceStart": "Algemeen overzicht startdatum",
+        "reset": "Reset",
+        "reset-preferences": "Reset to default preferences",
         "sat": "Za",
         "startOnLogin": "Starten met inloggen",
         "sun": "Zo",
@@ -155,7 +159,8 @@
         "userPreferences": "Gebruikersvoorkeuren",
         "view": "Weergeven op",
         "wed": "Wo",
-        "workingDays": "Werkdagen"
+        "workingDays": "Werkdagen",
+        "yes-please": "Ja, graag"
     },
     "$UpdateManager": {
         "dismissBtn": "Afwijzen",

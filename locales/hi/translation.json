@@ -124,6 +124,7 @@
         "appBehavior": "ऐप व्यवहार",
         "cadentStar": "कैडेट स्टार",
         "closeMinimizeToTray": "क्लोज बटन को ट्रे पर कम से कम रखना चाहिए",
+        "confirm-reset-preferences": "Are you sure you want to reset all preferences?",
         "countTodayOnTotals": "आज की गिनती टोटल में",
         "dark": "अंधेरा",
         "day": "दिन",
@@ -142,8 +143,11 @@
         "mon": "सोम",
         "month": "महीना",
         "notification": "अधिसूचना",
+        "no-thanks": "जी नहीं, धन्यवाद",
         "numberOfEntries": "प्रविष्टियोंकी संख्या",
         "overallBalanceStart": "ओवरऑल बैलेंस स्टार्ट डेट",
+        "reset": "Reset",
+        "reset-preferences": "Reset to default preferences",
         "sat": "शनि",
         "startOnLogin": "लॉगिन पर शुरू करें",
         "sun": "रवि",
@@ -155,7 +159,8 @@
         "userPreferences": "उपयोगकर्ता वरीयताएं",
         "view": "देखे",
         "wed": "बुध",
-        "workingDays": "कार्य दिवस"
+        "workingDays": "कार्य दिवस",
+        "yes-please": "जी कहिये"
     },
     "$UpdateManager": {
         "dismissBtn": "खारिज करें",

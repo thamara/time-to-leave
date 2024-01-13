@@ -124,6 +124,7 @@
         "appBehavior": "התנהגות ישומון",
         "cadentStar": "כוכב קדנט",
         "closeMinimizeToTray": "כפתור סגירה ימזער למגש",
+        "confirm-reset-preferences": "Are you sure you want to reset all preferences?",
         "countTodayOnTotals": "להחשיב את היום למאזן",
         "dark": "חשוך",
         "day": "יום",
@@ -142,8 +143,11 @@
         "mon": "יום שני",
         "month": "חודש",
         "notification": "התראה",
+        "no-thanks": "לא, תודה",
         "numberOfEntries": "כמות רשומות",
         "overallBalanceStart": "זמן התחלה של מאזן כללי",
+        "reset": "Reset",
+        "reset-preferences": "Reset to default preferences",
         "sat": "יום שבת",
         "startOnLogin": "התחל בעת חיבור",
         "sun": "יום ראשון",
@@ -155,7 +159,8 @@
         "userPreferences": "העדפות משתמש",
         "view": "תצוגה",
         "wed": "יום רביעי",
-        "workingDays": "ימי עבודה"
+        "workingDays": "ימי עבודה",
+        "yes-please": "כן, בבקשה"
     },
     "$UpdateManager": {
         "dismissBtn": "לפטור",

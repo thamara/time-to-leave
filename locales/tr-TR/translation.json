@@ -124,6 +124,7 @@
         "appBehavior": "Uygulama Davranışı ",
         "cadentStar": "Kayan Yıldız",
         "closeMinimizeToTray": "Kapat düğmesi simge durumuna küçültülmelidir.",
+        "confirm-reset-preferences": "Are you sure you want to reset all preferences?",
         "countTodayOnTotals": "Bugünün Toplamdaki Sayısını Bul",
         "dark": "Karanlık",
         "day": "Gün",
@@ -142,8 +143,11 @@
         "mon": "Pzt",
         "month": "Ay",
         "notification": "Bildirim",
+        "no-thanks": "Hayır, Teşekkürler",
         "numberOfEntries": "Girdi Sayısı",
         "overallBalanceStart": "Başlangıç Tarihinden İtibaren Genel Bilanço",
+        "reset": "Reset",
+        "reset-preferences": "Reset to default preferences",
         "sat": "Cmt",
         "startOnLogin": "Giriş Yap",
         "sun": "Pzr",
@@ -155,7 +159,8 @@
         "userPreferences": "Kullanıcı tercihleri",
         "view": "Görünüm",
         "wed": "Çrb",
-        "workingDays": "İş günleri"
+        "workingDays": "İş günleri",
+        "yes-please": "Evet, Lütfen"
     },
     "$UpdateManager": {
         "dismissBtn": "İşten Çıkar",

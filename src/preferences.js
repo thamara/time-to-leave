@@ -148,6 +148,15 @@ function renderPreferencesWindow()
         }
     });
 
+    $('#reset-button').on('click', function()
+    {
+        if (window.mainApi.shouldResetPreferences())
+        {
+            window.mainApi.resetPreferences();
+            refreshContent();
+        }
+    });
+
     const prefillBreak = $('#enable-prefill-break-time');
     const breakInterval = $('#break-time-interval');
 

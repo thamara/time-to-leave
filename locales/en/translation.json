@@ -124,6 +124,7 @@
         "appBehavior": "App Behavior",
         "cadentStar": "Cadent Star",
         "closeMinimizeToTray": "Close button should minimize to tray",
+        "confirm-reset-preferences": "Are you sure you want to reset all preferences?",
         "countTodayOnTotals": "Count Today in Totals",
         "dark": "Dark",
         "day": "Day",
@@ -142,8 +143,11 @@
         "mon": "Mon",
         "month": "Month",
         "notification": "Notification",
+        "no-thanks": "No, thanks",
         "numberOfEntries": "Number of Entries",
         "overallBalanceStart": "Overall Balance Start Date",
+        "reset": "Reset",
+        "reset-preferences": "Reset to default preferences",
         "sat": "Sat",
         "startOnLogin": "Start on Login",
         "sun": "Sun",
@@ -155,7 +159,8 @@
         "userPreferences": "User preferences",
         "view": "View",
         "wed": "Wed",
-        "workingDays": "Working days"
+        "workingDays": "Working days",
+        "yes-please": "Yes, please"
     },
     "$UpdateManager": {
         "dismissBtn": "Dismiss",

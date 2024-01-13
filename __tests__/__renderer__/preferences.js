@@ -84,6 +84,17 @@ function resetPreferenceFile()
     if (fs.existsSync(preferencesFilePath)) fs.unlinkSync(preferencesFilePath);
 }
 
+function clickItem(item)
+{
+    $(`#${item}`)
+        .trigger('click')
+}
+
+function checkItemText(item, text)
+{
+    expect($(`#${item}`).text().replace(/\s/g, "")).toBe(text);
+}
+
 const testPreferences = Object.assign({}, defaultPreferences);
 
 describe('Test Preferences Window', () =>
@@ -212,6 +223,30 @@ describe('Test Preferences Window', () =>
                 }
             });
             expect(lastValue).not.toBe('');
+        });
+    });
+});
+
+
+describe('Test Preferences Window Reset', () =>
+{
+    process.env.NODE_ENV = 'test';
+
+    describe('Checking if reset button is responsive', () =>
+    {
+        beforeEach((async(done) =>
+        {
+            prepareMockup();
+            await refreshContent();
+            renderPreferencesWindow();
+            populateLanguages();
+            listenerLanguage();
+            done();
+        }));
+        test('Click reset and check button text change', () =>
+        {
+            checkItemText('reset-button', 'Reset')
+            clickItem('reset-button');
         });
     });
 });
