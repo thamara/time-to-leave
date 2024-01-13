@@ -1,36 +1,33 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const assert = require('assert');
-const { createNotification, createLeaveNotification, updateDismiss, getDismiss } = require('../../js/notification.js');
-const { getUserPreferences, savePreferences, resetPreferences } = require('../../js/user-preferences.js');
-const { getDateStr } = require('../../js/date-aux.js');
+import assert from 'assert';
 import { app } from 'electron';
+import { stub } from 'sinon';
+
+import { createNotification, createLeaveNotification, updateDismiss, getDismiss } from '../../js/notification.mjs';
+import { getUserPreferences, savePreferences, resetPreferences } from '../../js/user-preferences.mjs';
+import { getDateStr } from '../../js/date-aux.mjs';
 
 function buildTimeString(now)
 {
     return `0${now.getHours()}`.slice(-2) + ':' + `0${now.getMinutes()}`.slice(-2);
 }
 
+process.env.NODE_ENV = 'test';
+
 describe('Notifications', function()
 {
     describe('notify', () =>
     {
-        beforeEach(() =>
+        it('displays a notification in test', (done) =>
         {
-            // displays a notification in test fails if mocks are not restored
-            jest.restoreAllMocks();
-        });
-
-        test('displays a notification in test', (done) =>
-        {
-            process.env.NODE_ENV = 'test';
             const notification = createNotification('test');
             // On Win32 the notification uses a different specification, with toastXml
             if (process.platform === 'win32')
             {
-                expect(notification.toastXml).toMatch('<text>test</text>');
-                expect(notification.toastXml).toMatch('<text>Time to Leave</text>');
+                assert.match(notification.toastXml, RegExp('<text>test</text>'));
+                assert.match(notification.toastXml, RegExp('<text>Time to Leave</text>'));
             }
             else
             {
@@ -62,15 +59,15 @@ describe('Notifications', function()
             }
         });
 
-        test('displays a notification in production', (done) =>
+        it('displays a notification in production', (done) =>
         {
             process.env.NODE_ENV = 'production';
             const notification = createNotification('production');
             // On Win32 the notification uses a different specification, with toastXml
             if (process.platform === 'win32')
             {
-                expect(notification.toastXml).toMatch('<text>production</text>');
-                expect(notification.toastXml).toMatch('<text>Time to Leave</text>');
+                assert.match(notification.toastXml, RegExp('<text>production</text>'));
+                assert.match(notification.toastXml, RegExp('<text>Time to Leave</text>'));
             }
             else
             {
@@ -106,7 +103,7 @@ describe('Notifications', function()
 
     describe('createLeaveNotification', () =>
     {
-        test('Should fail when notifications are disabled', () =>
+        it('Should fail when notifications are disabled', () =>
         {
             const preferences = getUserPreferences();
             preferences['notification'] = false;
@@ -115,13 +112,13 @@ describe('Notifications', function()
             assert.strictEqual(notify, false);
         });
 
-        test('Should fail when leaveByElement is not found', () =>
+        it('Should fail when leaveByElement is not found', () =>
         {
             const notify = createLeaveNotification(undefined);
             assert.strictEqual(notify, false);
         });
 
-        test('Should fail when notifications have been dismissed', () =>
+        it('Should fail when notifications have been dismissed', () =>
         {
             const now = new Date();
             const dateToday = getDateStr(now);
@@ -130,22 +127,21 @@ describe('Notifications', function()
             assert.strictEqual(notify, false);
         });
 
-        test('Should fail when time is not valid', () =>
+        it('Should fail when time is not valid', () =>
         {
             const notify = createLeaveNotification('33:90');
             assert.strictEqual(notify, false);
         });
 
-        test('Should fail when time is in the future', () =>
+        it('Should fail when time is in the future', () =>
         {
-            jest.restoreAllMocks();
             const now = new Date();
             now.setMinutes(now.getMinutes() + 1);
             const notify = createLeaveNotification(buildTimeString(now));
             assert.strictEqual(notify, false);
         });
 
-        test('Should fail when time is in the past', () =>
+        it('Should fail when time is in the past', () =>
         {
             const now = new Date();
             now.setMinutes(now.getMinutes() - 9);
@@ -153,7 +149,7 @@ describe('Notifications', function()
             assert.strictEqual(notify, false);
         });
 
-        test('Should fail when repetition is disabled', () =>
+        it('Should fail when repetition is disabled', () =>
         {
             const preferences = getUserPreferences();
             preferences['repetition'] = false;
@@ -164,7 +160,7 @@ describe('Notifications', function()
             assert.strictEqual(notify, false);
         });
 
-        test('Should pass when time is correct and dismiss action is pressed', () =>
+        it('Should pass when time is correct and dismiss action is pressed', () =>
         {
             const now = new Date();
             const notify = createLeaveNotification(buildTimeString(now));
@@ -177,7 +173,7 @@ describe('Notifications', function()
             assert.strictEqual(getDismiss(), getDateStr(now));
         });
 
-        test('Should pass when time is correct and other action is pressed', () =>
+        it('Should pass when time is correct and other action is pressed', () =>
         {
             const now = new Date();
             const notify = createLeaveNotification(buildTimeString(now));
@@ -190,7 +186,7 @@ describe('Notifications', function()
             assert.strictEqual(getDismiss(), null);
         });
 
-        test('Should pass when time is correct and close is pressed', () =>
+        it('Should pass when time is correct and close is pressed', () =>
         {
             const now = new Date();
             const notify = createLeaveNotification(buildTimeString(now));
@@ -203,11 +199,12 @@ describe('Notifications', function()
             assert.strictEqual(getDismiss(), getDateStr(now));
         });
 
-        test('Should pass when time is correct and close is pressed', (done) =>
+        it('Should pass when time is correct and close is pressed', (done) =>
         {
-            jest.spyOn(app, 'emit').mockImplementation((key) =>
+            const appStub = stub(app, 'emit').callsFake((key) =>
             {
                 assert.strictEqual(key, 'activate');
+                appStub.restore();
                 done();
             });
             const now = new Date();
@@ -226,4 +223,3 @@ describe('Notifications', function()
         updateDismiss(null);
     });
 });
-
