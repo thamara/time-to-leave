@@ -1,104 +1,44 @@
+/* eslint-disable no-undef */
 'use strict';
 
-const assert = require('assert');
-const { getContextMenuTemplate, getDockMenuTemplate, getEditMenuTemplate, getHelpMenuTemplate, getMainMenuTemplate, getViewMenuTemplate} = require('../../js/menus.js');
+import assert from 'assert';
+import { app, BrowserWindow, clipboard, dialog, shell } from 'electron';
+import { stub } from 'sinon';
 
-jest.mock('../../src/configs/i18next.config.js', () => ({
-    getCurrentTranslation: jest.fn().mockImplementation((key) => key)
-}));
+import {
+    getContextMenuTemplate,
+    getDockMenuTemplate,
+    getEditMenuTemplate,
+    getHelpMenuTemplate,
+    getMainMenuTemplate,
+    getViewMenuTemplate
+} from '../../js/menus.mjs';
 
-jest.mock('../../js/windows', () => ({
-    openWaiverManagerWindow: jest.fn(),
-    prefWindow: jest.fn(),
-    getDialogCoordinates: jest.fn()
-}));
+import { i18nMock } from '../../src/configs/i18next.config.mjs';
+i18nMock.mock('getCurrentTranslation', stub().callsFake((code) => code));
 
-jest.mock('electron', () =>
-{
-    const originalModule = jest.requireActual('electron');
-    return {
-        __esModule: true,
-        ...originalModule,
-        ipcRenderer: {
-            ...originalModule.ipcRenderer,
-            invoke: jest.fn().mockResolvedValueOnce('./').mockResolvedValue('./dummy_file.txt'),
-        },
-        app: {
-            ...originalModule.app,
-            quit: jest.fn()
-        },
-        BrowserWindow: {
-            ...originalModule.BrowserWindow,
-            getFocusedWindow: () =>
-            {
-                return {
-                    reload: jest.fn()
-                };
-            }
-        },
-        shell: {
-            ...originalModule.shell,
-            openExternal: jest.fn()
-        },
-        dialog: {
-            ...originalModule.dialog,
-            showSaveDialogSync: jest.fn(),
-            showMessageBox: jest.fn(),
-            showMessageBoxSync: jest.fn(),
-            showOpenDialogSync: jest.fn()
-        },
-        clipboard: {
-            ...originalModule.clipboard,
-            writeText: jest.fn()
-        }
-    };
-});
+import { windowsMock } from '../../js/windows.mjs';
+import { notificationMock } from '../../js/notification.mjs';
+import { updateManagerMock } from '../../js/update-manager.mjs';
+import { importExportMock } from '../../js/import-export.mjs';
 
-jest.mock('../../js/notification', () => ({
-    createNotification: jest.fn().mockImplementation(() => ({
-        show: jest.fn()
-    }))
-}));
+import Store from 'electron-store';
+stub(Store, 'constructor');
 
-jest.mock('../../js/update-manager', () => ({
-    checkForUpdates: jest.fn()
-}));
-
-jest.mock('../../js/import-export', () => ({
-    exportDatabaseToFile: jest.fn(),
-    importDatabaseFromFile: jest.fn()
-}));
-
-jest.mock('electron-store', () =>
-{
-    class Store
-    {
-        constructor() { }
-        clear() { }
-    }
-    return Store;
-});
-
-const updateManager = require('../../js/update-manager');
-const notification = require('../../js/notification');
-const windows = require('../../js/windows');
-const importExport = require('../../js/import-export.js');
-const {app, BrowserWindow, shell, dialog, clipboard} = require('electron');
-const ElectronStore = require('electron-store');
 describe('menus.js', () =>
 {
     const mocks = {};
 
     describe('getMainMenuTemplate', () =>
     {
-        test('Should have 3 options', () =>
+        it('Should have 3 options', () =>
         {
             assert.strictEqual(getMainMenuTemplate().length, 3);
         });
 
         getMainMenuTemplate().forEach((menu) =>
         {
-            test('Should be a separator or valid field', () =>
+            it('Should be a separator or valid field', () =>
             {
                 const tests = [
                     {field : 'label', type: 'string'},
@@ -112,7 +52,6 @@ describe('menus.js', () =>
                 {
                     for (const t of tests)
                     {
-                        assert.notStrictEqual(menu[t.field], undefined);
                         assert.strictEqual(typeof menu[t.field], t.type);
                     }
                     if ('id' in menu)
@@ -127,19 +66,20 @@ describe('menus.js', () =>
             });
         });
 
-        test('Should open waiver window', (done) =>
+        it('Should open waiver window', (done) =>
         {
-            mocks.waiver = jest.spyOn(windows, 'openWaiverManagerWindow').mockImplementationOnce( () =>
+            windowsMock.mock('openWaiverManagerWindow', stub().callsFake(() =>
             {
                 done();
-            });
+            }));
             getMainMenuTemplate()[0].click();
         });
 
-        test('Should close app', (done) =>
+        it('Should close app', (done) =>
         {
-            mocks.quit = jest.spyOn(app, 'quit').mockImplementationOnce(() =>
+            const quitStub = stub(app, 'quit').callsFake(() =>
             {
+                quitStub.restore();
                 done();
             });
             getMainMenuTemplate()[2].click();
@@ -148,14 +88,14 @@ describe('menus.js', () =>
 
     describe('getContextMenuTemplate', () =>
     {
-        test('Should have 3 options', () =>
+        it('Should have 3 options', () =>
         {
             assert.strictEqual(getContextMenuTemplate().length, 3);
         });
 
         getContextMenuTemplate().forEach((menu) =>
         {
-            test('Should be a valid field', () =>
+            it('Should be a valid field', () =>
             {
                 const tests = [
                     {field : 'label', type: 'string'},
@@ -163,14 +103,13 @@ describe('menus.js', () =>
                 ];
                 for (const t of tests)
                 {
-                    assert.notStrictEqual(menu[t.field], undefined);
                     assert.strictEqual(typeof menu[t.field], t.type);
                 }
             });
 
         });
 
-        test('Should quit on click', () =>
+        it('Should quit on click', () =>
         {
             const mainWindow = {
                 webContents: {
@@ -180,12 +119,14 @@ describe('menus.js', () =>
                     }
                 }
             };
-            mocks.createNotificationSpy = jest.spyOn(notification, 'createNotification');
+            notificationMock.mock('createNotification', stub().callsFake(() => ({
+                show: stub()
+            })));
             getContextMenuTemplate(mainWindow)[0].click();
-            expect(mocks.createNotificationSpy).toBeCalledTimes(1);
+            assert.strictEqual(notificationMock.getMock('createNotification').calledOnce, true);
         });
 
-        test('Should create notification on click', (done) =>
+        it('Should create notification on click', (done) =>
         {
             const mainWindow = {
                 show: done
@@ -193,10 +134,11 @@ describe('menus.js', () =>
             getContextMenuTemplate(mainWindow)[1].click();
         });
 
-        test('Should show window on click', (done) =>
+        it('Should show window on click', (done) =>
         {
-            mocks.quit = jest.spyOn(app, 'quit').mockImplementationOnce(() =>
+            const quitStub = stub(app, 'quit').callsFake(() =>
             {
+                quitStub.restore();
                 done();
             });
             getContextMenuTemplate({})[2].click();
@@ -206,14 +148,14 @@ describe('menus.js', () =>
 
     describe('getDockMenuTemplate', () =>
     {
-        test('Should have 1 option', () =>
+        it('Should have 1 option', () =>
         {
             assert.strictEqual(getDockMenuTemplate().length, 1);
         });
 
         getDockMenuTemplate().forEach((menu) =>
         {
-            test('Should be a valid field', () =>
+            it('Should be a valid field', () =>
             {
                 const tests = [
                     {field : 'label', type: 'string'},
@@ -221,13 +163,12 @@ describe('menus.js', () =>
                 ];
                 for (const t of tests)
                 {
-                    assert.notStrictEqual(menu[t.field], undefined);
                     assert.strictEqual(typeof menu[t.field], t.type);
                 }
             });
         });
 
-        test('Should create notification on click', (done) =>
+        it('Should create notification on click', (done) =>
         {
             const mainWindow = {
                 webContents: {
@@ -237,24 +178,24 @@ describe('menus.js', () =>
                     }
                 }
             };
-            mocks.createNotificationSpy = jest.spyOn(notification, 'createNotification').mockImplementation(() => ({
+            notificationMock.mock('createNotification', stub().callsFake(() => ({
                 show: done
-            }));
+            })));
             getDockMenuTemplate(mainWindow)[0].click();
-            expect(mocks.createNotificationSpy).toBeCalledTimes(1);
+            assert.strictEqual(notificationMock.getMock('createNotification').calledOnce, true);
         });
     });
 
     describe('getViewMenuTemplate', () =>
     {
-        test('Should have 2 option', () =>
+        it('Should have 2 option', () =>
         {
             assert.strictEqual(getViewMenuTemplate().length, 2);
         });
 
         getViewMenuTemplate().forEach((menu) =>
         {
-            test('Should be a valid field', () =>
+            it('Should be a valid field', () =>
             {
                 const tests = [
                     {field : 'label', type: 'string'},
@@ -262,49 +203,56 @@ describe('menus.js', () =>
                 ];
                 for (const t of tests)
                 {
-                    assert.notStrictEqual(menu[t.field], undefined);
                     assert.strictEqual(typeof menu[t.field], t.type);
                 }
             });
         });
 
-        test('Should reload window', (done) =>
+        it('Should reload window', (done) =>
         {
-            mocks.window = jest.spyOn(BrowserWindow, 'getFocusedWindow').mockImplementation(() =>
+            const windowStub = stub(BrowserWindow, 'getFocusedWindow').callsFake(() =>
             {
                 return {
-                    reload: () => done()
+                    reload: () =>
+                    {
+                        windowStub.restore();
+                        done();
+                    }
                 };
             });
 
             getViewMenuTemplate()[0].click();
-            expect(mocks.window).toBeCalledTimes(1);
+            assert.strictEqual(windowStub.calledOnce, true);
         });
 
-        test('Should toggle devtools', (done) =>
+        it('Should toggle devtools', (done) =>
         {
-            mocks.window = jest.spyOn(BrowserWindow, 'getFocusedWindow').mockImplementation(() =>
+            const windowStub = stub(BrowserWindow, 'getFocusedWindow').callsFake(() =>
             {
                 return {
-                    toggleDevTools: () => done()
+                    toggleDevTools: () =>
+                    {
+                        windowStub.restore();
+                        done();
+                    }
                 };
             });
 
             getViewMenuTemplate()[1].click();
-            expect(mocks.window).toBeCalledTimes(1);
+            assert.strictEqual(windowStub.calledOnce, true);
         });
     });
 
     describe('getHelpMenuTemplate', () =>
     {
-        test('Should have 5 option', () =>
+        it('Should have 5 option', () =>
         {
             assert.strictEqual(getHelpMenuTemplate().length, 5);
         });
 
         getHelpMenuTemplate().forEach((menu) =>
         {
-            test('Should be a valid field', () =>
+            it('Should be a valid field', () =>
             {
                 const tests = [
                     {field : 'label', type: 'string'},
@@ -318,75 +266,84 @@ describe('menus.js', () =>
                 {
                     for (const t of tests)
                     {
-                        assert.notStrictEqual(menu[t.field], undefined);
                         assert.strictEqual(typeof menu[t.field], t.type);
                     }
                 }
             });
         });
 
-        test('Should open github', (done) =>
+        it('Should open github', (done) =>
         {
-            mocks.window = jest.spyOn(shell, 'openExternal').mockImplementation((key) =>
+            const shellStub = stub(shell, 'openExternal').callsFake((key) =>
             {
                 assert.strictEqual(key, 'https://github.com/thamara/time-to-leave');
+                shellStub.restore();
                 done();
             });
             getHelpMenuTemplate()[0].click();
         });
 
-        test('Should open github', (done) =>
+        it('Should open github', (done) =>
         {
-            mocks.window = jest.spyOn(updateManager, 'checkForUpdates').mockImplementation((key) =>
+            updateManagerMock.mock('checkForUpdates', stub().callsFake((key) =>
             {
                 assert.strictEqual(key, true);
                 done();
-            });
+            }));
             getHelpMenuTemplate()[1].click();
         });
 
-        test('Should open feedback', (done) =>
+        it('Should open feedback', (done) =>
         {
-            mocks.window = jest.spyOn(shell, 'openExternal').mockImplementation((key) =>
+            const shellStub = stub(shell, 'openExternal').callsFake((key) =>
             {
                 assert.strictEqual(key, 'https://github.com/thamara/time-to-leave/issues/new');
+                shellStub.restore();
                 done();
             });
             getHelpMenuTemplate()[2].click();
         });
 
-        test('Should show about message box and writ to clipboard', () =>
+        it('Should show about message box and write to clipboard', (done) =>
         {
-            mocks.writeText = jest.spyOn(clipboard, 'writeText').mockImplementation(() => {});
-            mocks.showMessageBox = jest.spyOn(dialog, 'showMessageBox').mockResolvedValue({response: 0});
+            const writeTextStub = stub(clipboard, 'writeText');
+            const showMessageBoxStub = stub(dialog, 'showMessageBox').resolves({response: 0});
             getHelpMenuTemplate({})[4].click();
             setTimeout(() =>
             {
-                expect(mocks.showMessageBox).toHaveBeenCalledTimes(1);
-                expect(mocks.writeText).toHaveBeenCalledTimes(1);
+                assert.strictEqual(showMessageBoxStub.calledOnce, true);
+                assert.strictEqual(writeTextStub.calledOnce, true);
+                showMessageBoxStub.restore();
+                writeTextStub.restore();
+                done();
             }, 1000);
         });
-        test('Should show about message box', () =>
+        it('Should show about message box', () =>
         {
-            mocks.writeText = jest.spyOn(clipboard, 'writeText').mockImplementation(() => {});
-            mocks.showMessageBox = jest.spyOn(dialog, 'showMessageBox').mockResolvedValue({response: 1});
+            const writeTextStub = stub(clipboard, 'writeText');
+            const showMessageBoxStub = stub(dialog, 'showMessageBox').resolves({response: 1});
             getHelpMenuTemplate({})[4].click();
-            expect(mocks.showMessageBox).toHaveBeenCalledTimes(1);
-            expect(mocks.writeText).toHaveBeenCalledTimes(0);
+            assert.strictEqual(showMessageBoxStub.calledOnce, true);
+            assert.strictEqual(writeTextStub.notCalled, true);
+            showMessageBoxStub.restore();
+            writeTextStub.restore();
         });
-        test('Should show about message box', (done) =>
+        it('Should show about message box', (done) =>
         {
-            mocks.consoleLog = jest.spyOn(console, 'log').mockImplementation();
-            mocks.writeText = jest.spyOn(clipboard, 'writeText').mockImplementation(() => {});
-            mocks.showMessageBox = jest.spyOn(dialog, 'showMessageBox').mockRejectedValue({response: 1});
+            const consoleSpy = stub(console, 'log');
+            const writeTextStub = stub(clipboard, 'writeText');
+            const showMessageBoxStub = stub(dialog, 'showMessageBox').rejects({response: 1});
             getHelpMenuTemplate({})[4].click();
-            expect(mocks.showMessageBox).toHaveBeenCalledTimes(1);
-            expect(mocks.writeText).toHaveBeenCalledTimes(0);
+            assert.strictEqual(showMessageBoxStub.calledOnce, true);
+            assert.strictEqual(writeTextStub.notCalled, true);
 
             // When the rejection happens, we call console.log with the response
             setTimeout(() =>
             {
-                expect(mocks.consoleLog).toHaveBeenCalledWith({response: 1});
+                assert.strictEqual(consoleSpy.calledWith({response: 1}), true);
+                consoleSpy.restore();
+                showMessageBoxStub.restore();
+                writeTextStub.restore();
                 done();
             }, 500);
         });
@@ -394,14 +351,25 @@ describe('menus.js', () =>
 
     describe('getEditMenuTemplate', () =>
     {
-        test('Should have 10 options', () =>
+        let showMessageBoxStub;
+        before(() =>
+        {
+            showMessageBoxStub = stub(dialog, 'showMessageBox');
+        });
+
+        beforeEach(() =>
+        {
+            showMessageBoxStub.resetHistory();
+        });
+
+        it('Should have 10 options', () =>
         {
             assert.strictEqual(getEditMenuTemplate().length, 10);
         });
 
         getEditMenuTemplate().forEach((menu) =>
         {
-            test('Should be a separator or valid field', () =>
+            it('Should be a separator or valid field', () =>
             {
                 const tests = [
                     {field : 'label', type: 'string'},
@@ -414,7 +382,6 @@ describe('menus.js', () =>
                 {
                     for (const t of tests)
                     {
-                        assert.notStrictEqual(menu[t.field], undefined);
                         assert.strictEqual(typeof menu[t.field], t.type);
                     }
                     if ('id' in menu)
@@ -437,29 +404,29 @@ describe('menus.js', () =>
             });
         });
 
-        test('Should show dialog for exporting db', () =>
+        it('Should show dialog for exporting db', () =>
         {
-            mocks.showSaveDialogSync = jest.spyOn(dialog, 'showSaveDialogSync').mockImplementation(() => true);
-            mocks.showMessageBox = jest.spyOn(dialog, 'showMessageBox').mockImplementation(() =>{ });
-            mocks.export = jest.spyOn(importExport, 'exportDatabaseToFile').mockImplementation(() =>{ });
+            const showDialogSyncStub = stub(dialog, 'showSaveDialogSync').returns(true);
+            importExportMock.mock('exportDatabaseToFile', stub());
             getEditMenuTemplate()[7].click();
-            expect(mocks.showSaveDialogSync).toHaveBeenCalledTimes(1);
-            expect(mocks.showMessageBox).toHaveBeenCalledTimes(1);
-            expect(mocks.export).toHaveBeenCalledTimes(1);
+            assert.strictEqual(showDialogSyncStub.calledOnce, true);
+            assert.strictEqual(showMessageBoxStub.calledOnce, true);
+            assert.strictEqual(importExportMock.getMock('exportDatabaseToFile').calledOnce, true);
+            showDialogSyncStub.restore();
         });
 
-        test('Should not show dialog for exporting db', () =>
+        it('Should not show dialog for exporting db', () =>
         {
-            mocks.showSaveDialogSync = jest.spyOn(dialog, 'showSaveDialogSync').mockImplementation(() => false);
-            mocks.showMessageBox = jest.spyOn(dialog, 'showMessageBox').mockImplementation(() =>{ });
-            mocks.export = jest.spyOn(importExport, 'exportDatabaseToFile').mockImplementation(() =>{ });
+            const showDialogSyncStub = stub(dialog, 'showSaveDialogSync').returns(false);
+            importExportMock.mock('exportDatabaseToFile', stub());
             getEditMenuTemplate()[7].click();
-            expect(mocks.showSaveDialogSync).toHaveBeenCalledTimes(1);
-            expect(mocks.showMessageBox).toHaveBeenCalledTimes(0);
-            expect(mocks.export).toHaveBeenCalledTimes(0);
+            assert.strictEqual(showDialogSyncStub.calledOnce, true);
+            assert.strictEqual(showMessageBoxStub.notCalled, true);
+            assert.strictEqual(importExportMock.getMock('exportDatabaseToFile').notCalled, true);
+            showDialogSyncStub.restore();
         });
 
-        test('Should show dialog for importing db', () =>
+        it('Should show dialog for importing db', () =>
         {
             const mainWindow = {
                 webContents: {
@@ -469,21 +436,22 @@ describe('menus.js', () =>
                     }
                 }
             };
-            mocks.showOpenDialogSync = jest.spyOn(dialog, 'showOpenDialogSync').mockImplementation(() => true);
-            mocks.showMessageBox = jest.spyOn(dialog, 'showMessageBox').mockImplementation(() =>{ });
-            mocks.showMessageBoxSync = jest.spyOn(dialog, 'showMessageBoxSync').mockImplementation(() => 0);
-            mocks.export = jest.spyOn(importExport, 'importDatabaseFromFile').mockImplementation(() => ({
+            const showOpenDialogSyncStub = stub(dialog, 'showOpenDialogSync').returns(true);
+            const showMessageBoxSyncStub = stub(dialog, 'showMessageBoxSync').returns(0);
+            importExportMock.mock('importDatabaseFromFile', stub().returns({
                 result: true,
                 failed: 0
             }));
             getEditMenuTemplate(mainWindow)[8].click();
-            expect(mocks.showOpenDialogSync).toHaveBeenCalledTimes(1);
-            expect(mocks.showMessageBoxSync).toHaveBeenCalledTimes(1);
-            expect(mocks.showMessageBox).toHaveBeenCalledTimes(1);
-            expect(mocks.export).toHaveBeenCalledTimes(1);
+            assert.strictEqual(showOpenDialogSyncStub.calledOnce, true);
+            assert.strictEqual(showMessageBoxSyncStub.calledOnce, true);
+            assert.strictEqual(showMessageBoxStub.calledOnce, true);
+            assert.strictEqual(importExportMock.getMock('importDatabaseFromFile').calledOnce, true);
+            showOpenDialogSyncStub.restore();
+            showMessageBoxSyncStub.restore();
         });
 
-        test('Should show fail dialog for importing db', () =>
+        it('Should show fail dialog for importing db', () =>
         {
             const mainWindow = {
                 webContents: {
@@ -493,21 +461,22 @@ describe('menus.js', () =>
                     }
                 }
             };
-            mocks.showOpenDialogSync = jest.spyOn(dialog, 'showOpenDialogSync').mockImplementation(() => true);
-            mocks.showMessageBox = jest.spyOn(dialog, 'showMessageBox').mockImplementation(() =>{ });
-            mocks.showMessageBoxSync = jest.spyOn(dialog, 'showMessageBoxSync').mockImplementation(() => 0);
-            mocks.export = jest.spyOn(importExport, 'importDatabaseFromFile').mockImplementation(() => ({
+            const showOpenDialogSyncStub = stub(dialog, 'showOpenDialogSync').returns(true);
+            const showMessageBoxSyncStub = stub(dialog, 'showMessageBoxSync').returns(0);
+            importExportMock.mock('importDatabaseFromFile', stub().returns({
                 result: false,
                 failed: 1
             }));
             getEditMenuTemplate(mainWindow)[8].click();
-            expect(mocks.showOpenDialogSync).toHaveBeenCalledTimes(1);
-            expect(mocks.showMessageBoxSync).toHaveBeenCalledTimes(2);
-            expect(mocks.showMessageBox).toHaveBeenCalledTimes(0);
-            expect(mocks.export).toHaveBeenCalledTimes(1);
+            assert.strictEqual(showOpenDialogSyncStub.calledOnce, true);
+            assert.strictEqual(showMessageBoxSyncStub.calledTwice, true);
+            assert.strictEqual(showMessageBoxStub.notCalled, true);
+            assert.strictEqual(importExportMock.getMock('importDatabaseFromFile').calledOnce, true);
+            showOpenDialogSyncStub.restore();
+            showMessageBoxSyncStub.restore();
         });
 
-        test('Should show fail dialog for importing db', () =>
+        it('Should show fail dialog for importing db', () =>
         {
             const mainWindow = {
                 webContents: {
@@ -517,56 +486,59 @@ describe('menus.js', () =>
                     }
                 }
             };
-            mocks.showOpenDialogSync = jest.spyOn(dialog, 'showOpenDialogSync').mockImplementation(() => true);
-            mocks.showMessageBox = jest.spyOn(dialog, 'showMessageBox').mockImplementation(() =>{ });
-            mocks.showMessageBoxSync = jest.spyOn(dialog, 'showMessageBoxSync').mockImplementation(() => 0);
-            mocks.export = jest.spyOn(importExport, 'importDatabaseFromFile').mockImplementation(() => ({
+            const showOpenDialogSyncStub = stub(dialog, 'showOpenDialogSync').returns(true);
+            const showMessageBoxSyncStub = stub(dialog, 'showMessageBoxSync').returns(0);
+            importExportMock.mock('importDatabaseFromFile', stub().returns({
                 result: false,
                 failed: 0
             }));
             getEditMenuTemplate(mainWindow)[8].click();
-            expect(mocks.showOpenDialogSync).toHaveBeenCalledTimes(1);
-            expect(mocks.showMessageBoxSync).toHaveBeenCalledTimes(2);
-            expect(mocks.showMessageBox).toHaveBeenCalledTimes(0);
-            expect(mocks.export).toHaveBeenCalledTimes(1);
+            assert.strictEqual(showOpenDialogSyncStub.calledOnce, true);
+            assert.strictEqual(showMessageBoxSyncStub.calledTwice, true);
+            assert.strictEqual(showMessageBoxStub.notCalled, true);
+            assert.strictEqual(importExportMock.getMock('importDatabaseFromFile').calledOnce, true);
+            showOpenDialogSyncStub.restore();
+            showMessageBoxSyncStub.restore();
         });
 
-        test('Should not show dialog for importing db', () =>
+        it('Should not show dialog for importing db', () =>
         {
-            mocks.showOpenDialogSync = jest.spyOn(dialog, 'showOpenDialogSync').mockImplementation(() => false);
-            mocks.showMessageBox = jest.spyOn(dialog, 'showMessageBox').mockImplementation(() =>{ });
-            mocks.showMessageBoxSync = jest.spyOn(dialog, 'showMessageBoxSync').mockImplementation(() => 1);
-            mocks.export = jest.spyOn(importExport, 'importDatabaseFromFile').mockImplementation(() =>{ });
+            const showOpenDialogSyncStub = stub(dialog, 'showOpenDialogSync').returns(false);
+            const showMessageBoxSyncStub = stub(dialog, 'showMessageBoxSync').returns(1);
+            importExportMock.mock('importDatabaseFromFile', stub());
             getEditMenuTemplate()[8].click();
-            expect(mocks.showOpenDialogSync).toHaveBeenCalledTimes(1);
-            expect(mocks.showMessageBoxSync).toHaveBeenCalledTimes(0);
-            expect(mocks.showMessageBox).toHaveBeenCalledTimes(0);
-            expect(mocks.export).toHaveBeenCalledTimes(0);
+            assert.strictEqual(showOpenDialogSyncStub.calledOnce, true);
+            assert.strictEqual(showMessageBoxSyncStub.notCalled, true);
+            assert.strictEqual(showMessageBoxStub.notCalled, true);
+            assert.strictEqual(importExportMock.getMock('importDatabaseFromFile').notCalled, true);
+            showOpenDialogSyncStub.restore();
+            showMessageBoxSyncStub.restore();
         });
 
-        test('Should not show dialog for importing db', () =>
+        it('Should not show dialog for importing db', () =>
         {
-            mocks.showOpenDialogSync = jest.spyOn(dialog, 'showOpenDialogSync').mockImplementation(() => true);
-            mocks.showMessageBox = jest.spyOn(dialog, 'showMessageBox').mockImplementation(() =>{ });
-            mocks.showMessageBoxSync = jest.spyOn(dialog, 'showMessageBoxSync').mockImplementation(() => 1);
-            mocks.export = jest.spyOn(importExport, 'importDatabaseFromFile').mockImplementation(() =>{ });
+            const showOpenDialogSyncStub = stub(dialog, 'showOpenDialogSync').returns(true);
+            const showMessageBoxSyncStub = stub(dialog, 'showMessageBoxSync').returns(1);
+            importExportMock.mock('importDatabaseFromFile', stub());
             getEditMenuTemplate()[8].click();
-            expect(mocks.showOpenDialogSync).toHaveBeenCalledTimes(1);
-            expect(mocks.showMessageBoxSync).toHaveBeenCalledTimes(1);
-            expect(mocks.showMessageBox).toHaveBeenCalledTimes(0);
-            expect(mocks.export).toHaveBeenCalledTimes(0);
+            assert.strictEqual(showOpenDialogSyncStub.calledOnce, true);
+            assert.strictEqual(showMessageBoxSyncStub.calledOnce, true);
+            assert.strictEqual(showMessageBoxStub.notCalled, true);
+            assert.strictEqual(importExportMock.getMock('importDatabaseFromFile').notCalled, true);
+            showOpenDialogSyncStub.restore();
+            showMessageBoxSyncStub.restore();
         });
 
-        test('Should not show dialog for clearing db', () =>
+        it('Should not show dialog for clearing db', () =>
         {
-            mocks.showMessageBox = jest.spyOn(dialog, 'showMessageBox').mockImplementation(() =>{ });
-            mocks.showMessageBoxSync = jest.spyOn(dialog, 'showMessageBoxSync').mockImplementation(() => 0);
+            const showMessageBoxSyncStub = stub(dialog, 'showMessageBoxSync').returns(0);
             getEditMenuTemplate()[9].click();
-            expect(mocks.showMessageBoxSync).toHaveBeenCalledTimes(1);
-            expect(mocks.showMessageBox).toHaveBeenCalledTimes(0);
+            assert.strictEqual(showMessageBoxSyncStub.calledOnce, true);
+            assert.strictEqual(showMessageBoxStub.notCalled, true);
+            showMessageBoxSyncStub.restore();
         });
 
-        test('Should not show dialog for clearing db', () =>
+        it('Should not show dialog for clearing db', () =>
         {
             const mainWindow = {
                 webContents: {
@@ -576,27 +548,27 @@ describe('menus.js', () =>
                     }
                 }
             };
-            mocks.store = jest.spyOn(ElectronStore.prototype, 'clear').mockImplementation(() => {});
-            mocks.showMessageBox = jest.spyOn(dialog, 'showMessageBox').mockImplementation(() =>{ });
-            mocks.showMessageBoxSync = jest.spyOn(dialog, 'showMessageBoxSync').mockImplementation(() => 1);
+            const clearStoreStub = stub(Store.prototype, 'clear');
+            const showMessageBoxSyncStub = stub(dialog, 'showMessageBoxSync').returns(1);
             getEditMenuTemplate(mainWindow)[9].click();
-            expect(mocks.showMessageBoxSync).toHaveBeenCalledTimes(1);
-            expect(mocks.showMessageBox).toHaveBeenCalledTimes(1);
-            expect(mocks.store).toHaveBeenCalledTimes(3);
+            assert.strictEqual(showMessageBoxSyncStub.calledOnce, true);
+            assert.strictEqual(showMessageBoxStub.calledOnce, true);
+            assert.strictEqual(clearStoreStub.calledThrice, true);
+            clearStoreStub.restore();
+            showMessageBoxSyncStub.restore();
+        });
+
+        after(() =>
+        {
+            showMessageBoxStub.restore();
         });
     });
 
     afterEach(() =>
     {
-        for (const mock of Object.values(mocks))
-        {
-            mock.mockClear();
-        }
+        importExportMock.restoreAll();
+        notificationMock.restoreAll();
+        updateManagerMock.restoreAll();
+        windowsMock.restoreAll();
     });
-
-    afterAll(() =>
-    {
-        jest.restoreAllMocks();
-    });
-
 });

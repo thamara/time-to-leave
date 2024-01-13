@@ -7,6 +7,7 @@ import fs from 'fs';
 
 import { generateKey } from './date-db-formatter.mjs';
 import { validateTime } from './time-math.mjs';
+import { MockClass } from '../__mocks__/Mock.mjs';
 
 /**
  * Returns the database as an array of:
@@ -55,7 +56,7 @@ function _getWaivedEntries()
     return output;
 }
 
-function exportDatabaseToFile(filename)
+function _exportDatabaseToFile(filename)
 {
     let information = _getEntries();
     information = information.concat(_getWaivedEntries());
@@ -66,7 +67,8 @@ function exportDatabaseToFile(filename)
     catch (err)
     {
         return false;
-    } return true;
+    }
+    return true;
 }
 
 function _validateDate(dateStr)
@@ -106,7 +108,7 @@ function validEntry(entry)
     return false;
 }
 
-function importDatabaseFromFile(filename)
+function _importDatabaseFromFile(filename)
 {
     const calendarStore = new Store({name: 'flexible-store'});
     const waivedWorkdays = new Store({name: 'waived-workdays'});
@@ -154,8 +156,12 @@ function importDatabaseFromFile(filename)
     return {'result': true};
 }
 
+// Enable mocking for some methods, export the mocked versions
+const mocks = {'exportDatabaseToFile': _exportDatabaseToFile, 'importDatabaseFromFile': _importDatabaseFromFile};
+export const exportDatabaseToFile = (filename) => mocks['exportDatabaseToFile'](filename);
+export const importDatabaseFromFile = (filename) => mocks['importDatabaseFromFile'](filename);
+export const importExportMock = new MockClass(mocks);
+
 export {
-    exportDatabaseToFile,
-    importDatabaseFromFile,
     validEntry,
 };

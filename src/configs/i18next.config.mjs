@@ -5,6 +5,7 @@ import i18nextBackend from 'i18next-node-fs-backend';
 import path from 'path';
 
 import { fallbackLng, getLanguagesCodes } from './app.config.mjs';
+import { MockClass } from '../../__mocks__/Mock.mjs';
 
 // Allow require()
 import { createRequire } from 'module';
@@ -97,14 +98,18 @@ ipcMain.handle('GET_LANGUAGE_DATA', () =>
     };
 });
 
-function getCurrentTranslation(code)
+function _getCurrentTranslation(code)
 {
     return i18n.t(code);
 }
 
+// Enable mocking for some methods, export the mocked versions
+const mocks = {'getCurrentTranslation': _getCurrentTranslation};
+export const getCurrentTranslation = (code) => mocks['getCurrentTranslation'](code);
+export const i18nMock = new MockClass(mocks);
+
 export {
     changeLanguage,
-    getCurrentTranslation,
     setLanguageChangedCallback,
     setupI18n,
 };
