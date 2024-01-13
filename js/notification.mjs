@@ -17,7 +17,7 @@ const { rootDir } = require('./app-config.cjs');
 
 let dismissToday = null;
 
-function createNotification(msg, actions = [])
+function _createNotification(msg, actions = [])
 {
     const appPath = process.env.NODE_ENV === 'production'
         ? `${process.resourcesPath}/app`
@@ -126,12 +126,12 @@ function getDismiss()
 }
 
 // Enable mocking for some methods, export the mocked versions
-const mocks = {'createLeaveNotification': _createLeaveNotification};
+const mocks = {'createNotification': _createNotification, 'createLeaveNotification': _createLeaveNotification};
+export const createNotification = (msg, actions = []) => mocks['createNotification'](msg, actions);
 export const createLeaveNotification = (timeToLeave) => mocks['createLeaveNotification'](timeToLeave);
 export const notificationMock = new MockClass(mocks);
 
 export {
-    createNotification,
     getDismiss,
     updateDismiss
 };

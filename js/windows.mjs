@@ -4,6 +4,7 @@ import { BrowserWindow } from 'electron';
 import path from 'path';
 
 import { getDateStr } from './date-aux.mjs';
+import { MockClass } from '../__mocks__/Mock.mjs';
 
 // Allow require()
 import { createRequire } from 'module';
@@ -18,7 +19,7 @@ global.prefWindow = null;
 global.tray = null;
 global.contextMenu = null;
 
-function openWaiverManagerWindow(mainWindow, event)
+function _openWaiverManagerWindow(mainWindow, event)
 {
     if (global.waiverWindow !== null)
     {
@@ -70,7 +71,7 @@ function openWaiverManagerWindow(mainWindow, event)
  * @param {number} dialogHeight
  * @param {object} mainWindow
  */
-function getDialogCoordinates(dialogWidth, dialogHeight, mainWindow)
+function _getDialogCoordinates(dialogWidth, dialogHeight, mainWindow)
 {
     return {
         x : Math.round(mainWindow.getBounds().x + mainWindow.getBounds().width/2 - dialogWidth/2),
@@ -91,9 +92,13 @@ function getWaiverWindow()
     return global.waiverWindow;
 }
 
+// Enable mocking for some methods, export the mocked versions
+const mocks = {'openWaiverManagerWindow': _openWaiverManagerWindow, 'getDialogCoordinates': _getDialogCoordinates};
+export const openWaiverManagerWindow = (mainWindow, event) => mocks['openWaiverManagerWindow'](mainWindow, event);
+export const getDialogCoordinates = (dialogWidth, dialogHeight, mainWindow) => mocks['getDialogCoordinates'](dialogWidth, dialogHeight, mainWindow);
+export const windowsMock = new MockClass(mocks);
+
 export {
-    getDialogCoordinates,
     getWaiverWindow,
-    openWaiverManagerWindow,
     resetWindowsElements,
 };

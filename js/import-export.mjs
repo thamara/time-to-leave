@@ -6,6 +6,7 @@ import fs from 'fs';
 
 import { generateKey } from './date-db-formatter.mjs';
 import { validateTime } from './time-math.mjs';
+import { MockClass } from '../__mocks__/Mock.mjs';
 
 /**
  * Returns the database (only flexible calendar entries) as an array of:
@@ -54,7 +55,7 @@ function _getWaivedEntries()
     return output;
 }
 
-function exportDatabaseToFile(filename)
+function _exportDatabaseToFile(filename)
 {
     let information = _getFlexibleEntries();
     information = information.concat(_getWaivedEntries());
@@ -65,7 +66,8 @@ function exportDatabaseToFile(filename)
     catch (err)
     {
         return false;
-    } return true;
+    }
+    return true;
 }
 
 function _validateDate(dateStr)
@@ -120,7 +122,7 @@ function mergeOldStoreDataIntoFlexibleStore(flexibleEntry, oldStoreHours)
     return flexibleEntry;
 }
 
-function importDatabaseFromFile(filename)
+function _importDatabaseFromFile(filename)
 {
     const flexibleStore = new Store({name: 'flexible-store'});
     const waivedWorkdays = new Store({name: 'waived-workdays'});
@@ -220,9 +222,13 @@ function migrateFixedDbToFlexible()
     return {'result': true, 'err': ''};
 }
 
+// Enable mocking for some methods, export the mocked versions
+const mocks = {'exportDatabaseToFile': _exportDatabaseToFile, 'importDatabaseFromFile': _importDatabaseFromFile};
+export const exportDatabaseToFile = (filename) => mocks['exportDatabaseToFile'](filename);
+export const importDatabaseFromFile = (filename) => mocks['importDatabaseFromFile'](filename);
+export const importExportMock = new MockClass(mocks);
+
 export {
-    exportDatabaseToFile,
-    importDatabaseFromFile,
     migrateFixedDbToFlexible,
     validEntry,
 };
