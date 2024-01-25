@@ -13,7 +13,7 @@ import {
     sumTime,
     validateDate,
     validateTime,
-} from '../../js/time-math.js';
+} from '../../js/time-math.mjs';
 
 const date1 = new Date(-349891200000);
 const date2 = new Date(1581121289763);
@@ -45,7 +45,6 @@ describe('Time Math Functions', () =>
         {
             assert.strictEqual(isNegative('-' + date2), true);
         });
-
     });
 
     describe('Minutes formatted to HH:MM', () =>
@@ -84,7 +83,6 @@ describe('Time Math Functions', () =>
     // Format minutes test
     describe('HH:MM formatted to minutes', () =>
     {
-
         it('00:00 should return 0', () =>
         {
             assert.strictEqual(hourToMinutes('00:00'), 0);
@@ -96,16 +94,19 @@ describe('Time Math Functions', () =>
             assert.strictEqual(hourToMinutes('01:01'), 61);
             assert.strictEqual(hourToMinutes('-01:01'), -61);
         });
+
         it('00:01 should return 1', () =>
         {
             assert.strictEqual(hourToMinutes('00:01'), 1);
             assert.strictEqual(hourToMinutes('-00:01'), -1);
         });
+
         it('00:59 should return 59', () =>
         {
             assert.strictEqual(hourToMinutes('00:59'), 59);
             assert.strictEqual(hourToMinutes('-00:59'), -59);
         });
+
         it('01:00 should return 60', () =>
         {
             assert.strictEqual(hourToMinutes('01:00'), 60);
