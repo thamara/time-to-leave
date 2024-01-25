@@ -1,40 +1,25 @@
 'use strict';
 
-const assert = require('assert');
+import assert from 'assert';
+import { net } from 'electron';
+import { stub } from 'sinon';
 import Store from 'electron-store';
-const { getDateStr } = require('../../js/date-aux');
-const {shouldCheckForUpdates, checkForUpdates} = require('../../js/update-manager');
 
-jest.mock('electron', () =>
+import { getDateStr } from '../../js/date-aux.mjs';
+import { checkForUpdates, shouldCheckForUpdates } from '../../js/update-manager.mjs';
+
+describe('Update Manager', () =>
 {
-    const original = jest.requireActual('electron');
-    return {
-        __esModule: true,
-        ...original,
-        net: {
-            ...original.net,
-            request: jest.fn()
-        }
-    };
-});
-
-jest.mock('is-online', () => () => jest.fn().mockResolvedValueOnce(false).mockResolvedValue(true));
-
-const { net } = require('electron');
-
-describe('js/update-manager.js', () =>
-{
-    const mocks = {};
     describe('shouldCheckForUpdates', () =>
     {
-        test('Should return true when was never checked', () =>
+        it('Should return true when was never checked', () =>
         {
             const store = new Store();
             store.set('update-remind-me-after', false);
             assert.strictEqual(shouldCheckForUpdates(), true);
         });
 
-        test('Should return true when was checked before today', () =>
+        it('Should return true when was checked before today', () =>
         {
             const now = new Date();
             now.setDate(now.getDate() - 1);
@@ -43,7 +28,7 @@ describe('js/update-manager.js', () =>
             assert.strictEqual(shouldCheckForUpdates(), true);
         });
 
-        test('Should return false when was checked today', () =>
+        it('Should return false when was checked today', () =>
         {
             const now = new Date();
             const store = new Store();
@@ -54,42 +39,29 @@ describe('js/update-manager.js', () =>
 
     describe('checkForUpdates', () =>
     {
-        test('should not execute when is offline', () =>
+        it('should not execute when is offline', () =>
         {
-            mocks.net = jest.spyOn(net, 'request').mockImplementation(() =>
-            {
-                return {
-                    on: () => {},
-                    end: () => {}
-                };
+            const netStub = stub(net, 'request').returns({
+                on: () => {},
+                end: () => {}
             });
             checkForUpdates();
-            expect(mocks.net).toBeCalledTimes(0);
+            assert.strictEqual(netStub.notCalled, true);
+            netStub.restore();
         });
 
-        test('should not execute when is online', (done) =>
+        it('should not execute when is online', (done) =>
         {
-            mocks.net = jest.spyOn(net, 'request').mockImplementation(() =>
-            {
-                return {
-                    on: () =>
-                    {
-                        expect(mocks.net).toBeCalledTimes(1);
-                        done();
-                    },
-                    end: () => {}
-                };
+            const netStub = stub(net, 'request').returns({
+                on: () =>
+                {
+                    assert.strictEqual(netStub.calledOnce, true);
+                    netStub.restore();
+                    done();
+                },
+                end: () => {}
             });
             checkForUpdates();
         });
-
-    });
-
-    afterEach(() =>
-    {
-        for (const mock of Object.values(mocks))
-        {
-            mock.mockClear();
-        }
     });
 });
