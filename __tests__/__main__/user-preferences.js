@@ -503,6 +503,7 @@ describe('Preferences Main', () =>
             expect(getLanguageName('th-TH')).toBe('ไทย');
             expect(getLanguageName('tr-TR')).toBe('Türkçe');
             expect(getLanguageName('uk-UA')).toBe('Українська');
+            expect(getLanguageName('zh-CN')).toBe('简体中文');
             expect(getLanguageName('zh-TW')).toBe('繁體中文');
         });
     });
