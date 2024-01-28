@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 'use strict';
 
+const assert = require('assert');
+
 import {
     applyTheme,
     isValidTheme
@@ -13,10 +15,10 @@ describe('Theme Functions', function()
     {
         test('should validate', () =>
         {
-            expect(isValidTheme('system-default')).toBeTruthy();
-            expect(isValidTheme('light')).toBeTruthy();
-            expect(isValidTheme('dark')).toBeTruthy();
-            expect(isValidTheme('cadent-star')).toBeTruthy();
+            assert.strictEqual(isValidTheme('system-default'), true);
+            assert.strictEqual(isValidTheme('light'), true);
+            assert.strictEqual(isValidTheme('dark'), true);
+            assert.strictEqual(isValidTheme('cadent-star'), true);
         });
     });
 
@@ -24,8 +26,8 @@ describe('Theme Functions', function()
     {
         test('should not validate', () =>
         {
-            expect(isValidTheme('foo')).not.toBeTruthy();
-            expect(isValidTheme('bar')).not.toBeTruthy();
+            assert.strictEqual(isValidTheme('foo'), false);
+            assert.strictEqual(isValidTheme('bar'), false);
         });
     });
 
@@ -33,16 +35,16 @@ describe('Theme Functions', function()
     {
         test('should apply', () =>
         {
-            expect(applyTheme('system-default')).toBeTruthy();
-            expect(applyTheme('light')).toBeTruthy();
-            expect(applyTheme('dark')).toBeTruthy();
-            expect(applyTheme('cadent-star')).toBeTruthy();
+            assert.strictEqual(applyTheme('system-default'), true);
+            assert.strictEqual(applyTheme('light'), true);
+            assert.strictEqual(applyTheme('dark'), true);
+            assert.strictEqual(applyTheme('cadent-star'), true);
         });
 
         test('should not apply', function()
         {
-            expect(applyTheme('foo')).not.toBeTruthy();
-            expect(applyTheme('bar')).not.toBeTruthy();
+            assert.strictEqual(applyTheme('foo'), false);
+            assert.strictEqual(applyTheme('bar'), false);
         });
     });
 });

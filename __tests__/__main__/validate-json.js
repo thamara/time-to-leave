@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 'use strict';
 
+const assert = require('assert');
 import { validateJSON } from '../../js/validate-json.js';
 
 describe('Validate json', function()
@@ -17,13 +18,13 @@ describe('Validate json', function()
 
             test('should be valid JSON', () =>
             {
-                expect(validateJSON(validWaivedType)).toBeTruthy();
-                expect(validateJSON(validFlexibleType)).toBeTruthy();
+                assert.strictEqual(validateJSON(validWaivedType), true);
+                assert.strictEqual(validateJSON(validFlexibleType), true);
             });
             test('should not be valid JSON', () =>
             {
-                expect(validateJSON(invalidTypeValue)).not.toBeTruthy();
-                expect(validateJSON(invalidTypeType)).not.toBeTruthy();
+                assert.strictEqual(validateJSON(invalidTypeValue), false);
+                assert.strictEqual(validateJSON(invalidTypeType), false);
             });
         });
 
@@ -35,10 +36,10 @@ describe('Validate json', function()
             const validWaivedDate2 = [{ 'type': 'waived', 'date': '2020-6-3', 'data': 'waived', 'hours': '08:00' }];
             test('should be valid JSON', () =>
             {
-                expect(validateJSON(validFlexibleDate1)).toBeTruthy();
-                expect(validateJSON(validFlexibleDate2)).toBeTruthy();
-                expect(validateJSON(validWaivedDate1)).toBeTruthy();
-                expect(validateJSON(validWaivedDate2)).toBeTruthy();
+                assert.strictEqual(validateJSON(validFlexibleDate1), true);
+                assert.strictEqual(validateJSON(validFlexibleDate2), true);
+                assert.strictEqual(validateJSON(validWaivedDate1), true);
+                assert.strictEqual(validateJSON(validWaivedDate2), true);
             });
         });
 
@@ -52,15 +53,15 @@ describe('Validate json', function()
             const invalidDayInMonth = [{ 'type': 'flexible', 'date': '2020-04-31', 'values': ['08:00', '12:00', '13:00', '14:00'] }];
             test('should be valid JSON', () =>
             {
-                expect(validateJSON(validWaivedDate)).toBeTruthy();
-                expect(validateJSON(validFlexibleDate)).toBeTruthy();
+                assert.strictEqual(validateJSON(validWaivedDate), true);
+                assert.strictEqual(validateJSON(validFlexibleDate), true);
             });
             test('should not be valid JSON', () =>
             {
-                expect(validateJSON(invalidDateFormat)).not.toBeTruthy();
-                expect(validateJSON(invalidDateType)).not.toBeTruthy();
-                expect(validateJSON(invalidDateValue)).not.toBeTruthy();
-                expect(validateJSON(invalidDayInMonth)).not.toBeTruthy();
+                assert.strictEqual(validateJSON(invalidDateFormat), false);
+                assert.strictEqual(validateJSON(invalidDateType), false);
+                assert.strictEqual(validateJSON(invalidDateValue), false);
+                assert.strictEqual(validateJSON(invalidDayInMonth), false);
             });
         });
 
@@ -70,11 +71,11 @@ describe('Validate json', function()
             const invalidDataType = [{ 'type': 'waived', 'date': '2020-06-03', 'data': ['waived'], 'hours': '08:00' }];
             test('should be valid JSON', () =>
             {
-                expect(validateJSON(validData)).toBeTruthy();
+                assert.strictEqual(validateJSON(validData), true);
             });
             test('should not be valid JSON', () =>
             {
-                expect(validateJSON(invalidDataType)).not.toBeTruthy();
+                assert.strictEqual(validateJSON(invalidDataType), false);
             });
         });
 
@@ -88,15 +89,15 @@ describe('Validate json', function()
             const invalidHoursValueNegative = [{ 'type': 'waived', 'date': '2020-06-03', 'data': 'waived', 'hours': '-01:00' }];
             test('should be valid JSON', () =>
             {
-                expect(validateJSON(validHours)).toBeTruthy();
-                expect(validateJSON(validHours2)).toBeTruthy();
+                assert.strictEqual(validateJSON(validHours), true);
+                assert.strictEqual(validateJSON(validHours2), true);
             });
             test('should not be valid JSON', () =>
             {
-                expect(validateJSON(invalidHoursFormat)).not.toBeTruthy();
-                expect(validateJSON(invalidHoursType)).not.toBeTruthy();
-                expect(validateJSON(invalidHoursValue)).not.toBeTruthy();
-                expect(validateJSON(invalidHoursValueNegative)).not.toBeTruthy();
+                assert.strictEqual(validateJSON(invalidHoursFormat), false);
+                assert.strictEqual(validateJSON(invalidHoursType), false);
+                assert.strictEqual(validateJSON(invalidHoursValue), false);
+                assert.strictEqual(validateJSON(invalidHoursValueNegative), false);
             });
         });
 
@@ -112,17 +113,17 @@ describe('Validate json', function()
             const invalidPointsInTime = [{ 'type': 'flexible', 'date': '2020-02-01', 'values': ['08:00', '07:00', '13:00', '14:00'] }];
             test('should be valid JSON', () =>
             {
-                expect(validateJSON(validValues)).toBeTruthy();
+                assert.strictEqual(validateJSON(validValues), true);
             });
             test('should not be valid JSON', () =>
             {
-                expect(validateJSON(invalidValuesFormat1)).not.toBeTruthy();
-                expect(validateJSON(invalidValuesFormat2)).not.toBeTruthy();
-                expect(validateJSON(invalidValuesFormat3)).not.toBeTruthy();
-                expect(validateJSON(invalidValuesFormat4)).not.toBeTruthy();
-                expect(validateJSON(invalidValuesType)).not.toBeTruthy();
-                expect(validateJSON(invalidValuesValue)).not.toBeTruthy();
-                expect(validateJSON(invalidPointsInTime)).not.toBeTruthy();
+                assert.strictEqual(validateJSON(invalidValuesFormat1), false);
+                assert.strictEqual(validateJSON(invalidValuesFormat2), false);
+                assert.strictEqual(validateJSON(invalidValuesFormat3), false);
+                assert.strictEqual(validateJSON(invalidValuesFormat4), false);
+                assert.strictEqual(validateJSON(invalidValuesType), false);
+                assert.strictEqual(validateJSON(invalidValuesValue), false);
+                assert.strictEqual(validateJSON(invalidPointsInTime), false);
             });
         });
 
@@ -136,18 +137,18 @@ describe('Validate json', function()
                 for (let i = 1; i <= 9; i++)
                 {
                     const firstNineDays = [{ 'type': 'flexible', 'date': `2020-12-0${i}`, 'values': ['08:00', '12:00', '13:00', '14:00'] }];
-                    expect(validateJSON(firstNineDays)).toBeTruthy();
+                    assert.strictEqual(validateJSON(firstNineDays), true);
                 }
                 for (let i = 10; i <= 31; i++)
                 {
                     const restDays = [{ 'type': 'flexible', 'date': `2020-12-${i}`, 'values': ['08:00', '12:00', '13:00', '14:00'] }];
-                    expect(validateJSON(restDays)).toBeTruthy();
+                    assert.strictEqual(validateJSON(restDays), true);
                 }
             });
             test('should not be valid JSON', () =>
             {
-                expect(validateJSON(invalidDay)).not.toBeTruthy();
-                expect(validateJSON(invalidDay2)).not.toBeTruthy();
+                assert.strictEqual(validateJSON(invalidDay), false);
+                assert.strictEqual(validateJSON(invalidDay2), false);
             });
         });
 
@@ -161,18 +162,18 @@ describe('Validate json', function()
                 for (let i = 1; i <= 9; i++)
                 {
                     const firstNineMonths = [{ 'type': 'flexible', 'date': `2020-0${i}-13`, 'values': ['08:00', '12:00', '13:00', '14:00'] }];
-                    expect(validateJSON(firstNineMonths)).toBeTruthy();
+                    assert.strictEqual(validateJSON(firstNineMonths), true);
                 }
                 for (let i = 10; i <= 12; i++)
                 {
                     const restMonths = [{ 'type': 'flexible', 'date': `2020-${i}-13`, 'values': ['08:00', '12:00', '13:00', '14:00'] }];
-                    expect(validateJSON(restMonths)).toBeTruthy();
+                    assert.strictEqual(validateJSON(restMonths), true);
                 }
             });
             test('should not be valid JSON', () =>
             {
-                expect(validateJSON(invalidMonth)).not.toBeTruthy();
-                expect(validateJSON(invalidMonth2)).not.toBeTruthy();
+                assert.strictEqual(validateJSON(invalidMonth), false);
+                assert.strictEqual(validateJSON(invalidMonth2), false);
             });
         });
 
@@ -183,12 +184,12 @@ describe('Validate json', function()
 
             test('should be valid JSON', () =>
             {
-                expect(validateJSON(validLeapYear)).toBeTruthy();
+                assert.strictEqual(validateJSON(validLeapYear), true);
 
             });
             test('should not be valid JSON', () =>
             {
-                expect(validateJSON(invalidLeapYear)).not.toBeTruthy();
+                assert.strictEqual(validateJSON(invalidLeapYear), false);
             });
         });
     });
