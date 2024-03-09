@@ -36,6 +36,7 @@
     "test:jest": "jest --runInBand --verbose=false --detectOpenHandles --colors --transformIgnorePatterns 'node_modules/(?!astronomia)/' -- ",
     "test:mocha": "c8 -o ./coverage_mocha -- mocha --config tests/mocha.config.cjs tests/*",
     "test:electron-mocha-main": "c8 electron-mocha --config __tests__/electron-mocha-main.config.cjs",
+    "test:electron-mocha-renderer": "c8 electron-mocha --renderer --config __tests__/electron-mocha-renderer.config.cjs",
     "setup:win": "node scripts/create_windows_installer.js"
   },
   "license": "GPL-3.0",
@@ -57,6 +58,7 @@
     "nyc": "15.1.0",
     "patch-package": "6.4.7",
     "playwright": "1.40.1",
+    "sinon": "17.0.1",
     "stylelint": "16.2.0",
     "stylelint-config-standard": "36.0.0",
     "tap-spec": "5.0.0",
