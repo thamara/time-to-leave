@@ -7,7 +7,7 @@ module.exports = {
             displayName: '    MAIN',
             runner: '@jest-runner/electron/main',
             testEnvironment: 'node',
-            testMatch: ['**/__tests__/**main**/*.js', '!**/{date-aux,time-math,validate-json}.js']
+            testMatch: ['**/__tests__/**main**/*.js', '!**/{date-aux,import-export,time-math,validate-json}.js']
         },
         {
             displayName: 'RENDERER',
