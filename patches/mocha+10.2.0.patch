@@ -1,0 +1,21 @@
+diff --git a/node_modules/mocha/lib/nodejs/parallel-buffered-runner.js b/node_modules/mocha/lib/nodejs/parallel-buffered-runner.js
+index 6052efc..66ad1f9 100644
+--- a/node_modules/mocha/lib/nodejs/parallel-buffered-runner.js
++++ b/node_modules/mocha/lib/nodejs/parallel-buffered-runner.js
+@@ -10,11 +10,15 @@ const Runner = require('../runner');
+ const {EVENT_RUN_BEGIN, EVENT_RUN_END} = Runner.constants;
+ const debug = require('debug')('mocha:parallel:parallel-buffered-runner');
+ const {BufferedWorkerPool} = require('./buffered-worker-pool');
+-const {setInterval, clearInterval} = global;
++const {clearInterval} = global;
+ const {createMap, constants} = require('../utils');
+ const {MOCHA_ID_PROP_NAME} = constants;
+ const {createFatalError} = require('../errors');
+ 
++// In order to work with electron-mocha, have to include the right node version of setInterval
++// https://github.com/electron/electron/issues/21162
++const {setInterval} = require('timers');
++
+ const DEFAULT_WORKER_REPORTER = require.resolve(
+   './reporters/parallel-buffered'
+ );
