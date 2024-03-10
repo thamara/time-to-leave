@@ -1,19 +1,23 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const assert = require('assert');
+import assert from 'assert';
+import { stub } from 'sinon';
 
 import {
     applyTheme,
     isValidTheme
 } from '../../renderer/themes.js';
-window.$ = window.jQuery = require('jquery');
+
+// Stub $ and window.matchMedia for applyTheme()
+global.$ = stub().returns({'attr': stub()});
+global.window = { matchMedia: stub().returns({matches: true}) };
 
 describe('Theme Functions', function()
 {
     describe('isValidTheme()', function()
     {
-        test('should validate', () =>
+        it('should validate', () =>
         {
             assert.strictEqual(isValidTheme('system-default'), true);
             assert.strictEqual(isValidTheme('light'), true);
@@ -24,7 +28,7 @@ describe('Theme Functions', function()
 
     describe('isValidTheme()', function()
     {
-        test('should not validate', () =>
+        it('should not validate', () =>
         {
             assert.strictEqual(isValidTheme('foo'), false);
             assert.strictEqual(isValidTheme('bar'), false);
@@ -33,18 +37,30 @@ describe('Theme Functions', function()
 
     describe('applyTheme()', function()
     {
-        test('should apply', () =>
+        beforeEach(() =>
+        {
+            global.window.matchMedia.resetHistory();
+            global.$.resetHistory();
+        });
+
+        it('should apply', () =>
         {
             assert.strictEqual(applyTheme('system-default'), true);
             assert.strictEqual(applyTheme('light'), true);
             assert.strictEqual(applyTheme('dark'), true);
             assert.strictEqual(applyTheme('cadent-star'), true);
+
+            assert.strictEqual(global.window.matchMedia.callCount, 1);
+            assert.strictEqual(global.$.callCount, 4);
         });
 
-        test('should not apply', function()
+        it('should not apply', function()
         {
             assert.strictEqual(applyTheme('foo'), false);
             assert.strictEqual(applyTheme('bar'), false);
+
+            assert.strictEqual(global.window.matchMedia.callCount, 0);
+            assert.strictEqual(global.$.callCount, 0);
         });
     });
 });
