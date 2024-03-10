@@ -1,17 +1,17 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const assert = require('assert');
-const {
+import assert from 'assert';
+import Store from 'electron-store';
+import fs from 'fs';
+import path from 'path';
+
+import {
     exportDatabaseToFile,
     importDatabaseFromFile,
     migrateFixedDbToFlexible,
-    validEntry
-} = require('../../js/import-export');
-
-import fs from 'fs';
-import Store from 'electron-store';
-import path from 'path';
+    validEntry,
+} from '../../js/import-export.js';
 
 describe('Import export', function()
 {
@@ -27,14 +27,14 @@ describe('Import export', function()
         const badFlexibleEntry = {'type': 'flexible', 'date': '2020-06-03', 'values': ['not-an-hour']};
         const badFlexibleEntry2 = {'type': 'flexible', 'date': '2020-06-03', 'values': 'not-an-array'};
         const badWaivedEntry = {'type': 'regular', 'date': '2020-06-03', 'data': 'day-begin', 'hours': 'not-an-hour'};
-        test('should be valid', () =>
+        it('should be valid', () =>
         {
             assert.strictEqual(validEntry(goodRegularEntry), true);
             assert.strictEqual(validEntry(goodWaivedEntry), true);
             assert.strictEqual(validEntry(goodFlexibleEntry), true);
         });
 
-        test('should not be valid', () =>
+        it('should not be valid', () =>
         {
             assert.strictEqual(validEntry(badRegularEntry), false);
             assert.strictEqual(validEntry(badWaivedEntry), false);
@@ -81,7 +81,7 @@ describe('Import export', function()
 
     describe('exportDatabaseToFile', function()
     {
-        test('Check that export works', () =>
+        it('Check that export works', () =>
         {
             assert.strictEqual(exportDatabaseToFile(path.join(folder, 'exported_file.ttldb')), true);
             assert.strictEqual(exportDatabaseToFile('/not/a/valid/path'), false);
@@ -100,7 +100,7 @@ describe('Import export', function()
 
     describe('importDatabaseFromFile', function()
     {
-        test('Check that import works', () =>
+        it('Check that import works', () =>
         {
             assert.strictEqual(importDatabaseFromFile([path.join(folder, 'exported_file.ttldb')])['result'], true);
             assert.strictEqual(importDatabaseFromFile(['/not/a/valid/path'])['result'], false);
@@ -117,15 +117,15 @@ describe('Import export', function()
 
     describe('migrateFixedDbToFlexible', function()
     {
-        test('Check that migration works', () =>
+        it('Check that migration works', () =>
         {
             assert.strictEqual(flexibleStore.size, 2);
             flexibleStore.clear();
             assert.strictEqual(flexibleStore.size, 0);
             migrateFixedDbToFlexible();
             assert.strictEqual(flexibleStore.size, 2);
-            expect(flexibleStore.get('2020-3-1')).toStrictEqual(migratedFlexibleEntries['2020-3-1']);
-            expect(flexibleStore.get('2020-3-2')).toStrictEqual(migratedFlexibleEntries['2020-3-2']);
+            assert.deepStrictEqual(flexibleStore.get('2020-3-1'), migratedFlexibleEntries['2020-3-1']);
+            assert.deepStrictEqual(flexibleStore.get('2020-3-2'), migratedFlexibleEntries['2020-3-2']);
         });
     });
 
@@ -146,18 +146,18 @@ describe('Import export', function()
 
     describe('importDatabaseFromFile (mixedContent)', function()
     {
-        test('Check that import works', () =>
+        it('Check that import works', () =>
         {
             flexibleStore.clear();
             assert.strictEqual(flexibleStore.size, 0);
             assert.strictEqual(importDatabaseFromFile([mixedEntriesFile])['result'], true);
             assert.strictEqual(flexibleStore.size, 2);
-            expect(flexibleStore.get('2020-2-1')).toStrictEqual(expectedMixedEntries['2020-2-1']);
-            expect(flexibleStore.get('2020-5-3')).toStrictEqual(expectedMixedEntries['2020-5-3']);
+            assert.deepStrictEqual(flexibleStore.get('2020-2-1'), expectedMixedEntries['2020-2-1']);
+            assert.deepStrictEqual(flexibleStore.get('2020-5-3'), expectedMixedEntries['2020-5-3']);
         });
     });
 
-    afterAll(() =>
+    after(() =>
     {
         fs.rmSync(folder, {recursive: true});
     });
