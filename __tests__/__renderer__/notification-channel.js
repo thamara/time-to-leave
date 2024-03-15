@@ -1,17 +1,20 @@
 'use strict';
 
-const assert = require('assert');
+import assert from 'assert';
+import jQuery from 'jquery';
+import jsdom from 'jsdom';
 
-const notificationChannel = require('../../renderer/notification-channel.js');
+import { searchLeaveByElement } from '../../renderer/notification-channel.js';
+
+global.$ = jQuery(new jsdom.JSDOM().window);
 
 describe('Notifications channel',  () =>
 {
     it('Should get content of #leave-by element', done =>
     {
-        window.$ = require('jquery');
         $('body').append('<input id="leave-by" value="12:12" />');
         // Way to get the file considered for coverage
-        notificationChannel.searchLeaveByElement({
+        searchLeaveByElement({
             sender: {
                 send: (channel, value) =>
                 {
