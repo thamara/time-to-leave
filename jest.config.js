@@ -13,7 +13,7 @@ module.exports = {
             displayName: 'RENDERER',
             runner: '@jest-runner/electron',
             testEnvironment: '@jest-runner/electron/environment',
-            testMatch: ['**/__tests__/**renderer**/*.js', '**/__tests__/**renderer**/classes/*.js', '!**/themes.js']
+            testMatch: ['**/__tests__/**renderer**/*.js', '**/__tests__/**renderer**/classes/*.js', '!**/{themes,workday-waiver-aux}.js']
         }
     ]
 };
