@@ -1,14 +1,16 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const assert = require('assert');
+import assert from 'assert';
 
 import { formatDayId, displayWaiverWindow } from '../../renderer/workday-waiver-aux.js';
 
 // Mocking call
 // TODO: find a better way to mock this or even really test it
-window.mainApi = {
-    displayWaiverWindow: () => {}
+global.window = {
+    mainApi: {
+        displayWaiverWindow: () => {}
+    }
 };
 
 describe('Workday Waiver Aux', function()
@@ -22,13 +24,13 @@ describe('Workday Waiver Aux', function()
 
     describe('formatDayId(dayId)', function()
     {
-        test('should be valid', () =>
+        it('should be valid', () =>
         {
             assert.strictEqual(formatDayId(validJSDay), '2020-04-10');
             assert.strictEqual(formatDayId(validJSDay2), '2020-01-10');
         });
 
-        test('should not be valid', () =>
+        it('should not be valid', () =>
         {
             assert.strictEqual(formatDayId(garbageString), NaN);
             assert.strictEqual(formatDayId(incompleteDate), NaN);
@@ -37,7 +39,7 @@ describe('Workday Waiver Aux', function()
 
     describe('displayWaiverWindow(dayId)', function()
     {
-        test('should do seamless call', async() =>
+        it('should do seamless call', async() =>
         {
             await displayWaiverWindow(validJSDay);
             await displayWaiverWindow(validJSDay2);
