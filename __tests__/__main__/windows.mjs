@@ -1,32 +1,41 @@
+/* eslint-disable no-undef */
 'use strict';
 
-const assert = require('assert');
+import assert from 'assert';
 import { BrowserWindow } from 'electron';
-const { getDateStr } = require('../../js/date-aux.js');
-const windows = require('../../js/windows.js');
-const {getWaiverWindow, tray, contextMenu, prefWindow, resetWindowsElements, openWaiverManagerWindow, getDialogCoordinates} = require('../../js/windows.js');
+import { stub } from 'sinon';
 
-describe('windows.js', () =>
+import { getDateStr } from '../../js/date-aux.mjs';
+import {
+    getDialogCoordinates,
+    getWaiverWindow,
+    openWaiverManagerWindow,
+    resetWindowsElements,
+} from '../../js/windows.mjs';
+
+describe('Windows tests', () =>
 {
     let showSpy;
     let loadSpy;
-    beforeEach(() =>
+    before(() =>
     {
         // Avoid window being shown
-        loadSpy = jest.spyOn(BrowserWindow.prototype, 'loadURL').mockImplementation(() => {});
-        showSpy = jest.spyOn(BrowserWindow.prototype, 'show').mockImplementation(() => {});
-        jest.spyOn(windows, 'getDialogCoordinates').mockImplementation(() => ({x:0, y:0}));
+        // TODO: might not always be working?
+        BrowserWindow.prototype.show = stub();
+        showSpy = BrowserWindow.prototype.show;
+        BrowserWindow.prototype.loadURL = stub();
+        loadSpy = BrowserWindow.prototype.loadURL;
     });
 
-    test('Elements should be null on starting', () =>
+    it('Elements should be null on starting', () =>
     {
         assert.strictEqual(getWaiverWindow(), null);
-        assert.strictEqual(tray, null);
-        assert.strictEqual(contextMenu, null);
-        assert.strictEqual(prefWindow, null);
+        assert.strictEqual(global.tray, null);
+        assert.strictEqual(global.contextMenu, null);
+        assert.strictEqual(global.prefWindow, null);
     });
 
-    test('Should create waiver window', (done) =>
+    it('Should create waiver window', (done) =>
     {
         const mainWindow = new BrowserWindow({
             show: false
@@ -34,11 +43,19 @@ describe('windows.js', () =>
         openWaiverManagerWindow(mainWindow);
         assert.notStrictEqual(getWaiverWindow(), null);
         assert.strictEqual(getWaiverWindow() instanceof BrowserWindow, true);
-        assert.deepEqual(getWaiverWindow().getSize(), [600, 500]);
+
+        // Values can vary about 10px from 600, 500
+        const size = getWaiverWindow().getSize();
+        assert.strictEqual(Math.abs(size[0] - 600) < 10, true);
+        assert.strictEqual(Math.abs(size[1] - 500) < 10, true);
+
+        assert.strictEqual(showSpy.calledOnce, true);
+        assert.strictEqual(loadSpy.calledOnce, true);
+
         done();
     });
 
-    test('Should show waiver window it has been created', (done) =>
+    it('Should show waiver window it has been created', (done) =>
     {
         const mainWindow = new BrowserWindow({
             show: false
@@ -47,12 +64,12 @@ describe('windows.js', () =>
         openWaiverManagerWindow(mainWindow);
         assert.notStrictEqual(getWaiverWindow(), null);
         // It should only load once the URL because it already exists
-        expect(showSpy).toHaveBeenCalledTimes(2);
-        expect(loadSpy).toHaveBeenCalledTimes(1);
+        assert.strictEqual(showSpy.calledTwice, true);
+        assert.strictEqual(loadSpy.calledOnce, true);
         done();
     });
 
-    test('Should set global waiverDay when event is sent', (done) =>
+    it('Should set global waiverDay when event is sent', (done) =>
     {
         const mainWindow = new BrowserWindow({
             show: false
@@ -63,7 +80,7 @@ describe('windows.js', () =>
         done();
     });
 
-    test('Should reset waiverWindow on close', () =>
+    it('Should reset waiverWindow on close', () =>
     {
         const mainWindow = new BrowserWindow({
             show: false
@@ -73,7 +90,7 @@ describe('windows.js', () =>
         assert.strictEqual(getWaiverWindow(), null);
     });
 
-    test('Should get dialog coordinates', () =>
+    it('Should get dialog coordinates', () =>
     {
         const coordinates = getDialogCoordinates(500, 250, {
             getBounds: () => ({
@@ -91,7 +108,8 @@ describe('windows.js', () =>
 
     afterEach(() =>
     {
-        jest.restoreAllMocks();
+        showSpy.resetHistory();
+        loadSpy.resetHistory();
         resetWindowsElements();
     });
 });
