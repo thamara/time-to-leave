@@ -25,7 +25,7 @@ describe('Application launch', function()
     //  deepcode ignore UseArrowFunction: => will not work on here
     beforeEach(async function()
     {
-        electronApp = await electron.launch({ args: ['main.js'], env: process.env, cwd: rootDir});
+        electronApp = await electron.launch({ args: ['main.mjs'], env: process.env, cwd: rootDir});
     });
 
     afterEach(async function()
