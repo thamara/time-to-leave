@@ -1,11 +1,27 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const assert = require('assert');
-const { booleanInputs, defaultPreferences, getDefaultWidthHeight, getPreferencesFilePath, getUserPreferences, savePreferences, showDay, switchCalendarView, notificationIsEnabled, getUserLanguage, getNotificationsInterval, repetitionIsEnabled, getUserPreferencesPromise, resetPreferences } = require('../../js/user-preferences');
+import assert from 'assert';
 import fs from 'fs';
-const { themeOptions } = require('../../renderer/themes');
-const { getLanguageMap, getLanguagesCodes, getLanguageName } = require('../../src/configs/app.config');
+
+import {
+    booleanInputs,
+    defaultPreferences,
+    getDefaultWidthHeight,
+    getNotificationsInterval,
+    getPreferencesFilePath,
+    getUserLanguage,
+    getUserPreferences,
+    getUserPreferencesPromise,
+    notificationIsEnabled,
+    repetitionIsEnabled,
+    resetPreferences,
+    savePreferences,
+    showDay,
+    switchCalendarView,
+} from '../../js/user-preferences.mjs';
+import { themeOptions } from '../../renderer/themes.js';
+import { getLanguageMap, getLanguagesCodes, getLanguageName } from '../../src/configs/app.config.mjs';
 
 function setNewPreference(preference, value)
 {
@@ -14,33 +30,26 @@ function setNewPreference(preference, value)
     savePreferences(preferences);
 }
 
-// Mocking electron needs to be defined here and not in __mocks__
-// because it's not directly required from this file as it is *fs*.
-jest.mock('electron', () =>
+function mockGetPreferencesFilePathPromise(path)
 {
-    const originalModule = jest.requireActual('electron');
-    return {
-        __esModule: true,
-        ...originalModule,
-        ipcRenderer: {
-            ...originalModule.ipcRenderer,
-            invoke: jest.fn().mockResolvedValueOnce('./').mockResolvedValue('./dummy_file.txt'),
-        }
-    };
-});
+    return new Promise((resolve) =>
+    {
+        resolve(path);
+    });
+}
 
 describe('Preferences Main', () =>
 {
-    process.env.NODE_ENV = 'test';
-
     // Remove preferences file to guarantee equal execution of tests
     const preferencesFilePath = getPreferencesFilePath();
     if (fs.existsSync(preferencesFilePath))
+    {
         fs.unlinkSync(preferencesFilePath);
+    }
 
     const days = getUserPreferences();
 
-    test('showDay(year, month, day)', () =>
+    it('showDay(year, month, day)', () =>
     {
         assert.strictEqual(showDay(2020, 1, 1), days['working-days-saturday']);
         assert.strictEqual(showDay(2020, 1, 2), days['working-days-sunday']);
@@ -54,30 +63,29 @@ describe('Preferences Main', () =>
 
     describe('getDefaultWidthHeight()', () =>
     {
-
-        test('Month view', () =>
+        it('Month view', () =>
         {
             assert.strictEqual(defaultPreferences['view'], 'month');
             savePreferences(defaultPreferences);
 
-            expect(getDefaultWidthHeight()).toStrictEqual({ width: 1010, height: 800 });
+            assert.deepStrictEqual(getDefaultWidthHeight(), { width: 1010, height: 800 });
         });
 
-        test('Day view', () =>
+        it('Day view', () =>
         {
             const preferences = { defaultPreferences };
 
             preferences['view'] = 'day';
             savePreferences(preferences);
 
-            expect(getDefaultWidthHeight()).toStrictEqual({ width: 500, height: 500 });
+            assert.deepStrictEqual(getDefaultWidthHeight(), { width: 500, height: 500 });
         });
     });
 
     describe('switchCalendarView()', () =>
     {
 
-        test('Month to Day', () =>
+        it('Month to Day', () =>
         {
             assert.strictEqual(defaultPreferences['view'], 'month');
             savePreferences(defaultPreferences);
@@ -89,7 +97,7 @@ describe('Preferences Main', () =>
             assert.strictEqual(preferences['view'], 'day');
         });
 
-        test('Day to Month', () =>
+        it('Day to Month', () =>
         {
             let preferences = { defaultPreferences };
 
@@ -115,21 +123,21 @@ describe('Preferences Main', () =>
             assert.strictEqual(getNotificationsInterval(), '5');
         });
 
-        test('Saving valid number as notifications-interval', () =>
+        it('Saving valid number as notifications-interval', () =>
         {
             setNewPreference('notifications-interval', '6');
             assert.strictEqual(getUserPreferences()['notifications-interval'], '6');
             assert.strictEqual(getNotificationsInterval(), '6');
         });
 
-        test('Saving invalid number as notifications-interval', () =>
+        it('Saving invalid number as notifications-interval', () =>
         {
             setNewPreference('notifications-interval', '0');
             assert.strictEqual(getUserPreferences()['notifications-interval'], '5');
             assert.strictEqual(getNotificationsInterval(), '5');
         });
 
-        test('Saving invalid text as notifications-interval', () =>
+        it('Saving invalid text as notifications-interval', () =>
         {
             setNewPreference('notifications-interval', 'ab');
             assert.strictEqual(getUserPreferences()['notifications-interval'], '5');
@@ -139,21 +147,21 @@ describe('Preferences Main', () =>
 
     describe('getUserLanguage()', () =>
     {
-        test('Saving valid language', () =>
+        it('Saving valid language', () =>
         {
             setNewPreference('language', 'es');
             assert.strictEqual(getUserPreferences()['language'], 'es');
             assert.strictEqual(getUserLanguage(), 'es');
         });
 
-        test('Saving invalid number as language', () =>
+        it('Saving invalid number as language', () =>
         {
             setNewPreference('language', 5);
             assert.strictEqual(getUserPreferences()['language'], 'en');
             assert.strictEqual(getUserLanguage(), 'en');
         });
 
-        test('Saving invalid string language', () =>
+        it('Saving invalid string language', () =>
         {
             setNewPreference('language', 'es-AR');
             assert.strictEqual(getUserPreferences()['language'], 'en');
@@ -164,19 +172,19 @@ describe('Preferences Main', () =>
 
     describe('notificationIsEnabled()', () =>
     {
-        test('Saving invalid string as notification preference', () =>
+        it('Saving invalid string as notification preference', () =>
         {
             setNewPreference('notification', 'true');
             assert.strictEqual(notificationIsEnabled(), true);
         });
 
-        test('Saving invalid number as notification preference', () =>
+        it('Saving invalid number as notification preference', () =>
         {
             setNewPreference('notification', 8);
             assert.strictEqual(notificationIsEnabled(), true);
         });
 
-        test('Saving valid boolean as notification preference', () =>
+        it('Saving valid boolean as notification preference', () =>
         {
             setNewPreference('notification', false);
             assert.strictEqual(notificationIsEnabled(), false);
@@ -185,19 +193,19 @@ describe('Preferences Main', () =>
 
     describe('repetitionIsEnabled()', () =>
     {
-        test('Saving invalid string as repetition preference', () =>
+        it('Saving invalid string as repetition preference', () =>
         {
             setNewPreference('repetition', 'true');
             assert.strictEqual(repetitionIsEnabled(), true);
         });
 
-        test('Saving invalid number as repetition preference', () =>
+        it('Saving invalid number as repetition preference', () =>
         {
             setNewPreference('repetition', 15);
             assert.strictEqual(repetitionIsEnabled(), true);
         });
 
-        test('Saving valid boolean as repetition preference', () =>
+        it('Saving valid boolean as repetition preference', () =>
         {
             setNewPreference('repetition', false);
             assert.strictEqual(repetitionIsEnabled(), false);
@@ -213,25 +221,25 @@ describe('Preferences Main', () =>
 
         for (const pref of booleanInputs)
         {
-            test(`Saving invalid string as ${pref} preference`, () =>
+            it(`Saving invalid string as ${pref} preference`, () =>
             {
                 setNewPreference(pref, 'true');
                 assert.strictEqual(getUserPreferences()[pref], defaultPreferences[pref]);
             });
 
-            test(`Saving invalid number as ${pref} preference`, () =>
+            it(`Saving invalid number as ${pref} preference`, () =>
             {
                 setNewPreference(pref, 20);
                 assert.strictEqual(getUserPreferences()[pref], defaultPreferences[pref]);
             });
 
-            test(`Saving valid boolean as ${pref} preference`, () =>
+            it(`Saving valid boolean as ${pref} preference`, () =>
             {
                 setNewPreference(pref, false);
                 assert.strictEqual(getUserPreferences()[pref], false);
             });
 
-            test(`Saving valid boolean as ${pref} preference`, () =>
+            it(`Saving valid boolean as ${pref} preference`, () =>
             {
                 setNewPreference(pref, true);
                 assert.strictEqual(getUserPreferences()[pref], true);
@@ -243,171 +251,177 @@ describe('Preferences Main', () =>
     {
         for (const theme of themeOptions)
         {
-            test(`Saving valid theme ${theme}`, () =>
+            it(`Saving valid theme ${theme}`, () =>
             {
                 setNewPreference('theme', theme);
                 assert.strictEqual(getUserPreferences()['theme'], theme);
             });
         }
 
-        test('Saving invalid string as theme', () =>
+        it('Saving invalid string as theme', () =>
         {
             setNewPreference('theme', 'DARKKKK');
             assert.strictEqual(getUserPreferences()['theme'], defaultPreferences.theme);
         });
 
-        test('Saving invalid number as theme', () =>
+        it('Saving invalid number as theme', () =>
         {
             setNewPreference('theme', 5);
             assert.strictEqual(getUserPreferences()['theme'], defaultPreferences.theme);
         });
     });
+
     describe('Hours Per Day', () =>
     {
-        test('Saving invalid number as hours per day', () =>
+        it('Saving invalid number as hours per day', () =>
         {
             setNewPreference('hours-per-day', 1223);
             assert.strictEqual(getUserPreferences()['hours-per-day'], defaultPreferences['hours-per-day']);
         });
 
-        test('Saving invalid amount of hours per day', () =>
+        it('Saving invalid amount of hours per day', () =>
         {
             setNewPreference('hours-per-day', '30:00');
             assert.strictEqual(getUserPreferences()['hours-per-day'], defaultPreferences['hours-per-day']);
         });
 
-        test('Saving invalid minutes in hours per day', () =>
+        it('Saving invalid minutes in hours per day', () =>
         {
             setNewPreference('hours-per-day', '20:99');
             assert.strictEqual(getUserPreferences()['hours-per-day'], defaultPreferences['hours-per-day']);
         });
 
-        test('Saving invalid boolean as hours per day', () =>
+        it('Saving invalid boolean as hours per day', () =>
         {
             setNewPreference('hours-per-day', true);
             assert.strictEqual(getUserPreferences()['hours-per-day'], defaultPreferences['hours-per-day']);
         });
 
-        test('Saving valid hours per day', () =>
+        it('Saving valid hours per day', () =>
         {
             setNewPreference('hours-per-day', '06:00');
             assert.strictEqual(getUserPreferences()['hours-per-day'], '06:00');
         });
 
-        test('Saving valid hours per day', () =>
+        it('Saving valid hours per day', () =>
         {
             setNewPreference('hours-per-day', '01:30');
             assert.strictEqual(getUserPreferences()['hours-per-day'], '01:30');
         });
     });
+
     describe('Break Time Interval', () =>
     {
-        test('Saving invalid number as break-time-interval', () =>
+        it('Saving invalid number as break-time-interval', () =>
         {
             setNewPreference('break-time-interval', 1223);
             assert.strictEqual(getUserPreferences()['break-time-interval'], defaultPreferences['break-time-interval']);
         });
 
-        test('Saving invalid hours in break-time-interval', () =>
+        it('Saving invalid hours in break-time-interval', () =>
         {
             setNewPreference('break-time-interval', '30:00');
             assert.strictEqual(getUserPreferences()['break-time-interval'], defaultPreferences['break-time-interval']);
         });
 
-        test('Saving invalid mintes in break-time-interval', () =>
+        it('Saving invalid mintes in break-time-interval', () =>
         {
             setNewPreference('break-time-interval', '20:99');
             assert.strictEqual(getUserPreferences()['break-time-interval'], defaultPreferences['break-time-interval']);
         });
 
-        test('Saving invalid boolean as break-time-interval', () =>
+        it('Saving invalid boolean as break-time-interval', () =>
         {
             setNewPreference('break-time-interval', true);
             assert.strictEqual(getUserPreferences()['break-time-interval'], defaultPreferences['break-time-interval']);
         });
 
-        test('Saving valid break-time-interval', () =>
+        it('Saving valid break-time-interval', () =>
         {
             setNewPreference('break-time-interval', '00:30');
             assert.strictEqual(getUserPreferences()['break-time-interval'], '00:30');
         });
 
-        test('Saving valid break-time-interval', () =>
+        it('Saving valid break-time-interval', () =>
         {
             setNewPreference('break-time-interval', '00:15');
             assert.strictEqual(getUserPreferences()['break-time-interval'], '00:15');
         });
     });
+
     describe('Overall balance start date', () =>
     {
-        test('Saving invalid month in overall-balance-start-date', () =>
+        it('Saving invalid month in overall-balance-start-date', () =>
         {
             setNewPreference( 'overall-balance-start-date', '2022-13-01');
             assert.strictEqual(getUserPreferences()['overall-balance-start-date'], defaultPreferences['overall-balance-start-date']);
         });
 
-        test('Saving invalid day in overall-balance-start-date', () =>
+        it('Saving invalid day in overall-balance-start-date', () =>
         {
             setNewPreference( 'overall-balance-start-date', '2022-10-32');
             assert.strictEqual(getUserPreferences()['overall-balance-start-date'], defaultPreferences['overall-balance-start-date']);
         });
 
-        test('Saving valid date', () =>
+        it('Saving valid date', () =>
         {
             setNewPreference( 'overall-balance-start-date', '2022-10-02');
             assert.strictEqual(getUserPreferences()['overall-balance-start-date'], '2022-10-02');
         });
     });
+
     describe('Update remind me after', () =>
     {
-        test('Saving invalid numner as update-remind-me-after', () =>
+        it('Saving invalid numner as update-remind-me-after', () =>
         {
             setNewPreference( 'update-remind-me-after', new Date('2022-13-01').getTime());
             assert.strictEqual(getUserPreferences()['update-remind-me-after'], defaultPreferences['update-remind-me-after']);
         });
 
-        test('Saving invalid month in update-remind-me-after', () =>
+        it('Saving invalid month in update-remind-me-after', () =>
         {
             setNewPreference( 'update-remind-me-after', '2022-13-01');
             assert.strictEqual(getUserPreferences()['update-remind-me-after'], defaultPreferences['update-remind-me-after']);
         });
 
-        test('Saving invalid date in update-remind-me-after', () =>
+        it('Saving invalid date in update-remind-me-after', () =>
         {
             setNewPreference( 'update-remind-me-after', '2022-10-32');
             assert.strictEqual(getUserPreferences()['update-remind-me-after'], defaultPreferences['update-remind-me-after']);
         });
 
-        test('Saving valid date', () =>
+        it('Saving valid date', () =>
         {
             setNewPreference( 'update-remind-me-after', '2022-10-02');
             assert.strictEqual(getUserPreferences()['update-remind-me-after'], '2022-10-02');
         });
     });
+
     describe('savePreferences()', () =>
     {
-        test('Save to wrong path', () =>
+        it('Save to wrong path', () =>
         {
             assert.strictEqual(savePreferences(defaultPreferences, './not/existing/folder') instanceof Error, true);
         });
 
-        test('Save to default path', () =>
+        it('Save to default path', () =>
         {
             assert.strictEqual(savePreferences(defaultPreferences), true);
         });
     });
+
     describe('resetPreferences()', () =>
     {
         afterEach(() =>
         {
             resetPreferences();
-            expect(getUserPreferences()).toStrictEqual(defaultPreferences);
+            assert.deepStrictEqual(getUserPreferences(), defaultPreferences);
         });
         {
             for (const key in defaultPreferences)
             {
                 const value = defaultPreferences[key];
-                test('Should reset all preferences', () =>
+                it('Should reset all preferences', () =>
                 {
                     if (typeof value === 'boolean')
                     {
@@ -425,24 +439,30 @@ describe('Preferences Main', () =>
             }
         }
     });
+
     describe('getUserPreferencesPromise()', () =>
     {
-        beforeAll(() =>
+        before(() =>
         {
             fs.writeFileSync('./dummy_file.txt', 'This should be tried to be parsed and fail');
         });
 
-        test('Should return a promise', () =>
+        it('Should return a promise', () =>
         {
             assert.strictEqual(getUserPreferencesPromise() instanceof Promise, true);
         });
 
-        test('Should resolve promise', async() =>
+        it('Should resolve promise to empty if file is broken', async() =>
         {
-            await expect(getUserPreferencesPromise()).resolves.toStrictEqual({});
+            assert.deepStrictEqual(await getUserPreferencesPromise(mockGetPreferencesFilePathPromise('./')), {});
         });
 
-        afterAll(() =>
+        it('Should resolve promise to default preferences if file is unparseable', async() =>
+        {
+            assert.deepStrictEqual(await getUserPreferencesPromise(mockGetPreferencesFilePathPromise('./dummy_file.txt')), defaultPreferences);
+        });
+
+        after(() =>
         {
             fs.unlinkSync('./dummy_file.txt', () => {});
         });
@@ -450,12 +470,12 @@ describe('Preferences Main', () =>
 
     describe('App config languages', () =>
     {
-        test('getLanguageMap() should have language code keys', () =>
+        it('getLanguageMap() should have language code keys', () =>
         {
             assert.strictEqual(Object.keys(getLanguageMap()).length > 0, true);
         });
 
-        test('getLanguageMap() keys should be sorted', () =>
+        it('getLanguageMap() keys should be sorted', () =>
         {
             let lastLanguage = '';
             Object.keys(getLanguageMap()).forEach(language =>
@@ -471,12 +491,12 @@ describe('Preferences Main', () =>
 
         });
 
-        test('getLanguagesCodes() should be keys of getLanguageMap()', () =>
+        it('getLanguagesCodes() should be keys of getLanguageMap()', () =>
         {
-            expect(Object.keys(getLanguageMap())).toEqual(getLanguagesCodes());
+            assert.deepStrictEqual(Object.keys(getLanguageMap()), getLanguagesCodes());
         });
 
-        test('getLanguageName() should return correct language', () =>
+        it('getLanguageName() should return correct language', () =>
         {
             assert.strictEqual(getLanguageName('bn'), 'বাংলা');
             assert.strictEqual(getLanguageName('ca'), 'Catalàn');
@@ -508,10 +528,4 @@ describe('Preferences Main', () =>
             assert.strictEqual(getLanguageName('zh-TW'), '繁體中文');
         });
     });
-
-    afterAll(() =>
-    {
-        jest.resetAllMocks();
-    });
 });
-
