@@ -1,12 +1,10 @@
 'use strict';
 
+import './jquery.mjs';
+
 import assert from 'assert';
-import jQuery from 'jquery';
-import jsdom from 'jsdom';
 
 import { searchLeaveByElement } from '../../renderer/notification-channel.js';
-
-global.$ = jQuery(new jsdom.JSDOM().window);
 
 describe('Notifications channel',  () =>
 {
