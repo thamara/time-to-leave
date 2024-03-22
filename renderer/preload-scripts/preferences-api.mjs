@@ -1,6 +1,9 @@
 'use strict';
 
-import { ipcRenderer } from 'electron';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+const { ipcRenderer } = require('electron');
 
 import * as config from '../../src/configs/app.config.mjs';
 import { getUserPreferencesPromise } from '../../js/user-preferences.mjs';
