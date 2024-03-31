@@ -1,16 +1,20 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const assert = require('assert');
+import assert from 'assert';
 import path from 'path';
-const BrowserWindow = require('@electron/remote').BrowserWindow;
-import * as windowAux from '../../js/window-aux.cjs';
+import sinon from 'sinon';
+import { rootDir } from '../../js/app-config.mjs';
+
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+const { BrowserWindow } = require('electron');
+const windowAux = require('../../js/window-aux.cjs');
 
 describe('window-aux.cjs Testing', function()
 {
-    process.env.NODE_ENV = 'test';
-
-    const mockHtmlPath = path.join('file://', __dirname, '../../__mocks__/mock.html');
+    const mockHtmlPath = path.join('file://', rootDir, '/__mocks__/mock.html');
 
     // const devToolsShortcut = new KeyboardEvent('keyup', {keyCode: 73, ctrlKey: true, shiftKey: true});
     // const badDevToolsShortcut = new KeyboardEvent('keyup', {keyCode: 74, ctrlKey: true, shiftKey: true});
@@ -91,7 +95,7 @@ describe('window-aux.cjs Testing', function()
 
     describe('showDialogSync(options)', function()
     {
-        test('Does not crash', async() =>
+        it('Does not crash', async() =>
         {
             const testWindow = new BrowserWindow(browserWindowOptions);
             testWindow.loadURL(mockHtmlPath);
@@ -99,7 +103,7 @@ describe('window-aux.cjs Testing', function()
             let spy;
             testWindow.webContents.on('dom-ready', () =>
             {
-                spy = jest.spyOn(windowAux, 'showDialogSync');
+                spy = sinon.spy(windowAux, 'showDialogSync');
 
                 const options = {
                     title: 'Time to Leave',
@@ -116,15 +120,15 @@ describe('window-aux.cjs Testing', function()
 
             await new Promise(r => setTimeout(r, timeoutValue));
             assert.notStrictEqual(testWindow, undefined);
-            expect(spy).toHaveBeenCalled();
+            assert.strictEqual(spy.called, true);
 
-            spy.mockRestore();
+            spy.restore();
         });
     });
 
     describe('showAlert(message)', function()
     {
-        test('Does not crash', async() =>
+        it('Does not crash', async() =>
         {
             const testWindow = new BrowserWindow(browserWindowOptions);
             testWindow.loadURL(mockHtmlPath);
@@ -132,7 +136,7 @@ describe('window-aux.cjs Testing', function()
             let spy;
             testWindow.webContents.on('dom-ready', () =>
             {
-                spy = jest.spyOn(windowAux, 'showAlert');
+                spy = sinon.stub(windowAux, 'showAlert');
                 windowAux.showAlert('Test showAlert');
             });
             testWindow.webContents.on('did-fail-load', (event, code, desc, url, isMainFrame) =>
@@ -142,9 +146,9 @@ describe('window-aux.cjs Testing', function()
 
             await new Promise(r => setTimeout(r, timeoutValue));
             assert.notStrictEqual(testWindow, undefined);
-            expect(spy).toHaveBeenCalled();
+            assert.strictEqual(spy.called, true);
 
-            spy.mockRestore();
+            spy.restore();
         });
     });
 });
