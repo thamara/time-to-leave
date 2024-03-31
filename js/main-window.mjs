@@ -3,6 +3,7 @@
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, Tray } from 'electron';
 import path from 'path';
 
+import { appConfig, rootDir } from './app-config.mjs';
 import {
     getContextMenuTemplate,
     getDockMenuTemplate,
@@ -16,20 +17,15 @@ import { checkForUpdates, shouldCheckForUpdates } from './update-manager.mjs';
 import { getDefaultWidthHeight, getUserPreferences, switchCalendarView } from './user-preferences.mjs';
 import { getCurrentTranslation } from '../src/configs/i18next.config.mjs';
 
-// Allow require()
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-
-const { appConfig, rootDir } = require('./app-config.cjs');
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow = null;
-let leaveByInterval = null;
 function getMainWindow()
 {
     return mainWindow;
 }
+
+let leaveByInterval = null;
 function getLeaveByInterval()
 {
     return leaveByInterval;

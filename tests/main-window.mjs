@@ -4,10 +4,7 @@
 import { _electron as electron } from 'playwright';
 import assert from 'assert';
 
-// Allow require()
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const { rootDir } = require('../js/app-config.cjs');
+import { rootDir } from './app-config.mjs';
 
 process.env.NODE_ENV = 'test';
 

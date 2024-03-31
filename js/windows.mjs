@@ -3,14 +3,9 @@
 import { BrowserWindow } from 'electron';
 import path from 'path';
 
+import { appConfig, rootDir } from './app-config.mjs';
 import { getDateStr } from './date-aux.mjs';
 import { MockClass } from '../__mocks__/Mock.mjs';
-
-// Allow require()
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-
-const { appConfig, rootDir } = require('./app-config.cjs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

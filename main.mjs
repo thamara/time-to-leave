@@ -4,6 +4,7 @@
 
 import { app, ipcMain } from 'electron';
 
+import { appConfig } from './js/app-config.mjs';
 import { createWindow, createMenu, getMainWindow, triggerStartupDialogs } from './js/main-window.mjs';
 import { createNotification } from './js/notification.mjs';
 import { handleSquirrelEvent } from './js/squirrel.mjs';
@@ -16,7 +17,6 @@ import { setupI18n, getCurrentTranslation, setLanguageChangedCallback } from './
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
-const { appConfig } = require('./js/app-config.cjs');
 const { showAlert, showDialogSync } = require('./js/window-aux.cjs');
 
 if (appConfig.win32)

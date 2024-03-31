@@ -4,6 +4,7 @@ import { app, BrowserWindow, clipboard, dialog, shell } from 'electron';
 import Store from 'electron-store';
 import path from 'path';
 
+import { appConfig, getDetails, rootDir } from './app-config.mjs';
 import { getCurrentDateTimeStr } from './date-aux.mjs';
 import { importDatabaseFromFile, exportDatabaseToFile } from './import-export.mjs';
 import { createNotification } from './notification.mjs';
@@ -12,12 +13,6 @@ import { checkForUpdates } from './update-manager.mjs';
 import { savePreferences } from './user-preferences.mjs';
 import { openWaiverManagerWindow, getDialogCoordinates } from './windows.mjs';
 import { getCurrentTranslation } from '../src/configs/i18next.config.mjs';
-
-// Allow require()
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-
-const { appConfig, getDetails, rootDir } = require('./app-config.cjs');
 
 function getMainMenuTemplate(mainWindow)
 {

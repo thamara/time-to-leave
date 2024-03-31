@@ -5,6 +5,7 @@ import i18nextBackend from 'i18next-node-fs-backend';
 import path from 'path';
 
 import { fallbackLng, getLanguagesCodes } from './app.config.mjs';
+import { appConfig } from '../../js/app-config.mjs';
 import { MockClass } from '../../__mocks__/Mock.mjs';
 
 // Allow require()
@@ -12,8 +13,6 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
 const i18n = require('i18next');
-
-const { appConfig } = require('../../js/app-config.cjs');
 
 // TODO: make async below again
 import { getUserLanguage } from '../../js/user-preferences.mjs';

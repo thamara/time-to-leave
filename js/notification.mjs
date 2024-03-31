@@ -3,17 +3,12 @@
 import path from 'path';
 import { app, Notification as ElectronNotification } from 'electron';
 
+import { rootDir } from './app-config.mjs';
 import { getDateStr } from './date-aux.mjs';
 import { hourToMinutes, subtractTime, validateTime } from './time-math.mjs';
 import { getNotificationsInterval, notificationIsEnabled, repetitionIsEnabled } from './user-preferences.mjs';
 import { getCurrentTranslation } from '../src/configs/i18next.config.mjs';
 import { MockClass } from '../__mocks__/Mock.mjs';
-
-// Allow require()
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-
-const { rootDir } = require('./app-config.cjs');
 
 let dismissToday = null;
 
