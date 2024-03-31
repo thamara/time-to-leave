@@ -168,7 +168,7 @@ async function addWaiver()
     toggleAddButton('waive-button', $('#reason').val());
 }
 
-function deleteEntryOnClick(event)
+async function deleteEntryOnClick(event)
 {
     const deleteButton = $(event.target);
     const day = deleteButton.data('day');
@@ -180,18 +180,17 @@ function deleteEntryOnClick(event)
         type: 'info',
         buttons: [getTranslation('$WorkdayWaiver.yes'), getTranslation('$WorkdayWaiver.no')]
     };
-    window.mainApi.showDialogSync(options).then(async(result) =>
-    {
-        const buttonId = result.response;
-        if (buttonId === 1)
-        {
-            return;
-        }
-        await window.mainApi.deleteWaiver(day);
 
-        const row = deleteButton.closest('tr');
-        row.remove();
-    });
+    const result = await window.mainApi.showDialogSync(options);
+    const buttonId = result.response;
+    if (buttonId === 1)
+    {
+        return;
+    }
+    await window.mainApi.deleteWaiver(day);
+
+    const row = deleteButton.closest('tr');
+    row.remove();
 }
 
 async function populateCountry()

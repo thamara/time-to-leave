@@ -1,14 +1,16 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const assert = require('assert');
+import './jquery.mjs';
+
+import assert from 'assert';
 import Store from 'electron-store';
-import fs from 'fs';
+import { JSDOM } from 'jsdom';
+import sinon from 'sinon';
 import path from 'path';
-const Holidays = require('date-holidays');
-/* eslint-disable-next-line no-global-assign */
-window.$ = require('jquery');
-const {
+
+import { rootDir } from '../../js/app-config.mjs';
+import {
     addWaiver,
     populateList,
     setDates,
@@ -28,24 +30,32 @@ const {
     loadHolidaysTable,
     initializeHolidayInfo,
     refreshDataForTest
-} = require('../../src/workday-waiver');
-const { workdayWaiverApi } = require('../../renderer/preload-scripts/workday-waiver-api.js');
-const {
+} from '../../src/workday-waiver.js';
+import { workdayWaiverApi } from '../../renderer/preload-scripts/workday-waiver-api.mjs';
+import {
     getAllHolidays,
     getCountries,
     getRegions,
     getStates
-} = require('../../main/workday-waiver-aux.js');
-const {
+} from '../../main/workday-waiver-aux.mjs';
+import {
     defaultPreferences,
     getUserPreferencesPromise,
     savePreferences,
-} = require('../../js/user-preferences.js');
+} from '../../js/user-preferences.mjs';
 
-jest.mock('../../renderer/i18n-translator.js', () => ({
-    translatePage: jest.fn().mockReturnThis(),
-    getTranslationInLanguageData: jest.fn().mockReturnThis()
-}));
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+const Holidays = require('date-holidays');
+
+import { i18nTranslatorMock } from '../../renderer/i18n-translator.js';
+i18nTranslatorMock.mock('translatePage', sinon.stub().returnsThis());
+i18nTranslatorMock.mock('getTranslationInLanguageData', sinon.stub().returnsThis());
+// jest.mock('../../renderer/i18n-translator.js', () => ({
+//     translatePage: jest.fn().mockReturnThis(),
+//     getTranslationInLanguageData: jest.fn().mockReturnThis()
+// }));
 
 const waiverStore = new Store({name: 'waived-workdays'});
 
@@ -122,16 +132,23 @@ window.mainApi.getUserPreferences = () =>
     return getUserPreferencesPromise(preferencesFilePathPromise);
 };
 
+window.mainApi.showAlert = () => {};
+
+const document = window.document;
+
 const languageData = {'language': 'en', 'data': {'dummy_string': 'dummy_string_translated'}};
+
+let htmlDoc = undefined;
 
 async function prepareMockup()
 {
     waiverStore.clear();
-    const workdayWaiverHtml = path.join(__dirname, '../../src/workday-waiver.html');
-    const content = fs.readFileSync(workdayWaiverHtml);
-    const parser = new DOMParser();
-    const htmlDoc = parser.parseFromString(content, 'text/html');
-    document.body.innerHTML = htmlDoc.body.innerHTML;
+    if (htmlDoc === undefined)
+    {
+        const workdayWaiverHtml = path.join(rootDir, '/src/workday-waiver.html');
+        htmlDoc = await JSDOM.fromFile(workdayWaiverHtml, 'text/html');
+    }
+    window.document.documentElement.innerHTML = htmlDoc.window.document.documentElement.innerHTML;
     await populateList();
     refreshDataForTest(languageData);
 }
@@ -151,13 +168,11 @@ async function testWaiverCount(expected)
     assert.strictEqual($('#waiver-list-table tbody')[0].rows.length, expected);
 }
 
-jest.mock('../../js/window-aux.cjs');
+// jest.mock('../../js/window-aux.cjs');
 
 describe('Test Workday Waiver Window', function()
 {
-    process.env.NODE_ENV = 'test';
-
-    beforeAll(() =>
+    before(() =>
     {
         // Making sure the preferences are the default so the tests work as expected
         savePreferences(defaultPreferences);
@@ -170,35 +185,35 @@ describe('Test Workday Waiver Window', function()
             await prepareMockup();
         });
 
-        test('One Waiver', () =>
+        it('One Waiver', async() =>
         {
             testWaiverCount(0);
-            addTestWaiver('2020-07-16', 'some reason');
+            await addTestWaiver('2020-07-16', 'some reason');
             testWaiverCount(1);
         });
 
-        test('One + two Waivers', () =>
+        it('One + two Waivers', async() =>
         {
             //Start with none
             testWaiverCount(0);
             // Add one waiver and update the table on the page
-            addTestWaiver('2020-07-16', 'some reason');
+            await addTestWaiver('2020-07-16', 'some reason');
             populateList();
             testWaiverCount(1);
 
             // Add two more waiver
-            addTestWaiver('2020-07-20', 'some other reason');
-            addTestWaiver('2020-07-21', 'yet another reason');
+            await addTestWaiver('2020-07-20', 'some other reason');
+            await addTestWaiver('2020-07-21', 'yet another reason');
             testWaiverCount(3);
         });
 
-        test('Table is sorted by Date', ()=>
+        it('Table is sorted by Date', async() =>
         {
             //add some waivers
 
-            addTestWaiver('2021-07-20', 'some other reason');
-            addTestWaiver('2021-07-16', 'some reason');
-            addTestWaiver('2021-07-21', 'yet another reason');
+            await addTestWaiver('2021-07-20', 'some other reason');
+            await addTestWaiver('2021-07-16', 'some reason');
+            await addTestWaiver('2021-07-21', 'yet another reason');
 
             let isSorted = true;
             const rows = $('#waiver-list-table tbody  tr').get();
@@ -218,14 +233,14 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual(isSorted, true);
 
         });
-        test('Time is not valid', async() =>
+        it('Time is not valid', async() =>
         {
             $('#hours').val('not a time');
             const waiver = await addWaiver();
             assert.strictEqual(waiver, false);
         });
 
-        test('End date less than start date', async() =>
+        it('End date less than start date', async() =>
         {
             setHours('08:00');
             $('#start-date').val('2020-07-20');
@@ -234,14 +249,14 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual(waiver, false);
         });
 
-        test('Add waiver with the same date', async() =>
+        it('Add waiver with the same date', async() =>
         {
-            addTestWaiver('2020-07-16', 'some reason');
+            await addTestWaiver('2020-07-16', 'some reason');
             const waiver = await addTestWaiver('2020-07-16', 'some reason');
-            assert.strictEqual(waiver, undefined);
+            assert.strictEqual(waiver, false);
         });
 
-        test('Range does not contain any working day', async() =>
+        it('Range does not contain any working day', async() =>
         {
             const waiver = await addTestWaiver('2020-13-01', 'some reason');
             assert.strictEqual(waiver, false);
@@ -252,47 +267,47 @@ describe('Test Workday Waiver Window', function()
     {
         let btn;
         const btnId = 'testingBtn';
-        beforeAll(() =>
+        before(() =>
         {
             btn = document.createElement('button');
             btn.id = btnId;
             document.body.appendChild(btn);
         });
 
-        test('Testing button exists', () =>
+        it('Testing button exists', () =>
         {
             const btnLength = document.querySelectorAll(`#${btnId}`).length;
             assert.strictEqual(btnLength > 0, true);
         });
 
-        test('Make disabled', () =>
+        it('Make disabled', () =>
         {
             toggleAddButton(btnId, false);
             const disabled = btn.getAttribute('disabled');
             assert.strictEqual(disabled, 'disabled');
         });
 
-        test('Make not disabled', () =>
+        it('Make not disabled', () =>
         {
             toggleAddButton(btnId, true);
             const notDisabled = btn.getAttribute('disabled');
             assert.strictEqual(notDisabled, null);
         });
 
-        afterAll(() =>
+        after(() =>
         {
-            document.removeChild(btn);
+            document.body.removeChild(btn);
         });
     });
 
     describe('Delete waiver', () =>
     {
-        test('Waiver was deleted', async() =>
+        it('Waiver was deleted', async() =>
         {
             await prepareMockup();
-            addTestWaiver('2020-07-16', 'some reason');
+            await addTestWaiver('2020-07-16', 'some reason');
             const deleteBtn = document.querySelectorAll('#waiver-list-table .delete-btn')[0];
-            deleteEntryOnClick({target: deleteBtn});
+            await deleteEntryOnClick({target: deleteBtn});
             const length = document.querySelectorAll('#waiver-list-table .delete-btn').length;
             assert.strictEqual(length, 0);
         });
@@ -307,7 +322,7 @@ describe('Test Workday Waiver Window', function()
             await prepareMockup();
         });
 
-        test('Country was populated', async() =>
+        it('Country was populated', async() =>
         {
             const countriesLength = Object.keys(hd.getCountries()).length;
             assert.strictEqual($('#country option').length, 0);
@@ -315,7 +330,7 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual($('#country option').length, countriesLength + 1);
         });
 
-        test('States was populated', async() =>
+        it('States was populated', async() =>
         {
             const statesLength = Object.keys(hd.getStates('US')).length;
             assert.strictEqual($('#state option').length, 0);
@@ -325,7 +340,7 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual($('#holiday-state').css('display'), 'table-row');
         });
 
-        test('States was not populated', async() =>
+        it('States was not populated', async() =>
         {
             assert.strictEqual($('#state option').length, 0);
             await populateState('CN');
@@ -334,7 +349,7 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual($('#holiday-state').css('display'), 'none');
         });
 
-        test('City was populated', async() =>
+        it('City was populated', async() =>
         {
             const regionsLength = Object.keys(hd.getRegions('US', 'CA')).length;
             assert.strictEqual($('#city option').length, 0);
@@ -344,7 +359,7 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual($('#holiday-city').css('display'), 'table-row');
         });
 
-        test('City was not populated', async() =>
+        it('City was not populated', async() =>
         {
             assert.strictEqual($('#city option').length, 0);
             await populateCity('US', 'AL');
@@ -353,7 +368,7 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual($('#holiday-city').css('display'), 'none');
         });
 
-        test('Year was populated', () =>
+        it('Year was populated', () =>
         {
             populateYear();
             const thisYear = new Date().getFullYear();
@@ -379,25 +394,25 @@ describe('Test Workday Waiver Window', function()
             await prepareMockup();
         });
 
-        test('Get holidays with no country', async() =>
+        it('Get holidays with no country', async() =>
         {
             $('#year').append($('<option selected></option>').val(year).html(year));
             assert.strictEqual($('#year option').length, 1);
             const holidays = await getHolidays();
-            expect(holidays).toEqual([]);
+            assert.deepStrictEqual(holidays, []);
         });
 
-        test('Get country holidays', async() =>
+        it('Get country holidays', async() =>
         {
             $('#year').append($('<option selected></option>').val(year).html(year));
             $('#country').append($('<option selected></option>').val(country).html(country));
             assert.strictEqual($('#country option').length, 1);
             hd.init(country);
             const holidays = await getHolidays();
-            expect(holidays).toEqual(hd.getHolidays(year));
+            assert.deepStrictEqual(holidays, hd.getHolidays(year));
         });
 
-        test('Get country with state holidays', async() =>
+        it('Get country with state holidays', async() =>
         {
             $('#year').append($('<option selected></option>').val(year).html(year));
             $('#country').append($('<option selected></option>').val(country).html(country));
@@ -405,10 +420,10 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual($('#state option').length, 1);
             hd.init(country, state);
             const holidays = await getHolidays();
-            expect(holidays).toEqual(hd.getHolidays(year));
+            assert.deepStrictEqual(holidays, hd.getHolidays(year));
         });
 
-        test('Get country with state and city holidays', async() =>
+        it('Get country with state and city holidays', async() =>
         {
             $('#year').append($('<option selected></option>').val(year).html(year));
             $('#country').append($('<option selected></option>').val(country).html(country));
@@ -417,7 +432,7 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual($('#state option').length, 1);
             hd.init(country, state, city);
             const holidays = await getHolidays();
-            expect(holidays).toEqual(hd.getHolidays(year));
+            assert.deepStrictEqual(holidays, hd.getHolidays(year));
         });
     });
 
@@ -432,19 +447,19 @@ describe('Test Workday Waiver Window', function()
             await prepareMockup();
         });
 
-        test('Iterate on holidays', async() =>
+        it('Iterate on holidays', async() =>
         {
             $('#year').append($('<option selected></option>').val(year).html(year));
             $('#country').append($('<option selected></option>').val(country).html(country));
             $('#state').append($('<option selected></option>').val(state).html(state));
             const holidays = await getHolidays();
             const holidaysLength = holidays.length;
-            const mockCallback = jest.fn();
+            const mockCallback = sinon.stub();
             await iterateOnHolidays(mockCallback);
-            expect(mockCallback).toBeCalledTimes(holidaysLength);
+            assert.strictEqual(mockCallback.getCalls().length, holidaysLength);
         });
 
-        test('Do not load holidays table on empty holidays', () =>
+        it('Do not load holidays table on empty holidays', () =>
         {
             loadHolidaysTable();
             const holidaysLength = 0;
@@ -453,7 +468,7 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual(holidaysLength, rowLength);
         });
 
-        test('Load holidays table', async() =>
+        it('Load holidays table', async() =>
         {
             $('#year').append($('<option selected></option>').val(year).html(year));
             $('#country').append($('<option selected></option>').val(country).html(country));
@@ -466,7 +481,7 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual(holidaysLength, rowLength);
         });
 
-        test('Holiday info initialize', async() =>
+        it('Holiday info initialize', async() =>
         {
             $('#year').append($('<option selected></option>').val(year).html(year));
             $('#country').append($('<option selected></option>').val(country).html(country));
@@ -487,7 +502,7 @@ describe('Test Workday Waiver Window', function()
             await prepareMockup();
         });
 
-        test('Holiday added working day, no conflicts', () =>
+        it('Holiday added working day, no conflicts', () =>
         {
             const day = 'test day';
             const reason = 'test reason';
@@ -503,10 +518,10 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual(firstCell, day);
             assert.strictEqual(secondCell, reason);
             assert.strictEqual(thirdCell, 'undefined');
-            expect(fourthCell).toEqual(fourthCellContent);
+            assert.strictEqual(fourthCell, fourthCellContent);
         });
 
-        test('Holiday added not working day, no conflicts', () =>
+        it('Holiday added not working day, no conflicts', () =>
         {
             const day = 'test day';
             const reason = 'test reason';
@@ -523,10 +538,10 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual(firstCell, day);
             assert.strictEqual(secondCell, reason);
             assert.strictEqual(thirdCell, workingDay);
-            expect(fourthCell).toEqual(fourthCellContent);
+            assert.strictEqual(fourthCell, fourthCellContent);
         });
 
-        test('Holiday added not working day, with conflicts', () =>
+        it('Holiday added not working day, with conflicts', () =>
         {
             const day = 'test day';
             const reason = 'test reason';
@@ -546,7 +561,7 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual(secondCell, reason);
             assert.strictEqual(thirdCell, workingDay);
             assert.strictEqual(conflictsCell, conflicts);
-            expect(fourthCell).toEqual(fourthCellContent);
+            assert.strictEqual(fourthCell, fourthCellContent);
         });
     });
 
@@ -555,12 +570,12 @@ describe('Test Workday Waiver Window', function()
         beforeEach(async() =>
         {
             await prepareMockup();
-            addTestWaiver('2020-07-20', 'some other reason');
-            addTestWaiver('2020-07-21', 'yet another reason');
+            await addTestWaiver('2020-07-20', 'some other reason');
+            await addTestWaiver('2020-07-21', 'yet another reason');
             addHolidayToList('test day', 'no reason');
         });
 
-        test('Clear table by JQuery object', () =>
+        it('Clear table by JQuery object', () =>
         {
             const tableId = 'waiver-list-table';
             let rowLength = $(`#${tableId} tbody tr`).length;
@@ -570,7 +585,7 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual(rowLength, 0);
         });
 
-        test('Clear holiday table', () =>
+        it('Clear holiday table', () =>
         {
             let rowLength = $('#holiday-list-table tbody tr').length;
             assert.strictEqual(rowLength, 1);
@@ -579,7 +594,7 @@ describe('Test Workday Waiver Window', function()
             assert.strictEqual(rowLength, 0);
         });
 
-        test('Clear waiver table', () =>
+        it('Clear waiver table', () =>
         {
             let rowLength = $('#waiver-list-table tbody tr').length;
             assert.strictEqual(rowLength, 2);
