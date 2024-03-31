@@ -1,25 +1,26 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const assert = require('assert');
+import assert from 'assert';
+import fs from 'fs';
 
-const {
+import {
     defaultPreferences,
     getPreferencesFilePath,
     getUserPreferences,
-    savePreferences,
     isNotBoolean,
     isNotificationInterval,
-} = require('../../js/user-preferences');
-import fs from 'fs';
+    savePreferences,
+} from '../../js/user-preferences.mjs';
 
 describe('Should return false if the value is not boolean type', () =>
 {
-    test('Value as boolean type', () =>
+    it('Value as boolean type', () =>
     {
         assert.strictEqual(isNotBoolean(true), false);
     });
-    test('Value as string type', () =>
+
+    it('Value as string type', () =>
     {
         assert.strictEqual(isNotBoolean('string'), true);
     });
@@ -27,7 +28,7 @@ describe('Should return false if the value is not boolean type', () =>
 
 describe('Should return true if the value is a valid notification interval', () =>
 {
-    test('Value as number (val >= 1 || val <= 30)', () =>
+    it('Value as number (val >= 1 || val <= 30)', () =>
     {
         assert.strictEqual(isNotificationInterval(1), true);
         assert.strictEqual(isNotificationInterval(15), true);
@@ -37,7 +38,8 @@ describe('Should return true if the value is a valid notification interval', () 
         assert.notStrictEqual(isNotificationInterval(31), true);
         assert.notStrictEqual(isNotificationInterval(60), true);
     });
-    test('Value as string (val >= 1 || val <= 30)', () =>
+
+    it('Value as string (val >= 1 || val <= 30)', () =>
     {
         assert.strictEqual(isNotificationInterval('1'), true);
         assert.strictEqual(isNotificationInterval('30'), true);
@@ -46,7 +48,8 @@ describe('Should return true if the value is a valid notification interval', () 
         assert.notStrictEqual(isNotificationInterval('A'), true);
         assert.notStrictEqual(isNotificationInterval('abc'), true);
     });
-    test('Value as boolean type', () =>
+
+    it('Value as boolean type', () =>
     {
         assert.notStrictEqual(isNotificationInterval(true), true);
         assert.notStrictEqual(isNotificationInterval(false), true);
@@ -55,12 +58,12 @@ describe('Should return true if the value is a valid notification interval', () 
 
 describe('User Preferences save/load', () =>
 {
-    process.env.NODE_ENV = 'test';
-
     // Remove preferences file to guarantee equal execution of tests
     const preferencesFilePath = getPreferencesFilePath();
     if (fs.existsSync(preferencesFilePath))
+    {
         fs.unlinkSync(preferencesFilePath);
+    }
 
     const testPreferences = defaultPreferences;
     testPreferences['working-days-sunday'] = true;
@@ -69,25 +72,22 @@ describe('User Preferences save/load', () =>
 
     describe('savePreferences() and getUserPreferences()', () =>
     {
-
-        test('getUserPreferences() before saving any', () =>
+        it('getUserPreferences() before saving any', () =>
         {
             assert.notStrictEqual(savePreferences(defaultPreferences), undefined);
-            expect(getUserPreferences()).not.toStrictEqual(empty);
-            expect(getUserPreferences()).toStrictEqual(defaultPreferences);
+            assert.notDeepStrictEqual(getUserPreferences(), empty);
+            assert.deepStrictEqual(getUserPreferences(), defaultPreferences);
         });
 
-        test('savePreferences()', () =>
+        it('savePreferences()', () =>
         {
             assert.notStrictEqual(savePreferences(testPreferences), undefined);
         });
 
-        test('getUserPreferences() to check that it saved', () =>
+        it('getUserPreferences() to check that it saved', () =>
         {
-            expect(getUserPreferences()).toStrictEqual(testPreferences);
+            assert.deepStrictEqual(getUserPreferences(), testPreferences);
             assert.notStrictEqual(savePreferences(defaultPreferences), undefined);
         });
     });
-
 });
-
