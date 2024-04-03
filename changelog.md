@@ -13,6 +13,7 @@
 -   Fix [#1042]: Removing extra space at bottom of workday waiver window
 -   Fix [#1044]: Introduce Content Security Policies to app's pages
 -   Fix [#1047]: Fixing test issues in CI
+-   Translation: Time to Leave is now available in Simplified Chinese (zh-CN)!
 
 <!--- End changes - Do not remove -->
 
@@ -26,6 +27,7 @@ Who built 3.0.1:
 -   araujoarthur0
 -   chase-west
 -   gsriram24
+-   nh1000
 -   ochan12
 -   pallasite99
 -   tupaschoal
