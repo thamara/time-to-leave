@@ -76,3 +76,8 @@ $(async() =>
     const preferences = await window.mainApi.getUserPreferencesPromise();
     setupCalendar(preferences);
 });
+
+
+
+
+
