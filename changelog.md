@@ -2,6 +2,7 @@
 
 <!--- Begin changes - Do not remove -->
 
+-   Change [#935]: Remove support for migrating from fixed into flexible database (introduced in 2.0.0)
 -   Enhancement [#1009]: Adding an animation to the workday waiver holidays table when the contents switch
 -   Enhancement [#646]: Title bar color now follows Windows mode (dark or light)
 -   Enhancement [#914]: Enable more formats to input time in preferences
