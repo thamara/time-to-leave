@@ -15,6 +15,7 @@
 -   Fix [#1047]: Fixing test issues in CI
 -   Fix [#1068]: Do not try to import empty array of values on database
 -   Fix [#1081]: No tooltip when the cursor hovers over tray icon
+-   Fix [#1086]: Missing tooltip on calendar navigation icons
 -   Translation [#1073]: Improved French (fr-fr) translation.
 -   Translation: Time to Leave is now available in Simplified Chinese (zh-CN)!
 
@@ -27,6 +28,7 @@ Who built 3.0.1:
 -   BamButz
 -   Karroteu
 -   SarahRemus
+-   annikabudean
 -   araujoarthur0
 -   chase-west
 -   gsriram24
