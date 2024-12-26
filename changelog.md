@@ -13,6 +13,7 @@
 -   Fix [#1042]: Removing extra space at bottom of workday waiver window
 -   Fix [#1044]: Introduce Content Security Policies to app's pages
 -   Fix [#1047]: Fixing test issues in CI
+-   Fix [#1068]: Do not try to import empty array of values on database
 -   Fix [#1081]: No tooltip when the cursor hovers over tray icon
 -   Translation [#1073]: Improved French (fr-fr) translation.
 -   Translation: Time to Leave is now available in Simplified Chinese (zh-CN)!
@@ -29,6 +30,7 @@ Who built 3.0.1:
 -   araujoarthur0
 -   chase-west
 -   gsriram24
+-   kenziebourn
 -   nh1000
 -   ochan12
 -   pallasite99
