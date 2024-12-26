@@ -28,7 +28,7 @@
         "tue": "יום שלישי",
         "wed": "יום רביעי"
     },
-    "$FlexibleDayCalendar": {
+    "$DayCalendar": {
         "add-entry": "Add entry",
         "current-day": "מעבר ליום הנוכחי",
         "day-total": "מאזן יומי",
@@ -43,7 +43,7 @@
         "waived-day": "יום שוויתרת עליו",
         "yes": "כן"
     },
-    "$FlexibleMonthCalendar": {
+    "$MonthCalendar": {
         "add-entry": "Add entry",
         "add-waiver-day": "הוספת ויתור ליום זה",
         "current-month": "עבור לחודש הנוכחי",
@@ -78,7 +78,6 @@
         "cut": "לגזור",
         "database-export": "יצוא מסד נתונים",
         "database-imported": "מסד נתונים יובא",
-        "database-migrated": "מסד נתונים הועבר",
         "database-was-exported": "אוקי, מסד נתונים מוצא.",
         "edit": "לערוף",
         "exit": "לצאת",
@@ -86,18 +85,12 @@
         "export-database": "יצא מסד נתונים",
         "export-db-to-file": "יצא מסד נתונים לקובץ",
         "failed-entries": "רשומות כושלות",
-        "failed-migrating": "מיגרציה נכשלה",
-        "fresh-start": "התחלה חדשה",
-        "fresh-start-confirm": "האם אתה בטוח שאתה רוצה התחלה חדשה?",
         "help": "עזרה",
         "import": "יבוא",
         "import-database": "יבא מסד נתונים",
         "import-db-from-file": "יבא מסד נתונים מקובץ",
         "import-successful": "יש! יבוא הצליח!",
         "menu": "תפריט",
-        "migrate": "מיגרציה",
-        "migrate-calendar-to-flexible": "העבר לוח שנה מקובע לגמיש",
-        "migration-successful": "יש! מיגרציה הצליחה!",
         "no-thanks": "לא, תודה",
         "ok": "אוקי",
         "paste": "הדבק",
@@ -106,10 +99,8 @@
         "punched-time": "זמן נוקב",
         "quit": "צא",
         "reload": "טען מחדש",
-        "report": "דווח",
         "select-all": "בחירת הכל",
         "send-feedback": "שליחת משוב",
-        "should-migrate-to-flexible": "אחת מהתכונות החדשות של של גרסה זו היא כמות רשומות גמישה ללוח השנה.\n\n תצוגה חדשה זאת משתמשת בפורמט מסד נתונים חדש. \n\n כדי להשתמש בו, אתה יכול לעביר את מסד הנתונים לפורמט החדש או להתחיל מחדש.",
         "show-app": "הצג יישומון",
         "something-went-wrong": "משהו לא תקין קרה :(",
         "toggle-dev-tools": "הפעל/בטל כלי מפתח",
@@ -132,7 +123,6 @@
         "dark": "חשוך",
         "day": "יום",
         "fixed": "תוקן",
-        "flexible": "גמיש",
         "fri": "יום שישי",
         "hideNonWorkingDay": "הסתר ימי מנוחה (תצוגת חודש)",
         "hours-per-day": "HH:mm",

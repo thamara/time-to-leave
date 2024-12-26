@@ -32,24 +32,24 @@ jest.mock('../../../renderer/i18n-translator.js', () => ({
 
 const languageData = {'language': 'en', 'data': {'dummy_string': 'dummy_string_translated'}};
 
-const flexibleStore = new Store({name: 'flexible-store'});
+const entryStore = new Store({name: 'flexible-store'});
 const waivedWorkdays = new Store({name: 'waived-workdays'});
 
-window.mainApi.getFlexibleStoreContents = () => { return new Promise((resolve) => { resolve(flexibleStore.store); }); };
+window.mainApi.getStoreContents = () => { return new Promise((resolve) => { resolve(entryStore.store); }); };
 window.mainApi.getWaiverStoreContents = () => { return new Promise((resolve) => resolve(waivedWorkdays.store)); };
-window.mainApi.setFlexibleStoreData = (key, contents) =>
+window.mainApi.setStoreData = (key, contents) =>
 {
     return new Promise((resolve) =>
     {
-        flexibleStore.set(key, contents);
+        entryStore.set(key, contents);
         resolve(true);
     });
 };
-window.mainApi.deleteFlexibleStoreData = (key) =>
+window.mainApi.deleteStoreData = (key) =>
 {
     return new Promise((resolve) =>
     {
-        flexibleStore.delete(key);
+        entryStore.delete(key);
         resolve(true);
     });
 };
@@ -61,16 +61,16 @@ window.mainApi.computeAllTimeBalanceUntilPromise = (targetDate) =>
     });
 };
 
-describe('FlexibleMonthCalendar class Tests', () =>
+describe('MonthCalendar class Tests', () =>
 {
     process.env.NODE_ENV = 'test';
 
-    flexibleStore.clear();
+    entryStore.clear();
     const regularEntries = {
         '2020-3-1': {'values': ['08:00', '12:00', '13:00', '17:00']},
         '2020-3-2': {'values': ['10:00', '18:00']}
     };
-    flexibleStore.set(regularEntries);
+    entryStore.set(regularEntries);
 
     waivedWorkdays.clear();
     const waivedEntries = {
@@ -89,22 +89,22 @@ describe('FlexibleMonthCalendar class Tests', () =>
         calendar = await CalendarFactory.getInstance(testPreferences, languageData);
     });
 
-    test('FlexibleMonthCalendar starts with today\'s date', () =>
+    test('MonthCalendar starts with today\'s date', () =>
     {
-        assert.strictEqual(calendar.constructor.name, 'FlexibleMonthCalendar');
+        assert.strictEqual(calendar.constructor.name, 'MonthCalendar');
         assert.strictEqual(calendar._getCalendarDate(), today.getDate());
         assert.strictEqual(calendar._getCalendarYear(), today.getFullYear());
         assert.strictEqual(calendar._getCalendarMonth(), today.getMonth());
     });
 
-    test('FlexibleMonthCalendar "today" methods return today\'s date', () =>
+    test('MonthCalendar "today" methods return today\'s date', () =>
     {
         assert.strictEqual(calendar._getTodayDate(), today.getDate());
         assert.strictEqual(calendar._getTodayYear(), today.getFullYear());
         assert.strictEqual(calendar._getTodayMonth(), today.getMonth());
     });
 
-    test('FlexibleMonthCalendar internal storage correct loading', () =>
+    test('MonthCalendar internal storage correct loading', () =>
     {
         expect(calendar._internalStore['2020-3-1']).toStrictEqual(regularEntries['2020-3-1']);
         expect(calendar._getStore('2020-3-1')).toStrictEqual(regularEntries['2020-3-1']['values']);
@@ -112,14 +112,14 @@ describe('FlexibleMonthCalendar class Tests', () =>
         expect(calendar._getStore('2010-3-1')).toStrictEqual([]);
 
         expect(Object.keys(calendar._internalStore).length).toStrictEqual(2);
-        expect(flexibleStore.size).toStrictEqual(2);
+        expect(entryStore.size).toStrictEqual(2);
 
         calendar._setStore('2010-3-1', ['05:00']);
         expect(calendar._internalStore['2010-3-1']).toStrictEqual({'values': ['05:00']});
         expect(calendar._getStore('2010-3-1')).toStrictEqual(['05:00']);
 
         expect(Object.keys(calendar._internalStore).length).toStrictEqual(3);
-        expect(flexibleStore.size).toStrictEqual(3);
+        expect(entryStore.size).toStrictEqual(3);
 
         calendar._removeStore('2010-3-1');
         assert.strictEqual(calendar._internalStore['2010-3-1'], undefined);
@@ -127,10 +127,10 @@ describe('FlexibleMonthCalendar class Tests', () =>
 
         // remove just sets the value as undefined in internal store, if it existed
         expect(Object.keys(calendar._internalStore).length).toStrictEqual(3);
-        expect(flexibleStore.size).toStrictEqual(2);
+        expect(entryStore.size).toStrictEqual(2);
     });
 
-    test('FlexibleMonthCalendar internal waiver storage correct loading', async() =>
+    test('MonthCalendar internal waiver storage correct loading', async() =>
     {
         // Waiver Store internally saves the human month index, but the calendar methods use JS month index
         expect(calendar._internalWaiverStore['2019-12-31']).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
@@ -157,7 +157,7 @@ describe('FlexibleMonthCalendar class Tests', () =>
         expect(calendar._getWaiverStore(2010, 11, 31)).toStrictEqual({ reason: 'New Year\'s eve', hours: '08:00' });
     });
 
-    test('FlexibleMonthCalendar Month Changes', () =>
+    test('MonthCalendar Month Changes', () =>
     {
         assert.strictEqual(calendar._getCalendarMonth(), today.getMonth());
         const expectedNextMonth = today.getMonth() + 1 === 12 ? 0 : (today.getMonth() + 1);
@@ -176,7 +176,7 @@ describe('FlexibleMonthCalendar class Tests', () =>
         assert.strictEqual(calendar._getCalendarMonth(), today.getMonth());
     });
 
-    test('FlexibleMonthCalendar Year Changes', () =>
+    test('MonthCalendar Year Changes', () =>
     {
         assert.strictEqual(calendar._getCalendarYear(), today.getFullYear());
         const expectedNextYear = today.getFullYear() + 1;
@@ -205,9 +205,9 @@ describe('FlexibleMonthCalendar class Tests', () =>
         assert.strictEqual(calendar._getCalendarYear(), today.getFullYear());
     });
 
-    describe('FlexibleMonthCalendar RefreshOnDayChange', () =>
+    describe('MonthCalendar RefreshOnDayChange', () =>
     {
-        test('FlexibleMonthCalendar refresh set correctly', () =>
+        test('MonthCalendar refresh set correctly', () =>
         {
             // Calendar is set as if someone was looking at previous month
             calendar._prevMonth();
@@ -221,7 +221,7 @@ describe('FlexibleMonthCalendar class Tests', () =>
             assert.strictEqual(calendar._getCalendarMonth(), today.getMonth());
         });
 
-        test('FlexibleMonthCalendar refresh set to another month', () =>
+        test('MonthCalendar refresh set to another month', () =>
         {
             // Calendar is set as if someone was looking at previous month
             calendar._prevMonth();
@@ -233,15 +233,15 @@ describe('FlexibleMonthCalendar class Tests', () =>
         });
     });
 
-    test('FlexibleDayCalendar to FlexibleMonthCalendar', async() =>
+    test('DayCalendar to MonthCalendar', async() =>
     {
         const testPreferences = defaultPreferences;
         testPreferences['view'] = 'day';
         let calendar = await CalendarFactory.getInstance(testPreferences, languageData);
-        assert.strictEqual(calendar.constructor.name, 'FlexibleDayCalendar');
+        assert.strictEqual(calendar.constructor.name, 'DayCalendar');
 
         testPreferences['view'] = 'month';
         calendar = await CalendarFactory.getInstance(testPreferences, languageData, calendar);
-        assert.strictEqual(calendar.constructor.name, 'FlexibleMonthCalendar');
+        assert.strictEqual(calendar.constructor.name, 'MonthCalendar');
     });
 });
