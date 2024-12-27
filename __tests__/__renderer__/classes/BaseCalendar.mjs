@@ -1,37 +1,38 @@
 'use strict';
 
-const assert = require('assert');
-import Store from 'electron-store';
-import { BaseCalendar } from '../../../renderer/classes/BaseCalendar.js';
-import { generateKey } from '../../../js/date-db-formatter.js';
-import { getUserPreferences, resetPreferences, savePreferences, switchCalendarView } from '../../../js/user-preferences.js';
-const timeBalance = require('../../../js/time-balance');
-import { calendarApi } from '../../../renderer/preload-scripts/calendar-api.js';
+import '../jquery.mjs';
 
-jest.mock('../../../js/time-math', () =>
-{
-    const originalModule = jest.requireActual('../../../js/time-math');
-    return {
-        __esModule: true,
-        ...originalModule,
-        isNegative: jest.fn()
-    };
-});
-const timeMath = require('../../../js/time-math');
-window.$ = require('jquery');
+import assert from 'assert';
+import { spy, stub } from 'sinon';
+import Store from 'electron-store';
+
+import { BaseCalendar } from '../../../renderer/classes/BaseCalendar.js';
+import { generateKey } from '../../../js/date-db-formatter.mjs';
+import {
+    getUserPreferences,
+    resetPreferences,
+    savePreferences,
+    switchCalendarView
+} from '../../../js/user-preferences.mjs';
+import { computeAllTimeBalanceUntilAsync, timeBalanceMock } from '../../../js/time-balance.mjs';
+import { calendarApi } from '../../../renderer/preload-scripts/calendar-api.mjs';
+
+import { timeMathMock } from '../../../js/time-math.mjs';
 
 // Mocked APIs from the preload script of the calendar window
 window.mainApi = calendarApi;
 
 window.mainApi.computeAllTimeBalanceUntilPromise = (targetDate) =>
 {
-    return timeBalance.computeAllTimeBalanceUntilAsync(targetDate);
+    return computeAllTimeBalanceUntilAsync(targetDate);
 };
 
 window.mainApi.switchView = () =>
 {
     switchCalendarView();
 };
+
+const $_backup = global.$;
 
 describe('BaseCalendar.js', () =>
 {
@@ -44,7 +45,7 @@ describe('BaseCalendar.js', () =>
     }
 
     /**
-     * @type {{[key: string]: jest.Mock}}
+     * @type {{[key: string]: sinon.spy|sinon.stub}}
      */
     const mocks = {};
     beforeEach(() =>
@@ -82,44 +83,44 @@ describe('BaseCalendar.js', () =>
 
     describe('constructor', () =>
     {
-        test('Should not build with default values', () =>
+        it('Should not build with default values', () =>
         {
             const preferences = {view: 'day'};
             const languageData = {hello: 'hola'};
             delete ExtendedClass.prototype._initCalendar;
             delete ExtendedClass.prototype._getTargetDayForAllTimeBalance;
-            expect(() => new ExtendedClass(preferences, languageData)).toThrow('Please implement this.');
+            assert.throws(() => new ExtendedClass(preferences, languageData), /Please implement this\.$/);
         });
 
-        test('Should not run _getTargetDayForAllTimeBalance with default values', () =>
+        it('Should not run _getTargetDayForAllTimeBalance with default values', () =>
         {
             const preferences = {view: 'day'};
             const languageData = {hello: 'hola'};
             delete ExtendedClass.prototype._getTargetDayForAllTimeBalance;
-            expect(() => new ExtendedClass(preferences, languageData)._getTargetDayForAllTimeBalance()).toThrow('Please implement this.');
+            assert.throws(() => new ExtendedClass(preferences, languageData)._getTargetDayForAllTimeBalance(), /Please implement this\.$/);
         });
 
-        test('Should build with default values', async(done) =>
+        it('Should build with default values', async(done) =>
         {
             ExtendedClass.prototype._initCalendar = () => { done(); };
             const preferences = {view: 'day'};
             const languageData = {hello: 'hola'};
             const calendar = new ExtendedClass(preferences, languageData);
             assert.strictEqual(calendar._calendarDate instanceof Date, true);
-            expect(calendar._languageData).toEqual(languageData);
-            expect(calendar._preferences).toEqual(preferences);
+            assert.strictEqual(calendar._languageData, languageData);
+            assert.strictEqual(calendar._preferences, preferences);
 
             // These no longer get set in the constructor
-            expect(calendar._internalStore).toEqual(undefined);
-            expect(calendar._internalWaiverStore).toEqual(undefined);
+            assert.strictEqual(calendar._internalStore, undefined);
+            assert.strictEqual(calendar._internalWaiverStore, undefined);
 
             // But are set after awaiting for initialization
             await calendar.initializeStores();
-            expect(calendar._internalStore).toEqual({});
-            expect(calendar._internalWaiverStore).toEqual({});
+            assert.strictEqual(calendar._internalStore, {});
+            assert.strictEqual(calendar._internalWaiverStore, {});
         });
 
-        test('Should build with default internal store values', async(done) =>
+        it('Should build with default internal store values', async(done) =>
         {
             ExtendedClass.prototype._initCalendar = () => { done(); };
             const calendarStore = new Store({name: 'flexible-store'});
@@ -135,19 +136,19 @@ describe('BaseCalendar.js', () =>
             const languageData = {hello: 'hola'};
             const calendar = new ExtendedClass(preferences, languageData);
             assert.strictEqual(calendar._calendarDate instanceof Date, true);
-            expect(calendar._languageData).toEqual(languageData);
-            expect(calendar._preferences).toEqual(preferences);
+            assert.strictEqual(calendar._languageData, languageData);
+            assert.strictEqual(calendar._preferences, preferences);
 
             // These no longer get set in the constructor
-            expect(calendar._internalStore).toEqual(undefined);
-            expect(calendar._internalWaiverStore).toEqual(undefined);
+            assert.strictEqual(calendar._internalStore, undefined);
+            assert.strictEqual(calendar._internalWaiverStore, undefined);
 
             // But are set after awaiting for initialization
             await calendar.initializeStores();
-            expect(calendar._internalStore).toEqual({
+            assert.strictEqual(calendar._internalStore, {
                 flexible: 'store'
             });
-            expect(calendar._internalWaiverStore).toEqual({
+            assert.strictEqual(calendar._internalWaiverStore, {
                 '2022-01-01': {
                     reason: 'dismiss',
                     hours: '10:00'
@@ -158,151 +159,151 @@ describe('BaseCalendar.js', () =>
 
     describe('_updateAllTimeBalance', () =>
     {
-        test('Should not update value because of no implementation', () =>
+        it('Should not update value because of no implementation', () =>
         {
             delete ExtendedClass.prototype._getTargetDayForAllTimeBalance;
-            mocks.compute = jest.spyOn(timeBalance, 'computeAllTimeBalanceUntilAsync').mockImplementation(() => Promise.resolve());
+            timeBalanceMock.mock('computeAllTimeBalanceUntilAsync', stub().resolves());
             const preferences = {view: 'day'};
             const languageData = {hello: 'hola'};
             const calendar = new ExtendedClass(preferences, languageData);
-            expect(() => calendar._updateAllTimeBalance()).toThrow('Please implement this.');
-            expect(mocks.compute).toHaveBeenCalledTimes(0);
+            assert.throws(() => calendar._updateAllTimeBalance(), /Please implement this\.$/);
+            assert.strictEqual(timeBalanceMock.getMock('computeAllTimeBalanceUntilAsync').notCalled, true);
         });
 
-        test('Should not update value because of rejection', async(done) =>
+        it('Should not update value because of rejection', () =>
         {
-            mocks.consoleLog = jest.spyOn(console, 'log').mockImplementation();
-            mocks.compute = jest.spyOn(timeBalance, 'computeAllTimeBalanceUntilAsync').mockImplementation(() => Promise.reject());
+            stub(console, 'log');
+            timeBalanceMock.mock('computeAllTimeBalanceUntilAsync', stub().rejects('Error'));
             const preferences = {view: 'day'};
             const languageData = {hello: 'hola'};
             const calendar = new ExtendedClass(preferences, languageData);
             calendar._updateAllTimeBalance();
-            expect(mocks.compute).toHaveBeenCalledTimes(1);
+            assert.strictEqual(timeBalanceMock.getMock('computeAllTimeBalanceUntilAsync').calledOnce, true);
 
-            // When the rejection happens, we call console.log, but it'll be undefined here
+            // When the rejection happens, we call console.log with the error value
             setTimeout(() =>
             {
-                expect(mocks.consoleLog).toHaveBeenCalledWith(undefined);
-                done();
-            }, 500);
+                assert.strictEqual(console.log.calledOnce, true);
+                console.log.restore();
+            }, 100);
         });
 
-        test('Should not update value because no overall-balance element', () =>
+        it('Should not update value because no overall-balance element', () =>
         {
-            window.$ = () => false;
-            mocks.compute = jest.spyOn(timeBalance, 'computeAllTimeBalanceUntilAsync').mockResolvedValue('2022-02-31');
-            mocks.isNegative = jest.spyOn(timeMath, 'isNegative').mockImplementation(() => true);
+            global.$ = () => false;
+            timeBalanceMock.mock('computeAllTimeBalanceUntilAsync', stub().resolves('2022-02-31'));
+            timeMathMock.mock('isNegative', stub().returns(true));
             const preferences = {view: 'day'};
             const languageData = {hello: 'hola'};
             const calendar = new ExtendedClass(preferences, languageData);
             calendar._updateAllTimeBalance();
-            expect(mocks.isNegative).toHaveBeenCalledTimes(0);
-            expect(mocks.compute).toHaveBeenCalledTimes(1);
+            assert.strictEqual(timeMathMock.getMock('isNegative').notCalled, true);
+            assert.strictEqual(timeBalanceMock.getMock('computeAllTimeBalanceUntilAsync').calledOnce, true);
         });
 
-        test('Should update value with text-danger class', (done) =>
+        it('Should update value with text-danger class', (done) =>
         {
             $('body').append('<span id="overall-balance" value="12:12">12:12</span>');
             $('#overall-balance').val('12:12');
-            mocks.compute = jest.spyOn(timeBalance, 'computeAllTimeBalanceUntilAsync').mockResolvedValue('2022-02-31');
-            mocks.isNegative = jest.spyOn(timeMath, 'isNegative').mockImplementation(() => true);
+            timeBalanceMock.mock('computeAllTimeBalanceUntilAsync', stub().resolves('2022-02-31'));
+            timeMathMock.mock('isNegative', stub().returns(true));
             const preferences = {view: 'day'};
             const languageData = {hello: 'hola'};
             const calendar = new ExtendedClass(preferences, languageData);
             calendar._updateAllTimeBalance();
             setTimeout(() =>
             {
-                expect(mocks.compute).toHaveBeenCalledTimes(1);
+                assert.strictEqual(timeBalanceMock.getMock('computeAllTimeBalanceUntilAsync').calledOnce, true);
                 assert.strictEqual($('#overall-balance').val(), '2022-02-31');
                 assert.strictEqual($('#overall-balance').hasClass('text-danger'), true);
                 assert.strictEqual($('#overall-balance').hasClass('text-success'), false);
                 done();
-            }, 500);
+            }, 50);
         });
 
-        test('Should update value with text-success class', (done) =>
+        it('Should update value with text-success class', (done) =>
         {
             $('body').append('<span class="text-success text-danger" id="overall-balance" value="12:12">12:12</span>');
             $('#overall-balance').val('12:12');
-            mocks.compute = jest.spyOn(timeBalance, 'computeAllTimeBalanceUntilAsync').mockResolvedValue('2022-02-31');
-            mocks.isNegative = jest.spyOn(timeMath, 'isNegative').mockImplementation(() => false);
+            timeBalanceMock.mock('computeAllTimeBalanceUntilAsync', stub().resolves('2022-02-31'));
+            timeMathMock.mock('isNegative', stub().returns(false));
             const preferences = {view: 'day'};
             const languageData = {hello: 'hola'};
             const calendar = new ExtendedClass(preferences, languageData);
             calendar._updateAllTimeBalance();
             setTimeout(() =>
             {
-                expect(mocks.compute).toHaveBeenCalledTimes(1);
+                assert.strictEqual(timeBalanceMock.getMock('computeAllTimeBalanceUntilAsync').calledOnce, true);
                 assert.strictEqual($('#overall-balance').val(), '2022-02-31');
                 assert.strictEqual($('#overall-balance').hasClass('text-danger'), false);
                 assert.strictEqual($('#overall-balance').hasClass('text-success'), true);
                 done();
-            }, 500);
+            }, 50);
         });
 
     });
 
     describe('_addTodayEntries', () =>
     {
-        test('Should throw error', () =>
+        it('Should throw error', () =>
         {
-            expect(() => new ExtendedClass({}, {})._addTodayEntries()).toThrow('Please implement this.');
+            assert.throws(() => new ExtendedClass({}, {})._addTodayEntries(), /Please implement this\.$/);
         });
     });
 
     describe('refreshOnDayChange', () =>
     {
-        test('Should throw error', () =>
+        it('Should throw error', () =>
         {
-            expect(() => new ExtendedClass({}, {}).refreshOnDayChange()).toThrow('Please implement this.');
+            assert.throws(() => new ExtendedClass({}, {}).refreshOnDayChange(), /Please implement this\.$/);
         });
     });
 
     describe('_getEnablePrefillBreakTime', () =>
     {
-        test('Should return preferences value', () =>
+        it('Should return preferences value', () =>
         {
             const preferences = getUserPreferences();
-            expect(new ExtendedClass(preferences, {})._getEnablePrefillBreakTime()).toEqual(preferences['enable-prefill-break-time']);
+            assert.strictEqual(new ExtendedClass(preferences, {})._getEnablePrefillBreakTime(), preferences['enable-prefill-break-time']);
         });
     });
 
     describe('_getBreakTimeInterval', () =>
     {
-        test('Should return preferences value', () =>
+        it('Should return preferences value', () =>
         {
             const preferences = getUserPreferences();
-            expect(new ExtendedClass(preferences, {})._getBreakTimeInterval()).toEqual(preferences['break-time-interval']);
+            assert.strictEqual(new ExtendedClass(preferences, {})._getBreakTimeInterval(), preferences['break-time-interval']);
         });
     });
 
     describe('_validateTimes()', () =>
     {
-        test('Shold return empty array', () =>
+        it('Shold return empty array', () =>
         {
             const preferences = {view: 'day'};
             const languageData = {hello: 'hola'};
             const calendar = new ExtendedClass(preferences, languageData);
             const validatedTimes = calendar._validateTimes([]);
-            expect(validatedTimes).toEqual([]);
+            assert.deepStrictEqual(validatedTimes, []);
         });
 
-        test('Should not remove invalid endings', () =>
+        it('Should not remove invalid endings', () =>
         {
             const preferences = {view: 'day'};
             const languageData = {hello: 'hola'};
             const calendar = new ExtendedClass(preferences, languageData);
             const validatedTimes = calendar._validateTimes(['10:00', '25:83']);
-            expect(validatedTimes).toEqual(['10:00', '--:--']);
+            assert.deepStrictEqual(validatedTimes, ['10:00', '--:--']);
         });
 
-        test('Should remove invalid endings', () =>
+        it('Should remove invalid endings', () =>
         {
             const preferences = {view: 'day'};
             const languageData = {hello: 'hola'};
             const calendar = new ExtendedClass(preferences, languageData);
             const validatedTimes = calendar._validateTimes(['10:00', '25:83'], true);
-            expect(validatedTimes).toEqual(['10:00']);
+            assert.deepStrictEqual(validatedTimes, ['10:00']);
         });
     });
 
@@ -314,14 +315,14 @@ describe('BaseCalendar.js', () =>
         ];
         for (const t of tests)
         {
-            test(`Should change calendar view: ${t.view}`, () =>
+            it(`Should change calendar view: ${t.view}`, () =>
             {
                 savePreferences({...getUserPreferences(), view: t.view});
                 const languageData = {hello: 'hola'};
                 const calendar = new ExtendedClass(getUserPreferences(), languageData);
                 calendar._switchView();
                 const updatedPreferences = getUserPreferences();
-                expect(updatedPreferences.view).toEqual(t.result);
+                assert.strictEqual(updatedPreferences.view, t.result);
             });
         }
     });
@@ -343,44 +344,44 @@ describe('BaseCalendar.js', () =>
                 date: nextYear,
                 setup: () =>
                 {
-                    mocks._areAllInputsFilled = jest.spyOn(ExtendedClass.prototype, '_areAllInputsFilled');
+                    mocks._areAllInputsFilled = spy(ExtendedClass.prototype, '_areAllInputsFilled');
                 },
                 getCalendar: () => new ExtendedClass(getUserPreferences(), languageData),
                 expect: () =>
                 {
-                    expect(mocks._areAllInputsFilled).toHaveBeenCalledTimes(0);
+                    assert.strictEqual(mocks._areAllInputsFilled.notCalled, true);
                 }
             },
             {   it: 'Should fail on checking  month',
                 date: nextMonth,
                 setup: () =>
                 {
-                    mocks._areAllInputsFilled = jest.spyOn(ExtendedClass.prototype, '_areAllInputsFilled');
+                    mocks._areAllInputsFilled = spy(ExtendedClass.prototype, '_areAllInputsFilled');
                 },
                 getCalendar: () => new ExtendedClass(getUserPreferences(), languageData),
                 expect: () =>
                 {
-                    expect(mocks._areAllInputsFilled).toHaveBeenCalledTimes(0);
+                    assert.strictEqual(mocks._areAllInputsFilled.notCalled, true);
                 }
             },
             {   it: 'Should fail on checking day',
                 date: nextMonth,
                 setup: () =>
                 {
-                    mocks._areAllInputsFilled = jest.spyOn(ExtendedClass.prototype, '_areAllInputsFilled');
+                    mocks._areAllInputsFilled = spy(ExtendedClass.prototype, '_areAllInputsFilled');
                 },
                 getCalendar: () => new ExtendedClass(getUserPreferences(), languageData),
                 expect: () =>
                 {
-                    expect(mocks._areAllInputsFilled).toHaveBeenCalledTimes(0);
+                    assert.strictEqual(mocks._areAllInputsFilled.notCalled, true);
                 }
             },
             {   it: 'Should not punch date',
                 setup: () =>
                 {
-                    mocks._areAllInputsFilled = jest.spyOn(ExtendedClass.prototype, '_areAllInputsFilled');
-                    mocks._updateTimeDayCallback = jest.spyOn(ExtendedClass.prototype, '_updateTimeDayCallback');
-                    mocks._addTodayEntries = jest.spyOn(ExtendedClass.prototype, '_addTodayEntries').mockImplementation(() => {});
+                    mocks._areAllInputsFilled = spy(ExtendedClass.prototype, '_areAllInputsFilled');
+                    mocks._updateTimeDayCallback = spy(ExtendedClass.prototype, '_updateTimeDayCallback');
+                    mocks._addTodayEntries = stub(ExtendedClass.prototype, '_addTodayEntries').returns({});
                 },
                 date: new Date(),
                 getCalendar: () =>
@@ -391,9 +392,9 @@ describe('BaseCalendar.js', () =>
                 },
                 expect: () =>
                 {
-                    expect(mocks._areAllInputsFilled).toHaveBeenCalledTimes(1);
-                    expect(mocks._addTodayEntries).toHaveBeenCalledTimes(1);
-                    expect(mocks._updateTimeDayCallback).toHaveBeenCalledTimes(0);
+                    assert.strictEqual(mocks._areAllInputsFilled.calledOnce, true);
+                    assert.strictEqual(mocks._addTodayEntries.calledOnce, true);
+                    assert.strictEqual(mocks._updateTimeDayCallback.notCalled, true);
                 }
             },
             {   it: 'Should punch date',
@@ -404,12 +405,12 @@ describe('BaseCalendar.js', () =>
                     ExtendedClass.prototype._updateBalance = () => {};
                     const newDate = new Date();
                     const key = generateKey(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
-                    mocks._areAllInputsFilled = jest.spyOn(ExtendedClass.prototype, '_areAllInputsFilled');
-                    mocks._updateTimeDayCallback = jest.spyOn(ExtendedClass.prototype, '_updateTimeDayCallback');
-                    mocks._updateTimeDay = jest.spyOn(ExtendedClass.prototype, '_updateTimeDay');
-                    mocks._updateLeaveBy = jest.spyOn(ExtendedClass.prototype, '_updateLeaveBy');
-                    mocks._updateBalance = jest.spyOn(ExtendedClass.prototype, '_updateBalance');
-                    mocks._addTodayEntries = jest.spyOn(ExtendedClass.prototype, '_addTodayEntries').mockImplementation(() => {});
+                    mocks._areAllInputsFilled = spy(ExtendedClass.prototype, '_areAllInputsFilled');
+                    mocks._updateTimeDayCallback = spy(ExtendedClass.prototype, '_updateTimeDayCallback');
+                    mocks._updateTimeDay = spy(ExtendedClass.prototype, '_updateTimeDay');
+                    mocks._updateLeaveBy = spy(ExtendedClass.prototype, '_updateLeaveBy');
+                    mocks._updateBalance = spy(ExtendedClass.prototype, '_updateBalance');
+                    mocks._addTodayEntries = stub(ExtendedClass.prototype, '_addTodayEntries').returns({});
                     $('body').append(`<div id="${key}" ></div>`);
                     $(`#${key}`).append('<input type="time" value="" />');
                 },
@@ -422,12 +423,12 @@ describe('BaseCalendar.js', () =>
                 },
                 expect: () =>
                 {
-                    expect(mocks._areAllInputsFilled).toHaveBeenCalledTimes(1);
-                    expect(mocks._addTodayEntries).toHaveBeenCalledTimes(0);
-                    expect(mocks._updateTimeDayCallback).toHaveBeenCalledTimes(1);
-                    expect(mocks._updateTimeDay).toHaveBeenCalledTimes(1);
-                    expect(mocks._updateLeaveBy).toHaveBeenCalledTimes(1);
-                    expect(mocks._updateBalance).toHaveBeenCalledTimes(1);
+                    assert.strictEqual(mocks._areAllInputsFilled.calledOnce, true);
+                    assert.strictEqual(mocks._addTodayEntries.notCalled, true);
+                    assert.strictEqual(mocks._updateTimeDayCallback.calledOnce, true);
+                    assert.strictEqual(mocks._updateTimeDay.calledOnce, true);
+                    assert.strictEqual(mocks._updateLeaveBy.calledOnce, true);
+                    assert.strictEqual(mocks._updateBalance.calledOnce, true);
                     const newDate = new Date();
                     const key = generateKey(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
                     $(`#${key}`).remove();
@@ -436,7 +437,7 @@ describe('BaseCalendar.js', () =>
         ];
         for (const t of tests)
         {
-            test(t.it, () =>
+            it(t.it, () =>
             {
                 t.setup();
                 const calendar = t.getCalendar();
@@ -449,7 +450,7 @@ describe('BaseCalendar.js', () =>
 
     describe('_updateDayTotal()', () =>
     {
-        test('Should not update when day has not ended', async() =>
+        it('Should not update when day has not ended', async() =>
         {
             const newDate = new Date();
             const key = generateKey(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
@@ -463,7 +464,7 @@ describe('BaseCalendar.js', () =>
             assert.strictEqual(dayTotalSpan.text(), '');
         });
 
-        test('Should update when day has ended', async() =>
+        it('Should update when day has ended', async() =>
         {
             const calendarStore = new Store({name: 'flexible-store'});
             const newDate = new Date();
@@ -488,9 +489,11 @@ describe('BaseCalendar.js', () =>
     {
         for (const mock of Object.values(mocks))
         {
-            mock.mockRestore();
+            mock.restore();
         }
-        window.$ = require('jquery');
+        timeBalanceMock.restoreAll();
+        timeMathMock.restoreAll();
+        global.$ = $_backup;
         $('#overall-balance').remove();
         resetPreferences();
     });

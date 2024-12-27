@@ -1,5 +1,7 @@
 'use strict';
 
+import { MockClass } from '../__mocks__/Mock.mjs';
+
 /**
  * Formats hour, min into string HH:MM
  */
@@ -15,7 +17,7 @@ function hourMinToHourFormatted(hours, minutes)
 /**
  * Determines if a time string holds a negative value
  */
-function isNegative(str)
+function _isNegative(str)
 {
     return str[0] === '-';
 }
@@ -146,11 +148,15 @@ function validateDate(date)
     return false;
 }
 
+// Enable mocking for some methods, export the mocked versions
+const mocks = {'isNegative': _isNegative};
+export const isNegative = (str) => mocks['isNegative'](str);
+export const timeMathMock = new MockClass(mocks);
+
 export {
     diffDays,
     hourMinToHourFormatted,
     hourToMinutes,
-    isNegative,
     minutesToHourFormatted,
     multiplyTime,
     subtractTime,

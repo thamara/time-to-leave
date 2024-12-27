@@ -5,6 +5,7 @@ import Store from 'electron-store';
 import { getDateStr } from './date-aux.mjs';
 import { subtractTime, sumTime } from './time-math.mjs';
 import { getUserPreferences, showDay } from './user-preferences.mjs';
+import { MockClass } from '../__mocks__/Mock.mjs';
 
 // Global values for calendar
 const calendarStore = new Store({ name: 'flexible-store' });
@@ -190,7 +191,7 @@ async function computeAllTimeBalanceUntil(limitDate)
 * Computes all time balance using an async promise.
 * @param {Date} limitDate
 */
-async function computeAllTimeBalanceUntilAsync(limitDate)
+async function _computeAllTimeBalanceUntilAsync(limitDate)
 {
     return new Promise(resolve =>
     {
@@ -201,8 +202,12 @@ async function computeAllTimeBalanceUntilAsync(limitDate)
     });
 }
 
+// Enable mocking for some methods, export the mocked versions
+const mocks = {'computeAllTimeBalanceUntilAsync': _computeAllTimeBalanceUntilAsync};
+export const computeAllTimeBalanceUntilAsync = (limitDate) => mocks['computeAllTimeBalanceUntilAsync'](limitDate);
+export const timeBalanceMock = new MockClass(mocks);
+
 export {
     computeAllTimeBalanceUntil,
-    computeAllTimeBalanceUntilAsync,
     getFirstInputInDb,
 };
