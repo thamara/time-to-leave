@@ -16,21 +16,6 @@ import {
     savePreferences,
 } from '../../js/user-preferences.mjs';
 import { preferencesApi } from '../../renderer/preload-scripts/preferences-api.mjs';
-import {
-    convertTimeFormat,
-    listenerLanguage,
-    populateLanguages,
-    refreshContent,
-    renderPreferencesWindow,
-} from '../../src/preferences.js';
-
-// APIs from the preload script of the preferences window
-window.mainApi = preferencesApi;
-// Mocking with the actual access that main would have
-window.mainApi.getUserPreferencesPromise = () => { return new Promise((resolve) => resolve(getUserPreferences())); };
-
-// Stub method
-window.mainApi.notifyNewPreferences = () => {};
 
 const isCheckBox = true;
 const weekdays = [
@@ -95,13 +80,34 @@ const testPreferences = Object.assign({}, defaultPreferences);
 
 describe('Test Preferences Window', () =>
 {
-    process.env.NODE_ENV = 'test';
-    resetPreferenceFile();
+    before(() =>
+    {
+        // APIs from the preload script of the preferences window
+        window.mainApi = preferencesApi;
+
+        // Mocking with the actual access that main would have
+        window.mainApi.getUserPreferencesPromise = () => { return new Promise((resolve) => resolve(getUserPreferences())); };
+
+        // Stub methods
+        window.mainApi.notifyNewPreferences = () => {};
+        window.mainApi.getLanguageDatePromise = () => {};
+
+        resetPreferenceFile();
+    });
 
     describe('Changing values of items in window', () =>
     {
         beforeEach(async() =>
         {
+            // Using dynamic imports because when the file is imported a $() callback is triggered and
+            // methods must be mocked before-hand
+            const {
+                listenerLanguage,
+                populateLanguages,
+                refreshContent,
+                renderPreferencesWindow,
+            } = await import('../../src/preferences.js');
+
             await prepareMockup();
             await refreshContent();
             renderPreferencesWindow();
@@ -223,6 +229,12 @@ describe('Test Preferences Window', () =>
 
     describe('Check if configure hours per day conversion function', () =>
     {
+        let convertTimeFormat;
+        before(async() =>
+        {
+            convertTimeFormat = (await import('../../src/preferences.js')).convertTimeFormat;
+        });
+
         it('should convert single digit hour to HH:MM format', () =>
         {
             assert.strictEqual(convertTimeFormat('6'), '06:00');

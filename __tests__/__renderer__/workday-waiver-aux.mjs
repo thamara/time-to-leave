@@ -5,17 +5,20 @@ import assert from 'assert';
 
 import { formatDayId, displayWaiverWindow } from '../../renderer/workday-waiver-aux.js';
 
-// Mocking call
-// TODO: find a better way to mock this or even really test it
-global.window = {
-    mainApi: {
-        displayWaiverWindow: () => {}
-    }
-};
+const window_backup = global.window;
 
 describe('Workday Waiver Aux', function()
 {
-    process.env.NODE_ENV = 'test';
+    before(() =>
+    {
+        // Mocking call
+        // TODO: find a better way to mock this or even really test it
+        global.window = {
+            mainApi: {
+                displayWaiverWindow: () => {}
+            }
+        };
+    });
 
     const validJSDay = '2020-03-10';
     const validJSDay2 = '2020-00-10';
@@ -46,6 +49,11 @@ describe('Workday Waiver Aux', function()
             await displayWaiverWindow(garbageString);
             await displayWaiverWindow(incompleteDate);
         });
+    });
+
+    after(() =>
+    {
+        global.window = window_backup;
     });
 
     // TODO: Come up with a way to test displayWaiverWindow's opening of a window

@@ -10,27 +10,6 @@ import sinon from 'sinon';
 import path from 'path';
 
 import { rootDir } from '../../js/app-config.mjs';
-import {
-    addWaiver,
-    populateList,
-    setDates,
-    setHours,
-    toggleAddButton,
-    deleteEntryOnClick,
-    populateCountry,
-    populateState,
-    populateCity,
-    populateYear,
-    getHolidays,
-    iterateOnHolidays,
-    addHolidayToList,
-    clearTable,
-    clearHolidayTable,
-    clearWaiverList,
-    loadHolidaysTable,
-    initializeHolidayInfo,
-    refreshDataForTest
-} from '../../src/workday-waiver.js';
 import { workdayWaiverApi } from '../../renderer/preload-scripts/workday-waiver-api.mjs';
 import {
     getAllHolidays,
@@ -52,93 +31,35 @@ const Holidays = require('date-holidays');
 import { i18nTranslatorMock } from '../../renderer/i18n-translator.js';
 i18nTranslatorMock.mock('translatePage', sinon.stub().returnsThis());
 i18nTranslatorMock.mock('getTranslationInLanguageData', sinon.stub().returnsThis());
-// jest.mock('../../renderer/i18n-translator.js', () => ({
-//     translatePage: jest.fn().mockReturnThis(),
-//     getTranslationInLanguageData: jest.fn().mockReturnThis()
-// }));
 
 const waiverStore = new Store({name: 'waived-workdays'});
-
-// APIs from the preload script of the workday waiver window
-window.mainApi = workdayWaiverApi;
-
-// Mocking with the actual access to store that main would have
-window.mainApi.getWaiverStoreContents = () => { return new Promise((resolve) => resolve(waiverStore.store)); };
-window.mainApi.setWaiver = (key, contents) =>
-{
-    return new Promise((resolve) =>
-    {
-        waiverStore.set(key, contents);
-        resolve(true);
-    });
-};
-window.mainApi.hasWaiver = (key) => { return new Promise((resolve) => resolve(waiverStore.has(key))); };
-window.mainApi.deleteWaiver = (key) =>
-{
-    return new Promise((resolve) =>
-    {
-        waiverStore.delete(key);
-        resolve(true);
-    });
-};
-
-window.mainApi.getHolidays = (country, state, city, year) =>
-{
-    return new Promise((resolve) =>
-    {
-        resolve(getAllHolidays(country, state, city, year));
-    });
-};
-
-window.mainApi.getCountries = () =>
-{
-    return new Promise((resolve) =>
-    {
-        resolve(getCountries());
-    });
-};
-
-window.mainApi.getStates = (country) =>
-{
-    return new Promise((resolve) =>
-    {
-        resolve(getStates(country));
-    });
-};
-
-window.mainApi.getRegions = (country, state) =>
-{
-    return new Promise((resolve) =>
-    {
-        resolve(getRegions(country, state));
-    });
-};
-
-window.mainApi.showDialogSync = () =>
-{
-    return new Promise((resolve) =>
-    {
-        resolve({ response: 0 });
-    });
-};
-
-window.mainApi.getUserPreferences = () =>
-{
-    const preferencesFilePathPromise = new Promise((resolve) =>
-    {
-        const userDataPath = app.getPath('userData');
-        resolve(path.join(userDataPath, 'preferences.json'));
-    });
-    return getUserPreferencesPromise(preferencesFilePathPromise);
-};
-
-window.mainApi.showAlert = () => {};
 
 const document = window.document;
 
 const languageData = {'language': 'en', 'data': {'dummy_string': 'dummy_string_translated'}};
 
 let htmlDoc = undefined;
+
+// Functions from workday-waiver.js that will be imported dynamically
+let addWaiver;
+let populateList;
+let setDates;
+let setHours;
+let toggleAddButton;
+let deleteEntryOnClick;
+let populateCountry;
+let populateState;
+let populateCity;
+let populateYear;
+let getHolidays;
+let iterateOnHolidays;
+let addHolidayToList;
+let clearTable;
+let clearHolidayTable;
+let clearWaiverList;
+let loadHolidaysTable;
+let initializeHolidayInfo;
+let refreshDataForTest;
 
 async function prepareMockup()
 {
@@ -168,12 +89,108 @@ async function testWaiverCount(expected)
     assert.strictEqual($('#waiver-list-table tbody')[0].rows.length, expected);
 }
 
-// jest.mock('../../js/window-aux.cjs');
-
 describe('Test Workday Waiver Window', function()
 {
-    before(() =>
+    before(async() =>
     {
+        // Using dynamic imports because when the file is imported a $() callback is triggered and
+        // methods must be mocked before-hand
+        const file = await import('../../src/workday-waiver.js');
+        addWaiver = file.addWaiver;
+        populateList = file.populateList;
+        setDates = file.setDates;
+        setHours = file.setHours;
+        toggleAddButton = file.toggleAddButton;
+        deleteEntryOnClick = file.deleteEntryOnClick;
+        populateCountry = file.populateCountry;
+        populateState = file.populateState;
+        populateCity = file.populateCity;
+        populateYear = file.populateYear;
+        getHolidays = file.getHolidays;
+        iterateOnHolidays = file.iterateOnHolidays;
+        addHolidayToList = file.addHolidayToList;
+        clearTable = file.clearTable;
+        clearHolidayTable = file.clearHolidayTable;
+        clearWaiverList = file.clearWaiverList;
+        loadHolidaysTable = file.loadHolidaysTable;
+        initializeHolidayInfo = file.initializeHolidayInfo;
+        refreshDataForTest = file.refreshDataForTest;
+
+        // APIs from the preload script of the workday waiver window
+        global.window.mainApi = workdayWaiverApi;
+
+        // Mocking with the actual access to store that main would have
+        window.mainApi.getWaiverStoreContents = () => { return new Promise((resolve) => resolve(waiverStore.store)); };
+        window.mainApi.setWaiver = (key, contents) =>
+        {
+            return new Promise((resolve) =>
+            {
+                waiverStore.set(key, contents);
+                resolve(true);
+            });
+        };
+        window.mainApi.hasWaiver = (key) => { return new Promise((resolve) => resolve(waiverStore.has(key))); };
+        window.mainApi.deleteWaiver = (key) =>
+        {
+            return new Promise((resolve) =>
+            {
+                waiverStore.delete(key);
+                resolve(true);
+            });
+        };
+
+        window.mainApi.getHolidays = (country, state, city, year) =>
+        {
+            return new Promise((resolve) =>
+            {
+                resolve(getAllHolidays(country, state, city, year));
+            });
+        };
+
+        window.mainApi.getCountries = () =>
+        {
+            return new Promise((resolve) =>
+            {
+                resolve(getCountries());
+            });
+        };
+
+        window.mainApi.getStates = (country) =>
+        {
+            return new Promise((resolve) =>
+            {
+                resolve(getStates(country));
+            });
+        };
+
+        window.mainApi.getRegions = (country, state) =>
+        {
+            return new Promise((resolve) =>
+            {
+                resolve(getRegions(country, state));
+            });
+        };
+
+        window.mainApi.showDialogSync = () =>
+        {
+            return new Promise((resolve) =>
+            {
+                resolve({ response: 0 });
+            });
+        };
+
+        window.mainApi.getUserPreferences = () =>
+        {
+            const preferencesFilePathPromise = new Promise((resolve) =>
+            {
+                const userDataPath = app.getPath('userData');
+                resolve(path.join(userDataPath, 'preferences.json'));
+            });
+            return getUserPreferencesPromise(preferencesFilePathPromise);
+        };
+
+        window.mainApi.showAlert = () => {};
+
         // Making sure the preferences are the default so the tests work as expected
         savePreferences(defaultPreferences);
     });

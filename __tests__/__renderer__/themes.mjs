@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 'use strict';
 
+import './jquery.mjs';
+
 import assert from 'assert';
 import { stub } from 'sinon';
 
@@ -9,12 +11,17 @@ import {
     isValidTheme
 } from '../../renderer/themes.js';
 
-// Stub $ and window.matchMedia for applyTheme()
-global.$ = stub().returns({'attr': stub()});
-global.window = { matchMedia: stub().returns({matches: true}) };
+const $_backup = global.$;
 
 describe('Theme Functions', function()
 {
+    before(() =>
+    {
+        // Stub $ and window.matchMedia for applyTheme()
+        global.$ = stub().returns({'attr': stub()});
+        stub(global.window, 'matchMedia').returns({matches: true});
+    });
+
     describe('isValidTheme()', function()
     {
         it('should validate', () =>
@@ -62,5 +69,11 @@ describe('Theme Functions', function()
             assert.strictEqual(global.window.matchMedia.callCount, 0);
             assert.strictEqual(global.$.callCount, 0);
         });
+    });
+
+    after(() =>
+    {
+        global.$ = $_backup;
+        window.matchMedia.restore();
     });
 });
