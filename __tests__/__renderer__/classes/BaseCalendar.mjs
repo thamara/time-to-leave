@@ -1,6 +1,6 @@
 'use strict';
 
-import '../jquery.mjs';
+import '../../../__mocks__/jquery.mjs';
 
 import assert from 'assert';
 import { spy, stub } from 'sinon';

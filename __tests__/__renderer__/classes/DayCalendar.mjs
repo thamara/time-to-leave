@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 'use strict';
 
-import '../jquery.mjs';
+import '../../../__mocks__/jquery.mjs';
 
 import assert from 'assert';
 import Store from 'electron-store';
