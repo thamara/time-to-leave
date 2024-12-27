@@ -1,45 +1,28 @@
 'use strict';
 
-const assert = require('assert');
+import '../jquery.mjs';
+
+import assert from 'assert';
+import { stub } from 'sinon';
 import { CalendarFactory } from '../../../renderer/classes/CalendarFactory.js';
+import { BaseCalendar } from '../../../renderer/classes/BaseCalendar.js';
 import { DayCalendar } from '../../../renderer/classes/DayCalendar.js';
 import { MonthCalendar } from '../../../renderer/classes/MonthCalendar.js';
 
-import { calendarApi } from '../../../renderer/preload-scripts/calendar-api.js';
+import { calendarApi } from '../../../renderer/preload-scripts/calendar-api.mjs';
 
 // Mocked APIs from the preload script of the calendar window
 window.mainApi = calendarApi;
 
-jest.mock('../../../renderer/classes/BaseCalendar.js', () =>
-{
-    class BaseCalendar
-    {
-        constructor() { }
+window.mainApi.resizeMainWindow = stub();
 
-        async reload() { }
-    }
-
-    return { BaseCalendar };
-});
-
-jest.mock('electron', () =>
-{
-    const originalModule = jest.requireActual('electron');
-    return {
-        __esModule: true,
-        ...originalModule,
-        ipcRenderer: {
-            ...originalModule.ipcRenderer,
-            send: jest.fn()
-        }
-    };
-});
-
-const { ipcRenderer } = require('electron');
+Object.setPrototypeOf(DayCalendar, stub());
+Object.setPrototypeOf(MonthCalendar, stub());
+stub(BaseCalendar.prototype, 'reload');
 
 describe('CalendarFactory', () =>
 {
-    test('Should fail wrong view', async() =>
+    it('Should fail wrong view', () =>
     {
         const promise = CalendarFactory.getInstance({
             view: 'not_supported'
@@ -53,7 +36,7 @@ describe('CalendarFactory', () =>
 
     describe('DayCalendar', () =>
     {
-        test('Should fail wrong view', async() =>
+        it('Should fail wrong view', async() =>
         {
             let calls = 0;
             const testCalendar = {
@@ -67,12 +50,13 @@ describe('CalendarFactory', () =>
             const calendar = await CalendarFactory.getInstance({
                 view: 'day',
             }, {}, testCalendar);
-            expect(calendar).toEqual(testCalendar);
+            assert.strictEqual(calendar, testCalendar);
             assert.strictEqual(calls, 3);
         });
 
-        test('Should return new calendar without resizing', async() =>
+        it('Should return new calendar with resizing if passing in an instance that is not a DayCalendar', async() =>
         {
+            window.mainApi.resizeMainWindow.resetHistory();
             let calls = 0;
             const testCalendar = {
                 constructor: {
@@ -87,48 +71,23 @@ describe('CalendarFactory', () =>
             }, {}, testCalendar);
             assert.strictEqual(calendar instanceof DayCalendar, true);
             assert.strictEqual(calls, 0);
+            assert.strictEqual(window.mainApi.resizeMainWindow.calledOnce, true);
         });
 
-        test('Should return new calendar without resizing', async() =>
+        it('Should return new calendar without resizing if passing in an undefined instance', async() =>
         {
-            let calls = 0;
-            jest.spyOn(ipcRenderer, 'send').mockImplementation(() =>
-            {
-                calls++;
-            });
+            window.mainApi.resizeMainWindow.resetHistory();
             const calendar = await CalendarFactory.getInstance({
                 view: 'day',
             }, {}, undefined);
             assert.strictEqual(calendar instanceof DayCalendar, true);
-            assert.strictEqual(calls, 0);
-        });
-
-        test('Should return new calendar with resizing', async() =>
-        {
-            let calls = 0;
-            const testCalendar = {
-                constructor: {
-                    name: 'NOT DayCalendar',
-                },
-                updateLanguageData: () => { calls++; },
-                updatePreferences: () => { calls++; },
-                redraw: () => { calls++; },
-            };
-            jest.spyOn(ipcRenderer, 'send').mockImplementation(() =>
-            {
-                calls++;
-            });
-            const calendar = await CalendarFactory.getInstance({
-                view: 'day',
-            }, {}, testCalendar);
-            assert.strictEqual(calendar instanceof DayCalendar, true);
-            assert.strictEqual(calls, 1);
+            assert.strictEqual(window.mainApi.resizeMainWindow.notCalled, true);
         });
     });
 
     describe('MonthCalendar', () =>
     {
-        test('Should fail wrong view', async() =>
+        it('Should fail wrong view', async() =>
         {
             let calls = 0;
             const testCalendar = {
@@ -142,26 +101,23 @@ describe('CalendarFactory', () =>
             const calendar = await CalendarFactory.getInstance({
                 view: 'month',
             }, {}, testCalendar);
-            expect(calendar).toEqual(testCalendar);
+            assert.strictEqual(calendar, testCalendar);
             assert.strictEqual(calls, 3);
         });
 
-        test('Should return new calendar without resizing', async() =>
+        it('Should return new calendar without resizing if passing in an undefined instance', async() =>
         {
-            let calls = 0;
-            jest.spyOn(ipcRenderer, 'send').mockImplementation(() =>
-            {
-                calls++;
-            });
+            window.mainApi.resizeMainWindow.resetHistory();
             const calendar = await CalendarFactory.getInstance({
                 view: 'month',
             }, {}, undefined);
             assert.strictEqual(calendar instanceof MonthCalendar, true);
-            assert.strictEqual(calls, 0);
+            assert.strictEqual(window.mainApi.resizeMainWindow.notCalled, true);
         });
 
-        test('Should return new calendar with resizing', async() =>
+        it('Should return new calendar with resizing if passing in an instance that is not a MonthCalendar', async() =>
         {
+            window.mainApi.resizeMainWindow.resetHistory();
             let calls = 0;
             const testCalendar = {
                 constructor: {
@@ -171,15 +127,12 @@ describe('CalendarFactory', () =>
                 updatePreferences: () => { calls++; },
                 redraw: () => { calls++; },
             };
-            jest.spyOn(ipcRenderer, 'send').mockImplementation(() =>
-            {
-                calls++;
-            });
             const calendar = await CalendarFactory.getInstance({
                 view: 'month',
             }, {}, testCalendar);
             assert.strictEqual(calendar instanceof MonthCalendar, true);
-            assert.strictEqual(calls, 1);
+            assert.strictEqual(calls, 0);
+            assert.strictEqual(window.mainApi.resizeMainWindow.calledOnce, true);
         });
     });
 });
