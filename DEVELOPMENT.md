@@ -8,27 +8,27 @@ Working on your first Pull Request? You can learn how from this _free_ series [H
 
 <!-- toc -->
 
--   [Development Guide](#development-guide)
-    -   [Environment](#environment)
-    -   [Setup](#setup)
-        -   [Clone the repository](#clone-the-repository)
-        -   [Install dependencies](#install-dependencies)
-    -   [Running Time to Leave](#running-time-to-leave)
-    -   [Linting & formatting](#linting--formatting)
-        -   [Running and Fixing issues](#running-and-fixing-issues)
-        -   [Specific lint checks](#specific-lint-checks)
-    -   [Tests](#tests)
-        -   [Run locally](#run-locally)
-            -   [Running specific tests](#running-specific-tests)
-    -   [Releasing](#releasing)
--   [Opening a Pull Request (PR)](#opening-a-pull-request-pr)
+- [Development Guide](#development-guide)
+    - [Environment](#environment)
+    - [Setup](#setup)
+        - [Clone the repository](#clone-the-repository)
+        - [Install dependencies](#install-dependencies)
+    - [Running Time to Leave](#running-time-to-leave)
+    - [Linting & formatting](#linting--formatting)
+        - [Running and Fixing issues](#running-and-fixing-issues)
+        - [Specific lint checks](#specific-lint-checks)
+    - [Tests](#tests)
+        - [Run locally](#run-locally)
+            - [Running specific tests](#running-specific-tests)
+    - [Releasing](#releasing)
+- [Opening a Pull Request (PR)](#opening-a-pull-request-pr)
 
 <!-- tocstop -->
 
 ## Environment
 
--   Install [Node.js](https://nodejs.org/en/): version 14.15 or higher
--   Install [git](https://git-scm.com/)
+- Install [Node.js](https://nodejs.org/en/): version 14.15 or higher
+- Install [git](https://git-scm.com/)
 
 ## Setup
 
