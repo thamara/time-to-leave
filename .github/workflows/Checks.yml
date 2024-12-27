@@ -53,18 +53,11 @@ jobs:
             export DISPLAY=':99'
           fi
 
-          npm run test:electron-mocha-main
-
-          # Move initial coverage to avoid it being replaced below by renderer run
-          mv coverage_c8 coverage-electron-mocha-main
-
-          npm run test:electron-mocha-renderer
-          npm run test:jest
-          npm run test:mocha
+          npm run test
       - name: '        CodeCov'
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage-electron-mocha-main/coverage-final.json,coverage_c8/coverage-final.json,coverage_jest/coverage-final.json,coverage_mocha/coverage-final.json
+          files: coverage_c8/coverage-final.json,coverage_mocha/coverage-final.json
           name: codecov-${{ matrix.os }}
           verbose: true
