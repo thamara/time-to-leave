@@ -82,7 +82,7 @@ describe('DayCalendar class Tests', () =>
         };
     });
 
-    const testPreferences = defaultPreferences;
+    const testPreferences = structuredClone(defaultPreferences);
     testPreferences['view'] = 'day';
     const languageData = {'language': 'en', 'data': {'dummy_string': 'dummy_string_translated'}};
 
@@ -339,7 +339,7 @@ describe('DayCalendar class Tests', () =>
 
     it('MonthCalendar to DayCalendar', async() =>
     {
-        const testPreferences = defaultPreferences;
+        const testPreferences = structuredClone(defaultPreferences);
         testPreferences['view'] = 'month';
         let calendar = await CalendarFactory.getInstance(testPreferences, languageData);
         assert.strictEqual(calendar.constructor.name, 'MonthCalendar');
