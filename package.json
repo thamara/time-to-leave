@@ -46,7 +46,7 @@
     "@jest-runner/electron": "3.0.0",
     "c8": "9.1.0",
     "electron": "28.1.0",
-    "electron-mocha": "12.2.0",
+    "electron-mocha": "13.0.1",
     "electron-packager": "15.5.1",
     "electron-reloader": "1.2.1",
     "electron-winstaller": "5.1.0",
