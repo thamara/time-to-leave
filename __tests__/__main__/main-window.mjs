@@ -41,8 +41,7 @@ describe('main-window.mjs', () =>
     before(() =>
     {
         // Avoid showing the window
-        BrowserWindow.prototype.show = stub();
-        showSpy = BrowserWindow.prototype.show;
+        showSpy = stub(BrowserWindow.prototype, 'show');
     });
 
     beforeEach(() =>
@@ -462,5 +461,10 @@ describe('main-window.mjs', () =>
     {
         resetMainWindow();
         resetPreferences();
+    });
+
+    after(() =>
+    {
+        showSpy.restore();
     });
 });

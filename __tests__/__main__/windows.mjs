@@ -21,10 +21,8 @@ describe('Windows tests', () =>
     {
         // Avoid window being shown
         // TODO: might not always be working?
-        BrowserWindow.prototype.show = stub();
-        showSpy = BrowserWindow.prototype.show;
-        BrowserWindow.prototype.loadURL = stub();
-        loadSpy = BrowserWindow.prototype.loadURL;
+        showSpy = stub(BrowserWindow.prototype, 'show');
+        loadSpy = stub(BrowserWindow.prototype, 'loadURL');
     });
 
     it('Elements should be null on starting', () =>
@@ -111,5 +109,11 @@ describe('Windows tests', () =>
         showSpy.resetHistory();
         loadSpy.resetHistory();
         resetWindowsElements();
+    });
+
+    after(() =>
+    {
+        showSpy.restore();
+        loadSpy.restore();
     });
 });
