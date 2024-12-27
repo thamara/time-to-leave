@@ -11,17 +11,22 @@ import { MonthCalendar } from '../../../renderer/classes/MonthCalendar.js';
 
 import { calendarApi } from '../../../renderer/preload-scripts/calendar-api.mjs';
 
-// Mocked APIs from the preload script of the calendar window
-window.mainApi = calendarApi;
-
-window.mainApi.resizeMainWindow = stub();
-
-Object.setPrototypeOf(DayCalendar, stub());
-Object.setPrototypeOf(MonthCalendar, stub());
-stub(BaseCalendar.prototype, 'reload');
-
 describe('CalendarFactory', () =>
 {
+    const DayCalendarPrototype = Object.getPrototypeOf(DayCalendar);
+    const MonthCalendarPrototype = Object.getPrototypeOf(MonthCalendar);
+    before(() =>
+    {
+        // Mocked APIs from the preload script of the calendar window
+        window.mainApi = calendarApi;
+
+        window.mainApi.resizeMainWindow = stub();
+
+        Object.setPrototypeOf(DayCalendar, stub());
+        Object.setPrototypeOf(MonthCalendar, stub());
+        stub(BaseCalendar.prototype, 'reload');
+    });
+
     it('Should fail wrong view', () =>
     {
         const promise = CalendarFactory.getInstance({
@@ -134,5 +139,12 @@ describe('CalendarFactory', () =>
             assert.strictEqual(calls, 0);
             assert.strictEqual(window.mainApi.resizeMainWindow.calledOnce, true);
         });
+    });
+
+    after(() =>
+    {
+        Object.setPrototypeOf(DayCalendar, DayCalendarPrototype);
+        Object.setPrototypeOf(MonthCalendar, MonthCalendarPrototype);
+        BaseCalendar.prototype.reload.restore();
     });
 });

@@ -19,19 +19,6 @@ import { calendarApi } from '../../../renderer/preload-scripts/calendar-api.mjs'
 
 import { timeMathMock } from '../../../js/time-math.mjs';
 
-// Mocked APIs from the preload script of the calendar window
-window.mainApi = calendarApi;
-
-window.mainApi.computeAllTimeBalanceUntilPromise = (targetDate) =>
-{
-    return computeAllTimeBalanceUntilAsync(targetDate);
-};
-
-window.mainApi.switchView = () =>
-{
-    switchCalendarView();
-};
-
 const $_backup = global.$;
 
 describe('BaseCalendar.js', () =>
@@ -56,6 +43,19 @@ describe('BaseCalendar.js', () =>
         waivedWorkdays.clear();
         ExtendedClass.prototype._initCalendar = () => {};
         ExtendedClass.prototype._getTargetDayForAllTimeBalance = () => {};
+
+        // Mocked APIs from the preload script of the calendar window
+        window.mainApi = calendarApi;
+
+        window.mainApi.computeAllTimeBalanceUntilPromise = (targetDate) =>
+        {
+            return computeAllTimeBalanceUntilAsync(targetDate);
+        };
+
+        window.mainApi.switchView = () =>
+        {
+            switchCalendarView();
+        };
 
         window.mainApi.getStoreContents = () =>
         {
