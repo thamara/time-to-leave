@@ -97,8 +97,13 @@ describe('Test Preferences Window', () =>
 
     describe('Changing values of items in window', () =>
     {
-        beforeEach(async() =>
+        beforeEach(async function()
         {
+            // For some reason this test takes longer when running the whole testsuite. My suspicion is that
+            // import is taking longer after many tests write to the file.
+            // Thus, increasing the timeout.
+            this.timeout(15000);
+
             // Using dynamic imports because when the file is imported a $() callback is triggered and
             // methods must be mocked before-hand
             const {
