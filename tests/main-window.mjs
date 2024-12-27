@@ -4,7 +4,7 @@
 import { _electron as electron } from 'playwright';
 import assert from 'assert';
 
-import { rootDir } from './app-config.mjs';
+import { rootDir } from '../js/app-config.mjs';
 
 process.env.NODE_ENV = 'test';
 
