@@ -58,14 +58,17 @@ describe('Should return true if the value is a valid notification interval', () 
 
 describe('User Preferences save/load', () =>
 {
-    // Remove preferences file to guarantee equal execution of tests
-    const preferencesFilePath = getPreferencesFilePath();
-    if (fs.existsSync(preferencesFilePath))
+    before(() =>
     {
-        fs.unlinkSync(preferencesFilePath);
-    }
+        // Remove preferences file to guarantee equal execution of tests
+        const preferencesFilePath = getPreferencesFilePath();
+        if (fs.existsSync(preferencesFilePath))
+        {
+            fs.unlinkSync(preferencesFilePath);
+        }
+    });
 
-    const testPreferences = defaultPreferences;
+    const testPreferences = structuredClone(defaultPreferences);
     testPreferences['working-days-sunday'] = true;
 
     const empty = {};
