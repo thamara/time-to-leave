@@ -443,8 +443,12 @@ class MonthCalendar extends BaseCalendar
 
         $('.time-cells').mousewheel(function(e, delta)
         {
+            const currentScroll = this.scrollLeft;
             this.scrollLeft -= (delta * 30);
-            e.preventDefault();
+            if (currentScroll !== this.scrollLeft)
+            {
+                e.preventDefault();
+            }
         });
     }
 
