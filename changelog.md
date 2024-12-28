@@ -7,6 +7,7 @@
 -   Enhancement [#646]: Title bar color now follows Windows mode (dark or light)
 -   Enhancement [#914]: Enable more formats to input time in preferences
 -   Enhancement [#946]: Included formal json scheme validator
+-   Enhancement [#948]: Allow vertical scroll when horizontal scroll reaches edges on month view
 -   Fix [#1008]: Sourced conflicting holidays being imported by default
 -   Fix [#1028]: Make images and icons not draggable
 -   Fix [#1034]: Preserving TTL font when offline
