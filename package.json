@@ -40,7 +40,6 @@
   },
   "license": "GPL-3.0",
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "7.23.3",
     "@electron/remote": "2.0.12",
     "c8": "9.1.0",
     "electron": "28.1.0",
