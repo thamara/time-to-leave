@@ -1,5 +1,7 @@
 'use strict';
 
+import { MockClass } from '../__mocks__/Mock.mjs';
+
 function getDataRecursive(array, keyList)
 {
     if (keyList.length === 0)
@@ -16,13 +18,13 @@ function getDataRecursive(array, keyList)
     }
 }
 
-function getTranslationInLanguageData(languageData, key)
+function _getTranslationInLanguageData(languageData, key)
 {
     const keyList = key.split('.');
     return getDataRecursive(languageData['translation'], keyList);
 }
 
-function translatePage(language, languageData, windowName)
+function _translatePage(language, languageData, windowName)
 {
     $('html').attr('lang', language);
 
@@ -51,7 +53,8 @@ function translatePage(language, languageData, windowName)
     $(document).attr('title', `Time to Leave - ${getTranslationInLanguageData(languageData, titleAttr)}`);
 }
 
-export {
-    getTranslationInLanguageData,
-    translatePage,
-};
+// Enable mocking for some methods, export the mocked versions
+const mocks = {'getTranslationInLanguageData': _getTranslationInLanguageData, 'translatePage': _translatePage};
+export const getTranslationInLanguageData = (languageData, key) => mocks['getTranslationInLanguageData'](languageData, key);
+export const translatePage = (language, languageData, windowName) => mocks['translatePage'](language, languageData, windowName);
+export const i18nTranslatorMock = new MockClass(mocks);

@@ -6,9 +6,9 @@ import {
     subtractTime,
     sumTime,
     validateTime
-} from '../../js/time-math.js';
-import { getDateStr, getMonthLength } from '../../js/date-aux.js';
-import { generateKey } from '../../js/date-db-formatter.js';
+} from '../../js/time-math.mjs';
+import { getDateStr, getMonthLength } from '../../js/date-aux.mjs';
+import { generateKey } from '../../js/date-db-formatter.mjs';
 import { getTranslationInLanguageData } from '../i18n-translator.js';
 
 // Holds the calendar information and manipulation functions

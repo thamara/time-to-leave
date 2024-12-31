@@ -2,8 +2,8 @@
 
 import { applyTheme } from '../renderer/themes.js';
 import { getTranslationInLanguageData, translatePage } from '../renderer/i18n-translator.js';
-import { validateTime, diffDays } from '../js/time-math.js';
-import { getDateStr } from '../js/date-aux.js';
+import { validateTime, diffDays } from '../js/time-math.mjs';
+import { getDateStr } from '../js/date-aux.mjs';
 
 let languageData;
 let userPreferences;
@@ -168,7 +168,7 @@ async function addWaiver()
     toggleAddButton('waive-button', $('#reason').val());
 }
 
-function deleteEntryOnClick(event)
+async function deleteEntryOnClick(event)
 {
     const deleteButton = $(event.target);
     const day = deleteButton.data('day');
@@ -180,18 +180,17 @@ function deleteEntryOnClick(event)
         type: 'info',
         buttons: [getTranslation('$WorkdayWaiver.yes'), getTranslation('$WorkdayWaiver.no')]
     };
-    window.mainApi.showDialogSync(options).then(async(result) =>
-    {
-        const buttonId = result.response;
-        if (buttonId === 1)
-        {
-            return;
-        }
-        await window.mainApi.deleteWaiver(day);
 
-        const row = deleteButton.closest('tr');
-        row.remove();
-    });
+    const result = await window.mainApi.showDialogSync(options);
+    const buttonId = result.response;
+    if (buttonId === 1)
+    {
+        return;
+    }
+    await window.mainApi.deleteWaiver(day);
+
+    const row = deleteButton.closest('tr');
+    row.remove();
 }
 
 async function populateCountry()

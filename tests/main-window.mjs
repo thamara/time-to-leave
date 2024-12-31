@@ -4,12 +4,7 @@
 import { _electron as electron } from 'playwright';
 import assert from 'assert';
 
-// Allow require()
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const { rootDir } = require('../js/app-config.cjs');
-
-process.env.NODE_ENV = 'test';
+import { rootDir } from '../js/app-config.mjs';
 
 // TODO: expose API from Calendar so this duplication is not needed
 const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
@@ -25,7 +20,7 @@ describe('Application launch', function()
     //  deepcode ignore UseArrowFunction: => will not work on here
     beforeEach(async function()
     {
-        electronApp = await electron.launch({ args: ['main.js'], env: process.env, cwd: rootDir});
+        electronApp = await electron.launch({ args: ['main.mjs'], env: process.env, cwd: rootDir});
     });
 
     afterEach(async function()
