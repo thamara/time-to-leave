@@ -7,7 +7,6 @@ import { validateJSON } from '../../js/validate-json.js';
 
 describe('Validate json', function()
 {
-    process.env.NODE_ENV = 'test';
     describe('validateJSON(instance)', function()
     {
         describe('validate type', function()

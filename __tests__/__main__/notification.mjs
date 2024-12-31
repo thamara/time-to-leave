@@ -14,8 +14,6 @@ function buildTimeString(now)
     return `0${now.getHours()}`.slice(-2) + ':' + `0${now.getMinutes()}`.slice(-2);
 }
 
-process.env.NODE_ENV = 'test';
-
 describe('Notifications', function()
 {
     describe('notify', () =>
@@ -97,6 +95,7 @@ describe('Notifications', function()
             {
                 notification.show();
             }
+            process.env.NODE_ENV = undefined; // restore value
         });
 
     });
