@@ -281,10 +281,13 @@ describe('DayCalendar class Tests', () =>
     it('DayCalendar Year Changes', () =>
     {
         assert.strictEqual(calendar._getCalendarYear(), today.getFullYear());
+        const isLeapYear = ((today.getFullYear() % 4 === 0) && (today.getFullYear() % 100 !== 0)) || (today.getFullYear() % 400 === 0);
         const expectedNextYear = today.getFullYear() + 1;
         const expectedPrevYear = today.getFullYear() - 1;
 
-        for (let i = 0; i < 365; i++)
+        // If it's a leap year and Jan 1st, need to advance 366 days to reach the next year
+        const numberOfNextDays = (isLeapYear && today.getDate() === 1 && today.getMonth() === 0) ? 366 : 365;
+        for (let i = 0; i < numberOfNextDays; i++)
         {
             calendar._nextDay();
         }
@@ -296,7 +299,9 @@ describe('DayCalendar class Tests', () =>
         assert.strictEqual(calendar._getCalendarMonth(), today.getMonth());
         assert.strictEqual(calendar._getCalendarYear(), today.getFullYear());
 
-        for (let i = 0; i < 365; i++)
+        // If it's a leap year and Dec 31st, need to go back 366 days to reach the prev year
+        const numberOfPrevDays = (isLeapYear && today.getDate() === 31 && today.getMonth() === 11) ? 366 : 365;
+        for (let i = 0; i < numberOfPrevDays; i++)
         {
             calendar._prevDay();
         }
