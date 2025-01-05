@@ -1,7 +1,7 @@
 'use strict';
 
 import { applyTheme } from '../renderer/themes.js';
-import { translatePage } from '../renderer/i18n-translator.js';
+import { getTranslationInLanguageData, translatePage } from '../renderer/i18n-translator.js';
 
 // Global values for preferences page
 let usersStyles;
@@ -61,6 +61,15 @@ function refreshContent()
             resolve();
         });
     });
+}
+
+function resetContent()
+{
+    const defaultPreferences = window.mainApi.getDefaultPreferences();
+    usersStyles = defaultPreferences;
+    preferences = usersStyles;
+    renderPreferencesWindow();
+    window.mainApi.notifyNewPreferences(preferences);
 }
 
 function changeValue(type, newVal)
@@ -131,6 +140,52 @@ function renderPreferencesWindow()
         $('#view').val(usersStyles['view']);
     }
 
+    $('input').each(function()
+    {
+        const input = $(this);
+        const name = input.attr('name');
+        /* istanbul ignore else */
+        if (input.attr('type') === 'checkbox')
+        {
+            /* istanbul ignore else */
+            if (name in usersStyles)
+            {
+                input.prop('checked', usersStyles[name]);
+            }
+            preferences[name] = input.prop('checked');
+        }
+        else if (
+            ['text', 'number', 'date'].indexOf(input.attr('type')) > -1
+        )
+        {
+            /* istanbul ignore else */
+            if (name in usersStyles)
+            {
+                input.val(usersStyles[name]);
+            }
+            preferences[name] = input.val();
+        }
+    });
+
+    const prefillBreak = $('#enable-prefill-break-time');
+    const breakInterval = $('#break-time-interval');
+
+    breakInterval.prop('disabled', !prefillBreak.is(':checked'));
+
+    const notification = $('#notification');
+    const repetition = $('#repetition');
+    const notificationsInterval = $('#notifications-interval');
+
+    repetition.prop('disabled', !notification.is(':checked'));
+    repetition.prop(
+        'checked',
+        notification.is(':checked') && usersStyles['repetition']
+    );
+    notificationsInterval.prop('disabled', !repetition.is(':checked'));
+}
+
+function setupListeners()
+{
     $('input[type="checkbox"]').on('change', function()
     {
         changeValue(this.name, this.checked);
@@ -163,37 +218,37 @@ function renderPreferencesWindow()
         changeValue('view', this.value);
     });
 
-    $('input').each(function()
+    $('#reset-button').on('click', function()
     {
-        const input = $(this);
-        const name = input.attr('name');
-        /* istanbul ignore else */
-        if (input.attr('type') === 'checkbox')
+        window.mainApi.getLanguageDataPromise().then(languageData =>
         {
-            /* istanbul ignore else */
-            if (name in usersStyles)
+            const options = {
+                type: 'question',
+                buttons: [getTranslationInLanguageData(languageData.data, '$Preferences.yes-please'), getTranslationInLanguageData(languageData.data, '$Preferences.no-thanks')],
+                defaultId: 1,
+                cancelId: 1,
+                title: getTranslationInLanguageData(languageData.data, '$Preferences.reset-preferences'),
+                message: getTranslationInLanguageData(languageData.data, '$Preferences.confirm-reset-preferences'),
+            };
+            window.mainApi.showDialogSync(options).then((result) =>
             {
-                input.prop('checked', usersStyles[name]);
-            }
-            preferences[name] = input.prop('checked');
-        }
-        else if (
-            ['text', 'number', 'date'].indexOf(input.attr('type')) > -1
-        )
-        {
-            /* istanbul ignore else */
-            if (name in usersStyles)
-            {
-                input.val(usersStyles[name]);
-            }
-            preferences[name] = input.val();
-        }
+                if (result.response === 0 /*Yes*/)
+                {
+                    resetContent();
+                    const optionsReset = {
+                        type: 'info',
+                        message: getTranslationInLanguageData(languageData.data, '$Preferences.reset-preferences'),
+                        detail: getTranslationInLanguageData(languageData.data, '$Preferences.reset-success'),
+                    };
+                    window.mainApi.showDialogSync(optionsReset);
+                }
+            });
+        });
     });
 
     const prefillBreak = $('#enable-prefill-break-time');
     const breakInterval = $('#break-time-interval');
 
-    breakInterval.prop('disabled', !prefillBreak.is(':checked'));
     prefillBreak.on('change', function()
     {
         breakInterval.prop('disabled', !prefillBreak.is(':checked'));
@@ -202,13 +257,6 @@ function renderPreferencesWindow()
     const notification = $('#notification');
     const repetition = $('#repetition');
     const notificationsInterval = $('#notifications-interval');
-
-    repetition.prop('disabled', !notification.is(':checked'));
-    repetition.prop(
-        'checked',
-        notification.is(':checked') && usersStyles['repetition']
-    );
-    notificationsInterval.prop('disabled', !repetition.is(':checked'));
 
     notification.on('change', function()
     {
@@ -225,6 +273,7 @@ function renderPreferencesWindow()
         notificationsInterval.prop('disabled', !repetition.is(':checked'));
     });
 }
+
 /* istanbul ignore next */
 $(() =>
 {
@@ -233,6 +282,7 @@ $(() =>
         usersStyles = userPreferences;
         preferences = usersStyles;
         renderPreferencesWindow();
+        setupListeners();
         setupLanguages();
     });
 });
@@ -240,7 +290,9 @@ $(() =>
 export {
     convertTimeFormat,
     refreshContent,
+    resetContent,
     populateLanguages,
     listenerLanguage,
+    setupListeners,
     renderPreferencesWindow,
 };

@@ -6,6 +6,7 @@ import '../../__mocks__/jquery.mjs';
 import assert from 'assert';
 import fs from 'fs';
 import { JSDOM } from 'jsdom';
+import sinon from 'sinon';
 import path from 'path';
 
 import { rootDir } from '../../js/app-config.mjs';
@@ -16,6 +17,8 @@ import {
     savePreferences,
 } from '../../js/user-preferences.mjs';
 import { preferencesApi } from '../../renderer/preload-scripts/preferences-api.mjs';
+import { i18nTranslatorMock } from '../../renderer/i18n-translator.js';
+i18nTranslatorMock.mock('getTranslationInLanguageData', sinon.stub().returnsThis());
 
 const isCheckBox = true;
 const weekdays = [
@@ -78,9 +81,18 @@ function resetPreferenceFile()
 
 const testPreferences = Object.assign({}, defaultPreferences);
 
+// Functions from preferences.js that will be imported dynamically
+let convertTimeFormat;
+let listenerLanguage;
+let populateLanguages;
+let refreshContent;
+let renderPreferencesWindow;
+let setupListeners;
+let resetContent;
+
 describe('Test Preferences Window', () =>
 {
-    before(() =>
+    before(async() =>
     {
         // APIs from the preload script of the preferences window
         window.mainApi = preferencesApi;
@@ -90,29 +102,34 @@ describe('Test Preferences Window', () =>
 
         // Stub methods
         window.mainApi.notifyNewPreferences = () => {};
-        window.mainApi.getLanguageDatePromise = () => {};
+        window.mainApi.showDialogSync = () => { return new Promise((resolve) => resolve({ response: 0 })); };
+
+        window.mainApi.getLanguageDataPromise = () =>
+        {
+            return new Promise((resolve) => resolve({
+                'language': 'en',
+                'data': {}
+            }));
+        };
 
         resetPreferenceFile();
+
+        // Using dynamic imports because when the file is imported a $() callback is triggered and
+        // methods must be mocked before-hand
+        const file = await import('../../src/preferences.js');
+        convertTimeFormat = file.convertTimeFormat;
+        listenerLanguage = file.listenerLanguage;
+        populateLanguages = file.populateLanguages;
+        refreshContent = file.refreshContent;
+        renderPreferencesWindow = file.renderPreferencesWindow;
+        setupListeners = file.setupListeners;
+        resetContent = file.resetContent;
     });
 
     describe('Changing values of items in window', () =>
     {
         beforeEach(async function()
         {
-            // For some reason this test takes longer when running the whole testsuite. My suspicion is that
-            // import is taking longer after many tests write to the file.
-            // Thus, increasing the timeout.
-            this.timeout(15000);
-
-            // Using dynamic imports because when the file is imported a $() callback is triggered and
-            // methods must be mocked before-hand
-            const {
-                listenerLanguage,
-                populateLanguages,
-                refreshContent,
-                renderPreferencesWindow,
-            } = await import('../../src/preferences.js');
-
             await prepareMockup();
             await refreshContent();
             renderPreferencesWindow();
@@ -234,12 +251,6 @@ describe('Test Preferences Window', () =>
 
     describe('Check if configure hours per day conversion function', () =>
     {
-        let convertTimeFormat;
-        before(async() =>
-        {
-            convertTimeFormat = (await import('../../src/preferences.js')).convertTimeFormat;
-        });
-
         it('should convert single digit hour to HH:MM format', () =>
         {
             assert.strictEqual(convertTimeFormat('6'), '06:00');
@@ -278,6 +289,47 @@ describe('Test Preferences Window', () =>
         it('should convert HH:MM format to HH:MM format', () =>
         {
             assert.strictEqual(convertTimeFormat('12:30'), '12:30');
+        });
+    });
+
+    describe('Checking reset logic', () =>
+    {
+        beforeEach(async function()
+        {
+            await prepareMockup();
+            resetContent();
+            populateLanguages();
+            listenerLanguage();
+        });
+
+        it('Check reset function restores setting', () =>
+        {
+            changeItemInputValue('count-today', true);
+            checkRenderedItem('count-today', isCheckBox);
+            resetContent();
+            $('input[name*=\'count-today\']').prop('checked', (i, val) =>
+            {
+                assert.strictEqual(val, false);
+            });
+        });
+
+        it('Click reset and check that reset function is being called', (done) =>
+        {
+            changeItemInputValue('count-today', true);
+            checkRenderedItem('count-today', isCheckBox);
+            // For some reason listeners are not set-up when we get to this point
+            // despite them being called at the beginning of the test
+            setupListeners();
+            $('#reset-button').trigger('click');
+            // Need to briefly timeout so the click actions can propagate
+            setTimeout(() =>
+            {
+                $('input[name*=\'count-today\']').prop('checked', (i, val) =>
+                {
+                    assert.strictEqual(val, false);
+                });
+                done();
+            }, 1);
         });
     });
 });
