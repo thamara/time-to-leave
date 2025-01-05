@@ -95,7 +95,7 @@ npm run lint:markdown
 
 ## Tests
 
-Time to Leave has tests that will verify the correctness of the flow using [Jest](https://jestjs.io/). All tests are located in `__tests__` directory.
+Time to Leave has tests that will verify the correctness of the flow using [mocha](https://mochajs.org/) and [electron-mocha](https://github.com/jprichardson/electron-mocha). Mocha tests are located in the `tests` directory, and electron-mocha are in the `__tests__` directory.
 We have a workflow in the repository that will run all the tests when a Pull Request is submitted, and the change is only approved if the tests are passing.
 
 ### Run locally
@@ -103,43 +103,57 @@ We have a workflow in the repository that will run all the tests when a Pull Req
 To run all tests locally:
 
 ```bash
-npm run test:jest
+npm run test
+```
+
+It will expand to the two runner targets. The above is the same as doing:
+
+```bash
+npm run test:electron-mocha
+npm run test:mocha
 ```
 
 After running, you'll see a message like:
 
 ```bash
-Test Suites: 12 passed, 12 total
-Tests:       83 passed, 83 total
-Snapshots:   0 total
-Time:        31.007 s
-Ran all test suites in 2 projects.
+  4 passing (70ms)
+  1 failing
 ```
 
 If you got any errors (failed tests), you need to scroll up and check the module and the test that has failed. The error will look something like:
 
 ```bash
- FAIL   RENDERER  __tests__/__renderer__/themes.js
-  Theme Functions
-    isValidTheme()
-      ✓ should validate (2 ms)
-      ✓ should not validate (1 ms)
-    applyTheme()
-      ✕ should apply (3 ms)
-      ✓ should not apply
+  Date Functions
+    getDateStr(Date())
+      1) Given a JS Date() object, should return YYYY-MM-DD
+      ✔ Given an insane object, should return an error
+
+...
+
+  4 passing (70ms)
+  1 failing
+
+  1) Date Functions
+       getDateStr(Date())
+         Given a JS Date() object, should return YYYY-MM-DD:
+
+      AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to:
+
+'2025-01-05'
+      + expected - actual
 ```
 
 The error message will tell you more on why it failed, in terms of what was expected and what was got.
 
 #### Running specific tests
 
-You can run a specific test, when debugging, for example, by including the name of the test file in the command line. For example, to run only the `themes.js` tests, you can do:
+You can run one or more specific tests when debugging. That is done by including the path of the test file(s) in the command line along with a specific test runner target. For example, to run only the `__tests__\__main__\date-aux.mjs` file, you can use:
 
 ```bash
-npm run test:jest themes.js
+npm run test:electron-mocha .\__tests__\__main__\date-aux.mjs
 ```
 
-More information on jest settings available for use can be seen [on jest's docs](https://jestjs.io/docs/en/cli#running-from-the-command-line).
+More information on mocha settings available for use can be seen on [mocha's docs](https://mochajs.org/).
 
 Note: Although possible to run just a few tests, it's highly suggested that you run all tests when changing the code.
 
