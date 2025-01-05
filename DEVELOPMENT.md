@@ -27,7 +27,7 @@ Working on your first Pull Request? You can learn how from this _free_ series [H
 
 ## Environment
 
-- Install [Node.js](https://nodejs.org/en/): version 14.15 or higher
+- Install [Node.js](https://nodejs.org/en/): version 18.16 or higher
 - Install [git](https://git-scm.com/)
 
 ## Setup
