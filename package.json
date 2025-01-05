@@ -34,8 +34,8 @@
     "postinstall": "patch-package",
     "start": "electron .",
     "test": "npm-run-all test:*",
-    "test:mocha": "c8 -o ./coverage_mocha -- mocha --config tests/mocha.config.cjs tests/*",
-    "test:electron-mocha": "c8 electron-mocha --config __tests__/electron-mocha.config.cjs",
+    "test:mocha": "c8 -o ./coverage_mocha -- mocha",
+    "test:electron-mocha": "c8 electron-mocha",
     "setup:win": "node scripts/create_windows_installer.js"
   },
   "license": "GPL-3.0",
